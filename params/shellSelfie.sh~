@@ -1,0 +1,88 @@
+infiles=(   	"bun1.ply"
+		"buddha1.ply"
+		"dragon1.ply"
+		"head1.ply"
+		"bust1.ply"
+)
+
+infiles2=(   	"bun2.ply"
+		"buddha2.ply"
+		"dragon2.ply"
+		"head2.ply"
+		"bust2.ply"
+)
+
+folders=(	"bunny" "buddha" "dragon" "bust" "bust"		)
+
+methods=(	"SHOT" "SpinImage" "FPFH"	)
+
+noises=(	0 0.2 0.5 0.8 1 1.5 2 5 10)
+thrs=(		2 2 2 2 2 2 4 8 15)  	
+
+i=0
+ti=0
+
+for method in "${methods[@]}"
+do
+	for file in "${infiles[@]}"
+	do
+
+		for noise in "${noises[@]}"
+		do
+			echo "<params>
+				    <files>
+					<realData>false</realData>
+				        <infile>../models/"${folders[$i]}"/"$file"</infile>
+				        <infile2>../models/"${folders[$i]}"/"${infiles2[$i]}"</infile2>
+				        <infileTemp>../models/"${folders[$i]}"/temp.ply</infileTemp>
+				        <outfile>../models/"${folders[$i]}"/out.ply</outfile>
+					<outres>./results/res.txt</outres>
+				    </files>
+
+				    <methods>
+					<detection use='true'>
+					    <method>ISS</method>
+					</detection>
+
+					<description use='true'>
+					    <method>SHOT</method>
+					    <properties>
+						<radiusNormalFactor>40</radiusNormalFactor>
+						<radiusSearchFactor>40</radiusSearchFactor>
+						<nNeighbours>50</nNeighbours>
+					    </properties>
+					</description>
+
+
+					<searchingStrategies use='true'>
+					    <method>DescriptorTestPCL</method>
+					    <properties>
+						<nCells>10</nCells>
+						<thrsFactor>5</thrsFactor>
+					    </properties>
+					</searchingStrategies>
+
+					<refinement use='TRUE'>
+					    <method>ICP</method>
+					    <properties></properties>
+					</refinement>
+
+				    </methods>
+
+				    <generalProperties>
+					<percOfPoints>1</percOfPoints>
+					<nnErrorFactor>"${thrs[$it]}"</nnErrorFactor>
+					<percOfNoise>"$noise"</percOfNoise> <!-- normalized % of MMD (perc * MMD) -->
+				    </generalProperties>
+				</params>" >> ../params/paramsSelfie.xml
+
+			./Pipeline ../params/paramsSelfie.xml
+			rm -f ../params/paramsSelfie.xml
+				
+			$ti=$ti+1
+		done
+		
+		$i=$i+1
+	done
+done
+

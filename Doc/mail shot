@@ -1,0 +1,35 @@
+Hi again Federico,
+
+As you might remember my name is Ferran Roure and I am working on my PhD at university of Girona. 
+
+We are still working on 3D registration. At this moment, we are focusing on testing descriptors. As I mentioned in previous mails, we are using the version of your SHOT descriptor included in the PCL libraries. We tested your method, among others, and we obtained great results (submitted to ICIP 2014). After the tests with translations only, we started the tests with rotation+translation. However, we seem to have run into some trouble.
+
+At this point we are not sure if our results derive from some mistake of our parameter configuration or if we have stumbled upon generic limitations of this (and other) descriptors. As a summary, we saw that SHOT, Principal Curvature and sometimes Spin Image, are not as invariant under to rigid transformations as we expected (Spin Image happened to be a little more robust).
+ 
+TESTS PERFORMED
+
+To test this, we used a LowRes-Dragon Model (5205 points) and computed  the SHOT descriptor from PCL. For a more controlled scenario, we registered two identical copies of the same model. The original (A) and the moved copy (B). We checked the descriptor values of the points using its ID (position in the vector of points). I found that the descriptor values are the same when both models are not moved, but these values change when a transformation is applied to B. 
+
+For the experiments, we took 500 random points from A. For each random point we used its id (position in the vector of points) to select the same point in B. Comparing both descriptors, we saw that the distance between descriptor values (mean squared distance of all histogram) is higher than we expected (about 0.85 average). As a safeguard we tried this test with non-moved objects (obtaining 0 average distance).  What do you think?, Is this type of descriptor distance normal? No noise was added to the points, only a rigid motion was applied.
+ 
+OTHER CONSIDERATIONS
+
+We tested Principal Curvature descriptor achieving approximately the same results. With Spin Image we achieved slightly better results. 
+
+We already discarded some possible culprits:
+ 
+1) We checked that there were no precision problems involved resulting from moving the sets.
+
+ 
+2) We also computed descriptor values and differences between descriptors using two different methods obtaining the same results.
+ 
+3)We also tested the nearestKSearch from PCL in order to confirm that our algorithm worked correctly. With a 500 point sample we checked that after the motion, the nearest neighbour (in terms of descriptors) is only the correct one  from in 20% of cases ( 45% of the time is in the 10 closest and 61% of the time is in the 50 closest). This leads us to think that the change in descriptor values is quite big and spans the whole set.
+
+CODE USED
+
+ 
+Here, you can find our piece of code where we calculate the descriptors, and the models used for the tests. Is there any major (parameter?) problem that we have missed? The radiusNormalFactor and the radiusSearchFactor are 20 for both cases. MMD is the Mean Minimum Distance between all points in the cloud. MMD=0.0028 in the Dragon Model. We tried other values of radiusNormalFactor and radiusSearchFactor, but this setting yielded the best results.
+
+Once again thanks for your help, I hope not to take too much of your time but if you could have a look an tell us what you think it would be of great help to us.
+ 
+Thanks you very much!

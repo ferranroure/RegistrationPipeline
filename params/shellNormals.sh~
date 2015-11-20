@@ -1,0 +1,106 @@
+infiles=(   	"bust/bust0.ply"
+                "bust/bust2_sol.ply"
+                "bust/bust1_sol.ply"
+                "bust/bust4.ply"
+                "bust/bust1.ply"
+                "bust/bust4_sol.ply"
+                "bust/bust2.ply"
+                "bust/bust3.ply"
+                "bust/bust3_sol.ply"
+                "joints/joint1_sol.ply"
+                "joints/joints.ply"
+                "joints/joint1.ply"
+                "joints/joint2_sol.ply"
+                "joints/joint2.ply"
+                "buddha/buddha3.ply"
+                "buddha/buddha4.ply"
+                "buddha/buddha2.ply"
+                "buddha/buddha2_sol.ply"
+                "buddha/buddha3_sol.ply"
+                "buddha/buddha0.ply"
+                "buddha/buddha1_sol.ply"
+                "buddha/buddha4_sol.ply"
+                "buddha/happy_vrip.ply"
+                "buddha/buddha1.ply"
+                "bunny/bun3_sol.ply"
+                "bunny/bun2.ply"
+                "bunny/bun0.ply"
+                "bunny/bun2_sol.ply"
+                "bunny/bun3.ply"
+                "bunny/bun4_sol.ply"
+                "bunny/bun1.ply"
+                "bunny/bun.ply"
+                "bunny/bun1_sol.ply"
+                "bunny/noise/bun1_n3_sol.ply"
+                "bunny/noise/bun0_n4_sol.ply"
+                "bunny/noise/bun1_n2_sol.ply"
+                "bunny/noise/bun0_n4_sol_ICP.ply"
+                "bunny/noise/bun2_n2_sol.ply"
+                "bunny/noise/bun0_n1_sol.ply"
+                "bunny/noise/bun0_n2_sol.ply"
+                "bunny/noise/bun2_n4_sol.ply"
+                "bunny/noise/bun1_n4_sol.ply"
+                "bunny/noise/bun2_n3_sol.ply"
+                "bunny/noise/bun0_n3_sol.ply"
+                "bunny/noise/bun1_n1_sol.ply"
+                "bunny/noise/bun2_n1_sol.ply"
+                "bunny/bun4.ply"
+
+ )
+
+
+
+for file in "${infiles[@]}"
+do
+        echo "<params>
+		    <files>
+			<realData>true</realData>
+                        <infile>../models/benchmark-noNormals/"$file"</infile>
+                        <infile2>../models/bust0.ply</infile2>
+                        <infileTemp>../models/temp.ply</infileTemp>
+                        <outfile>../models/benchmarkBo/"$file"</outfile>
+			<outres>./results/res.txt</outres>
+		    </files>
+
+		    <methods>
+			<detection use='FALSE'>
+			    <method></method>
+			</detection>
+
+			<description use='true'>
+			    <method>SHOT</method>
+			    <properties>
+				<radiusNormalFactor>20</radiusNormalFactor>
+				<radiusSearchFactor>20</radiusSearchFactor>
+				<nNeighbours>10</nNeighbours>
+			    </properties>
+			</description>
+
+
+			<searchingStrategies use='true'>
+			    <method>DescriptorTestPCL</method>
+			    <properties>
+				<nCells>10</nCells>
+				<thrsFactor>5</thrsFactor>
+			    </properties>
+			</searchingStrategies>
+
+			<refinement use='TRUE'>
+			    <method>ICP</method>
+			    <properties></properties>
+			</refinement>
+
+		    </methods>
+
+		    <generalProperties>
+			<percOfPoints>1</percOfPoints>
+			<nnErrorFactor>1</nnErrorFactor>
+			<percOfNoise>0</percOfNoise> <!-- normalized % of MMD (perc * MMD) -->
+		    </generalProperties>
+		</params>" >> ../params/paramsNormals.xml
+
+            ./PipelineNormals ../params/paramsNormals.xml
+            rm -f ../params/paramsNormals.xml
+
+done
+

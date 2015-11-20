@@ -1,0 +1,60 @@
+<params>
+<!--    <files>
+        <realData>true</realData>
+        <infile>../models/benchmark-noNormals/bunny/bun0.ply</infile>
+        <infile2>../models/benchmark-noNormals/bunny/bun1.ply</infile2>
+        <infileTemp>../models/benchmark-noNormals/bunny/temp.ply</infileTemp>
+        <outfile>../models/benchmark-noNormals/bunny/out.ply</outfile>
+        <outres>./results/res.txt</outres>
+    </files>
+-->
+    <files>
+        <realData>true</realData>
+        <infile>../models/testDesc/bunny/bun000.ply</infile>
+        <infile2>../models/testDesc/bunny/bun045.ply</infile2>
+        <infileTemp>../models/testDesc/bunny/temp2.ply</infileTemp>
+        <outfile>../models/testDesc/bunny/out2.ply</outfile>
+        <outres>./results/res.txt</outres>
+    </files>
+
+    <methods>
+        <detection use="FALSE">
+            <method></method>
+        </detection>
+
+        <description use="true">
+            <method>SHOT</method>
+            <properties>
+                <radiusNormalFactor>20</radiusNormalFactor>
+                <radiusSearchFactor>20</radiusSearchFactor>
+                <nNeighbours>100</nNeighbours>
+            </properties>
+        </description>
+<!--
+        <searchingStrategies use="TRUE">
+            <method>DescriptorTestPCL</method>
+            <properties></properties>
+        </searchingStrategies>
+-->
+
+        <searchingStrategies use="true">
+            <method>DescriptorTestPCL</method>
+            <properties>
+                <nCells>10</nCells>
+                <thrsFactor>20</thrsFactor>
+            </properties>
+        </searchingStrategies>
+
+        <refinement use="TRUE">
+            <method>ICP</method>
+            <properties></properties>
+        </refinement>
+
+    </methods>
+
+    <generalProperties>
+        <percOfPoints>1</percOfPoints>
+        <nnErrorFactor>5</nnErrorFactor>
+        <percOfNoise>2</percOfNoise> <!-- normalized % of MMD (perc * MMD) -->
+    </generalProperties>
+</params>

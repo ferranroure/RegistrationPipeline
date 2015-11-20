@@ -1,0 +1,201 @@
+#define WANT_STREAM                  // include.h will get stream fns
+#define WANT_MATH                    // include.h will get math fns
+                                     // newmatap.h will get include.h
+
+#include "newmatap.h"                // need matrix applications
+
+#include "newmatio.h"                // need matrix output routines
+
+#include <vector>
+
+#ifdef use_namespace
+using namespace NEWMAT;              // access NEWMAT namespace
+#endif
+
+using namespace std;
+
+int main()
+{
+  
+      // the data
+
+   /*   Real y[9], x1[9], x2[9];
+      y[0]=8.3; y[1]=5.5; y[2]=8.0; y[3]=8.5; y[4]=5.7;
+      y[5]=4.4; y[6]=6.3; y[7]=7.9; y[8]=9.1;
+      x1[0]=2.4; x1[1]=1.8; x1[2]=2.4; x1[3]=3.0; x1[4]=2.0;
+      x1[5]=1.2; x1[6]=2.0; x1[7]=2.7; x1[8]=3.6;
+      x2[0]=1.7; x2[1]=0.9; x2[2]=1.6; x2[3]=1.9; x2[4]=0.5;
+      x2[5]=0.6; x2[6]=1.1; x2[7]=1.0; x2[8]=0.5;*/
+
+int n=3; //number of points
+int d=3;// space dimension
+
+// define the matrices that contain the sets of points:
+
+// pilla la matriu de punts de A (oju files o columnes)
+vector<double > pA = vector<double>(9,1);
+
+/*pA[0]=8.3; pA[1]=5.5; pA[2]=8.0; 
+pA[3]=8.5; pA[4]=5.7; pA[5]=4.4; 
+pA[6]=6.3; pA[7]=7.9; pA[8]=9.1;*/
+pA[0]=1; pA[1]=0; pA[2]=0; 
+pA[3]=0; pA[4]=1; pA[5]=0; 
+pA[6]=0; pA[7]=0; pA[8]=1;
+
+Real *pointer;
+pointer=&pA[0];
+
+Matrix X(d,n);
+X<<pointer;
+
+cout<<"Matrix for points in A: \n"<<X<<endl;
+
+
+// pilla la matriu de punts de B (oju files o columnes)
+vector<double > pB = vector<double>(9,1);
+
+/*pB[0]=8.3; pB[1]=5.5; pB[2]=8.0; 
+pB[3]=8.5; pB[4]=5.7; pB[5]=4.4; 
+pB[6]=6.3; pB[7]=7.9; pB[8]=9.1;*/
+
+pB[0]=2; pB[1]=1; pB[2]=1; 
+pB[3]=-1; pB[4]=-2; pB[5]=-1; 
+pB[6]=2; pB[7]=2; pB[8]=3;
+
+pointer=&pB[0];
+
+Matrix Y(d,n);
+Y<<pointer;
+
+cout<<"Matrix for points in B: \n"<<Y<<endl;
+
+// compute centroids
+double xCentroidA,yCentroidA,zCentroidA;
+double xCentroidB,yCentroidB,zCentroidB;
+
+xCentroidA=0;
+yCentroidA=0;
+zCentroidA=0;
+
+xCentroidB=0;
+yCentroidB=0;
+zCentroidB=0;
+
+// point in columns!
+for(int i=0;i<n;i++)
+{
+	xCentroidA+=pA[i];
+	yCentroidA+=pA[d+i];
+	zCentroidA+=pA[2*d+i];
+
+	xCentroidB+=pB[i];
+	yCentroidB+=pB[d+i];
+	zCentroidB+=pB[2*d+i];
+}
+
+// divide by the total number of points:
+
+double inverseNpoints=1./n;
+
+xCentroidA*=inverseNpoints;
+yCentroidA*=inverseNpoints;
+zCentroidA*=inverseNpoints;
+
+xCentroidB*=inverseNpoints;
+yCentroidB*=inverseNpoints;
+zCentroidB*=inverseNpoints;
+
+Matrix centreA(d,1);
+Matrix centreB(d,1);
+
+centreA(1,1)=xCentroidA;
+centreA(2,1)=yCentroidA;
+centreA(3,1)=zCentroidA;
+
+centreB(1,1)=xCentroidB;
+centreB(2,1)=yCentroidB;
+centreB(3,1)=zCentroidB;
+
+cout<<"Centroids computed!  \n A: ( "<<xCentroidA<<" , "<<yCentroidA<<" , "<<zCentroidA<<" ) \n and B:  ( "<<xCentroidB<<" , "<<yCentroidB<<" , "<<zCentroidB<<" ) "<<endl;
+
+cout<<"Centroids computed2!  \n "<<centreA<<"\n "<<centreB<<endl;
+X.Row(1)=X.Row(1)-xCentroidA;
+X.Row(2)=X.Row(2)-yCentroidA;
+X.Row(3)=X.Row(3)-zCentroidA;
+
+cout<<"Matrix for points in A: \n"<<X<<endl;
+
+Y.Row(1)=Y.Row(1)-xCentroidB;
+Y.Row(2)=Y.Row(2)-yCentroidB;
+Y.Row(3)=Y.Row(3)-zCentroidB;
+
+cout<<"Matrix for points in B: \n"<<Y<<endl;
+
+// define also the diagonal matrix that contains the weights
+DiagonalMatrix W (n);
+// set all weights to 1
+for(int i=1;i<=n;i++) W(i)=1;
+
+cout<<"weight matrix:\n "<<W<<endl;
+
+Matrix U, V; DiagonalMatrix D;
+
+Matrix S = X*W*Y.t();
+
+cout<<"computing SVD of S: \n"<<S<<endl;
+   SVD(S,D,U,V);                              // S = U * D * V.t()
+
+cout<<"result: U: \n"<<U<<endl;
+cout<<"result: D: \n"<<D<<endl;
+cout<<"result: V: \n"<<V<<endl;
+
+double det = Determinant(V*U.t());
+
+cout<<"determinant V*U.t(): "<<det<<endl;
+
+DiagonalMatrix Aux(n);
+for(int i=1;i<n;i++) Aux(i)=1;
+Aux(n)=det;
+
+Matrix R = V*Aux*U.t();
+
+cout<<"Rotation Matrix: \n"<<R<<endl;
+
+Matrix Trans = centreB - R*centreA;
+
+cout<<"Translation Matrix: \n"<<Trans<<endl;
+
+Matrix puntA1(d,1);
+puntA1(1,1)=pA[0];
+puntA1(2,1)=pA[3];
+puntA1(3,1)=pA[6];
+
+Matrix puntA2(d,1);
+puntA2(1,1)=pA[1];
+puntA2(2,1)=pA[4];
+puntA2(3,1)=pA[7];
+
+Matrix puntA3(d,1);
+puntA3(1,1)=pA[2];
+puntA3(2,1)=pA[5];
+puntA3(3,1)=pA[8];
+
+
+cout<<"punt A1!\n "<<puntA1<<endl;
+cout<<"punt A2!\n "<<puntA2<<endl;
+cout<<"punt A3!\n "<<puntA3<<endl;
+
+cout<<"Punt A1 rotat! \n"<<(R*puntA1)<<endl;
+cout<<"Punt A2 rotat! \n"<<(R*puntA2)<<endl;
+cout<<"Punt A3 rotat! \n"<<(R*puntA3)<<endl;
+
+cout<<"Punt A1 desplaçat! \n"<<(R*puntA1 + Trans)<<endl;
+cout<<"Punt A2 desplaçat! \n"<<(R*puntA2 + Trans)<<endl;
+cout<<"Punt A3 desplaçat! \n"<<(R*puntA3 + Trans)<<endl;
+
+
+
+   return 0;
+
+}
+

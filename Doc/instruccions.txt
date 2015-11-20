@@ -1,0 +1,15 @@
+ANN LIB:
+Download from: http://www.cs.umd.edu/~mount/ANN/
+Compile and copy to /usr/local/lib/
+
+PCL:
+sudo add-apt-repository ppa:v-launchpad-jochen-sprickerhof-de/pcl
+sudo apt-get update
+sudo apt-get install libpcl-all
+
+OPENCV
+sudo apt-get install libopencv-dev
+
+VTK
+https://thilinasameera.wordpress.com/2013/02/09/setting-up-vtk-and-itk-environments-for-ubuntu/
+
