@@ -151,5 +151,34 @@ void Octree::createPly(){
 
     PlyIO ply;
 
-    ply.writeFile("models/prova/octree.ply", &vp);
+    ply.writeFile("../../models/ResidueTests/octree.ply", &vp);
+}
+
+returnData Octree::calcOneNN(Point *queryPoint) {
+
+    returnData * rd = root->calcOneNN(queryPoint);
+
+    returnData rrd;
+
+    if(rd != NULL) {
+        rrd.index = rd->index;
+        rrd.sqrDist = rd->sqrDist;
+    }
+    else{
+        rrd.index = -1;
+        rrd.sqrDist = FLT_MAX;
+    }
+    return rrd;
+}
+
+returnData Octree::calcOwnNN(Point *queryPoint) {
+    return returnData();
+}
+
+vector<returnData> Octree::calcNneigh(Point *queryPoint, int nNeigh) {
+
+    vector<returnData> *vrd = root->calcNneigh(queryPoint, nNeigh);
+
+
+
 }

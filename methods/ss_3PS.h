@@ -11,7 +11,7 @@
 #include "../include/timer.h"
 #include "../include/plyio.h"
 #include <string>
-#include "../include/octree/Octree.h"
+#include "../include/DataStructures/octree/Octree.h"
 
 
 class ss_3PS : public ISearchingStrategy{

@@ -14,7 +14,7 @@
 
 #include <iostream>
 #include <vector>
-#include "point.h"
+#include "../point.h"
 
 
 struct returnData{

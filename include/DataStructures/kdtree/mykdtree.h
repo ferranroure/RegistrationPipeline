@@ -1,5 +1,5 @@
 /*******************************************************************************
- *  CLASS MYKDTREE
+ *  CLASS MYKDTREE (adapter class)
  *
  *  This class is a bridge between data structures from pipeline project and
  *  the external kdtree classes.
@@ -25,9 +25,9 @@
 #include <time.h>
 #include <float.h>
 #include <math.h>
-#include "point.h"
+#include "../../point.h"
 #include <ANN/ANN.h>
-#include "IDataStructure.h"
+#include "../IDataStructure.h"
 
 
 #define DIMENSIONS 3       // Dimensions
@@ -43,7 +43,7 @@ public:
     // Elements -----------------------------------------------------------------------
     int					nPts;                               // Actual number of data points.
     ANNpointArray		dataPts;                            // Data points.
-//    ANNpointArray       queryPts;                           // Array of query Points.
+//    ANNpointArray       queryPts;                         // Array of query Points.
     ANNidxArray			nnIdx;                              // Near neighbor indices.
     ANNdistArray		dists;                              // Near neighbor distances.
     ANNkd_tree*			kdTree;                             // Search structure.
@@ -52,8 +52,8 @@ public:
     myKdtree();                                             // Constructor.
     myKdtree(vector<Point*> *P);
     ~myKdtree();                                            // Destructor.
-    void create(vector<Point*> *P);                    // Creates a ANNKdtree from a given vector<Point>.
-    ANNpointArray convertArrayForKdtree(vector<Point*> *P);  // Tranforms a vector<Point> to an ANNpointArray.
+    void create(vector<Point*> *P);                         // Creates a ANNKdtree from a given vector<Point>.
+    ANNpointArray convertArrayForKdtree(vector<Point*> *P); // Tranforms a vector<Point> to an ANNpointArray.
     ANNpoint convertPointForKdtree(Point *p);               // Tranforms a Point to an ANNpoint.
     returnData calcOneNN(Point *queryPoint);                // Finds Nearest Neighbor distance to a given QueryPoint.
     returnData calcOwnNN(Point *queryPoint);                // Finds a real NN (not itself) of a given QueryPoint from the same point cloud. (used for MMD).

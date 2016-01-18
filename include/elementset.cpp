@@ -67,7 +67,9 @@ void ElementSet::createWorkingStructures() {
         for (int i=0; i<points->size(); i++) {
 
             Point *p = &(points->at(i));
+            p->setIndex(i);
             Point *q = &(points->at(i));
+            q->setIndex(i);
             workpoints->push_back(p);
             allpoints->push_back(q);
         }
@@ -335,7 +337,8 @@ void ElementSet::createDataStructure(){
 
 //    if(dataStruct!=NULL) cout << "caaaaaaa" << endl;
     if(dataStruct!=NULL) delete dataStruct;
-    dataStruct = new myKdtree(workpoints);
+//    dataStruct = new myKdtree(workpoints);
+    dataStruct = new myOctree(workpoints);
 
     if(octree!=NULL) delete octree;
     //octree = new Octree(workpoints, 5, xmin, xmax, ymin, ymax, zmin, zmax);
@@ -368,6 +371,7 @@ double ElementSet::calcNN(vector<Point> *Q, double percOfPoints, float errorFact
             returnData rd = dataStruct->calcOneNN(&(*it));
 
             // counting errors
+//            cout << sqrt(rd.sqrDist) << " " << MMD*errorFactor << endl;
             if(sqrt(rd.sqrDist) > MMD*errorFactor) err++;
             else {
                 MSD += rd.sqrDist;
@@ -375,6 +379,8 @@ double ElementSet::calcNN(vector<Point> *Q, double percOfPoints, float errorFact
             }
         }
     }
+
+//    cout << "err: " << err << endl;
     pairedPoints = NNv.size();
 
     double RMSD = sqrt(MSD/NNv.size()); // divided by number of valid points, not errors.
@@ -755,4 +761,8 @@ void ElementSet::scalePoints(float normFactor){
     }
 }
 
+void ElementSet::addPoint(Point *p) {
 
+    points->push_back(*p);
+
+}

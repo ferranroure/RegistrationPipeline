@@ -72,7 +72,7 @@ bool Node::isInside(Point *p) {
 
 bool Node::intersect(float A, float B, float C, float D){
 
-    // Check if the plane ABCD intersects with this node.
+    // Check if the plane ABCD(factors of plane equation) intersects with this node.
     // We have to check if each edge intersects with the plane.
     // Check if one point of the edge is on the positive side and the other is on the negative side.
 
@@ -324,6 +324,62 @@ void Node::createPly(vector<Point> &vp) {
 
         children.at(i)->createPly(vp);
     }
+}
+
+
+returnData * Node::calcOneNN(Point *queryPoint) {
+
+    // If it's leaf, lineal search of NN between points of this node.
+
+    Point * NN = NULL;
+
+    if(isLeaf){
+
+        float bestDist = FLT_MAX;
+
+        for(int i=0; i<points.size(); ++i){
+
+            float dist = queryPoint->dist(points.at(i));
+
+            if( dist < bestDist){
+
+//                cout << dist<< endl;
+                NN = points.at(i);
+                bestDist = dist;
+            }
+        }
+
+        // NO NN found.
+        if(NN==NULL){
+            return NULL;
+        }
+        else{
+            returnData * rd = new returnData();
+            rd->index = NN->getIndex();
+            rd->sqrDist = bestDist*bestDist;
+            return rd;
+        }
+    }
+    // If is not a leaf, recursive call.
+    else{
+
+        for (int i = 0; i < children.size(); ++i) {
+
+            // Check if is inside the node.
+            if(children.at(i)->isInside(queryPoint)){
+
+                return children.at(i)->calcOneNN(queryPoint);
+            }
+
+        }
+    }
+}
+
+
+vector<returnData> *Node::calcNneigh(Point *queryPoint, int nNeigh) {
+
+
+
 }
 
 void Node::test(){

@@ -25,6 +25,8 @@
 #include "methods/det_RandomSampling.h"
 #include "methods/det_NormalSpaceSampling.h"
 #include "methods/det_ColorSpaceSampling.h"
+#include "methods/det_KinectSuperSampling.h"
+#include "methods/det_DistConnectedComponents.h"
 #include "methods/des_shot.h"
 #include "methods/des_sp.h"
 #include "methods/ss_SmartForce.h"
@@ -58,7 +60,8 @@ public:
     void createMethods();                   // Creation of each method depending on the params file.
     void execute();                         // Execution of the pipeline.
     void executeTest();                     // Execution for tests without any cout.
-    void computeResidue();                  // Compute residue and % of paired points between views.
+    void executeResidueComputation();       // Execution of residue computation test.
+    void computeResidue(bool test=false);   // Compute residue and % of paired points between views.
     void calcGroundTruth(ElementSet *X,
                         IDescription *desc);// Compute groundtruth of a given ElementSet.
     void applyMovement(int type);           // Apply computed movement to ElementSet B.
@@ -66,3 +69,4 @@ public:
 };
 
 #endif // PIPELINE_H
+

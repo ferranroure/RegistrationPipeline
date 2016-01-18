@@ -8,9 +8,10 @@
 #include <iostream>
 #include <vector>
 #include "Node.h"
-#include "../plyio.h"
+#include "../../plyio.h"
+#include "../IDataStructure.h"
 
-class Octree{
+class Octree : public IDataStructure{
 
 public:
     Node * root;
@@ -30,6 +31,10 @@ public:
     void createOctree(Node *father, int actLevel);
     void print();
     void createPly();
+
+    returnData calcOneNN(Point *queryPoint);
+    returnData calcOwnNN(Point *queryPoint);
+    vector<returnData> calcNneigh(Point *queryPoint, int nNeigh);
 };
 
 

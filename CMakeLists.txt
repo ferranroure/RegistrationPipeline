@@ -92,6 +92,8 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
             methods/det_RandomSampling.cpp
             methods/det_NormalSpaceSampling.cpp
             methods/det_ColorSpaceSampling.cpp
+            methods/det_DistConnectedComponents.cpp
+            methods/det_KinectSuperSampling.cpp
             methods/des_shot.cpp
             methods/des_sp.cpp
             inputhandler.cpp
@@ -104,7 +106,10 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
             methods/ss_Grid3D.cpp
             include/elementset.cpp
             include/myicp.cpp
-            include/mykdtree.cpp
+            include/DataStructures/kdtree/mykdtree.cpp
+            include/DataStructures/octree/myOctree.cpp
+            include/DataStructures/trihash/myTriHash.cpp
+#            include/DataStructures/compressedOctree/myCompressedOctree.cpp
             include/mypcl.cpp
             include/plyio.cpp
             include/point.cpp
@@ -116,8 +121,10 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
             include/Adapter4PCS.cpp
             include/AdapterCGAL.cpp
             include/4pcsRegistrationObject.cpp
-            include/octree/Octree.cpp
-            include/octree/Node.cpp
+            include/DataStructures/octree/Octree.cpp
+            include/DataStructures/octree/Node.cpp
+            include/DataStructures/trihash/AdapterDataStruct.cpp
+
 
             external/vector3D.cpp
             external/motion3D.cpp
@@ -163,10 +170,17 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
             external/newmat10/cholesky.cpp
             external/newmat10/bandmat.cpp
             external/tinyxml2.cpp
+            external/MoreStructures/CompressedOctree/CompressedOctree.cpp
+            external/MoreStructures/CompressedOctree/CompressedONode.cpp
+            external/MoreStructures/CompressedOctree/CompressedInformacioGeometrica.cpp
+            external/MoreStructures/CompressedOctree/CompressedCandidateZone.cpp
+            external/MoreStructures/TriHash/TriHash.cpp
+            external/MoreStructures/AuxiliaryClasses/Element.cpp
+            external/MoreStructures/AuxiliaryClasses/point3D.cpp
 
             include/IDescriptor.h
             include/IManagerIO.h
-            include/IDataStructure.h
+            include/DataStructures/IDataStructure.h
 
             IDetection.h
             IDescription.h

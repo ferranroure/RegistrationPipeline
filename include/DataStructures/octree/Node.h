@@ -12,7 +12,8 @@
 
 #include <iostream>
 #include <vector>
-#include "../point.h"
+#include "../../point.h"
+#include "../IDataStructure.h"
 
 
 class Node {
@@ -41,6 +42,9 @@ public:
     void print();
     void printInfo();
     void createPly(vector<Point> &vp);
+
+    returnData * calcOneNN(Point *queryPoint);
+    vector<returnData> * calcNneigh(Point *queryPoint, int nNeigh);
 
     void test();
 };

@@ -65,6 +65,14 @@ void Pipeline::createMethods(){
             detection = new det_ColorSpaceSampling();
             detection->setData(data);
         }
+        else if(data->params.detectMethod == "KinectSuperSampling"){
+            detection = new det_KinectSuperSampling();
+            detection->setData(data);
+        }
+        else if(data->params.detectMethod == "DistConnectComponents"){
+            detection = new det_DistConnectedComponents();
+            detection->setData(data);
+        }
         else{
             cerr << "ERROR: The detection method is not valid." << endl;
             exit(EXIT_FAILURE);
@@ -148,12 +156,12 @@ void Pipeline::execute(){
 
     Timer timer;
 
-        input.setData(data);
-        cout << "------------------------------------------------------------------------------------> INPUT START" << endl;
-        input.execute();
-        cout << endl;
-        cout << "------------------------------------------------------------------------------------> INPUT DONE in: " << timer.elapsed() << " sec." << endl; timer.reset();
-        cout << endl << endl;
+    input.setData(data);
+    cout << "------------------------------------------------------------------------------------> INPUT START" << endl;
+    input.execute();
+    cout << endl;
+    cout << "------------------------------------------------------------------------------------> INPUT DONE in: " << timer.elapsed() << " sec." << endl; timer.reset();
+    cout << endl << endl;
 
     if(data->params.useDetection){
 
@@ -184,7 +192,7 @@ void Pipeline::execute(){
     }
 
     cout << "Coarse Alignment results:" << endl;
-    computeResidue();
+    computeResidue(false);
 
     if(data->params.useRefinement){
 
@@ -197,14 +205,14 @@ void Pipeline::execute(){
     }
 
     cout << "Fine Alignment results:" << endl;
-    computeResidue();
+    computeResidue(false);
 
-        output.setData(data);
-        cout << "------------------------------------------------------------------------------------> OUTPUT START" << endl;
-        output.execute();
-        cout << endl;
-        cout << "------------------------------------------------------------------------------------> OUTPUT DONE in: " << timer.elapsed() << " sec." << endl; timer.reset();
-        cout << endl << endl;
+    output.setData(data);
+    cout << "------------------------------------------------------------------------------------> OUTPUT START" << endl;
+    output.execute();
+    cout << endl;
+    cout << "------------------------------------------------------------------------------------> OUTPUT DONE in: " << timer.elapsed() << " sec." << endl; timer.reset();
+    cout << endl << endl;
 
     timer.stop();
 
@@ -222,60 +230,90 @@ void Pipeline::executeTest(){
 
     Timer timer;
 
+    input.setData(data);
     input.execute();
 
-    cout << endl << endl;
-    cout << "-----------------------------------------------------------------------------------------" << endl;
-    cout << "Method:        " << data->params.descMethod << endl;
-    cout << "Real Data:     " << data->params.realData << endl;
-    cout << "Model:         " << data->params.infile << endl;
-    cout << "Noise:         " << data->params.percOfNoise << endl;
+//    cout << "VIEW_A; VIEW_B; #_A; #_B;";
+//    cout << "DET_METHOD; DET_TIME; DET_#_A; DET_#_B;";
+//    cout << "DESC_METHOD; DESC_TIME;";
+//    cout << "SS_METHOD; SSTIME; SS_RES; SS_OVLP_A; SS_OVLP_B;";
+//    cout << "REF_METHOD; REF_TIME; REF_RES; REF_OVLP_A; REF_OVLP_B;";
+//    cout << endl;
 
-    cout << "DESCTIME; SSPP; SSRES; SSTIME; ICPPP; ICPRES; ICPTIME;" << endl;
+    cout << data->params.infile << ";";
+    cout << data->params.infile2 << ";";
+    cout << data->A->nPoints() << ";";
+    cout << data->B->nPoints() << ";";
 
     if(data->params.useDetection){
-        //cout << "--------- DETECTION --------" << endl;
+        cout << data->params.detectMethod << ";";
         timer.reset();
         detection->execute();
-        //cout << "Time: " << timer.elapsed() << endl;
         cout << timer.elapsed() << ";";
-
+        cout << data->A->nPoints() << ";";
+        cout << data->B->nPoints() << ";";
     }
+    else cout << "-;-;-;-;";
 
     if(data->params.useDescription){
-        //cout << "--------- DESCRIPTION --------" << endl;
+        cout << data->params.descMethod << ";";
         timer.reset();
         description->execute();
-        //cout << "Time: " << timer.elapsed() << endl;
         cout << timer.elapsed() << ";";
     }
+    else cout << "-;-;";
 
     if(data->params.useSS){
-        //cout << "--------- SEARCHING STRATEGIES --------" << endl;
+        cout << data->params.SSMethod << ";";
         timer.reset();
         searching->execute();
-        //cout << "Time: " << timer.elapsed() << endl;
         cout << timer.elapsed() << ";";
+        applyMovement(COARSE);
+        computeResidue(true);
     }
+    else cout << "-;-;-;-;";
 
     if(data->params.useRefinement){
-        //cout << "--------- REFINEMENT --------" << endl;
+        cout << data->params.refineMethod << ";";
         timer.reset();
         refinement->execute();
-        //cout << "Time: " << timer.elapsed() << endl;
-        cout << timer.elapsed() << ";" << endl;
-
+        cout << timer.elapsed() << ";";
+        applyMovement(FINE);
+        computeResidue(true);
     }
+    else cout << "-;-;-;-;";
 
 
+    output.setData(data);
     output.execute();
 
     timer.stop();
 
-    cout << endl << endl;
+    cout << endl;
 }
 
-void Pipeline::computeResidue(){
+
+void Pipeline::executeResidueComputation(){
+
+    Timer timer;
+
+    input.setData(data);
+    input.execute();
+
+    cout << endl << endl;
+    cout << "-----------------------------------------------------------------------------------------" << endl;
+    cout << "                                                   PIPELINE PROJECT - RESIDUE COMPUTATION" << endl;
+    cout << "Target model:         " << data->params.infile << endl;
+    cout << "Candidate model:      " << data->params.infile2 << endl;
+    cout << "% of used points:     " << data->params.percOfPoints << endl << endl;
+
+    timer.reset();
+    computeResidue();
+    cout << "Time: " << timer.elapsed() << " sec." << endl;
+}
+
+
+void Pipeline::computeResidue(bool test) {
 
     int pairedPoints = 0;
     double res = data->A->calcNN(data->B->getPoints(), data->params.percOfPoints, data->params.nnErrorFactor, pairedPoints);
@@ -284,10 +322,19 @@ void Pipeline::computeResidue(){
     double res2 = data->B->calcNN(data->A->getPoints(), data->params.percOfPoints, data->params.nnErrorFactor, pairedPoints2);
 
 
-    // Printing the results of the execution.
-    cout << "% of paired points of A : " << ((float)pairedPoints / (float)data->A->allpoints->size() ) * 100 << "%" << endl;
-    cout << "% of paired points of B: " << ((float)pairedPoints2 / (float)data->B->allpoints->size() ) * 100 << "%" << endl;
-    cout << "Residue: " << res << endl;
+    if(test==false) {
+        // Printing the results of the execution.
+        cout << "% of paired points of A : " << ((float) pairedPoints / (float) data->A->allpoints->size()) * 100 <<
+        "%" << endl;
+        cout << "% of paired points of B: " << ((float) pairedPoints2 / (float) data->B->allpoints->size()) * 100 <<
+        "%" << endl;
+        cout << "Residue: " << res << endl;
+    }
+    else{
+        cout << res << ";";
+        cout << ((float) pairedPoints / (float) data->A->allpoints->size()) << ";";;
+        cout << ((float) pairedPoints2 / (float) data->B->allpoints->size()) << ";";;
+    }
 }
 
 
@@ -382,3 +429,4 @@ void Pipeline::applyMovement(int type) {
     }
 
 }
+

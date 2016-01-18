@@ -20,12 +20,13 @@
 #include <math.h>
 #include "point.h"
 #include "plyio.h"
-#include "mykdtree.h"
+#include "DataStructures/kdtree/mykdtree.h"
 #include "mypcl.h"
 #include "descdist.h"
 #include "base.h"
 #include "../external/motion3D.h"
-#include "octree/Octree.h"
+#include "DataStructures/octree/myOctree.h"
+#include "DataStructures/octree/Octree.h"
 
 using namespace std;
 
@@ -107,6 +108,7 @@ public:
 
     void    initRandomMachine();                                    // Initiates the random generator
     void    scalePoints(float normFactor);
+    void    addPoint(Point *p);
 
 
     // Getters and Setters ---------------------------------------------------------------------------------------------

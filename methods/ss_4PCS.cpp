@@ -34,7 +34,7 @@ void ss_4PCS::execute() {
 
     // This parameter is the multiplication factor applied to the threshold for corresponding searching.
     // p = q  if( dist(p,q) < (meanDistOfAllPoints * 2 ) * delta = eps; also called eps.
-    float delta = 0.2;
+    float delta = 0.1;
 
     // This parameter is used to select the 4th point in de base from A. Is provided in order to not select a point
     // which its correspondece in Q falls in a non-overlapping area.
