@@ -12,10 +12,10 @@ myTriHash::myTriHash() {
 
 }
 
-myTriHash::myTriHash(vector<Point *> *P, float _MMD) {
+myTriHash::myTriHash(vector<Point *> *P, float _diag) {
 
     vector<Element *> points = ads->convertArray(P);
-    MMD = _MMD;
+    diagonal = _diag;
     trihash = new TriHash(points);
     ads = new AdapterDataStruct();
 }
@@ -30,9 +30,8 @@ returnData myTriHash::calcOneNN(Point *queryPoint) {
 
     point3D p(queryPoint->getX(), queryPoint->getY(), queryPoint->getZ());
 
-    vector<Element *> res = trihash->neigbors(p, MMD*5);
 
-    Element *nn = res.at(0);
+    Element * nn = trihash->nearestNeighbor(p);
 
     returnData rd;
     rd.index = nn->getIndex();
@@ -45,7 +44,8 @@ returnData myTriHash::calcOneNN(Point *queryPoint) {
 }
 
 returnData myTriHash::calcOwnNN(Point *queryPoint) {
-    return returnData();
+
+    return calcOneNN(queryPoint);
 }
 
 vector<returnData> myTriHash::calcNneigh(Point *queryPoint, int nNeigh) {

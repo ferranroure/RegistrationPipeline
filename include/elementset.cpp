@@ -335,10 +335,11 @@ void ElementSet::transform(motion3D *m){
  */
 void ElementSet::createDataStructure(){
 
-//    if(dataStruct!=NULL) cout << "caaaaaaa" << endl;
     if(dataStruct!=NULL) delete dataStruct;
+
 //    dataStruct = new myKdtree(workpoints);
-    dataStruct = new myOctree(workpoints);
+//    dataStruct = new myOctree(workpoints);
+    dataStruct = new myTriHash(workpoints, diagonal);
 
     if(octree!=NULL) delete octree;
     //octree = new Octree(workpoints, 5, xmin, xmax, ymin, ymax, zmin, zmax);

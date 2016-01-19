@@ -26,6 +26,7 @@
 #include "base.h"
 #include "../external/motion3D.h"
 #include "DataStructures/octree/myOctree.h"
+#include "DataStructures/trihash/myTriHash.h"
 #include "DataStructures/octree/Octree.h"
 
 using namespace std;

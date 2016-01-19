@@ -109,7 +109,7 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
             include/DataStructures/kdtree/mykdtree.cpp
             include/DataStructures/octree/myOctree.cpp
             include/DataStructures/trihash/myTriHash.cpp
-#            include/DataStructures/compressedOctree/myCompressedOctree.cpp
+            include/DataStructures/compressedOctree/myCompressedOctree.cpp
             include/mypcl.cpp
             include/plyio.cpp
             include/point.cpp

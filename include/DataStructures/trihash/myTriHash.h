@@ -21,11 +21,11 @@ public:
     // Elements -----------------------------------------------------------
     TriHash *trihash;
     AdapterDataStruct *ads;
-    float MMD;
+    float diagonal;
 
     // Methods ------------------------------------------------------------
     myTriHash();
-    myTriHash(vector<Point*> *P, float _MMD);
+    myTriHash(vector<Point*> *P, float _diag);
     ~myTriHash();
 
     returnData calcOneNN(Point *queryPoint);

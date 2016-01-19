@@ -1,5 +1,6 @@
 #include "TriHash.h"
 #include <cstdlib>
+#include <float.h>
 
 TriHash::TriHash(vector<Element *> vec, int numC, double iTol)
 {
@@ -254,6 +255,52 @@ vector<Element *> TriHash::neigbors(point3D p, double eps)
 	}
 
 	return returnValue;
+}
+
+
+Element * TriHash::nearestNeighbor(point3D p){
+
+	Element *res = new Element();
+	float bestDist = FLT_MAX;
+
+	int i = findSlot(p.getX(), 'x', true);
+	int j = findSlot(p.getY(), 'y', true);
+	int k = findSlot(p.getZ(), 'z', true);
+
+	vector<Element *> slot = elementsSlot(i, j, k);
+
+	// more points than itself.
+	if(slot.size()>1){
+
+		for (int l = 0; l < slot.size(); ++l) {
+			if(p!=slot.at(l)->getPoint()) {
+				float dist = p.dist(slot.at(l)->getPoint());
+				if (dist < bestDist) {
+
+					res->setPoint(slot.at(l)->getPoint());
+					bestDist = dist;
+				}
+			}
+		}
+	}
+
+	// find in the close slots using the bestDist as eps. If there are a closest point,
+	// we'll find it. If not, the current point is the nearest neighbour.
+
+	vector<Element *> neighs = neigbors(p, bestDist);
+	if(!neighs.empty()){
+		for (int l = 0; l < neighs.size(); ++l) {
+			float dist = p.dist(neighs.at(l)->getPoint());
+			if(p!=neighs.at(l)->getPoint() && dist < bestDist){
+
+				res->setPoint(neighs.at(l)->getPoint());
+				bestDist = dist;
+			}
+		}
+	}
+
+	return res;
+
 }
 
 // given a contribution, return points from the different slots as uniformly as possible
