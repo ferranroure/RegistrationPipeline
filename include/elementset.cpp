@@ -1,5 +1,6 @@
 #include "elementset.h"
 #include "AdapterPCL.h"
+#include "DataStructures/compressedOctree/myCompressedOctree.h"
 
 /* CONSTRUCTOR -----------------------------------------------------------
  *
@@ -302,9 +303,12 @@ void ElementSet::calcMMD(){
         returnData rd = dataStruct->calcOwnNN(*it);
 
         sum += sqrt(rd.sqrDist);
+//        cout << sqrt(rd.sqrDist) << endl;
     }
 
     MMD = sum / workpoints->size();
+
+
 }
 
 
@@ -339,7 +343,8 @@ void ElementSet::createDataStructure(){
 
 //    dataStruct = new myKdtree(workpoints);
 //    dataStruct = new myOctree(workpoints);
-    dataStruct = new myTriHash(workpoints, diagonal);
+//    dataStruct = new myTriHash(workpoints, diagonal);
+    dataStruct = new myCompressedOctree(workpoints, diagonal);
 
     if(octree!=NULL) delete octree;
     //octree = new Octree(workpoints, 5, xmin, xmax, ymin, ymax, zmin, zmax);
@@ -381,7 +386,7 @@ double ElementSet::calcNN(vector<Point> *Q, double percOfPoints, float errorFact
         }
     }
 
-//    cout << "err: " << err << endl;
+    cout << "err: " << err << endl;
     pairedPoints = NNv.size();
 
     double RMSD = sqrt(MSD/NNv.size()); // divided by number of valid points, not errors.

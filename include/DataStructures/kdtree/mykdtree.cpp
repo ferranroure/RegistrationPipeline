@@ -108,7 +108,7 @@ vector<returnData> myKdtree::calcNneigh(Point *queryPoint, int nNeigh) {
         nnIdx = new ANNidx[nNeigh];						// allocate near neighbor indices
         dists = new ANNdist[nNeigh];						// allocate near neighbor dists
 
-        kdTree->annkSearch(q, nNeigh, nnIdx, dists, ERR);
+        kdTree->annkSearch(q, nNeigh, nnIdx, dists, ERROR);
     }
     else{
 
@@ -154,7 +154,7 @@ returnData myKdtree::calcOneNN(Point *queryPoint){
         nnIdx = new ANNidx[1];						// allocate near neighbor indices
         dists = new ANNdist[1];						// allocate near neighbor dists
 
-        kdTree->annkSearch(q, 1, nnIdx, dists, ERR);
+        kdTree->annkSearch(q, 1, nnIdx, dists, ERROR);
 
         sqrDist = dists[0];
     }
@@ -197,7 +197,7 @@ returnData myKdtree::calcOwnNN(Point *queryPoint){
         nnIdx = new ANNidx[2];						// allocate near neighbor indices
         dists = new ANNdist[2];						// allocate near neighbor dists
 
-        kdTree->annkSearch(q, 2, nnIdx, dists, ERR);
+        kdTree->annkSearch(q, 2, nnIdx, dists, ERROR);
 
         sqrDist = dists[1];
     }
@@ -230,12 +230,12 @@ returnData myKdtree::findPair(Point *queryPoint, float dist) {
 
     if(kdTree->nPoints() > 0){
 
-        cand = kdTree->annkFRSearch(q, dist*dist, 0, nnIdx, dists, ERR);
+        cand = kdTree->annkFRSearch(q, dist*dist, 0, nnIdx, dists, ERROR);
 
         nnIdx = new ANNidx[cand];						// allocate near neighbor indices
         dists = new ANNdist[cand];						// allocate near neighbor dists
 
-        kdTree->annkFRSearch(q, dist*dist, cand, nnIdx, dists, ERR);
+        kdTree->annkFRSearch(q, dist*dist, cand, nnIdx, dists, ERROR);
 
         sqrDist = dists[cand-1];
     }

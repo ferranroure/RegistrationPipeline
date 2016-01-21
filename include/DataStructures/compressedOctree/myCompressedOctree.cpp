@@ -3,3 +3,68 @@
 //
 
 #include "myCompressedOctree.h"
+
+
+myCompressedOctree::myCompressedOctree() {
+
+    cOctree = NULL;
+    ads = NULL;
+}
+
+myCompressedOctree::myCompressedOctree(vector<Point *> *P, float _diag) {
+
+    diagonal = _diag;
+    ads = new AdapterDataStruct();
+    vector<Element *> points = ads->convertArray(P);
+    cOctree = new CompressedOctree(points, 10);
+}
+
+myCompressedOctree::~myCompressedOctree() {
+
+    delete cOctree;
+    delete ads;
+}
+
+returnData myCompressedOctree::calcOneNN(Point *queryPoint) {
+
+    point3D p(queryPoint->getX(), queryPoint->getY(), queryPoint->getZ());
+    Element *aux = new Element(p, 0);
+
+    list<Element> vnn;
+    int factor = 1;
+    while(vnn.empty()) {
+        vnn = cOctree->weightedNeighbors(aux, diagonal * 0.01 * factor);
+        ++factor;
+    }
+    Element *nn = new Element();
+
+    float bestDist = FLT_MAX;
+    for(list<Element>::iterator it = vnn.begin(); it!=vnn.end(); ++it ){
+
+        float dist = p.dist(it->getPoint());
+        if(dist<bestDist){
+            bestDist = dist;
+            nn->setPoint(it->getPoint());
+        }
+    }
+
+//    Element * nn = trihash->nearestNeighbor(p);
+
+    returnData rd;
+    rd.index = nn->getIndex();
+    Point * pnn = new Point(nn->getPoint().getX(), nn->getPoint().getY(), nn->getPoint().getZ());
+    float dist = queryPoint->dist(pnn);
+    rd.sqrDist = dist*dist;
+    delete pnn;
+
+    return rd;
+
+}
+
+returnData myCompressedOctree::calcOwnNN(Point *queryPoint) {
+    return calcOneNN(queryPoint);
+}
+
+vector<returnData> myCompressedOctree::calcNneigh(Point *queryPoint, int nNeigh) {
+    return std::vector<returnData>();
+}

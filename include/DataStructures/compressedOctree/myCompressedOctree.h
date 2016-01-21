@@ -6,8 +6,30 @@
 #define PIPELINE_MYCOMPRESSEDOCTREE_H
 
 
-class myCompressedOctree {
+#include "../IDataStructure.h"
+#include "../../../external/MoreStructures/CompressedOctree/CompressedOctree.h"
+#include "../trihash/AdapterDataStruct.h"
+#include "../../point.h"
 
+class myCompressedOctree : public IDataStructure{
+
+public:
+
+    // Elements ----------------------------------------------------------------
+    CompressedOctree *cOctree;
+    AdapterDataStruct *ads;
+    float diagonal;
+
+
+    // Methods -----------------------------------------------------------------
+
+    myCompressedOctree();
+    myCompressedOctree(vector<Point *> *P, float _diag);
+    ~myCompressedOctree();
+
+    returnData calcOneNN(Point *queryPoint);
+    returnData calcOwnNN(Point *queryPoint);
+    vector<returnData> calcNneigh(Point *queryPoint, int nNeigh);
 };
 
 

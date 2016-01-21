@@ -323,6 +323,7 @@ void Pipeline::computeResidue(bool test) {
 
 
     if(test==false) {
+        cout << "MMD A: " << data->A->getMMD() << " MMD B: " << data->B->getMMD() << endl;
         // Printing the results of the execution.
         cout << "% of paired points of A : " << ((float) pairedPoints / (float) data->A->allpoints->size()) * 100 <<
         "%" << endl;

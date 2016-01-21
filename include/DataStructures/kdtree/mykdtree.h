@@ -31,7 +31,7 @@
 
 
 #define DIMENSIONS 3       // Dimensions
-//#define ERR 0.0001       // Error bound
+#define ERROR 0.0001       // Error bound
 
 
 

@@ -14,10 +14,12 @@ myTriHash::myTriHash() {
 
 myTriHash::myTriHash(vector<Point *> *P, float _diag) {
 
-    vector<Element *> points = ads->convertArray(P);
     diagonal = _diag;
-    trihash = new TriHash(points);
     ads = new AdapterDataStruct();
+    vector<Element *> points = ads->convertArray(P);
+    trihash = new TriHash(points);
+
+
 }
 
 myTriHash::~myTriHash() {
@@ -30,8 +32,24 @@ returnData myTriHash::calcOneNN(Point *queryPoint) {
 
     point3D p(queryPoint->getX(), queryPoint->getY(), queryPoint->getZ());
 
+    vector<Element*> vnn;
+    int factor = 1;
+    while(vnn.empty()) {
+        vnn = trihash->neigbors(p, diagonal * 0.01 * factor);
+        ++factor;
+    }
+    Element *nn = NULL;
 
-    Element * nn = trihash->nearestNeighbor(p);
+    float bestDist = FLT_MAX;
+    for (int i = 0; i < vnn.size(); ++i) {
+        float dist = p.dist(vnn.at(i)->getPoint());
+        if(dist<bestDist){
+            bestDist = dist;
+            nn = vnn.at(i);
+        }
+    }
+
+//    Element * nn = trihash->nearestNeighbor(p);
 
     returnData rd;
     rd.index = nn->getIndex();
@@ -45,7 +63,37 @@ returnData myTriHash::calcOneNN(Point *queryPoint) {
 
 returnData myTriHash::calcOwnNN(Point *queryPoint) {
 
-    return calcOneNN(queryPoint);
+    point3D p(queryPoint->getX(), queryPoint->getY(), queryPoint->getZ());
+
+//    cout << diagonal << endl;
+
+    vector<Element*> vnn;
+    int factor = 1;
+    while(vnn.empty()) {
+        vnn = trihash->neigbors(p, diagonal * 0.01 * factor);
+        ++factor;
+    }
+    Element *nn = NULL;
+
+    float bestDist = FLT_MAX;
+    for (int i = 0; i < vnn.size(); ++i) {
+        float dist = p.dist(vnn.at(i)->getPoint());
+        if(dist<bestDist){
+            bestDist = dist;
+            nn = vnn.at(i);
+        }
+    }
+
+//    Element * nn = trihash->nearestNeighbor(p);
+
+    returnData rd;
+    rd.index = nn->getIndex();
+    Point * pnn = new Point(nn->getPoint().getX(), nn->getPoint().getY(), nn->getPoint().getZ());
+    float dist = queryPoint->dist(pnn);
+    rd.sqrDist = dist*dist;
+    delete pnn;
+
+    return rd;
 }
 
 vector<returnData> myTriHash::calcNneigh(Point *queryPoint, int nNeigh) {

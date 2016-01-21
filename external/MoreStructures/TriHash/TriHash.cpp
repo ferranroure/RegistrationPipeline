@@ -254,8 +254,11 @@ vector<Element *> TriHash::neigbors(point3D p, double eps)
 		}		
 	}
 
+
+
 	return returnValue;
 }
+
 
 
 Element * TriHash::nearestNeighbor(point3D p){
@@ -273,8 +276,9 @@ Element * TriHash::nearestNeighbor(point3D p){
 	if(slot.size()>1){
 
 		for (int l = 0; l < slot.size(); ++l) {
-			if(p!=slot.at(l)->getPoint()) {
+			if(p!=slot.at(l)->getPoint()) { // skip itself
 				float dist = p.dist(slot.at(l)->getPoint());
+
 				if (dist < bestDist) {
 
 					res->setPoint(slot.at(l)->getPoint());
@@ -284,21 +288,20 @@ Element * TriHash::nearestNeighbor(point3D p){
 		}
 	}
 
-	// find in the close slots using the bestDist as eps. If there are a closest point,
+	// find in the close slots using the bestDist as eps. If there is a closest point,
 	// we'll find it. If not, the current point is the nearest neighbour.
 
 	vector<Element *> neighs = neigbors(p, bestDist);
 	if(!neighs.empty()){
 		for (int l = 0; l < neighs.size(); ++l) {
 			float dist = p.dist(neighs.at(l)->getPoint());
-			if(p!=neighs.at(l)->getPoint() && dist < bestDist){
 
+			if(p!=neighs.at(l)->getPoint() && dist < bestDist){
 				res->setPoint(neighs.at(l)->getPoint());
 				bestDist = dist;
 			}
 		}
 	}
-
 	return res;
 
 }
