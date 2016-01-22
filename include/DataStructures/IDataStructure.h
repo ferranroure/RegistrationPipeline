@@ -33,7 +33,7 @@ public:
     IDataStructure(){}
     virtual ~IDataStructure(){}
 //    virtual void create(vector<Point*> *P) = 0;
-    virtual returnData calcOneNN(Point *queryPoint) = 0;        // Finds Nearest Neighbor distance to a given QueryPoint.
+    virtual returnData calcOneNN(Point *queryPoint, float errEps) = 0;        // Finds Nearest Neighbor distance to a given QueryPoint.
     virtual returnData calcOwnNN(Point *queryPoint) = 0;        // Finds a real NN (not itself) of a given QueryPoint from the same point cloud. (used for MMD)
     virtual vector<returnData>  calcNneigh(Point *queryPoint, int nNeigh) = 0;
 };

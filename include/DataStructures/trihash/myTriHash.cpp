@@ -18,8 +18,6 @@ myTriHash::myTriHash(vector<Point *> *P, float _diag) {
     ads = new AdapterDataStruct();
     vector<Element *> points = ads->convertArray(P);
     trihash = new TriHash(points);
-
-
 }
 
 myTriHash::~myTriHash() {
@@ -28,17 +26,15 @@ myTriHash::~myTriHash() {
     delete ads;
 }
 
-returnData myTriHash::calcOneNN(Point *queryPoint) {
+returnData myTriHash::calcOneNN(Point *queryPoint, float errEps) {
 
     point3D p(queryPoint->getX(), queryPoint->getY(), queryPoint->getZ());
 
     vector<Element*> vnn;
-    int factor = 1;
-    while(vnn.empty()) {
-        vnn = trihash->neigbors(p, diagonal * 0.01 * factor);
-        ++factor;
-    }
+    vnn = trihash->neigbors(p, errEps);
+
     Element *nn = NULL;
+
 
     float bestDist = FLT_MAX;
     for (int i = 0; i < vnn.size(); ++i) {
@@ -52,11 +48,17 @@ returnData myTriHash::calcOneNN(Point *queryPoint) {
 //    Element * nn = trihash->nearestNeighbor(p);
 
     returnData rd;
-    rd.index = nn->getIndex();
-    Point * pnn = new Point(nn->getPoint().getX(), nn->getPoint().getY(), nn->getPoint().getZ());
-    float dist = queryPoint->dist(pnn);
-    rd.sqrDist = dist*dist;
-    delete pnn;
+    if(vnn.empty()){
+        rd.index = -1;
+        rd.sqrDist = FLT_MAX;
+    }
+    else {
+        rd.index = nn->getIndex();
+        Point *pnn = new Point(nn->getPoint().getX(), nn->getPoint().getY(), nn->getPoint().getZ());
+        float dist = queryPoint->dist(pnn);
+        rd.sqrDist = dist * dist;
+        delete pnn;
+    }
 
     return rd;
 }
@@ -87,11 +89,17 @@ returnData myTriHash::calcOwnNN(Point *queryPoint) {
 //    Element * nn = trihash->nearestNeighbor(p);
 
     returnData rd;
-    rd.index = nn->getIndex();
-    Point * pnn = new Point(nn->getPoint().getX(), nn->getPoint().getY(), nn->getPoint().getZ());
-    float dist = queryPoint->dist(pnn);
-    rd.sqrDist = dist*dist;
-    delete pnn;
+    if(vnn.empty()){
+        rd.index = -1;
+        rd.sqrDist = FLT_MAX;
+    }
+    else {
+        rd.index = nn->getIndex();
+        Point *pnn = new Point(nn->getPoint().getX(), nn->getPoint().getY(), nn->getPoint().getZ());
+        float dist = queryPoint->dist(pnn);
+        rd.sqrDist = dist * dist;
+        delete pnn;
+    }
 
     return rd;
 }

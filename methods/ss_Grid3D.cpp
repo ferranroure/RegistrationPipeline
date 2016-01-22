@@ -126,7 +126,7 @@ void ss_Grid3D::execute() {
                     centroids.push_back(*c);
 
                     //getting the neighbour of centercell point.
-                    returnData rd = data->B->getDataStruct()->calcOneNN(c);
+                    returnData rd = data->B->getDataStruct()->calcOneNN(c, data->B->getMMD()*data->params.nnErrorFactor);
                     Point pB(*(data->B->getPoint(rd.index)));
                     delete c;
 

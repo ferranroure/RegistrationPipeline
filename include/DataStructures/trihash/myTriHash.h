@@ -25,10 +25,10 @@ public:
 
     // Methods ------------------------------------------------------------
     myTriHash();
-    myTriHash(vector<Point*> *P, float _diag);
+    myTriHash(vector<Point *> *P, float _diag);
     ~myTriHash();
 
-    returnData calcOneNN(Point *queryPoint);
+    returnData calcOneNN(Point *queryPoint, float errEps);
     returnData calcOwnNN(Point *queryPoint);
     vector<returnData> calcNneigh(Point *queryPoint, int nNeigh);
 };

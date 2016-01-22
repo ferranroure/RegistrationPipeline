@@ -29,7 +29,7 @@ public:
     myOctree(vector<Point*> *P);
     ~myOctree();
 
-    returnData calcOneNN(Point *queryPoint);
+    returnData calcOneNN(Point *queryPoint, float errEps);
     returnData calcOwnNN(Point *queryPoint);
     vector<returnData> calcNneigh(Point *queryPoint, int nNeigh);
 };

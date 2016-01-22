@@ -154,7 +154,7 @@ void Octree::createPly(){
     ply.writeFile("../../models/ResidueTests/octree.ply", &vp);
 }
 
-returnData Octree::calcOneNN(Point *queryPoint) {
+returnData Octree::calcOneNN(Point *queryPoint, float errEps) {
 
     returnData * rd = root->calcOneNN(queryPoint);
 

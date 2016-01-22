@@ -26,7 +26,7 @@ myOctree::~myOctree() {
     delete octree;
 }
 
-returnData myOctree::calcOneNN(Point *queryPoint) {
+returnData myOctree::calcOneNN(Point *queryPoint, float errEps) {
 
     vector<returnData> vrd = calcNneigh(queryPoint, 1);
 

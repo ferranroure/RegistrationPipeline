@@ -142,7 +142,7 @@ vector<returnData> myKdtree::calcNneigh(Point *queryPoint, int nNeigh) {
  *  call's annkSearch() method.
  *  Returns only the distance if it's less than dmax.
 */
-returnData myKdtree::calcOneNN(Point *queryPoint){
+returnData myKdtree::calcOneNN(Point *queryPoint, float errEps) {
 
     // distance
     double sqrDist = 0;

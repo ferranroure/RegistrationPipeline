@@ -32,7 +32,7 @@ public:
     void print();
     void createPly();
 
-    returnData calcOneNN(Point *queryPoint);
+    returnData calcOneNN(Point *queryPoint, float errEps);
     returnData calcOwnNN(Point *queryPoint);
     vector<returnData> calcNneigh(Point *queryPoint, int nNeigh);
 };

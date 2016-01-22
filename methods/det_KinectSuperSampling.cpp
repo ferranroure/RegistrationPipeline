@@ -69,7 +69,7 @@ void det_KinectSuperSampling::superSampling(ElementSet *X) {
 
                 // Find the nearest neighbor of p2 in the first line
                 Point *p2 = OrgPoints[i2][m];
-                returnData rd = kdtree.calcOneNN(p2);
+                returnData rd = kdtree.calcOneNN(p2, 0);
                 Point *p1 = OrgPoints[i1][rd.index];
 
                 // Create a new point in the middle of both points from both lines.

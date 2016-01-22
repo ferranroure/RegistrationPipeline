@@ -308,7 +308,6 @@ void ElementSet::calcMMD(){
 
     MMD = sum / workpoints->size();
 
-
 }
 
 
@@ -374,7 +373,7 @@ double ElementSet::calcNN(vector<Point> *Q, double percOfPoints, float errorFact
         rn = ((double) rand() / (RAND_MAX));
         if(rn <= percOfPoints){
 
-            returnData rd = dataStruct->calcOneNN(&(*it));
+            returnData rd = dataStruct->calcOneNN(&(*it), MMD*errorFactor);
 
             // counting errors
 //            cout << sqrt(rd.sqrDist) << " " << MMD*errorFactor << endl;
@@ -386,7 +385,7 @@ double ElementSet::calcNN(vector<Point> *Q, double percOfPoints, float errorFact
         }
     }
 
-    cout << "err: " << err << endl;
+//    cout << "err: " << err << endl;
     pairedPoints = NNv.size();
 
     double RMSD = sqrt(MSD/NNv.size()); // divided by number of valid points, not errors.
