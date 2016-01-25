@@ -305,7 +305,8 @@ void Pipeline::executeResidueComputation(){
     cout << "                                                   PIPELINE PROJECT - RESIDUE COMPUTATION" << endl;
     cout << "Target model:         " << data->params.infile << endl;
     cout << "Candidate model:      " << data->params.infile2 << endl;
-    cout << "% of used points:     " << data->params.percOfPoints << endl << endl;
+    cout << "Data Structure:       " << data->params.dataStructure << endl;
+    cout << "% of used points:     " << data->params.percOfPoints*100 << "%" <<  endl << endl;
 
     timer.reset();
     computeResidue();
@@ -408,7 +409,7 @@ void Pipeline::applyMovement(int type) {
 
         if(data->cM != NULL) {
             data->B->transform(data->cM);
-            data->B->createFileFromData(data->params.infileTemp, false, true);
+            data->B->createFileFromData(data->params.infileTemp, false, false);
         }
         else{
             cerr << "ApplyMovement :: Coarse Movement Matrix is NULL!" << endl;

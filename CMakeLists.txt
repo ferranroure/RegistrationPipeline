@@ -192,7 +192,7 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
     # -frounding-math -> something for CGAL librar
 #    set(CMAKE_CXX_FLAGS "-std=c++11 -frounding-math")
     #    set(CMAKE_CXX_FLAGS "-pg -frounding-math")
-    set(CMAKE_CXX_FLAGS "-frounding-math")
+    set(CMAKE_CXX_FLAGS "-frounding-math -pg")
 
     add_executable( Pipeline ${SOURCES} )
     target_link_libraries(Pipeline ${ANN_LIB} ${PCL_LIBRARIES} ${OpenCV_LIBS} ${VTK_LIBRARIES} ${CGAL_LIB})

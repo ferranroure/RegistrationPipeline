@@ -9,7 +9,7 @@ myOctree::myOctree() {
     octree = NULL;
 }
 
-myOctree::myOctree(vector<Point *> *P) {
+myOctree::myOctree(vector<Point *> *P, float voxelRes) {
 
     float resolution = 128.0f;
     octree = new pcl::octree::OctreePointCloudSearch<pcl::PointXYZ>(resolution);

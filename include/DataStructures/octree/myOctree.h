@@ -26,7 +26,7 @@ public:
 
     // Methods ------------------------------------------------------------------------
     myOctree();                                             // Constructor.
-    myOctree(vector<Point*> *P);
+    myOctree(vector<Point *> *P, float voxelRes);
     ~myOctree();
 
     returnData calcOneNN(Point *queryPoint, float errEps);

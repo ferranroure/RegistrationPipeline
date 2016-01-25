@@ -16,7 +16,7 @@ myCompressedOctree::myCompressedOctree(vector<Point *> *P, float _diag) {
     diagonal = _diag;
     ads = new AdapterDataStruct();
     vector<Element *> points = ads->convertArray(P);
-    cOctree = new CompressedOctree(points, 10);
+    cOctree = new CompressedOctree(points, 0);
 }
 
 myCompressedOctree::~myCompressedOctree() {
@@ -39,7 +39,7 @@ returnData myCompressedOctree::calcOneNN(Point *queryPoint, float errEps) {
     for(list<Element>::iterator it = vnn.begin(); it!=vnn.end(); ++it ){
 
         float dist = p.dist(it->getPoint());
-        if(dist<bestDist){
+        if(dist<bestDist && it->getPoint()!=p){
             bestDist = dist;
             nn->setPoint(it->getPoint());
         }
@@ -81,7 +81,7 @@ returnData myCompressedOctree::calcOwnNN(Point *queryPoint) {
     for(list<Element>::iterator it = vnn.begin(); it!=vnn.end(); ++it ){
 
         float dist = p.dist(it->getPoint());
-        if(dist<bestDist){
+        if(dist<bestDist && it->getPoint()!=p){
             bestDist = dist;
             nn->setPoint(it->getPoint());
         }

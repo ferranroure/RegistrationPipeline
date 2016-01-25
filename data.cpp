@@ -25,7 +25,7 @@ Data::Data(char * paramsfile){
     float normFactor = 1;
 
 
-    A = new ElementSet(params.infile);
+    A = new ElementSet(params.infile, params.dataStructure);
 
     // If no real data are used, we create a copy of target point cloud.
     if( ! params.realData){
@@ -33,8 +33,9 @@ Data::Data(char * paramsfile){
         params.infile2 = params.infile;
     }
     else{
-        B = new ElementSet(params.infile2);
+        B = new ElementSet(params.infile2, params.dataStructure);
     }
+
 
     // Resize (normalize) if is specified on params
     if(params.normalizeModels){
@@ -51,8 +52,8 @@ Data::Data(char * paramsfile){
         A->scalePoints(normFactor);
         B->scalePoints(normFactor);
 
-        A->createFileFromData("../models/testLab00.ply", false, true);
-        B->createFileFromData("../models/testLab30.ply", false, true);
+        A->createFileFromData("../models/testLab00.ply", false, false);
+        B->createFileFromData("../models/testLab30.ply", false, false);
         exit(0);
     }
 
@@ -134,6 +135,7 @@ void Data::printParams(){
     cout << "Thrs Factor:                   " << params.thrsFactor << endl;
     cout << "# of samples detected:         "; if(!params.useDetection) cout << "--"; else cout << params.nSamples; cout << endl;
     cout << "Normalize Models:              " << params.normalizeModels << endl;
+    cout << "Data Structure:                " << params.dataStructure << endl;
 
     cout << endl;
     cout << "MMD:                           " << params.MMD << endl;
@@ -261,6 +263,7 @@ void Data::setParametersXML(char * paramsfile){
     params.nnErrorFactor = atof( generalProps->FirstChildElement("nnErrorFactor")->GetText() );
     params.percOfNoise = atof( generalProps->FirstChildElement("percOfNoise")->GetText() );
     params.normalizeModels = toBool( generalProps->FirstChildElement("normalizeModels")->GetText() );
+    params.dataStructure = generalProps->FirstChildElement("dataStructure")->GetText();
 
     params.GTdescThrs = 0;
     params.GTminDescDist = 0;

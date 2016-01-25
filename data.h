@@ -52,6 +52,7 @@ struct parameters{
     float percOfPoints;                 // % of points of the object used to search NN residue.
     int nSamples;                       // Number of sample points extracted in detection step.
     bool normalizeModels;               // Boolean about if models must be normalized or not. (divide points by biggest diagonal).
+    string dataStructure;               // Data Structure used for Nearest Neighbour searching and Residue computation.
 
     // All next parameters are the multipling factor for Mean Minimum Distance (MMD).
     float nnErrorFactor;                // Multipling factor for the error distance on NN search.

@@ -31,6 +31,7 @@ ElementSet::ElementSet(ElementSet &ES){
     dataStruct = NULL;
     octree = NULL;
     normals = NULL; // should be also copied!
+    dataStructureType = ES.dataStructureType;
 
     if(ES.points != NULL){
 
@@ -81,7 +82,7 @@ void ElementSet::createWorkingStructures() {
 /* CONSTRUCTOR -----------------------------------------------------------
  *
  */
-ElementSet::ElementSet(vector<Point> *lin){
+ElementSet::ElementSet(vector<Point> *lin, string _DSType) {
 
     points = NULL;
     workpoints =  NULL;
@@ -89,6 +90,7 @@ ElementSet::ElementSet(vector<Point> *lin){
     dataStruct = NULL;
     octree = NULL;
     normals = NULL;
+    dataStructureType = _DSType;
 
     //initRandomMachine();
 
@@ -106,7 +108,7 @@ ElementSet::ElementSet(vector<Point> *lin){
 /* CONSTRUCTOR -----------------------------------------------------------
  *
  */
-ElementSet::ElementSet(string file, float normFactor){
+ElementSet::ElementSet(string file, string _DSType, float normFactor) {
 
     //initRandomMachine();
 
@@ -116,6 +118,7 @@ ElementSet::ElementSet(string file, float normFactor){
     dataStruct = NULL;
     octree = NULL;
     normals = NULL;
+    dataStructureType = _DSType;
 
 
     PlyIO plyio;
@@ -338,12 +341,30 @@ void ElementSet::transform(motion3D *m){
  */
 void ElementSet::createDataStructure(){
 
+    if(dataStructureType == ""){
+        cerr << "Not data structure defined! " << endl;
+        exit(EXIT_FAILURE);
+    }
+
     if(dataStruct!=NULL) delete dataStruct;
 
-//    dataStruct = new myKdtree(workpoints);
-//    dataStruct = new myOctree(workpoints);
-//    dataStruct = new myTriHash(workpoints, diagonal);
-    dataStruct = new myCompressedOctree(workpoints, diagonal);
+    if(dataStructureType=="kdtree"){
+        dataStruct = new myKdtree(workpoints);
+    }
+    else if(dataStructureType=="octree"){
+        dataStruct = new myOctree(workpoints, diagonal/5);
+    }
+    else if(dataStructureType=="compressedOctree"){
+        dataStruct = new myCompressedOctree(workpoints, diagonal);
+    }
+    else if(dataStructureType=="trihash"){
+        dataStruct = new myTriHash(workpoints, diagonal);
+    }
+    else{
+        cerr << "I can't undestand your dataStructure!" << endl;
+        exit(EXIT_FAILURE);
+    }
+
 
     if(octree!=NULL) delete octree;
     //octree = new Octree(workpoints, 5, xmin, xmax, ymin, ymax, zmin, zmax);
