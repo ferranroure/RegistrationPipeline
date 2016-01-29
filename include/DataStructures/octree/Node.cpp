@@ -156,9 +156,9 @@ vector<Point *> Node::findCoplanarPointsRecursive(float A, float B, float C, flo
  * We want to find all points lying at distance D. This distance D have some error (thrs). For thes reason, we find
  * points lying inside a crown between D+thrs and D-thrs. We simplify the intersection between Nodes and spheres using
  * cubes.
- * This method checks the interesection of the actual node with two different cubes (represented by a Node object)
+ * This method checks the interesection of the current node with two different cubes (represented by a Node object)
  * outCube and inCube are the simplification of the sphere of radius D+thrs and D-thrs. We check the types of interesction
- * between the actual node and the "sphere-nodes".
+ * between the current node and the "sphere-nodes".
  * Cases of right intersection:
  * Node INSIDE outCube & Node OUTSIDE inCube
  * Node INSIDE outCube & Node INTERSECT inCube
@@ -202,7 +202,7 @@ bool Node::checkDistance(float maxRadi, float minRadi, Point *p) {
 
 }
 /*
- *  Node n is the box that represents the sphere of radius r, centered at point p.
+ *  Node box is the box that represents the sphere of radius r, centered at point p.
  */
 int Node::checkIntersection(Node &box) {
 

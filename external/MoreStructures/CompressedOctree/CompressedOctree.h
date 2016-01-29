@@ -40,7 +40,7 @@ class CompressedOctree
 		void call_intern_search_4(CompressedInformacioGeometrica info, bool ok1, bool ok2, bool ok3, bool ok4,CompressedONode *t1,CompressedONode *t2,CompressedONode *t3,CompressedONode *t4, bool bNum, bool bHisto, bool bDist, int tipus);
 		void call_intern_search_8(CompressedInformacioGeometrica info, bool ok1, bool ok2, bool ok3, bool ok4, bool ok5, bool ok6, bool ok7, bool ok8,CompressedONode *t1,CompressedONode *t2,CompressedONode *t3,CompressedONode *t4, CompressedONode *t5,CompressedONode *t6,CompressedONode *t7,CompressedONode *t8, bool bNum, bool bHisto, bool bDist);
 		bool esToquen2(CompressedInformacioGeometrica info, CompressedONode *t1, CompressedONode *t2);
-		bool deCostat2(CompressedONode * t1, CompressedONode * t2, int tipus); //Tipus -> 1:x, 2:y, 3:z
+		bool deCostat2(CompressedONode * t1, CompressedONode * t2, int wtipus); //Tipus -> 1:x, 2:y, 3:z
 		int quiEscombra2(CompressedONode * t1, CompressedONode * t2, int tipus); //Tipus -> 1:x, 2:y, 3:z; Retorna el fill que escombra (si ningu escombra, retorna -1)
 		
 	public:
@@ -61,7 +61,7 @@ class CompressedOctree
 		
 		void actualitzarInfGeo(); //Serveix per actualitzar la informacio geometrica
 
-		list<Element> weightedNeighbors(Element *e,double eps); //Weighted Neighbors
+		list<Element*> * weightedNeighbors(Element *e,double eps); //Weighted Neighbors
 
 		CompressedInformacioGeometrica* calcularInfo2(CompressedInformacioGeometrica *info1, CompressedInformacioGeometrica *info2); //Sumar 2 info geometriques (força bruta)
 		CompressedInformacioGeometrica* calcularInfo4(CompressedInformacioGeometrica *info1, CompressedInformacioGeometrica *info2, CompressedInformacioGeometrica *info3, CompressedInformacioGeometrica *info4); //Sumar 4 info geometriques (força bruta)

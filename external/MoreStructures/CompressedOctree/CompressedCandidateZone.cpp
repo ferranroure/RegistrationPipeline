@@ -438,97 +438,97 @@ point3D CompressedCandidateZone::getIthPoint(unsigned int i)
 // produces a weighted range searching in the candidate zone: output all neighbors
 // with adequate related weight
 
-list<Element> CompressedCandidateZone::weightedNeighbors(Element *e,double epsilon)
-{
-	list<Element> ret = list<Element>();
-	list<Element> retAux = list<Element>();
-
-	if (zone_type == 1)
-	{
-		if(q1!=NULL)
-		{
-			ret = q1->weightedNeighbors(e,epsilon);
-		}
-	}
-	else if (zone_type == 2)
-	{
-		if(q1!=NULL)
-		{
-			ret = q1->weightedNeighbors(e,epsilon);
-		}
-		if(q2!=NULL)
-		{
-			retAux = q2->weightedNeighbors(e,epsilon);
-			ret.insert(ret.end(),retAux.begin(),retAux.end());// aqui es podria fer servir "splice!!!!"
-		}
-	}
-	else if (zone_type == 4)
-	{
-		if(q1!=NULL)
-		{
-			ret = q1->weightedNeighbors(e,epsilon);
-		}
-		if(q2!=NULL)
-		{
-			retAux = q2->weightedNeighbors(e,epsilon);
-			ret.insert(ret.end(),retAux.begin(),retAux.end());//  "splice!!!!"
-		}
-		if(q3!=NULL)
-		{
-			retAux = q3->weightedNeighbors(e,epsilon);
-			ret.insert(ret.end(),retAux.begin(),retAux.end());//  "splice!!!!"
-		}
-		if(q4!=NULL)
-		{
-			retAux = q4->weightedNeighbors(e,epsilon);
-			ret.insert(ret.end(),retAux.begin(),retAux.end());//  "splice!!!!"
-		}
-	}
-	else //zone_type == 8
-	{
-		if(q1!=NULL)
-		{
-			ret = q1->weightedNeighbors(e,epsilon);
-		}
-		if(q2!=NULL)
-		{
-			retAux = q2->weightedNeighbors(e,epsilon);
-			ret.insert(ret.end(),retAux.begin(),retAux.end());//  "splice!!!!"
-		}
-		if(q3!=NULL)
-		{
-			retAux = q3->weightedNeighbors(e,epsilon);
-			ret.insert(ret.end(),retAux.begin(),retAux.end());//  "splice!!!!"
-		}
-		if(q4!=NULL)
-		{
-			retAux = q4->weightedNeighbors(e,epsilon);
-			ret.insert(ret.end(),retAux.begin(),retAux.end());//  "splice!!!!"
-		}
-		if(q5!=NULL)
-		{
-			retAux = q5->weightedNeighbors(e,epsilon);
-			ret.insert(ret.end(),retAux.begin(),retAux.end());//  "splice!!!!"
-		}
-		if(q6!=NULL)
-		{
-			retAux = q6->weightedNeighbors(e,epsilon);
-			ret.insert(ret.end(),retAux.begin(),retAux.end());//  "splice!!!!"
-		}
-		if(q7!=NULL)
-		{
-			retAux = q7->weightedNeighbors(e,epsilon);
-			ret.insert(ret.end(),retAux.begin(),retAux.end());//  "splice!!!!"
-		}
-		if(q8!=NULL)
-		{
-			retAux = q8->weightedNeighbors(e,epsilon);
-			ret.insert(ret.end(),retAux.begin(),retAux.end());//  "splice!!!!"
-		}
-	}
-
-	return ret;
-}
+//list<Element> CompressedCandidateZone::weightedNeighbors(Element *e,double epsilon)
+//{
+//	list<Element> ret = list<Element>();
+//	list<Element> retAux = list<Element>();
+//
+//	if (zone_type == 1)
+//	{
+//		if(q1!=NULL)
+//		{
+//			ret = q1->weightedNeighbors(e,epsilon);
+//		}
+//	}
+//	else if (zone_type == 2)
+//	{
+//		if(q1!=NULL)
+//		{
+//			ret = q1->weightedNeighbors(e,epsilon);
+//		}
+//		if(q2!=NULL)
+//		{
+//			retAux = q2->weightedNeighbors(e,epsilon);
+//			ret.insert(ret.end(),retAux.begin(),retAux.end());// aqui es podria fer servir "splice!!!!"
+//		}
+//	}
+//	else if (zone_type == 4)
+//	{
+//		if(q1!=NULL)
+//		{
+//			ret = q1->weightedNeighbors(e,epsilon);
+//		}
+//		if(q2!=NULL)
+//		{
+//			retAux = q2->weightedNeighbors(e,epsilon);
+//			ret.insert(ret.end(),retAux.begin(),retAux.end());//  "splice!!!!"
+//		}
+//		if(q3!=NULL)
+//		{
+//			retAux = q3->weightedNeighbors(e,epsilon);
+//			ret.insert(ret.end(),retAux.begin(),retAux.end());//  "splice!!!!"
+//		}
+//		if(q4!=NULL)
+//		{
+//			retAux = q4->weightedNeighbors(e,epsilon);
+//			ret.insert(ret.end(),retAux.begin(),retAux.end());//  "splice!!!!"
+//		}
+//	}
+//	else //zone_type == 8
+//	{
+//		if(q1!=NULL)
+//		{
+//			ret = q1->weightedNeighbors(e,epsilon);
+//		}
+//		if(q2!=NULL)
+//		{
+//			retAux = q2->weightedNeighbors(e,epsilon);
+//			ret.insert(ret.end(),retAux.begin(),retAux.end());//  "splice!!!!"
+//		}
+//		if(q3!=NULL)
+//		{
+//			retAux = q3->weightedNeighbors(e,epsilon);
+//			ret.insert(ret.end(),retAux.begin(),retAux.end());//  "splice!!!!"
+//		}
+//		if(q4!=NULL)
+//		{
+//			retAux = q4->weightedNeighbors(e,epsilon);
+//			ret.insert(ret.end(),retAux.begin(),retAux.end());//  "splice!!!!"
+//		}
+//		if(q5!=NULL)
+//		{
+//			retAux = q5->weightedNeighbors(e,epsilon);
+//			ret.insert(ret.end(),retAux.begin(),retAux.end());//  "splice!!!!"
+//		}
+//		if(q6!=NULL)
+//		{
+//			retAux = q6->weightedNeighbors(e,epsilon);
+//			ret.insert(ret.end(),retAux.begin(),retAux.end());//  "splice!!!!"
+//		}
+//		if(q7!=NULL)
+//		{
+//			retAux = q7->weightedNeighbors(e,epsilon);
+//			ret.insert(ret.end(),retAux.begin(),retAux.end());//  "splice!!!!"
+//		}
+//		if(q8!=NULL)
+//		{
+//			retAux = q8->weightedNeighbors(e,epsilon);
+//			ret.insert(ret.end(),retAux.begin(),retAux.end());//  "splice!!!!"
+//		}
+//	}
+//
+//	return ret;
+//}
 
 
 void CompressedCandidateZone::deleteElement(Element e)

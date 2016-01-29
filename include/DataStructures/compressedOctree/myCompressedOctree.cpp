@@ -30,25 +30,25 @@ returnData myCompressedOctree::calcOneNN(Point *queryPoint, float errEps) {
     point3D p(queryPoint->getX(), queryPoint->getY(), queryPoint->getZ());
     Element *aux = new Element(p, 0);
 
-    list<Element> vnn;
-    vnn = cOctree->weightedNeighbors(aux, errEps);
+    list<Element*> *vnn  = cOctree->weightedNeighbors(aux, errEps);
 
     Element *nn = new Element();
 
-    float bestDist = FLT_MAX;
-    for(list<Element>::iterator it = vnn.begin(); it!=vnn.end(); ++it ){
+    if(vnn!=NULL) {
 
-        float dist = p.dist(it->getPoint());
-        if(dist<bestDist && it->getPoint()!=p){
-            bestDist = dist;
-            nn->setPoint(it->getPoint());
+        float bestDist = FLT_MAX;
+        for (list<Element *>::iterator it = vnn->begin(); it != vnn->end(); ++it) {
+
+            float dist = p.dist((*it)->getPoint());
+            if (dist < bestDist && (*it)->getPoint() != p) {
+                bestDist = dist;
+                nn->setPoint((*it)->getPoint());
+            }
         }
     }
 
-//    Element * nn = trihash->nearestNeighbor(p);
-
     returnData rd;
-    if(vnn.empty()){
+    if( vnn == NULL || vnn->empty()){
         rd.index = -1;
         rd.sqrDist = FLT_MAX;
     }
@@ -69,28 +69,30 @@ returnData myCompressedOctree::calcOwnNN(Point *queryPoint) {
     point3D p(queryPoint->getX(), queryPoint->getY(), queryPoint->getZ());
     Element *aux = new Element(p, 0);
 
-    list<Element> vnn;
     int factor = 1;
-    while(vnn.empty()) {
+    list<Element*> *vnn = cOctree->weightedNeighbors(aux, diagonal * 0.01 * factor);
+    ++factor;
+    while(vnn->empty()) {
         vnn = cOctree->weightedNeighbors(aux, diagonal * 0.01 * factor);
         ++factor;
     }
+
     Element *nn = new Element();
 
     float bestDist = FLT_MAX;
-    for(list<Element>::iterator it = vnn.begin(); it!=vnn.end(); ++it ){
+    for(list<Element*>::iterator it = vnn->begin(); it!=vnn->end(); ++it ){
 
-        float dist = p.dist(it->getPoint());
-        if(dist<bestDist && it->getPoint()!=p){
+        float dist = p.dist((*it)->getPoint());
+        if(dist<bestDist && (*it)->getPoint()!=p){
             bestDist = dist;
-            nn->setPoint(it->getPoint());
+            nn->setPoint((*it)->getPoint());
         }
     }
 
 //    Element * nn = trihash->nearestNeighbor(p);
 
     returnData rd;
-    if(vnn.empty()){
+    if(vnn->empty()){
         rd.index = -1;
         rd.sqrDist = FLT_MAX;
     }

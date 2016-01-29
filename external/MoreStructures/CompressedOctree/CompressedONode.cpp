@@ -1,4 +1,5 @@
 #include "CompressedONode.h"
+#include "../../../include/timer.h"
 
 #include <iostream>
 #include <cmath>
@@ -1695,10 +1696,10 @@ int CompressedONode::afegirElementFillCorresponent(Element *e,int nivellMaxim)
 
 bool CompressedONode::formaPart(point3D p)
 {
-	//cout<<"CompressedONode::formaPart punt "<<p<<" mida "<<mida<<endl;
-	//cout<<"CompressedONode::formaPart extrems X (major) "<< ancoratge.getX()<<" i "<<ancoratge.getX()+mida<<endl;
-	//cout<<"CompressedONode::formaPart extrems Y (menor) "<< ancoratge.getY()<<" i "<<ancoratge.getY()-mida<<endl;
-	//cout<<"CompressedONode::formaPart extrems Z (menor) "<< ancoratge.getZ()<<" i "<<ancoratge.getZ()-mida<<endl;
+//	cout<<"CompressedONode::formaPart punt "<<p<<" mida "<<mida<<endl;
+//	cout<<"CompressedONode::formaPart extrems X (major) "<< ancoratge.getX()<<" i "<<ancoratge.getX()+mida<<endl;
+//	cout<<"CompressedONode::formaPart extrems Y (menor) "<< ancoratge.getY()<<" i "<<ancoratge.getY()-mida<<endl;
+//	cout<<"CompressedONode::formaPart extrems Z (menor) "<< ancoratge.getZ()<<" i "<<ancoratge.getZ()-mida<<endl;
 
 	if ( (p.getX() >= ancoratge.getX()) && (p.getX() < ancoratge.getX()+mida) &&
 	(p.getY() <= ancoratge.getY()) && (p.getY() > ancoratge.getY()-mida) &&
@@ -1914,16 +1915,22 @@ void CompressedONode::actualitzarInfGeo()
 }
 
 //Retorna la llista d'elements que formen part de la circumferencia "e-eps"
-list<Element> CompressedONode::weightedNeighbors(Element *e,double eps)
+list<Element*> * CompressedONode::weightedNeighbors(Element *e,double eps)
 {
-	list<Element> ret = list<Element>();
-		
+	list<Element*> *ret = NULL;
+	point3D p = e->getPoint();
+
+
 	//cout<<"CompressedONode::weightedNeighbors, entro al node amb punt d'ancoratge "<<ancoratge<<" de nivell "<<nivell<<" i mida: "<<mida<<" estic buscant veins de  "<<e->getPoint()<<" a distancia "<<eps<<" amb punts aqui dintre: "<<endl;
 	//vector<Element *>::iterator it; 	
 	//for(it=llistaElements.begin();it!=llistaElements.end();it++)
 	//{
 	//	cout<<*(*it)<<endl;
 	//}
+
+//	if(stabbing(e,eps) == stabbingSimple(e, eps)) cout << "equal" << endl;
+//	else cout << "different" << endl;
+
 
 	// si estem en un nivell de l'octree on n'hi ha prou pocs, passem de seguir buscant.
 	if(llistaElements.size()<MAX_ELEMENTS_SEGUIR_BUSCANT)
@@ -1934,14 +1941,17 @@ list<Element> CompressedONode::weightedNeighbors(Element *e,double eps)
 	else
 	{
 
-		if(contained(e,eps))
+//		if(contained(e,eps))
+		if(INSIDE == checkIntersection(p.getX()-eps, p.getX()+eps,
+							 p.getY()-eps, p.getY()+eps,
+							 p.getZ()-eps, p.getZ()+eps))
 		{
 			//cout<<"CompressedONode::weightedNeighbors	contained "<<endl;
 			ret = report(e);
 		}
-		else if(stabbing(e,eps))
+		else if(stabbingSimple(e,eps))
 		{
-			//cout<<"CompressedONode::weightedNeighbors	stabbing "<<endl;
+//			cout<<"CompressedONode::weightedNeighbors	stabbing "<<endl;
 			if(tipus()==1)//Black leaf
 			{
 				//cout<<"CompressedONode::weightedNeighbors	stabbing, black leaf "<<endl;
@@ -1950,47 +1960,59 @@ list<Element> CompressedONode::weightedNeighbors(Element *e,double eps)
 			}
 			else if (tipus()==2)//Non-leaf node
 			{
-				list<Element> retAux;	
-
+				list<Element*> * retAux = NULL;
+				ret = new list<Element*>();
 				//cout<<"CompressedONode::weightedNeighbors	stabbing, non leaf "<<f1<<f2<<f3<<f4<<f5<<f6<<f7<<f8<<endl;
 		
 				//Recursive call
-				if (f1!=NULL) ret=f1->weightedNeighbors(e,eps);
+				if (f1!=NULL){
+					retAux=f1->weightedNeighbors(e,eps);
+					if(retAux!=NULL) {
+						ret->splice(ret->end(), *retAux);
+					}
+				}
 		
 				if (f2!=NULL) {
 					retAux=f2->weightedNeighbors(e,eps);
-					ret.insert(ret.end(),retAux.begin(),retAux.end());
-				}
+					if(retAux!=NULL) {
+						ret->splice(ret->end(), *retAux);
+					}				}
 		
 				if (f3!=NULL) {
 					retAux=f3->weightedNeighbors(e,eps);
-					ret.insert(ret.end(),retAux.begin(),retAux.end());
-				}
+					if(retAux!=NULL) {
+						ret->splice(ret->end(), *retAux);
+					}				}
 		
 				if (f4!=NULL) {
 					retAux=f4->weightedNeighbors(e,eps);
-					ret.insert(ret.end(),retAux.begin(),retAux.end());
-				}
+					if(retAux!=NULL) {
+						ret->splice(ret->end(), *retAux);
+					}				}
 		
 				if (f5!=NULL) {
 					retAux=f5->weightedNeighbors(e,eps);
-					ret.insert(ret.end(),retAux.begin(),retAux.end());
-				}
+					if(retAux!=NULL) {
+						ret->splice(ret->end(), *retAux);
+					}				}
 		
 				if (f6!=NULL) {
 					retAux=f6->weightedNeighbors(e,eps);
-					ret.insert(ret.end(),retAux.begin(),retAux.end());
-				}
+					if(retAux!=NULL) {
+						ret->splice(ret->end(), *retAux);
+					}				}
 		
 				if (f7!=NULL) {
 					retAux=f7->weightedNeighbors(e,eps);
-					ret.insert(ret.end(),retAux.begin(),retAux.end());
-				}
+					if(retAux!=NULL) {
+						ret->splice(ret->end(), *retAux);
+					}				}
 		
 				if (f8!=NULL) {
 					retAux=f8->weightedNeighbors(e,eps);
-					ret.insert(ret.end(),retAux.begin(),retAux.end());
-				}
+					if(retAux!=NULL) {
+						ret->splice(ret->end(), *retAux);
+					}				}
 				//retAux.clear();
 			}
 		}
@@ -1998,9 +2020,26 @@ list<Element> CompressedONode::weightedNeighbors(Element *e,double eps)
 		//{
 			//cout<<"CompressedONode::weightedNeighbors	ni contained ni stabbing "<<endl;
 		//}
-	}	
+	}
+
+//	if(ret==NULL){
+//		cout << tipus() << endl;
+//		cout << "soc nul" << endl;
+//	}
+
 	return ret;
 }
+//
+//list<Element*> * CompressedONode::findNeighbors(Element *e,double eps){
+//
+//	list<Element*> *ret = NULL;
+//	point3D p = e->getPoint();
+//
+//	if(tipus()==)
+//
+//}
+
+
 
 //Retorna cert si el node forma part de la circumferencia "e-r", altrament fals
 bool CompressedONode::contained(Element *e,double r)
@@ -2027,40 +2066,148 @@ bool CompressedONode::contained(Element *e,double r)
 	return b;
 }
 
+// Be carefull! This concept is invers! We gonna check if the current node is inside the ball!!!
+bool CompressedONode::stabbingSimple(Element *e, double r){
+
+	point3D p = e->getPoint();
+
+
+	double xmin = p.getX() - r;
+	double xmax = p.getX() + r;
+	double ymin = p.getY() - r;
+	double ymax = p.getY() + r;
+	double zmin = p.getZ() - r;
+	double zmax = p.getZ() + r;
+
+
+	// Check if the current node is INSIDE, INTERSECT or CONTAINS the ball of radius r centered at p.
+	int res = this->checkIntersection(xmin, xmax, ymin, ymax, zmin, zmax);
+
+	if ( res == INSIDE || res == INTERSECT || res == CONTAINS ){
+
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+
+// Check intersection between parameter point and the current node.
+int CompressedONode:: checkIntersection(double p_xmin, double p_xmax,
+										double p_ymin, double p_ymax,
+										double p_zmin, double p_zmax) {
+
+	int stateX = -1;
+	int stateY = -1;
+	int stateZ = -1;
+
+
+	// This distribution is used to use the same "point distribution" of Compressed octree class.
+	double xmin = ancoratge.getX();
+	double ymin = ancoratge.getY()-mida;
+	double zmin = ancoratge.getZ()-mida;
+	double xmax = ancoratge.getX()+mida;
+	double ymax = ancoratge.getY();
+	double zmax = ancoratge.getZ();
+
+//	cout << "node" << endl;
+//	cout << xmin << " " << ymin << " " << zmin << endl;
+//	cout << xmax << " " << ymax << " " << zmax << endl;
+//	cout << "point" << endl;
+//	cout << p_xmin << " " << p_ymin << " " << p_zmin << endl;
+//	cout << p_xmax << " " << p_ymax << " " << p_zmax << endl;
+
+	// Find the state for each axis.
+	// Current node is inside the ball of radius r centered at p.
+	if(p_xmin <= xmin && xmax <= p_xmax) stateX = INSIDE;
+	if(p_ymin <= ymin && ymax <= p_ymax) stateY = INSIDE;
+	if(p_zmin <= zmin && zmax <= p_zmax) stateZ = INSIDE;
+
+	// Current node contain the ball of radius r centered at p.
+	if(xmin < p_xmin && p_xmax < xmax) stateX = CONTAINS;
+	if(ymin < p_ymin && p_ymax < ymax) stateY = CONTAINS;
+	if(zmin < p_zmin && p_zmax < zmax) stateZ = CONTAINS;
+
+	// Current node is outside of the ball of radius r centered at p.
+	if ((xmax < p_xmin) || (p_xmax < xmin)) stateX = OUTSIDE;
+	if ((ymax < p_ymin) || (p_ymax < ymin)) stateY = OUTSIDE;
+	if ((zmax < p_zmin) || (p_zmax < zmin)) stateZ = OUTSIDE;
+
+	if ((xmin < p_xmin && p_xmin < xmax && xmax < p_xmax) || (p_xmin < xmin && xmin < p_xmax && p_xmax < xmax)) stateX = INTERSECT;
+	if ((ymin < p_ymin && p_ymin < ymax && ymax < p_ymax) || (p_ymin < ymin && ymin < p_ymax && p_ymax < ymax)) stateY = INTERSECT;
+	if ((zmin < p_zmin && p_zmin < zmax && zmax < p_zmax) || (p_zmin < zmin && zmin < p_zmax && p_zmax < zmax)) stateZ = INTERSECT;
+
+//	cout << "Axis states: " << stateX << " " << stateY << " " << stateZ << endl;
+
+	// MERGING STATES
+	if(stateX==OUTSIDE || stateY==OUTSIDE || stateZ==OUTSIDE) return OUTSIDE;
+
+	// a partir d'aquí és impossible que un eix estigui fora.
+	if(stateX==INTERSECT || stateY==INTERSECT || stateZ==INTERSECT) return INTERSECT;
+
+	// A partir d'aquí només pot quedar INSIDE i CONTAINS
+	// If one of those are different from each other the node must INTERSECT.
+	if(stateX != stateY || stateY != stateZ || stateZ != stateX) return INTERSECT;
+
+	if(stateX==INSIDE && stateY==INSIDE && stateZ==INSIDE) return INSIDE;
+
+	if(stateX==CONTAINS && stateY==CONTAINS && stateZ==CONTAINS) return CONTAINS;
+
+//	cout << "BOOOOOOX. " << endl;
+
+	cerr << "CheckIntersection::Something wrong happens. I can't compute the intersection!!" << endl;
+	exit(EXIT_FAILURE);
+
+	return -1;
+}
+
 //Retorna cert si alguna part del node forma part de la circumferencia "e-r", altrament fals
 // pre: Contained es fals
-bool CompressedONode::stabbing(Element *e,double r)
+bool CompressedONode::stabbing(Element *e, double r)
 {
 	bool b;
 
+
 	point3D p = e->getPoint();
+
 	point3D p1,p2,p3,p4,p5,p6,p7,p8;
 	point3D pc1,pc2,pc3,pc4,pc5,pc6;
 	
+	double ancX = ancoratge.getX();
+	double ancY = ancoratge.getY();
+	double ancZ = ancoratge.getZ();
+	
 	//Agafem els 8 punts extrems del node
-	p1 = point3D(ancoratge.getX(),ancoratge.getY(),ancoratge.getZ());
-	p2 = point3D(ancoratge.getX()+mida,ancoratge.getY(),ancoratge.getZ());
-	p3 = point3D(ancoratge.getX(),ancoratge.getY()-mida,ancoratge.getZ());
-	p4 = point3D(ancoratge.getX()+mida,ancoratge.getY()-mida,ancoratge.getZ());
-	p5 = point3D(ancoratge.getX(),ancoratge.getY(),ancoratge.getZ()-mida);
-	p6 = point3D(ancoratge.getX()+mida,ancoratge.getY(),ancoratge.getZ()-mida);
-	p7 = point3D(ancoratge.getX(),ancoratge.getY()-mida,ancoratge.getZ()-mida);
-	p8 = point3D(ancoratge.getX()+mida,ancoratge.getY()-mida,ancoratge.getZ()-mida);
+	p1 = point3D(ancX,ancY,ancZ);
+	p2 = point3D(ancX+mida,ancY,ancZ);
+	p3 = point3D(ancX,ancY-mida,ancZ);
+	p4 = point3D(ancX+mida,ancY-mida,ancZ);
+	p5 = point3D(ancX,ancY,ancZ-mida);
+	p6 = point3D(ancX+mida,ancY,ancZ-mida);
+	p7 = point3D(ancX,ancY-mida,ancZ-mida);
+	p8 = point3D(ancX+mida,ancY-mida,ancZ-mida);
+
 
 	//Mirem si algun cau a dins
 	b = ( (p.dist(p1)<=r) || (p.dist(p2)<r) || (p.dist(p3)<r) || (p.dist(p4)<r) ||
 		(p.dist(p5)<r) || (p.dist(p6)<r) || (p.dist(p7)<r) || (p.dist(p8)<r) );
 
-	//cout<<" CompressedONode::stabbing punts extrems i distancies: p1 "<<p1<<" dist: "<< p.dist(p1) <<" r: "<<r<<endl;
-	//cout<<" CompressedONode::stabbing punts extrems i distancies: p2 "<<p2<<" dist: "<< p.dist(p2) <<" r: "<<r<<endl;
-	//cout<<" CompressedONode::stabbing punts extrems i distancies: p3 "<<p3<<" dist: "<< p.dist(p3) <<" r: "<<r<<endl;
-	//cout<<" CompressedONode::stabbing punts extrems i distancies: p4 "<<p4<<" dist: "<< p.dist(p4) <<" r: "<<r<<endl;
-	//cout<<" CompressedONode::stabbing punts extrems i distancies: p5 "<<p5<<" dist: "<< p.dist(p5) <<" r: "<<r<<endl;
-	//cout<<" CompressedONode::stabbing punts extrems i distancies: p6 "<<p6<<" dist: "<< p.dist(p6) <<" r: "<<r<<endl;
-	//cout<<" CompressedONode::stabbing punts extrems i distancies: p7 "<<p7<<" dist: "<< p.dist(p7) <<" r: "<<r<<endl;
-	//cout<<" CompressedONode::stabbing punts extrems i distancies: p8 "<<p8<<" dist: "<< p.dist(p8) <<" r: "<<r<<endl;
 
-	//cout<<" CompressedONode::stabbing algu a dins de la query region? "<<b<<endl;
+//	cout<<" CompressedONode::stabbing punts extrems i distancies: p1 "<<p1<<" dist: "<< p.dist(p1) <<" r: "<<r<<endl;
+//	cout<<" CompressedONode::stabbing punts extrems i distancies: p2 "<<p2<<" dist: "<< p.dist(p2) <<" r: "<<r<<endl;
+//	cout<<" CompressedONode::stabbing punts extrems i distancies: p3 "<<p3<<" dist: "<< p.dist(p3) <<" r: "<<r<<endl;
+//	cout<<" CompressedONode::stabbing punts extrems i distancies: p4 "<<p4<<" dist: "<< p.dist(p4) <<" r: "<<r<<endl;
+//	cout<<" CompressedONode::stabbing punts extrems i distancies: p5 "<<p5<<" dist: "<< p.dist(p5) <<" r: "<<r<<endl;
+//	cout<<" CompressedONode::stabbing punts extrems i distancies: p6 "<<p6<<" dist: "<< p.dist(p6) <<" r: "<<r<<endl;
+//	cout<<" CompressedONode::stabbing punts extrems i distancies: p7 "<<p7<<" dist: "<< p.dist(p7) <<" r: "<<r<<endl;
+//	cout<<" CompressedONode::stabbing punts extrems i distancies: p8 "<<p8<<" dist: "<< p.dist(p8) <<" r: "<<r<<endl;
+
+//	cout<<" CompressedONode::stabbing algu a dins de la query region? "<<b<<endl;
+
+//	cout << "node" << endl;
+//	cout << ancoratge.getX() << " " << ancoratge.getY() << " " << ancoratge.getZ() << endl;
+//	cout << ancoratge.getX()+mida << " " << ancoratge.getY()+mida  << " " << ancoratge.getZ()+mida  << endl;
+
 
 	//Mirem tambe si el query point esta a dins del node
 	b = b || formaPart(p);
@@ -2110,22 +2257,23 @@ bool CompressedONode::stabbing(Element *e,double r)
 
 
 	//cout<<" CompressedONode::stabbing talla per algun costat? "<<b<<endl;
-	
+
 	return b;
+
 }
 
 //Report all Elements in the node matching the parameters radius
-list<Element> CompressedONode::report(Element *e)
+list<Element*> * CompressedONode::report(Element *e)
 {
-	list<Element> ret;
+	list<Element*> *ret = new list<Element*>();
 	
 	//Report all Matching elements in the node
-	vector<Element*>::iterator i;
-	for(i=llistaElements.begin();i!=llistaElements.end();i++)
+	vector<Element*>::iterator it;
+	for(it=llistaElements.begin();it!=llistaElements.end();it++)
 	{
-		if ( ((*i)->getRadi() == e->getRadi()) && (!(*i)->getMarcat()) )
+		if ( ((*it)->getRadi() == e->getRadi()) && (!(*it)->getMarcat()) )
 		{
-			ret.push_back(*(*i));
+			ret->push_back(*it);
 		}
 	}
 
@@ -2133,23 +2281,23 @@ list<Element> CompressedONode::report(Element *e)
 }
 
 //Report all Elements in the node matching the parameters radius and distance requirement
-list<Element> CompressedONode::reportIf(Element *e,double r)
+list<Element*> * CompressedONode::reportIf(Element *e,double r)
 {
-	list<Element> ret;
+	list<Element*> *ret = new list<Element*>();
 	
 	//Report all Matching elements in the node
-	vector<Element*>::iterator i;
-	for(i=llistaElements.begin();i!=llistaElements.end();i++)
+	vector<Element*>::iterator it;
+	for(it =llistaElements.begin(); it != llistaElements.end(); it++)
 	{
 		
-		bool aux1 =(*i)->getRadi() == e->getRadi();
-		bool aux2 = !(*i)->getMarcat();
-		bool aux3 = ((*i)->getPoint()).dist(e->getPoint())<r ;
+		bool aux1 = (*it)->getRadi() == e->getRadi();
+		bool aux2 = !(*it)->getMarcat();
+		bool aux3 = ((*it)->getPoint()).dist(e->getPoint()) < r ;
 		bool aux4 = aux1 && aux2 && aux3;
 
 		if( aux4 )
 		{
-			ret.push_back(*(*i));	
+			ret->push_back(*it);
 		}
 	}
 

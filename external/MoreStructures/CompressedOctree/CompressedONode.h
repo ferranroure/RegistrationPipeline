@@ -9,6 +9,11 @@
 #include "./CompressedInformacioGeometrica.h"
 //#include "./CompressedCandidateZone.h"
 
+#define INSIDE 1
+#define OUTSIDE 0
+#define INTERSECT 2
+#define CONTAINS 3
+
 class CompressedCandidateZone;
 
 class CompressedONode
@@ -84,11 +89,14 @@ class CompressedONode
 
 		void actualitzarInfGeo(); //Metode per actualitzar la informacio geometrica
 
-		list<Element> weightedNeighbors(Element *e,double epsilon); //Retorna la llista d'elements que formen part de la circumferencia "e-epsilon"
+		list<Element*> * weightedNeighbors(Element *e,double epsilon); //Retorna la llista d'elements que formen part de la circumferencia "e-epsilon"
 		bool contained(Element *e,double r); //Retorna cert si el node forma part de la circumferencia zona "e-r", altrament fals
+		bool stabbingSimple(Element *e, double r);
 		bool stabbing(Element *e,double r); //Retorna cert si alguna part del node forma part de la circumferencia "e-r", altrament fals
-		list<Element> report(Element *e); //Report all Elements in the node matching the parameters radius
-		list<Element> reportIf(Element *e,double r); //Report all Elements in the node matching the parameters radius and distance requirement
+		int checkIntersection(double p_xmin, double p_xmax, double p_ymin, double p_ymax, double p_zmin, double p_zmax);
+
+		list<Element*> * report(Element *e); //Report all Elements in the node matching the parameters radius
+		list<Element*> *  reportIf(Element *e,double r); //Report all Elements in the node matching the parameters radius and distance requirement
 		
 		static bool compatible(CompressedInformacioGeometrica,CompressedInformacioGeometrica*,bool bNum,bool bHisto,bool bDist,double eps); //Operation for atribute compatibility
 		static bool compatible_num_elements(CompressedInformacioGeometrica,CompressedInformacioGeometrica*); //First attribute: number of elements
