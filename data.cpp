@@ -3,7 +3,7 @@
 #include "methods/des_shot.h"
 
 /* CONSTRUCTOR -------------------------------------------------------------
- * lalala
+ *
  */
 Data::Data(){
 
