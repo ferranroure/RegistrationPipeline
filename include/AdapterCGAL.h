@@ -5,6 +5,8 @@
 #ifndef ADAPTERCGAL_H
 #define ADAPTERCGAL_H
 
+#define CGAL_DISABLE_ROUNDING_MATH_CHECK
+
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <list>
 #include <utility> // defines std::pair

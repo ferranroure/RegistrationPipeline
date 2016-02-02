@@ -60,6 +60,10 @@ returnData myCompressedOctree::calcOneNN(Point *queryPoint, float errEps) {
         delete pnn;
     }
 
+    delete vnn;
+    delete aux;
+    delete nn;
+
     return rd;
 
 }
@@ -103,6 +107,10 @@ returnData myCompressedOctree::calcOwnNN(Point *queryPoint) {
         rd.sqrDist = dist * dist;
         delete pnn;
     }
+
+    delete vnn;
+    delete aux;
+    delete nn;
 
     return rd;
 }

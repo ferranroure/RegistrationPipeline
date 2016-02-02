@@ -2014,6 +2014,7 @@ list<Element*> * CompressedONode::weightedNeighbors(Element *e,double eps)
 						ret->splice(ret->end(), *retAux);
 					}				}
 				//retAux.clear();
+				delete retAux;
 			}
 		}
 		//else
