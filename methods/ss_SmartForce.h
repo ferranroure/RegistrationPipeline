@@ -3,7 +3,7 @@
 
 
 #include "../ISearchingStrategy.h"
-#include "../include/AdapterPCL.h"
+#include "../include/Converters/converterPCL.h"
 
 #include <pcl/search/flann_search.h>
 #include <pcl/keypoints/iss_3d.h>

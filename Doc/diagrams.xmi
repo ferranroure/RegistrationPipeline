@@ -402,13 +402,13 @@
           <UML:Parameter visibility="private" isSpecification="false" xmi.id="38Cafu5p27ev" type="W8ZfyVRPQNSi" value="" name="P"/>
          </UML:BehavioralFeature.parameter>
         </UML:Operation>
-        <UML:Operation visibility="public" isSpecification="false" isQuery="false" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="olAKnO9WhBpH" comment="Tranforms a vector&lt;Point> to an ANNpointArray." name="convertArrayForKdtree">
+        <UML:Operation visibility="public" isSpecification="false" isQuery="false" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="olAKnO9WhBpH" comment="Tranforms a vector&lt;Point> to an ANNpointArray." name="convertArray">
          <UML:BehavioralFeature.parameter>
           <UML:Parameter kind="return" xmi.id="o6XKHQmjqU8Q" type="dlqN0xVqvpQ7"/>
           <UML:Parameter visibility="private" isSpecification="false" xmi.id="IS3Z26AUo3mX" type="W8ZfyVRPQNSi" value="" name="P"/>
          </UML:BehavioralFeature.parameter>
         </UML:Operation>
-        <UML:Operation visibility="public" isSpecification="false" isQuery="false" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="6nF7a7nsZqPa" comment="Tranforms a Point to an ANNpoint." name="convertPointForKdtree">
+        <UML:Operation visibility="public" isSpecification="false" isQuery="false" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="6nF7a7nsZqPa" comment="Tranforms a Point to an ANNpoint." name="convertPoint">
          <UML:BehavioralFeature.parameter>
           <UML:Parameter kind="return" xmi.id="msDKhcucAwLl" type="CSv2u1Q0nf5N"/>
           <UML:Parameter visibility="private" isSpecification="false" xmi.id="xa4jbrGNvmhC" type="xExQxkyTdj5m" value="" name="p"/>

@@ -8,7 +8,7 @@
 
 #include "../IDataStructure.h"
 #include "../../../external/MoreStructures/CompressedOctree/CompressedOctree.h"
-#include "../trihash/AdapterDataStruct.h"
+#include "../../Converters/converterYago.h"
 #include "../../point.h"
 
 class myCompressedOctree : public IDataStructure{
@@ -17,7 +17,7 @@ public:
 
     // Elements ----------------------------------------------------------------
     CompressedOctree *cOctree;
-    AdapterDataStruct *ads;
+    converterYago *cyg;
     float diagonal;
 
 

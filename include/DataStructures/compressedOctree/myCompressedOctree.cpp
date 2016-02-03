@@ -8,21 +8,21 @@
 myCompressedOctree::myCompressedOctree() {
 
     cOctree = NULL;
-    ads = NULL;
+    cyg = NULL;
 }
 
 myCompressedOctree::myCompressedOctree(vector<Point *> *P, float _diag) {
 
     diagonal = _diag;
-    ads = new AdapterDataStruct();
-    vector<Element *> points = ads->convertArray(P);
+    cyg = new converterYago();
+    vector<Element *> points = cyg->convertArray(P);
     cOctree = new CompressedOctree(points, 0);
 }
 
 myCompressedOctree::~myCompressedOctree() {
 
     delete cOctree;
-    delete ads;
+    delete cyg;
 }
 
 returnData myCompressedOctree::calcOneNN(Point *queryPoint, float errEps) {

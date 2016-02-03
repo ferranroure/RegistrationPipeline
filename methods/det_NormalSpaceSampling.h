@@ -6,7 +6,7 @@
 #define DET_NORMALSPACESAMPLING_H
 
 #include "../IDetection.h"
-#include "../include/AdapterCGAL.h"
+#include "../include/Converters/converterCGAL.h"
 #include "../include/point.h"
 
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>

@@ -8,7 +8,7 @@
 
 #include "../IDataStructure.h"
 #include "../../point.h"
-#include "./AdapterDataStruct.h"
+#include "../../Converters/converterYago.h"
 #include "../../../external/MoreStructures/TriHash/TriHash.h"
 #include "../../../external/MoreStructures/AuxiliaryClasses/point3D.h"
 
@@ -20,7 +20,7 @@ public:
 
     // Elements -----------------------------------------------------------
     TriHash *trihash;
-    AdapterDataStruct *ads;
+    converterYago *ads;
     float diagonal;
 
     // Methods ------------------------------------------------------------

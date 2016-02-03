@@ -2,17 +2,17 @@
 // Created by ferran on 04/05/15.
 //
 
-#include "Adapter4PCS.h"
+#include "converter4PCS.h"
 
-Adapter4PCS::Adapter4PCS() {
-
-}
-
-Adapter4PCS::~Adapter4PCS() {
+converter4PCS::converter4PCS() {
 
 }
 
-vector<Point3D> * Adapter4PCS::points24PCS(vector<Point *> *cloud, bool withNormals, bool withColor) {
+converter4PCS::~converter4PCS() {
+
+}
+
+vector<Point3D> *converter4PCS::points24PCS(vector<Point *> *cloud, bool withNormals, bool withColor) {
 
     vector<Point3D> * pts = new vector<Point3D>();
 
@@ -39,7 +39,7 @@ vector<Point3D> * Adapter4PCS::points24PCS(vector<Point *> *cloud, bool withNorm
     return pts;
 }
 
-motion3D * Adapter4PCS::mat2motion(double mat[4][4]) {
+motion3D *converter4PCS::mat2motion(double mat[4][4]) {
 
     return new motion3D(mat);
 }

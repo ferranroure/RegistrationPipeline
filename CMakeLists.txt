@@ -117,13 +117,13 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
             include/descHistogram.cpp
             include/base.cpp
             include/descdist.cpp
-            include/AdapterPCL.cpp
-            include/Adapter4PCS.cpp
-            include/AdapterCGAL.cpp
+            include/Converters/converterPCL.cpp
+            include/Converters/converter4PCS.cpp
+            include/Converters/converterCGAL.cpp
             include/4pcsRegistrationObject.cpp
             include/DataStructures/octree/Octree.cpp
             include/DataStructures/octree/Node.cpp
-            include/DataStructures/trihash/AdapterDataStruct.cpp
+            include/Converters/converterYago.cpp
 
 
             external/vector3D.cpp

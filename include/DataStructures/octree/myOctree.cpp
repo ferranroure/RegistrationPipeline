@@ -14,7 +14,7 @@ myOctree::myOctree(vector<Point *> *P, float voxelRes) {
     float resolution = 128.0f;
     octree = new pcl::octree::OctreePointCloudSearch<pcl::PointXYZ>(resolution);
 
-    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud = apcl.points2PCL(P);
+    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud = cpcl.points2PCL(P);
 
     octree->setInputCloud (cloud);
     octree->addPointsFromInputCloud ();

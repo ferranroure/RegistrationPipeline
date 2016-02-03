@@ -1,15 +1,14 @@
-#include "AdapterPCL.h"
-#include "mypcl.h"
+#include "converterPCL.h"
 
-AdapterPCL::AdapterPCL()
+converterPCL::converterPCL()
 {
 }
 
-AdapterPCL::~AdapterPCL(){
+converterPCL::~converterPCL(){
 
 }
 
-PointCloud<PointXYZ>::Ptr AdapterPCL::points2PCL(vector<Point*> *points){
+PointCloud<PointXYZ>::Ptr converterPCL::points2PCL(vector<Point*> *points){
 
 
     PointCloud<PointXYZ>::Ptr cloud = PointCloud<PointXYZ>::Ptr(new PointCloud<PointXYZ>);
@@ -26,7 +25,7 @@ PointCloud<PointXYZ>::Ptr AdapterPCL::points2PCL(vector<Point*> *points){
 }
 
 
-vector<int> AdapterPCL::points2PCLindices(vector<Point *> *points) {
+vector<int> converterPCL::points2PCLindices(vector<Point *> *points) {
 
     vector<int> indices;
 
@@ -38,11 +37,11 @@ vector<int> AdapterPCL::points2PCLindices(vector<Point *> *points) {
     return indices;
 }
 
-vector<Point> *AdapterPCL::PCL2points(PointCloud<PointXYZ>::Ptr cloud) {
+vector<Point> *converterPCL::PCL2points(PointCloud<PointXYZ>::Ptr cloud) {
     return NULL;
 }
 
-PointCloud<Normal>::Ptr AdapterPCL::calcNormals(PointCloud<PointXYZ>::Ptr cloud, float radiusSearch) {
+PointCloud<Normal>::Ptr converterPCL::calcNormals(PointCloud<PointXYZ>::Ptr cloud, float radiusSearch) {
 
     PointCloud<Normal>::Ptr normals;
 
@@ -70,7 +69,7 @@ PointCloud<Normal>::Ptr AdapterPCL::calcNormals(PointCloud<PointXYZ>::Ptr cloud,
 }
 
 
-void AdapterPCL::repairNormals(PointCloud<PointXYZ>::Ptr workpoints, PointCloud<pcl::Normal>::Ptr normals) {
+void converterPCL::repairNormals(PointCloud<PointXYZ>::Ptr workpoints, PointCloud<pcl::Normal>::Ptr normals) {
 
     Eigen::Vector4f c;
     int n = pcl::compute3DCentroid(*workpoints, c);
@@ -100,7 +99,7 @@ void AdapterPCL::repairNormals(PointCloud<PointXYZ>::Ptr workpoints, PointCloud<
 }
 
 
-PointCloud<SHOT352>::Ptr AdapterPCL::desc2SHOT(vector<Point*> * points){
+PointCloud<SHOT352>::Ptr converterPCL::desc2SHOT(vector<Point*> * points){
 
     PointCloud<SHOT352>::Ptr desc = PointCloud<SHOT352>::Ptr(new PointCloud<SHOT352>);
 
@@ -124,7 +123,7 @@ PointCloud<SHOT352>::Ptr AdapterPCL::desc2SHOT(vector<Point*> * points){
     return desc;
 }
 
-PointCloud<FPFHSignature33>::Ptr AdapterPCL::desc2FPFH(vector<Point*> * points){
+PointCloud<FPFHSignature33>::Ptr converterPCL::desc2FPFH(vector<Point*> * points){
 
     PointCloud<FPFHSignature33>::Ptr desc = PointCloud<FPFHSignature33>::Ptr(new PointCloud<FPFHSignature33>);
 
@@ -143,7 +142,7 @@ PointCloud<FPFHSignature33>::Ptr AdapterPCL::desc2FPFH(vector<Point*> * points){
     return desc;
 }
 
-PointCloud<ShapeContext1980>::Ptr AdapterPCL::desc23DSC(vector<Point*> * points){
+PointCloud<ShapeContext1980>::Ptr converterPCL::desc23DSC(vector<Point*> * points){
 
     PointCloud<ShapeContext1980>::Ptr desc = PointCloud<ShapeContext1980>::Ptr(new PointCloud<ShapeContext1980>);
 
@@ -162,7 +161,7 @@ PointCloud<ShapeContext1980>::Ptr AdapterPCL::desc23DSC(vector<Point*> * points)
     return desc;
 }
 
-PointCloud< Histogram<153> >::Ptr AdapterPCL::desc2SpinImage(vector<Point*> * points){
+PointCloud< Histogram<153> >::Ptr converterPCL::desc2SpinImage(vector<Point*> * points){
 
     PointCloud< Histogram<153> >::Ptr desc = PointCloud< Histogram<153> >::Ptr(new PointCloud< Histogram<153> >);
 

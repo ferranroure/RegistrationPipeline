@@ -41,7 +41,7 @@ void ss_4PCS::execute() {
     // qd = diam*overlap*2.0; -> this qd is used to find a wide point. length(u)< qd.
     float overlap = 0.3;
 
-    Adapter4PCS a4pcs;
+    converter4PCS a4pcs;
     vector<Point3D> * set1 = a4pcs.points24PCS(data->A->getWorkpoints(), false, true);
     vector<Point3D> * set2 = a4pcs.points24PCS(data->B->getWorkpoints(), false, true);
 
@@ -51,6 +51,7 @@ void ss_4PCS::execute() {
     matcher.setNumberOfPoints(n_points);
     matcher.setNormDiff(norm_diff);
     matcher.setUseNormal(true);
+    matcher.setDataStruct(data->B->getDataStruct());
 
     float a = matcher.compute(*set1, *set2, delta, overlap, mat);
     data->cM = a4pcs.mat2motion(mat);

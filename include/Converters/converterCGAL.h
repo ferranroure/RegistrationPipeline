@@ -12,7 +12,7 @@
 #include <utility> // defines std::pair
 
 
-#include "point.h"
+#include "../point.h"
 #include <vector>
 
 // Types
@@ -23,12 +23,12 @@ typedef Kernel::Vector_3 Vector_3;
 typedef std::pair<Point_3, Vector_3> PointVectorPair;
 
 
-class AdapterCGAL {
+class converterCGAL {
 
 public:
 
-    AdapterCGAL();
-    ~AdapterCGAL();
+    converterCGAL();
+    ~converterCGAL();
 
     list<PointVectorPair> points2CGAL_list(vector<Point *> *cloud);
     vector<vector3D> * CGAL2normals(list<PointVectorPair> points);

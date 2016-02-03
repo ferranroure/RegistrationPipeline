@@ -1,5 +1,4 @@
 #include "elementset.h"
-#include "AdapterPCL.h"
 #include "DataStructures/compressedOctree/myCompressedOctree.h"
 
 /* CONSTRUCTOR -----------------------------------------------------------
@@ -683,7 +682,7 @@ vector<Point *> *ElementSet::findCorrespondences(Point *p, int nCorr, bool usePC
 void ElementSet::calcNormals(float radiusNormal) {
 
     // Translate from our format to PCL.
-    AdapterPCL apcl;
+    converterPCL apcl;
     PointCloud<PointXYZ>::Ptr cloud = apcl.points2PCL(getWorkpoints());
 
     PointCloud<Normal>::Ptr normals = apcl.calcNormals(cloud, radiusNormal);

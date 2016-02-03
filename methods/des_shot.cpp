@@ -32,10 +32,10 @@ void des_SHOT::execute(){
 void des_SHOT::calcDescriptors(ElementSet *X) {
 
     // Translate from our format to PCL.
-    AdapterPCL apcl;
+    converterPCL apcl;
     PointCloud<PointXYZ>::Ptr cloud = apcl.points2PCL(X->getAllpoints());
-//    PointCloud<PointXYZ>::Ptr surface = apcl.points2PCL(X->getAllpoints());
-//    vector<int> indices = apcl.points2PCLindices(X->getWorkpoints());
+//    PointCloud<PointXYZ>::Ptr surface = cpcl.points2PCL(X->getAllpoints());
+//    vector<int> indices = cpcl.points2PCLindices(X->getWorkpoints());
 //    boost::shared_ptr<std::vector<int> > indicesptr (new std::vector<int> (indices));
 
 
@@ -43,7 +43,7 @@ void des_SHOT::calcDescriptors(ElementSet *X) {
     float radiusSearch = X->getMMD() * data->params.radiusSearchFactor;
 
     // Computing normals
-//    PointCloud<Normal>::Ptr normals = apcl.calcNormals(surface, radiusNormal);
+//    PointCloud<Normal>::Ptr normals = cpcl.calcNormals(surface, radiusNormal);
     PointCloud<Normal>::Ptr normals = apcl.calcNormals(cloud, radiusNormal);
 
     PointCloud<SHOT352>::Ptr descSHOT (new PointCloud<SHOT352>());

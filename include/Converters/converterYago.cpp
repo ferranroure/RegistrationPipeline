@@ -2,20 +2,20 @@
 // Created by ferran on 18/01/16.
 //
 
-#include "AdapterDataStruct.h"
+#include "converterYago.h"
 
 // set index in convertArray()
 
 
-AdapterDataStruct::AdapterDataStruct(){
+converterYago::converterYago(){
 
 }
 
-AdapterDataStruct::~AdapterDataStruct() {
+converterYago::~converterYago() {
 
 }
 
-vector<Element *> AdapterDataStruct::convertArray(vector<Point *> *P) {
+vector<Element *> converterYago::convertArray(vector<Point *> *P) {
 
     vector<Element *> res;
 

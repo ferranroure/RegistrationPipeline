@@ -18,7 +18,7 @@ vector<Point *> * myPCL::findCorrespondences(Point *p, vector<Point *> *points, 
 
     vector<Point*> *ret = new vector<Point *>();
     myPCLReturn pclRet;
-    AdapterPCL apcl;
+    converterPCL apcl;
 
     if(method == "SHOT") {
 

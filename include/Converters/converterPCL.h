@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "point.h"
+#include "../point.h"
 
 #include <pcl/point_types.h>
 #include <pcl/point_cloud.h>
@@ -23,11 +23,10 @@ struct myPCLReturn{
     vector<float> dists;
 };
 
-class AdapterPCL
-{
+class converterPCL {
 public:
-    AdapterPCL();
-    ~AdapterPCL();
+    converterPCL();
+    ~converterPCL();
 
     // NO ELEMENTS ----------------------------
 

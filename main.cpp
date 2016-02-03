@@ -12,8 +12,6 @@ using namespace std;
 
 int main(int argc, char** argv)
 {
-
-
     // Reading parameters
     Pipeline pipeline(argv[1]);
 

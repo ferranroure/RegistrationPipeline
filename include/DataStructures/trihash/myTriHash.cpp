@@ -15,7 +15,7 @@ myTriHash::myTriHash() {
 myTriHash::myTriHash(vector<Point *> *P, float _diag) {
 
     diagonal = _diag;
-    ads = new AdapterDataStruct();
+    ads = new converterYago();
     vector<Element *> points = ads->convertArray(P);
     trihash = new TriHash(points);
 }

@@ -118,6 +118,7 @@ class fpcsRegistrationObject
 {
 private:
 	// internal data members
+	IDataStructure *dataStruct; // This data structure is used for Data Structure Tests, to be able to check the runtime. However, can also be used as a regular datastructure.
 	ANNkd_tree *the_tree;		
 	ANNpointArray data_pts0;
 	float app;
@@ -190,18 +191,19 @@ private:
 // public section
 public:
 	fpcsRegistrationObject():
-	  the_tree(0),	
-		  data_pts0(0),
-		  app(0.0),
-		  useNormals(1),
-		  normDiff(0.01),
-		  qd(-1),
-		  numTry(-1),
-		  meanDist0(1.0),
-		  estFrac(0.9),
-		  thr(-1),
-		  debug(false),
-		  sample((float)500)
+			dataStruct(0),
+			the_tree(0),
+			data_pts0(0),
+			app(0.0),
+			useNormals(1),
+			normDiff(0.01),
+			qd(-1),
+			numTry(-1),
+			meanDist0(1.0),
+			estFrac(0.9),
+			thr(-1),
+			debug(false),
+			sample((float)500)
 	  {
 		  quad.resize(4);
 	  }
@@ -267,4 +269,6 @@ public:
 	// ---------------- FERRAN --------------
 
 	void writePly(string outpath, vector<Point3D> points);
+
+	void setDataStruct(IDataStructure *_ids){dataStruct = _ids;}
 };

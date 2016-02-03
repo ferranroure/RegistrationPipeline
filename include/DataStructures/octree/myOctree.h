@@ -14,7 +14,7 @@
 #include <float.h>
 #include <math.h>
 #include "../../point.h"
-#include "../../AdapterPCL.h"
+#include "../../Converters/converterPCL.h"
 
 class myOctree : public IDataStructure {
 
@@ -22,7 +22,7 @@ public:
 
     // Elements -----------------------------------------------------------------------
     pcl::octree::OctreePointCloudSearch<pcl::PointXYZ> * octree;
-    AdapterPCL apcl;
+    converterPCL cpcl;
 
     // Methods ------------------------------------------------------------------------
     myOctree();                                             // Constructor.

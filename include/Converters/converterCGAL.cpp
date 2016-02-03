@@ -2,18 +2,18 @@
 // Created by Ferran Roure on 26/10/2015.
 //
 
-#include "AdapterCGAL.h"
+#include "converterCGAL.h"
 
-AdapterCGAL::AdapterCGAL() {
-
-}
-
-AdapterCGAL::~AdapterCGAL() {
+converterCGAL::converterCGAL() {
 
 }
 
+converterCGAL::~converterCGAL() {
 
-list<PointVectorPair> AdapterCGAL::points2CGAL_list(vector<Point *> *cloud) {
+}
+
+
+list<PointVectorPair> converterCGAL::points2CGAL_list(vector<Point *> *cloud) {
 
     list<PointVectorPair> pts;
 
@@ -30,7 +30,7 @@ list<PointVectorPair> AdapterCGAL::points2CGAL_list(vector<Point *> *cloud) {
     return pts;
 }
 
-vector<vector3D> * AdapterCGAL::CGAL2normals(list<PointVectorPair> points) {
+vector<vector3D> *converterCGAL::CGAL2normals(list<PointVectorPair> points) {
 
     vector<vector3D> * normals = new vector<vector3D>;
 

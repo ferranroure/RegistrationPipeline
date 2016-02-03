@@ -52,9 +52,14 @@ public:
     myKdtree();                                             // Constructor.
     myKdtree(vector<Point*> *P);
     ~myKdtree();                                            // Destructor.
-    void create(vector<Point*> *P);                         // Creates a ANNKdtree from a given vector<Point>.
-    ANNpointArray convertArrayForKdtree(vector<Point*> *P); // Tranforms a vector<Point> to an ANNpointArray.
-    ANNpoint convertPointForKdtree(Point *p);               // Tranforms a Point to an ANNpoint.
+
+    void setData(vector<Point*> *data);
+
+//    void create(vector<Point*> *P);                         // Creates a ANNKdtree from a given vector<Point>.
+    ANNpointArray convertArray(vector<Point *> *P); // Tranforms a vector<Point> to an ANNpointArray.
+    ANNpoint convertPoint(Point *p);               // Tranforms a Point to an ANNpoint.
+
+
     returnData calcOneNN(Point *queryPoint, float errEps);                // Finds Nearest Neighbor distance to a given QueryPoint.
     returnData calcOwnNN(Point *queryPoint);                // Finds a real NN (not itself) of a given QueryPoint from the same point cloud. (used for MMD).
     vector<returnData> calcNneigh(Point *queryPoint, int nNeigh); // Finds N nearest neighbours.

@@ -35,7 +35,7 @@ void det_ISS::execute(){
 
 void det_ISS::computeISS(ElementSet *X){
 
-    AdapterPCL trans;
+    converterPCL trans;
     PointCloud<PointXYZ>::Ptr cloud = trans.points2PCL(X->getAllpoints());
 
 

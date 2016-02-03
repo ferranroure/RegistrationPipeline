@@ -724,7 +724,7 @@ double fpcsRegistrationObject::meanDist(vector<Point3D> &v)
 
 
 // THIS METHOD CHECKS THE LCP BETWEEN BOTH MODELS
-double fpcsRegistrationObject::verify(const vector<Point3D> &v1,
+double fpcsRegistrationObject::	verify(const vector<Point3D> &v1,
 									  double eps,LA_Fmat &R,
 									  double bestf,
 									  double cx,double cy,

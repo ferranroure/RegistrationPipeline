@@ -28,7 +28,7 @@ void det_NormalSpaceSampling::extractNormalSpaceSampling(ElementSet *X, int samp
 
     cout << "NormalSpaceSampling running..." << endl;
 
-    AdapterCGAL acgal;
+    converterCGAL acgal;
     list<PointVectorPair> points = acgal.points2CGAL_list(X->getAllpoints());
 
     // Estimates normals direction.

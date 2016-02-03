@@ -18,7 +18,7 @@
 #include <vector>
 #include "point.h"
 #include "descHistogram.h"
-#include "AdapterPCL.h"
+#include "./Converters/converterPCL.h"
 
 #include <pcl/io/pcd_io.h>
 #include <pcl/point_types.h>
