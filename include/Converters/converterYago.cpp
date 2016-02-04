@@ -30,3 +30,8 @@ vector<Element *> converterYago::convertArray(vector<Point *> *P) {
 
     return res;
 }
+
+point3D * converterYago::convertPoint(Point *p){
+
+  return new point3D(p->getX(), p->getY(),p->getZ());
+}

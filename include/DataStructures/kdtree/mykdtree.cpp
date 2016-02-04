@@ -7,14 +7,17 @@ myKdtree::myKdtree(){
 
     kdTree = NULL;
 }
-
+  
 myKdtree::myKdtree(vector<Point*> *P){
+
+    ckdt = new converterKdtree();
 
     int nnPts = P->size();
 
-    dataPts = convertArray(P);         // Converting data from "points" to "dataPts"
+    dataPts = ckdt->convertArray(P);         // Converting data from "points" to "dataPts"
 
     kdTree = new ANNkd_tree(dataPts, nnPts, DIMENSIONS);
+
 
 //    kdTree = new ANNkd_tree(					// build search structure
 //            dataPts,					// the data points
@@ -35,50 +38,8 @@ myKdtree::~myKdtree(){
     //annDeallocPts(queryPts);
     delete kdTree;
     annClose();
+    delete ckdt;
 }
-
-void myKdtree::setData(vector<Point *> *data) {
-
-    dataPts = convertArray(data);
-}
-
-
-/* CONVERT ARRAY FOR KDTREE -----------------------------------------
- *
- *  This method is a bridge between our point storing format and
- *  ANNkdtree point storing format. Given a vector<Point>, it transforms
- *  the data to ANNpointArray with ANNpoints.
- */
-ANNpointArray myKdtree::convertArray(vector<Point *> *P){
-
-    ANNpointArray pa;
-    pa = annAllocPts(P->size(), DIMENSIONS);
-    for (int i = 0; i < P->size(); ++i) {
-
-        pa[i][0] = P->at(i)->getX();
-        pa[i][1] = P->at(i)->getY();
-        pa[i][2] = P->at(i)->getZ();
-    }
-
-    return pa;
-}
-
-
-/* CONVERT POINT FOR KDTREE -----------------------------------------
- *
- *  This method tranform a given Point to an ANNpoint from ANNkdtree class
- */
-ANNpoint myKdtree::convertPoint(Point *p)
-{
-    ANNpoint annP;
-    annP = annAllocPt(3);
-    annP[0] = p->getX();
-    annP[1] = p->getY();
-    annP[2] = p->getZ();
-
-    return annP;
-}
-
 
 ///* CREATE KDTREE ----------------------------------------------------
 // *
@@ -106,7 +67,7 @@ vector<returnData> myKdtree::calcNneigh(Point *queryPoint, int nNeigh) {
     // distance
     double sqrDist = 0;
 
-    ANNpoint q = convertPoint(queryPoint);
+    ANNpoint q = ckdt->convertPoint(queryPoint);
 
     if(kdTree->nPoints() > 0){
 
@@ -152,7 +113,7 @@ returnData myKdtree::calcOneNN(Point *queryPoint, float errEps) {
     // distance
     double sqrDist = 0;
 
-    ANNpoint q = convertPoint(queryPoint);
+    ANNpoint q = ckdt->convertPoint(queryPoint);
 
     if(kdTree->nPoints() > 0){
 
@@ -195,7 +156,7 @@ returnData myKdtree::calcOwnNN(Point *queryPoint){
     // distance
     double sqrDist = 0;
 
-    ANNpoint q = convertPoint(queryPoint);
+    ANNpoint q = ckdt->convertPoint(queryPoint);
 
     if(kdTree->nPoints() > 0){
 
@@ -229,7 +190,7 @@ returnData myKdtree::findPair(Point *queryPoint, float dist) {
     // distance
     double sqrDist = 0;
 
-    ANNpoint q = convertPoint(queryPoint);
+    ANNpoint q = ckdt->convertPoint(queryPoint);
 
     int cand = 0;
 

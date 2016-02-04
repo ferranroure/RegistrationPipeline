@@ -3,8 +3,8 @@
 # Required Libraries:
 #	- C++ (sudo apt-get install build-essentials)
 #	- Cmake (sudo apt-get install cmake)
-#	- ANN lib (compile and copy to: /usr/local/lib/) 	
-#	- Point Cloud Libraries (pcl) 
+#	- ANN lib (compile and copy to: /usr/local/lib/)
+#	- Point Cloud Libraries (pcl)
 #		sudo add-apt-repository ppa:v-launchpad-jochen-sprickerhof-de/pcl
 #		sudo apt-get update
 #		sudo apt-get install libpcl-all
@@ -120,10 +120,11 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
             include/Converters/converterPCL.cpp
             include/Converters/converter4PCS.cpp
             include/Converters/converterCGAL.cpp
+            include/Converters/converterYago.cpp
+            include/Converters/converterKdtree.cpp
             include/4pcsRegistrationObject.cpp
             include/DataStructures/octree/Octree.cpp
             include/DataStructures/octree/Node.cpp
-            include/Converters/converterYago.cpp
 
 
             external/vector3D.cpp

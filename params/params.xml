@@ -40,7 +40,7 @@
         </searchingStrategies>
 -->
 
-        <searchingStrategies use="false">
+        <searchingStrategies use="true">
             <!--<method>3PS</method>-->
             <method>4PCS</method>
             <!--<method>SmartForce</method>-->
@@ -50,7 +50,7 @@
             </properties>
         </searchingStrategies>
 
-        <refinement use="false">
+        <refinement use="true">
             <method>ICP</method>
             <properties></properties>
         </refinement>

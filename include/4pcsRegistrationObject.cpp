@@ -1,4 +1,4 @@
-/** 
+/**
 The code is an implementation of the 4PCS algorithm presented in:
 
 4-points Congruent Sets for Robust Surface Registration
@@ -306,17 +306,17 @@ bool fpcsRegistrationObject::findQuads(const vector<Point3D> &v,
 	// ------------------------------------
 
 	int i,j;
-	int n_pts = 2*r1.size();			   
-	ANNkd_tree		*tree;	
+	int n_pts = 2*r1.size();
+	ANNkd_tree		*tree;
 	int n = n_pts;
 
-	ANNpointArray	data_pts = annAllocPts(n_pts, 3);	
-	ANNpoint		query_pt;		
-	ANNidxArray		nn_idx;		
+	ANNpointArray	data_pts = annAllocPts(n_pts, 3);
+	ANNpoint		query_pt;
+	ANNidxArray		nn_idx;
 	ANNdistArray	dists;
-	query_pt = annAllocPt(3);			
-	nn_idx = new ANNidx[n];			
-	dists = new ANNdist[n];			
+	query_pt = annAllocPt(3);
+	nn_idx = new ANNidx[n];
+	dists = new ANNdist[n];
 
 	ret.clear();
 
@@ -325,7 +325,7 @@ bool fpcsRegistrationObject::findQuads(const vector<Point3D> &v,
 	float d3=PointsDistance(quad[1],quad[2]);
 	float d4=PointsDistance(quad[1],quad[3]);
 
-	for (i = 0; i < r1.size(); i++) 
+	for (i = 0; i < r1.size(); i++)
 	{
 		const Point3D &p1 = v[r1[i].first];
 		const Point3D &p2 = v[r1[i].second];
@@ -337,9 +337,9 @@ bool fpcsRegistrationObject::findQuads(const vector<Point3D> &v,
 		data_pts[i*2+1][2] = p1.z+f2*(p2.z-p1.z);
 	}
 
-	tree = new ANNkd_tree(			
-		data_pts,		
-		n_pts,		
+	tree = new ANNkd_tree(
+		data_pts,
+		n_pts,
 		3);
 
 	for (i=0;i<r2.size();i++)
@@ -351,12 +351,12 @@ bool fpcsRegistrationObject::findQuads(const vector<Point3D> &v,
 		query_pt[0] = p1.x+f1*(p2.x-p1.x);
 		query_pt[1] = p1.y+f1*(p2.y-p1.y);
 		query_pt[2] = p1.z+f1*(p2.z-p1.z);
-		tree->annkFRSearch(		
+		tree->annkFRSearch(
 			query_pt,
 			e1,
-			n,				
-			nn_idx,			
-			dists,				
+			n,
+			nn_idx,
+			dists,
 			app);
 
 
@@ -379,12 +379,12 @@ bool fpcsRegistrationObject::findQuads(const vector<Point3D> &v,
 		query_pt[0] = p1.x+f2*(p2.x-p1.x);
 		query_pt[1] = p1.y+f2*(p2.y-p1.y);
 		query_pt[2] = p1.z+f2*(p2.z-p1.z);
-		tree->annkFRSearch(		
+		tree->annkFRSearch(
 			query_pt,
 			e1,
-			n,				
-			nn_idx,			
-			dists,				
+			n,
+			nn_idx,
+			dists,
 			app);
 		for (j=0;j<n;j++)
 		{
@@ -417,37 +417,37 @@ static float dist3D_Segment_to_Segment( point &p1,point &p2,point &q1, point &q2
 	point   u = p2 - p1;
 	point   v = q2 - q1;
 	point   w = p1 - q1;
-	float    a = u DOT u;        
+	float    a = u DOT u;
 	float    b = u DOT v;
-	float    c = v DOT v;       
+	float    c = v DOT v;
 	float    d = u DOT w;
 	float    e = v DOT w;
-	float    D = a*c - b*b;       
-	float    sc, sN, sD = D;      
-	float    tc, tN, tD = D;      
+	float    D = a*c - b*b;
+	float    sc, sN, sD = D;
+	float    tc, tN, tD = D;
 
-	if (D < 0.0001) { 
-		sN = 0.0;        
-		sD = 1.0;        
+	if (D < 0.0001) {
+		sN = 0.0;
+		sD = 1.0;
 		tN = e;
 		tD = c;
 	}
-	else {               
+	else {
 		sN = (b*e - c*d);
 		tN = (a*e - b*d);
-		if (sN < 0.0) {     
+		if (sN < 0.0) {
 			sN = 0.0;
 			tN = e;
 			tD = c;
 		}
-		else if (sN > sD) { 
+		else if (sN > sD) {
 			sN = sD;
 			tN = e + b;
 			tD = c;
 		}
 	}
 
-	if (tN < 0.0) {           
+	if (tN < 0.0) {
 		tN = 0.0;
 		if (-d < 0.0)
 			sN = 0.0;
@@ -458,7 +458,7 @@ static float dist3D_Segment_to_Segment( point &p1,point &p2,point &q1, point &q2
 			sD = a;
 		}
 	}
-	else if (tN > tD) {     
+	else if (tN > tD) {
 		tN = tD;
 		if ((-d + b) < 0.0)
 			sN = 0;
@@ -477,7 +477,7 @@ static float dist3D_Segment_to_Segment( point &p1,point &p2,point &q1, point &q2
 	f1 = sc;
 	f2 = tc;
 
-	return len(dP);   
+	return len(dP);
 }
 
 
@@ -643,7 +643,7 @@ bool fpcsRegistrationObject:: selectQuad(const vector<Point3D> &v,vector<Point3D
 				// No sé què és aixo. És una distancia però no sé de què. Sembla que sigui la funció del pla.
 				// Deu mirar si és coplanar. Agafa el que s'ajusta més.
 				di=fabs(A*v[i].x+B*v[i].y+C*v[i].z-1.0);
-				if (di<bestv) 
+				if (di<bestv)
 				{
 					bestv=di;
 					d = i;
@@ -651,12 +651,12 @@ bool fpcsRegistrationObject:: selectQuad(const vector<Point3D> &v,vector<Point3D
 			}
 
 			// Si hem trobat el 4t punt
-			if (d!=-1) 
+			if (d!=-1)
 			{
 				quad[3]=v[d];
 				// Provem que sigui bo. Diria que reordena la base perquè les parelles siguin bones.
 				// SI NO es creuen en busca de nous.
-				if (tryQuad(v,quad,f1,f2,2*bestv)) 			
+				if (tryQuad(v,quad,f1,f2,2*bestv))
 				{
 					// ------------- FERRAN ----------
 //					if(checkColor(quad[0], quad[1], quad[2], quad[3], 0.3)) {
@@ -686,13 +686,13 @@ double fpcsRegistrationObject::meanDist(vector<Point3D> &v)
 	srand(0);
 	int i;
 	float d=0.0;
-	ANNpoint		query_pt;		
-	ANNidxArray		nn_idx;		
+	ANNpoint		query_pt;
+	ANNidxArray		nn_idx;
 	ANNdistArray	dists;
 
-	query_pt = annAllocPt(3);			
-	nn_idx = new ANNidx[2];			
-	dists = new ANNdist[2];			
+	query_pt = annAllocPt(3);
+	nn_idx = new ANNidx[2];
+	dists = new ANNdist[2];
 
 	int n=0;
 	for (i=0;i<FIX_RAND*10;i++)
@@ -701,13 +701,13 @@ double fpcsRegistrationObject::meanDist(vector<Point3D> &v)
 		query_pt[0]=v[k].x;
 		query_pt[1]=v[k].y;
 		query_pt[2]=v[k].z;
-		the_tree->annkSearch(		
-			query_pt,			
-			2,				
-			nn_idx,			
-			dists,				
+		the_tree->annkSearch(
+			query_pt,
+			2,
+			nn_idx,
+			dists,
 			app);
-		if (sqrt(dists[1])<diam*0.05) 
+		if (sqrt(dists[1])<diam*0.05)
 		{
 			d += sqrt(dists[1]);
 			n++;
@@ -741,12 +741,12 @@ double fpcsRegistrationObject::	verify(const vector<Point3D> &v1,
 	Point3D	p;
 	float jmp = (float)n1/(float)rnd;
 
-	ANNpoint		query_pt;		
-	ANNidxArray		nn_idx;		
-	ANNdistArray	dists;			
-	query_pt = annAllocPt(3);			
-	nn_idx = new ANNidx[1];			
-	dists = new ANNdist[1];			
+	ANNpoint		query_pt;
+	ANNidxArray		nn_idx;
+	ANNdistArray	dists;
+	query_pt = annAllocPt(3);
+	nn_idx = new ANNidx[1];
+	dists = new ANNdist[1];
 
 
 	for (i=0;i<rnd;i++)
@@ -757,11 +757,11 @@ double fpcsRegistrationObject::	verify(const vector<Point3D> &v1,
 		query_pt[0]=p.x;
 		query_pt[1]=p.y;
 		query_pt[2]=p.z;
-		the_tree->annkSearch(		
-			query_pt,			
-			1,				
-			nn_idx,			
-			dists,				
+		the_tree->annkSearch(
+			query_pt,
+			1,
+			nn_idx,
+			dists,
 			app);
 		if (dists[0]<e) s++;
 		if (rnd-i+s<a) return (float)s / (float)rnd;
@@ -775,6 +775,53 @@ double fpcsRegistrationObject::	verify(const vector<Point3D> &v1,
 	return (float)s / (float)rnd;
 }
 
+// THIS METHOD CHECKS THE LCP BETWEEN BOTH MODELS USING OUR DATASTRUCTURE SYSTEM
+double fpcsRegistrationObject::	verify2(const vector<Point3D> &v1,
+									  double eps,LA_Fmat &R,
+									  double bestf,
+									  double cx,double cy,
+									  double cz,double tx,double ty,double tz
+									  )
+{
+
+	// First, check if dataStruct is initialized
+	if(dataStruct == NULL || myPoints == NULL){
+		cerr << "Data Structure or myPoints not initalized! " << endl;
+		exit(EXIT_FAILURE);
+	}
+
+	int i;
+	float d;
+	int s=0;
+	double e=eps;
+	int n1=v1.size();
+	float rnd = n1;
+	int a=bestf*rnd;
+	Point3D	p;
+	float jmp = (float)n1/(float)rnd;
+
+
+
+	for (i=0;i<rnd;i++)
+	{
+		Point *myP = myPoints->at(i);
+		p.x = myP->getX();
+		p.y = myP->getY();
+		p.z = myP->getZ();
+
+		transform(p,R,cx,cy,cz,tx,ty,tz);
+
+		returnData rd = dataStruct->calcOneNN(myP, eps);
+
+		if (rd.sqrDist<eps) s++;
+		if (rnd-i+s<a) return (float)s / (float)rnd;
+	}
+
+//	cout << "-------------------------> LCP: " << s << " s/size: " << (float)s/(float)rnd << endl;
+
+	return (float)s / (float)rnd;
+
+}
 
 
 
@@ -801,7 +848,7 @@ void fpcsRegistrationObject::bruteForcePairs(
 		{
 			// dist. entre els dos punts.
 			t=sqrt(_sqr(v[i].x-p.x)+_sqr(v[i].y-p.y)+_sqr(v[i].z-p.z));
-			if (useNormals) 
+			if (useNormals)
 			{
 				double dd1 = PointsDistance(Point3D(v[i].n1,v[i].n2,v[i].n3),
 											Point3D(p.n1,p.n2,p.n3));
@@ -810,7 +857,7 @@ void fpcsRegistrationObject::bruteForcePairs(
 				t1 = min(fabs(dd1-dd),fabs(dd2-dd));
 			}
 			else t1=0;
-			if (fabs(t-d)<e && (!useNormals || (useNormals && t1<normDiff))) 
+			if (fabs(t-d)<e && (!useNormals || (useNormals && t1<normDiff)))
 			{
 				r.push_back(pair<int,int>(j,i));
 				r.push_back(pair<int,int>(i,j));
@@ -1056,7 +1103,7 @@ void fpcsRegistrationObject::initialize(std::vector<Point3D> &v1,std::vector<Poi
 
 	for (i=0;i<v1.size();i++)
 	{
-		if (rand()%s1==0) 
+		if (rand()%s1==0)
 		{
 //			cout << "id: " << i << endl;
 			list1.push_back(v1[i]);
@@ -1065,7 +1112,7 @@ void fpcsRegistrationObject::initialize(std::vector<Point3D> &v1,std::vector<Poi
 	}
 	for (i=0;i<v2.size();i++)
 	{
-		if (rand()%s2==0) 
+		if (rand()%s2==0)
 		{
 			list2.push_back(v2[i]);
 			sampMapQ.push_back(i);
@@ -1118,8 +1165,8 @@ void fpcsRegistrationObject::initialize(std::vector<Point3D> &v1,std::vector<Poi
 	if (data_pts0) annDeallocPts(data_pts0);
 	if (the_tree) delete the_tree;
 
-	data_pts0 = annAllocPts(n_pts, 3);	
-	for (i = 0; i < list1.size(); i++) 
+	data_pts0 = annAllocPts(n_pts, 3);
+	for (i = 0; i < list1.size(); i++)
 	{
 		data_pts0[i][0]=list1[i].x;
 		data_pts0[i][1]=list1[i].y;
@@ -1145,10 +1192,10 @@ void fpcsRegistrationObject::initialize(std::vector<Point3D> &v1,std::vector<Poi
 	}
 
 
-	the_tree = new ANNkd_tree(			
-		data_pts0,		
-		n_pts,		
-		3);	
+	the_tree = new ANNkd_tree(
+		data_pts0,
+		n_pts,
+		3);
 	meanDist0 = meanDist(list1)*2.0;
 
 	// incialitza variables globals.
@@ -1249,14 +1296,14 @@ bool fpcsRegistrationObject::perform_N_steps(int n,double mat[4][4],vector<Point
 float fpcsRegistrationObject::compute(vector<Point3D> &v1, vector<Point3D> &v2, float delta, float overlapEstimation,
 									  double mat[4][4])
 {
-	
+
 	initialize(v1,v2,delta,overlapEstimation);
 
 	writePly("../models/bases/model4pcsA.ply", list1);
 	writePly("../models/bases/model4pcsB.ply", list2);
 
 	bool ok=false;
-	while (!ok)		
+	while (!ok)
 	{
 		ok=perform_N_steps(numTry,mat,v2);
 	}

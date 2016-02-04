@@ -1,6 +1,6 @@
 //
 // Created by ferran on 18/01/16.
-// THis class is both used for TriHas and CompressedOctree
+// THis class is both used for TriHash and CompressedOctree
 //
 
 #ifndef CONVERTERYAGO_H
@@ -19,6 +19,7 @@ public:
     ~converterYago();
 
     vector<Element *> convertArray(vector<Point*> *P);
+    point3D * convertPoint(Point *p);
 
 
 };
