@@ -776,12 +776,12 @@ double fpcsRegistrationObject::	verify(const vector<Point3D> &v1,
 }
 
 // THIS METHOD CHECKS THE LCP BETWEEN BOTH MODELS USING OUR DATASTRUCTURE SYSTEM
-double fpcsRegistrationObject::	verify2(const vector<Point3D> &v1,
-									  double eps,LA_Fmat &R,
-									  double bestf,
-									  double cx,double cy,
-									  double cz,double tx,double ty,double tz
-									  )
+double fpcsRegistrationObject::customVerify(const vector<Point3D> &v1,
+											double eps, LA_Fmat &R,
+											double bestf,
+											double cx, double cy,
+											double cz, double tx, double ty, double tz
+)
 {
 
 	// First, check if dataStruct is initialized

@@ -273,11 +273,11 @@ public:
 
 	void setDataStruct(IDataStructure *_ids){dataStruct = _ids;}
 
-	double verify2(const std::vector<Point3D> &v1,
-				  double eps,LA_Fmat &R,
-				  double bestf,
-				  double cx,double cy,
-				  double cz,double tx,double ty,double tz
+	double customVerify(const std::vector<Point3D> &v1,
+						double eps, LA_Fmat &R,
+						double bestf,
+						double cx, double cy,
+						double cz, double tx, double ty, double tz
 	);
 
 	vector<Point*> *myPoints;
