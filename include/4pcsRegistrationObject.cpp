@@ -752,6 +752,7 @@ double fpcsRegistrationObject::	verify(const vector<Point3D> &v1,
 	for (i=0;i<rnd;i++)
 	{
 		p=v1[i];
+
 		transform(p,R,cx,cy,cz,tx,ty,tz);
 
 		query_pt[0]=p.x;
@@ -763,66 +764,18 @@ double fpcsRegistrationObject::	verify(const vector<Point3D> &v1,
 			nn_idx,
 			dists,
 			app);
+
 		if (dists[0]<e) s++;
 		if (rnd-i+s<a) return (float)s / (float)rnd;
 	}
 
-	cout << "-------------------------> LCP: " << s << " s/size: " << (float)s/(float)rnd << endl;
+//	cout << "-------------------------> LCP: " << s << " s/size: " << (float)s/(float)rnd << endl;
 
 	annDeallocPt(query_pt);
 	delete [] nn_idx;
 	delete [] dists;
 	return (float)s / (float)rnd;
 }
-
-// THIS METHOD CHECKS THE LCP BETWEEN BOTH MODELS USING OUR DATASTRUCTURE SYSTEM
-double fpcsRegistrationObject::customVerify(const vector<Point3D> &v1,
-											double eps, LA_Fmat &R,
-											double bestf,
-											double cx, double cy,
-											double cz, double tx, double ty, double tz
-)
-{
-
-	// First, check if dataStruct is initialized
-	if(dataStruct == NULL || myPoints == NULL){
-		cerr << "Data Structure or myPoints not initalized! " << endl;
-		exit(EXIT_FAILURE);
-	}
-
-	int i;
-	float d;
-	int s=0;
-	double e=eps;
-	int n1=v1.size();
-	float rnd = n1;
-	int a=bestf*rnd;
-	Point3D	p;
-	float jmp = (float)n1/(float)rnd;
-
-
-
-	for (i=0;i<rnd;i++)
-	{
-		Point *myP = myPoints->at(i);
-		p.x = myP->getX();
-		p.y = myP->getY();
-		p.z = myP->getZ();
-
-		transform(p,R,cx,cy,cz,tx,ty,tz);
-
-		returnData rd = dataStruct->calcOneNN(myP, eps);
-
-		if (rd.sqrDist<eps) s++;
-		if (rnd-i+s<a) return (float)s / (float)rnd;
-	}
-
-//	cout << "-------------------------> LCP: " << s << " s/size: " << (float)s/(float)rnd << endl;
-
-	return (float)s / (float)rnd;
-
-}
-
 
 
 

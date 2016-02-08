@@ -52,10 +52,6 @@ void ss_4PCS::execute() {
     matcher.setNormDiff(norm_diff);
     matcher.setUseNormal(true);
 
-    // For datastructures test
-    matcher.setDataStruct(data->B->getDataStruct());
-    matcher.setMyPoints(data->A->workpoints);
-
     float a = matcher.compute(*set1, *set2, delta, overlap, mat);
     data->cM = a4pcs.mat2motion(mat);
     data->cM->write(cout);
