@@ -309,21 +309,24 @@ void Pipeline::executeResidueComputation(){
     cout << "% of used points:     " << data->params.percOfPoints*100 << "%" <<  endl << endl;
 
     timer.reset();
-    computeResidue();
-    cout << "Time: " << timer.elapsed() << " sec." << endl;
+    computeResidue(true);
+    cout << "Total Time: " << timer.elapsed() << " sec." << endl;
 }
 
 
 void Pipeline::computeResidue(bool test) {
 
-    int pairedPoints = 0;
-    double res = data->A->calcNN(data->B->getPoints(), data->params.percOfPoints, data->params.nnErrorFactor, pairedPoints);
 
-    int pairedPoints2 = 0;
-    double res2 = data->B->calcNN(data->A->getPoints(), data->params.percOfPoints, data->params.nnErrorFactor, pairedPoints2);
 
 
     if(test==false) {
+
+        int pairedPoints = 0;
+        double res = data->A->calcNN(data->B->getPoints(), data->params.percOfPoints, data->params.nnErrorFactor, pairedPoints);
+
+        int pairedPoints2 = 0;
+        double res2 = data->B->calcNN(data->A->getPoints(), data->params.percOfPoints, data->params.nnErrorFactor, pairedPoints2);
+
         cout << "MMD A: " << data->A->getMMD() << " MMD B: " << data->B->getMMD() << endl;
         // Printing the results of the execution.
         cout << "% of paired points of A : " << ((float) pairedPoints / (float) data->A->allpoints->size()) * 100 <<
@@ -333,10 +336,74 @@ void Pipeline::computeResidue(bool test) {
         cout << "Residue: " << res << endl;
     }
     else{
-        cout << res << ";";
-        cout << ((float) pairedPoints / (float) data->A->allpoints->size()) << ";";;
-        cout << ((float) pairedPoints2 / (float) data->B->allpoints->size()) << ";";;
+
+        Timer timer;
+        double sum_time = 0;
+
+        // Read matrix file to apply different movements anc compute residues. Check time and obtain a mean value.
+        vector<motion3D> matrices = readMatrices("matrix.xls");
+
+        for (int i = 0; i < matrices.size(); ++i) {
+
+            ElementSet *aux = new ElementSet(*(data->B));
+            aux->transform(&matrices.at(i));
+
+
+            int pairedPoints = 0;
+            timer.reset();
+            double res = data->A->calcNN(aux->getPoints(), data->params.percOfPoints, data->params.nnErrorFactor, pairedPoints);
+            sum_time += timer.elapsed();
+            cout << "% of paired points of A : " << ((float) pairedPoints / (float) data->A->allpoints->size()) * 100 << "%" << " in " << timer.elapsed() << " sec." << endl;
+
+            delete aux;
+        }
+
+        cout << "#movements: "<< matrices.size() << " Mean Time: " << sum_time/matrices.size() << endl;
+//        cout << res << ";";
+//        cout << ((float) pairedPoints / (float) data->A->allpoints->size()) << ";";;
+//        cout << ((float) pairedPoints2 / (float) data->B->allpoints->size()) << ";";;
     }
+}
+
+vector<motion3D> Pipeline::readMatrices(const char *file){
+
+    vector<motion3D> res;
+
+    string line;
+    ifstream myfile (file);
+    if (myfile.is_open())
+    {
+        while ( getline (myfile,line) )
+        {
+            char *cstr = new char[line.length() + 1];
+            strcpy(cstr, line.c_str());
+
+            double mat[4][4];
+            char *pch = strtok (cstr,";");
+            int i = 0;
+            int j = 0;
+
+            while (pch != NULL){
+
+                mat[i][j] = atof(pch);
+                pch = strtok(NULL, ";");
+
+                if(j < 3) j++;
+                else {j = 0; i++;}
+            }
+
+            motion3D mot(mat);
+//            mot.write(cout);
+
+            res.push_back(mot);
+            delete [] cstr;
+        }
+        myfile.close();
+    }
+
+    else cout << "Unable to open file" << endl;
+
+    return res;
 }
 
 

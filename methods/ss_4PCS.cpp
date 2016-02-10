@@ -24,10 +24,10 @@ void ss_4PCS::execute() {
 
 
     // Aquest thr seria % de punts aparellats mínims a partir del qual considerem que s'ha fet registre. Si és -1 s'agafa l'estimació d'overlap "overlap".
-    float thr = 0.2; // THRESHOLD FOR THE bestf
+    float thr = 0.1; // THRESHOLD FOR THE bestf
 
     // Número de punts que consideren. Més o menys, pq en fan un tractament random raro.
-    int n_points = 1000;
+    int n_points = 500;
 
     // Diferències entre les normals. No sé perquè ho fan servir.
     float norm_diff = 360; //30
