@@ -933,13 +933,14 @@ bool fpcsRegistrationObject::tryOne(
 		double f;
 		f=computeBestRigid(pr,R,tx,ty,tz,cx,cy,cz);
 
+		writeMatrix("matrix.xls", R, cx, cy, cz, tx, ty, tz);
 
 //		cout << f << endl;
 		if (f<5*eps) {
 			// Aqui no sé perquè torna a multiplicar meanDist*eps*2. En principi esta fent: meanDist*(meanDist*2*delta)*2
 			f = verify(list2, meanDist0 * eps * 2.0, R, bestf, cx, cy, cz, tx, ty, tz);
 
-			writeMatrix("matrix.xls", R, cx, cy, cz, tx, ty, tz);
+			// For residue computation tests.
 
 			if (f > bestf) {
 

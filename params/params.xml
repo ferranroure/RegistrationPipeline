@@ -5,8 +5,8 @@
         <!--<infile2>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/coral_left_moved.ply</infile2>-->
         <!--<infile>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/Rocks_right.ply</infile>-->
         <!--<infile2>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/Rocks_left_moved.ply</infile2>-->
-        <infile>../../models/ResidueTests/buddha0.ply</infile>
-        <infile2>../../models/ResidueTests/buddha1.ply</infile2>
+        <infile>../../models/ResidueTests/bun0.ply</infile>
+        <infile2>../../models/ResidueTests/bun1.ply</infile2>
         <!--<infile>../models/prova/bun0.ply</infile>-->
         <!--<infile2>../models/prova/bun1.ply</infile2>-->
         <!--<infileTemp>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/temp.ply</infileTemp>-->
