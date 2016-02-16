@@ -10,8 +10,12 @@ int main(int argc, char** argv)
     // Reading parameters
     Pipeline pipeline(argv[1]);
 
-//    pipeline.execute();
-    pipeline.executeResidueComputation();
+    int repetitions=10000;
 
+    for(int i=0;i<repetitions;i++)
+    {
+        //    pipeline.execute();
+        pipeline.executeResidueComputation();
+    }
     return 0;
 }

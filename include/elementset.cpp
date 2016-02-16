@@ -384,17 +384,18 @@ double ElementSet::calcNN(vector<Point> *Q, double percOfPoints, float errorFact
     double MSD = 0;
     int err = 0;
     vector<int> NNv;
-
+cout<<"fill de tupla"<<endl;
     //srand(time(NULL));
     double rn;
 
     for(vector<Point>::iterator it=Q->begin(); it!=Q->end(); ++it){
-
+        cout<<"till de fupla"<<endl;
         rn = ((double) rand() / (RAND_MAX));
         if(rn <= percOfPoints){
 
             returnData rd = dataStruct->calcOneNN(&(*it), MMD*errorFactor);
-
+            //returnData rd;
+            cout<<"no surto"<<endl;
             // counting errors
 //            cout << sqrt(rd.sqrDist) << " " << MMD*errorFactor << endl;
             if(sqrt(rd.sqrDist) > MMD*errorFactor) err++;

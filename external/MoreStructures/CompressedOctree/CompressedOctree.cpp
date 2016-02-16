@@ -249,9 +249,9 @@ void CompressedOctree::actualitzarInfGeo()
 list<Element*> * CompressedOctree::weightedNeighbors(Element *e,double eps)
 {
 	list<Element*> *ret = NULL;
-	
+
 	ret = arrel->weightedNeighbors(e,eps);
-	
+
 	return ret;
 }
 

@@ -9,7 +9,7 @@
 #define TOLERANCIA_DETECTAR_PERILL_A_ESBORRAR_NODE 0.00001
 #define TOLERANCIA_METODE_A_QUIN_FILL 0.00001
 #define NUMERO_PUNTS_GRAELLA_STABBING 10
-#define MAX_ELEMENTS_SEGUIR_BUSCANT 10
+#define MAX_ELEMENTS_SEGUIR_BUSCANT 10000000
 #define PI 3.14159265358979323846
 
 CompressedONode::CompressedONode()
@@ -1920,7 +1920,6 @@ list<Element*> * CompressedONode::weightedNeighbors(Element *e,double eps)
 	list<Element*> *ret = NULL;
 	point3D p = e->getPoint();
 
-
 	//cout<<"CompressedONode::weightedNeighbors, entro al node amb punt d'ancoratge "<<ancoratge<<" de nivell "<<nivell<<" i mida: "<<mida<<" estic buscant veins de  "<<e->getPoint()<<" a distancia "<<eps<<" amb punts aqui dintre: "<<endl;
 	//vector<Element *>::iterator it; 	
 	//for(it=llistaElements.begin();it!=llistaElements.end();it++)
@@ -1936,15 +1935,13 @@ list<Element*> * CompressedONode::weightedNeighbors(Element *e,double eps)
 	if(llistaElements.size()<MAX_ELEMENTS_SEGUIR_BUSCANT)
 	{
 		//cout<<"CompressedONode::weightedNeighbors, passsant de l'octree!!!!"<<endl;
-		ret=reportIf(e,eps);
+		reportIf(e,eps,ret);
 	}
 	else
 	{
 
 //		if(contained(e,eps))
-		if(INSIDE == checkIntersection(p.getX()-eps, p.getX()+eps,
-							 p.getY()-eps, p.getY()+eps,
-							 p.getZ()-eps, p.getZ()+eps))
+		if(INSIDE == checkIntersection(p.getX()-eps, p.getX()+eps,p.getY()-eps, p.getY()+eps,p.getZ()-eps, p.getZ()+eps))
 		{
 			//cout<<"CompressedONode::weightedNeighbors	contained "<<endl;
 			ret = report(e);
@@ -1956,7 +1953,7 @@ list<Element*> * CompressedONode::weightedNeighbors(Element *e,double eps)
 			{
 				//cout<<"CompressedONode::weightedNeighbors	stabbing, black leaf "<<endl;
 	
-				ret=reportIf(e,eps);
+				reportIf(e,eps,ret);
 			}
 			else if (tipus()==2)//Non-leaf node
 			{
@@ -2013,7 +2010,7 @@ list<Element*> * CompressedONode::weightedNeighbors(Element *e,double eps)
 					if(retAux!=NULL) {
 						ret->splice(ret->end(), *retAux);
 					}				}
-				//retAux.clear();
+				//retAux->clear();
 				delete retAux;
 			}
 		}
@@ -2282,27 +2279,28 @@ list<Element*> * CompressedONode::report(Element *e)
 }
 
 //Report all Elements in the node matching the parameters radius and distance requirement
-list<Element*> * CompressedONode::reportIf(Element *e,double r)
+void CompressedONode::reportIf(Element *e,double r,list<Element*> *ret)
 {
-	list<Element*> *ret = new list<Element*>();
+	ret = new list<Element*>();
 	
 	//Report all Matching elements in the node
 	vector<Element*>::iterator it;
 	for(it =llistaElements.begin(); it != llistaElements.end(); it++)
 	{
 		
-		bool aux1 = (*it)->getRadi() == e->getRadi();
-		bool aux2 = !(*it)->getMarcat();
-		bool aux3 = ((*it)->getPoint()).dist(e->getPoint()) < r ;
-		bool aux4 = aux1 && aux2 && aux3;
+	//	bool aux1 = (*it)->getRadi() == e->getRadi();
+	//	bool aux2 = !(*it)->getMarcat();
+	//	bool aux3 = ((*it)->getPoint()).dist(e->getPoint()) < r ;
+	//	bool aux4 = aux1 && aux2 && aux3;
 
-		if( aux4 )
-		{
+	//	if( aux4 )
+	//	{
 			ret->push_back(*it);
-		}
+	//	}
+		it=llistaElements.end();
 	}
 
-	return ret;
+	//return ret;
 }
 
 // Compatibility function
