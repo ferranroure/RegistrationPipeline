@@ -16,7 +16,7 @@ myKdtree::myKdtree(vector<Point*> *P){
 
     dataPts = ckdt->convertArray(P);         // Converting data from "points" to "dataPts"
 
-    kdTree = new ANNkd_tree(dataPts, nnPts, DIMENSIONS);
+    kdTree = new ANNbd_tree(dataPts, nnPts, DIMENSIONS);
 
 
 //    kdTree = new ANNkd_tree(					// build search structure

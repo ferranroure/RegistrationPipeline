@@ -6,7 +6,7 @@
         <!--<infile>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/Rocks_right.ply</infile>-->
         <!--<infile2>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/Rocks_left_moved.ply</infile2>-->
         <infile>../../models/ResidueTests/bun0.ply</infile>
-        <infile2>../../models/ResidueTests/bun1.ply</infile2>
+        <infile2>../../models/ResidueTests/bun1_sol.ply</infile2>
         <!--<infile>../models/prova/bun0.ply</infile>-->
         <!--<infile2>../models/prova/bun1.ply</infile2>-->
         <!--<infileTemp>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/temp.ply</infileTemp>-->
@@ -62,6 +62,6 @@
         <nnErrorFactor>2</nnErrorFactor>
         <percOfNoise>0</percOfNoise> <!-- normalized % of MMD (perc * MMD) -->
         <normalizeModels>false</normalizeModels>
-        <dataStructure>kdtree</dataStructure> <!-- options: kdtree, octree, compressedOctree, trihash, or your own -->
+        <dataStructure>compressedOctree</dataStructure> <!-- options: kdtree, octree, compressedOctree, trihash, or your own -->
     </generalProperties>
 </params>

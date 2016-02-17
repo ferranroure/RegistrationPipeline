@@ -1960,61 +1960,75 @@ list<Element*> * CompressedONode::weightedNeighbors(Element *e,double eps)
 			}
 			else if (tipus()==2)//Non-leaf node
 			{
-				list<Element*> * retAux = NULL;
+				list<Element*> * retAux1 = NULL;
+				list<Element*> * retAux2 = NULL;
+				list<Element*> * retAux3 = NULL;
+				list<Element*> * retAux4 = NULL;
+				list<Element*> * retAux5 = NULL;
+				list<Element*> * retAux6 = NULL;
+				list<Element*> * retAux7 = NULL;
+				list<Element*> * retAux8 = NULL;
 				ret = new list<Element*>();
 				//cout<<"CompressedONode::weightedNeighbors	stabbing, non leaf "<<f1<<f2<<f3<<f4<<f5<<f6<<f7<<f8<<endl;
 		
 				//Recursive call
 				if (f1!=NULL){
-					retAux=f1->weightedNeighbors(e,eps);
-					if(retAux!=NULL) {
-						ret->splice(ret->end(), *retAux);
+					retAux1=f1->weightedNeighbors(e,eps);
+					if(retAux1!=NULL) {
+						ret->splice(ret->end(), *retAux1);
 					}
 				}
 		
 				if (f2!=NULL) {
-					retAux=f2->weightedNeighbors(e,eps);
-					if(retAux!=NULL) {
-						ret->splice(ret->end(), *retAux);
+					retAux2=f2->weightedNeighbors(e,eps);
+					if(retAux2!=NULL) {
+						ret->splice(ret->end(), *retAux2);
 					}				}
 		
 				if (f3!=NULL) {
-					retAux=f3->weightedNeighbors(e,eps);
-					if(retAux!=NULL) {
-						ret->splice(ret->end(), *retAux);
+					retAux3=f3->weightedNeighbors(e,eps);
+					if(retAux3!=NULL) {
+						ret->splice(ret->end(), *retAux3);
 					}				}
 		
 				if (f4!=NULL) {
-					retAux=f4->weightedNeighbors(e,eps);
-					if(retAux!=NULL) {
-						ret->splice(ret->end(), *retAux);
+					retAux4=f4->weightedNeighbors(e,eps);
+					if(retAux4!=NULL) {
+						ret->splice(ret->end(), *retAux4);
 					}				}
 		
 				if (f5!=NULL) {
-					retAux=f5->weightedNeighbors(e,eps);
-					if(retAux!=NULL) {
-						ret->splice(ret->end(), *retAux);
+					retAux5=f5->weightedNeighbors(e,eps);
+					if(retAux5!=NULL) {
+						ret->splice(ret->end(), *retAux5);
 					}				}
 		
 				if (f6!=NULL) {
-					retAux=f6->weightedNeighbors(e,eps);
-					if(retAux!=NULL) {
-						ret->splice(ret->end(), *retAux);
+					retAux6=f6->weightedNeighbors(e,eps);
+					if(retAux6!=NULL) {
+						ret->splice(ret->end(), *retAux6);
 					}				}
 		
 				if (f7!=NULL) {
-					retAux=f7->weightedNeighbors(e,eps);
-					if(retAux!=NULL) {
-						ret->splice(ret->end(), *retAux);
+					retAux7=f7->weightedNeighbors(e,eps);
+					if(retAux7!=NULL) {
+						ret->splice(ret->end(), *retAux7);
 					}				}
 		
 				if (f8!=NULL) {
-					retAux=f8->weightedNeighbors(e,eps);
-					if(retAux!=NULL) {
-						ret->splice(ret->end(), *retAux);
+					retAux8=f8->weightedNeighbors(e,eps);
+					if(retAux8!=NULL) {
+						ret->splice(ret->end(), *retAux8);
 					}				}
 				//retAux.clear();
-				delete retAux;
+				delete retAux1;
+				delete retAux2;
+				delete retAux3;
+				delete retAux4;
+				delete retAux5;
+				delete retAux6;
+				delete retAux7;
+				delete retAux8;
 			}
 		}
 		//else
