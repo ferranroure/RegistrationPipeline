@@ -253,6 +253,7 @@ list<Element*> * CompressedOctree::weightedNeighbors(Element *e,double eps)
 	ret = arrel->weightedNeighbors(e,eps);
 
 	return ret;
+	//return arrel->weightedNeighbors(e,eps);
 }
 
 

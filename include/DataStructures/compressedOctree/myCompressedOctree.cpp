@@ -26,10 +26,16 @@ myCompressedOctree::~myCompressedOctree() {
 }
 
 returnData myCompressedOctree::calcOneNN(Point *queryPoint, float errEps) {
+
+//    returnData rd;
+//    rd.index = -1;
+//    rd.sqrDist = FLT_MAX;
+ //   return rd;
+
     point3D p(queryPoint->getX(), queryPoint->getY(), queryPoint->getZ());
     Element *aux = new Element(p, 0);
 
-   list<Element*> *vnn  = cOctree->weightedNeighbors(aux, errEps);
+  list<Element*> *vnn  = cOctree->weightedNeighbors(aux, errEps);
 
     Element *nn = new Element();
 
@@ -73,22 +79,61 @@ returnData myCompressedOctree::calcOneNN(Point *queryPoint, float errEps) {
 
 returnData myCompressedOctree::calcOwnNN(Point *queryPoint) {
 
- //   list<Element*> *vnn = NULL;//cOctree->weightedNeighbors(aux, diagonal * 0.01 * factor);
-//    if( vnn == NULL ) {vnn=new list<Element*>();}
+    //returnData rd;
+     //   rd.index = -1;
+     //   rd.sqrDist = FLT_MAX;
+    //return rd;
+
+    point3D p(queryPoint->getX(), queryPoint->getY(), queryPoint->getZ());
+    Element *aux = new Element(p, 0);
+
+    int factor = 1;
+    list<Element*> *vnn = cOctree->weightedNeighbors(aux, diagonal * 0.01 * factor);
+    ++factor;
+    while(vnn->empty()) {
+        vnn = cOctree->weightedNeighbors(aux, diagonal * 0.01 * factor);
+        ++factor;
+    }
+
+    Element *nn = new Element();
+
+    float bestDist = FLT_MAX;
+    for(list<Element*>::iterator it = vnn->begin(); it!=vnn->end(); ++it ){
+
+        float dist = p.dist((*it)->getPoint());
+        if(dist<bestDist && (*it)->getPoint()!=p){
+            bestDist = dist;
+            nn->setPoint((*it)->getPoint());
+        }
+    }
+
+//    Element * nn = trihash->nearestNeighbor(p);
 
     returnData rd;
- //   if(vnn->empty()){
+    if(vnn->empty()){
         rd.index = -1;
         rd.sqrDist = FLT_MAX;
-   // }
+    }
+    else {
+        rd.index = nn->getIndex();
+        Point *pnn = new Point(nn->getPoint().getX(), nn->getPoint().getY(), nn->getPoint().getZ());
+        float dist = queryPoint->dist(pnn);
+        rd.sqrDist = dist * dist;
+        delete pnn;
+    }
 
-//    if( vnn != NULL ) {
-//        vnn->clear();
-//        delete vnn;
- //   }
+    if( vnn != NULL ) {
 
+        vnn->clear();
+        delete vnn;
+    }
+    delete aux;
+    delete nn;
+
+   // cout<<"mycoimpressed octree ownNN retornant*********************************************************************************** "<<rd.index<<" "<<rd.sqrDist<<endl;
 
     return rd;
+
 }
 
 vector<returnData> myCompressedOctree::calcNneigh(Point *queryPoint, int nNeigh) {

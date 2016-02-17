@@ -313,7 +313,7 @@ void Pipeline::executeResidueComputation(){
 void Pipeline::computeResidue(bool test) {
 
 
-
+cout<<"Pipeline::computeResidue"<<endl;
 
     if(test==false) {
 
@@ -337,7 +337,10 @@ void Pipeline::computeResidue(bool test) {
         Timer timer;
         int pairedPoints = 0;
         timer.reset();
+
+cout<<"going to calcNN"<<endl;
         double res = data->A->calcNN(data->B->getPoints(), data->params.percOfPoints, data->params.nnErrorFactor, pairedPoints);
+        cout<<"olut of calcNN"<<endl;
         double time = timer.elapsed();
         cout << "% of paired points of A : " << ((float) pairedPoints / (float) data->A->allpoints->size()) * 100 << "%" << " in " << time << " sec." << endl;
 

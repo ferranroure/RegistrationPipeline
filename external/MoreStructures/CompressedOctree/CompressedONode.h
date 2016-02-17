@@ -96,8 +96,7 @@ class CompressedONode
 		int checkIntersection(double p_xmin, double p_xmax, double p_ymin, double p_ymax, double p_zmin, double p_zmax);
 
 		list<Element*> * report(Element *e); //Report all Elements in the node matching the parameters radius
-		//list<Element*> *  reportIf(Element *e,double r); //Report all Elements in the node matching the parameters radius and distance requirement
-     	void reportIf(Element *e,double r,list<Element*> *ret);
+		list<Element*> *  reportIf(Element *e,double r); //Report all Elements in the node matching the parameters radius and distance requirement
 
 
 		static bool compatible(CompressedInformacioGeometrica,CompressedInformacioGeometrica*,bool bNum,bool bHisto,bool bDist,double eps); //Operation for atribute compatibility
