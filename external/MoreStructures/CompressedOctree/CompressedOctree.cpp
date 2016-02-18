@@ -56,13 +56,18 @@ CompressedOctree::CompressedOctree(vector<Element *> llE, double eps)
 CompressedOctree::~CompressedOctree()
 {
 	if(arrel!=NULL) delete arrel;
-	
+
 	// les zones candidates no son mes que trossets de l'octree, no cal alliberar-les explicitament
 	vector<CompressedCandidateZone *>::iterator it;
 	for(it=candidates.begin();it!=candidates.end();it++)
 	{
 		delete *it;
 	}
+
+	for (int i = 0; i < llistaElements.size(); ++i) {
+		delete llistaElements[i];
+	}
+	llistaElements.clear();
 }
 
 

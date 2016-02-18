@@ -334,39 +334,39 @@ void Pipeline::computeResidue(bool test) {
     else{
 
 //        // Regular test: 1 execution.
-//        Timer timer;
-//        int pairedPoints = 0;
-//        timer.reset();
-//        double res = data->A->calcNN(data->B->getPoints(), data->params.percOfPoints, data->params.nnErrorFactor, pairedPoints);
-//        double time = timer.elapsed();
-//        cout << "% of paired points of A : " << ((float) pairedPoints / (float) data->A->allpoints->size()) * 100 << "%" << " in " << time << " sec." << endl;
+         Timer timer;
+         int pairedPoints = 0;
+         timer.reset();
+         double res = data->A->calcNN(data->B->getPoints(), data->params.percOfPoints, data->params.nnErrorFactor, pairedPoints);
+         double time = timer.elapsed();
+         cout << "% of paired points of A : " << ((float) pairedPoints / (float) data->A->allpoints->size()) * 100 << "%" << " in " << time << " sec." << endl;
 
 
-        // Multi execution test.
-        Timer timer;
-        double sum_time = 0;
-        int maxLoops = 50;
-
-        // Read matrix file to apply different movements anc compute residues. Check time and obtain a mean value.
-        vector<motion3D> matrices = readMatrices("bun/matrix.xls");
-        int i = 0;
-        for (i = 0; i < matrices.size(); ++i) {
-
-            ElementSet *aux = new ElementSet(*(data->B));
-            aux->transform(&matrices.at(i));
-
-            int pairedPoints = 0;
-            timer.reset();
-            double res = data->A->calcNN(aux->getPoints(), data->params.percOfPoints, data->params.nnErrorFactor, pairedPoints);
-            sum_time += timer.elapsed();
-//            cout << "% of paired points of A : " << ((float) pairedPoints / (float) data->A->allpoints->size()) * 100 << "%" << " in " << timer.elapsed() << " sec." << endl;
-
-            delete aux;
-
-            if(i >= maxLoops) break;
-        }
-
-        cout << "#movements: "<< i << " Mean Time: " << sum_time/i << " sec." << endl;
+//        // Multi execution test.
+//       Timer timer;
+//       double sum_time = 0;
+//       int maxLoops = 50;
+//
+//       // Read matrix file to apply different movements anc compute residues. Check time and obtain a mean value.
+//       vector<motion3D> matrices = readMatrices("./bun/matrix.xls");
+//       int i = 0;
+//       for (i = 0; i < matrices.size(); ++i) {
+//
+//           ElementSet *aux = new ElementSet(*(data->B));
+//           aux->transform(&matrices.at(i));
+//
+//           int pairedPoints = 0;
+//           timer.reset();
+//           double res = data->A->calcNN(aux->getPoints(), data->params.percOfPoints, data->params.nnErrorFactor, pairedPoints);
+//           sum_time += timer.elapsed();
+////            cout << "% of paired points of A : " << ((float) pairedPoints / (float) data->A->allpoints->size()) * 100 << "%" << " in " << timer.elapsed() << " sec." << endl;
+//
+//           delete aux;
+//
+//           if(i >= maxLoops) break;
+//       }
+//
+//       cout << "#movements: "<< i << " Mean Time: " << sum_time/i << " sec." << endl;
 
 
 //        cout << res << ";";
@@ -508,4 +508,3 @@ void Pipeline::applyMovement(int type) {
     }
 
 }
-

@@ -46,8 +46,14 @@ Data::Data(char * paramsfile){
         if (digA >= digB) normFactor = digA;
         else normFactor = digB;
 
-        A->transform(new motion3D(-(A->getCenter().getX()), -(A->getCenter().getY()), -(A->getCenter().getZ())));
-        B->transform(new motion3D(-(B->getCenter().getX()), -(B->getCenter().getY()), -(B->getCenter().getZ())));
+        motion3D *motionA = new motion3D(-(A->getCenter().getX()), -(A->getCenter().getY()), -(A->getCenter().getZ()));
+        motion3D *motionB = new motion3D(-(B->getCenter().getX()), -(B->getCenter().getY()), -(B->getCenter().getZ()));
+
+        A->transform(motionA);
+        B->transform(motionB);
+
+        delete motionA;
+        delete motionB;
 
         A->scalePoints(normFactor);
         B->scalePoints(normFactor);
