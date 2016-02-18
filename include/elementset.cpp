@@ -1,5 +1,6 @@
 #include "elementset.h"
 #include "DataStructures/compressedOctree/myCompressedOctree.h"
+#include "DataStructures/noDataStructure/noDataStructure.h"
 
 /* CONSTRUCTOR -----------------------------------------------------------
  *
@@ -358,6 +359,9 @@ void ElementSet::createDataStructure(){
     }
     else if(dataStructureType=="trihash"){
         dataStruct = new myTriHash(workpoints, diagonal);
+    }
+    else if(dataStructureType=="noDataStructure"){
+        dataStruct = new noDataStructure(workpoints);
     }
     else{
         cerr << "I can't undestand your dataStructure!" << endl;
