@@ -37,7 +37,7 @@ myKdtree::~myKdtree(){
     annDeallocPts(dataPts);
     //annDeallocPts(queryPts);
     delete kdTree;
-    annClose();
+//    annClose();
     delete ckdt;
 }
 
@@ -120,7 +120,7 @@ returnData myKdtree::calcOneNN(Point *queryPoint, float errEps) {
         nnIdx = new ANNidx[1];						// allocate near neighbor indices
         dists = new ANNdist[1];						// allocate near neighbor dists
 
-        kdTree->annkSearch(q, 1, nnIdx, dists, ERROR);
+        kdTree->annkSearch(q, 1, nnIdx, dists, errEps);
 
         sqrDist = dists[0];
     }
