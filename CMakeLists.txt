@@ -187,7 +187,7 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
             IDescription.h
             ISearchingStrategy.h
             ISearchingStrategy.cpp
-            IRefinement.h )
+            IRefinement.h include/DataStructures/skipOctree/mySkipOctree.cpp include/DataStructures/skipOctree/mySkipOctree.h external/MoreStructures/SkipOctree/SkipOctree.cpp external/MoreStructures/SkipOctree/SkipOctree.h external/MoreStructures/SkipOctree/SkipONode.cpp external/MoreStructures/SkipOctree/SkipONode.h)
 
     # -pg -> profiler
     # -frounding-math -> something for CGAL library

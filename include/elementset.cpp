@@ -1,5 +1,6 @@
 #include "elementset.h"
 #include "DataStructures/compressedOctree/myCompressedOctree.h"
+#include "DataStructures/skipOctree/mySkipOctree.h"
 
 /* CONSTRUCTOR -----------------------------------------------------------
  *
