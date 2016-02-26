@@ -36,7 +36,7 @@ CompressedOctree::CompressedOctree(double eps)
 CompressedOctree::CompressedOctree(vector<Element *> llE, double eps)
 {
 //cout << "CompressedOctree.cpp --> CREEM COMPRESSED OCTREE AMB "<< llE.size() << " ELEMENTS!" << endl;
-	llistaElements = llE;
+	//llistaElements = llE;
 	nivellMaxim = MAX_LEVEL;
 	epsilon = eps;
 	
@@ -45,7 +45,7 @@ CompressedOctree::CompressedOctree(vector<Element *> llE, double eps)
 	arrel = new CompressedONode(ancoratge,mida,0); //Creem l'arrel amb el punt d'ancoratge, la mida i el nivell
 	nivellActual = 0;
 	
-	llistaElements.clear();
+	//llistaElements.clear();
 	for(int i=0; i<(int)llE.size(); i++) {
 		afegirElement(llE[i]);
 	}
@@ -63,6 +63,11 @@ CompressedOctree::~CompressedOctree()
 	{
 		delete *it;
 	}
+
+	for (int i = 0; i < llistaElements.size(); ++i) {
+	    delete llistaElements[i];
+	 }
+	llistaElements.clear();
 }
 
 

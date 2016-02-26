@@ -98,7 +98,7 @@ ElementSet::ElementSet(vector<Point> *lin, string _DSType) {
     createWorkingStructures();
     calcDiagonal();
     createDataStructure();
-    calcMMD();
+    //calcMMD();
 
 //    pcl = new myPCL(points, MMD);
 }
@@ -133,8 +133,6 @@ ElementSet::ElementSet(string file, string _DSType, float normFactor) {
     createDataStructure();
     calcMMD();
 
-
-//    pcl = new myPCL(points, MMD);
 }
 
 
@@ -309,6 +307,8 @@ void ElementSet::calcMMD(){
     }
 
     MMD = sum / workpoints->size();
+   // cout<<"MMD HA SORIT "<<MMD<<endl;
+   // exit(0);
 
 }
 
@@ -354,6 +354,7 @@ void ElementSet::createDataStructure(){
         dataStruct = new myOctree(workpoints, diagonal/5);
     }
     else if(dataStructureType=="compressedOctree"){
+
         dataStruct = new myCompressedOctree(workpoints, diagonal);
     }
     else if(dataStructureType=="trihash"){
@@ -367,7 +368,6 @@ void ElementSet::createDataStructure(){
 
     if(octree!=NULL) delete octree;
     //octree = new Octree(workpoints, 5, xmin, xmax, ymin, ymax, zmin, zmax);
-
 }
 
 /* CALC NN ---------------------------------------------------------------------

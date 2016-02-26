@@ -17,12 +17,19 @@ myCompressedOctree::myCompressedOctree(vector<Point *> *P, float _diag) {
     cyg = new converterYago();
     vector<Element *> points = cyg->convertArray(P);
     cOctree = new CompressedOctree(points, 0);
+
+    //for (int i = 0; i < points.size(); ++i) {
+    //    delete points[i];
+   // }
+
+
+    points.clear();
 }
 
 myCompressedOctree::~myCompressedOctree() {
 
-    delete cOctree;
-    delete cyg;
+  if(cOctree!=NULL)  delete cOctree;
+   if(cyg!=NULL) delete cyg;
 }
 
 returnData myCompressedOctree::calcOneNN(Point *queryPoint, float errEps) {

@@ -20,34 +20,41 @@ Data::Data(){
  *  Constructor via parameters' file.
  */
 Data::Data(char * paramsfile){
-
     setParametersXML(paramsfile);
     float normFactor = 1;
 
 
     A = new ElementSet(params.infile, params.dataStructure);
-
+B=NULL;
     // If no real data are used, we create a copy of target point cloud.
-    if( ! params.realData){
-        B = new ElementSet(*A);
-        params.infile2 = params.infile;
-    }
-    else{
-        B = new ElementSet(params.infile2, params.dataStructure);
-    }
+  //  if( ! params.realData){
+  //      B = new ElementSet(*A);
+  //      params.infile2 = params.infile;
+  //  }
+  //  else{
+  //      B = new ElementSet(params.infile2, params.dataStructure);
+  //  }
 
 
     // Resize (normalize) if is specified on params
     if(params.normalizeModels){
-
+cout<<"SHOULD NOT BE HERE"<<endl;
+exit(-1);
         float digA = A->getDiagonal();
         float digB = B->getDiagonal();
 
         if (digA >= digB) normFactor = digA;
         else normFactor = digB;
 
-        A->transform(new motion3D(-(A->getCenter().getX()), -(A->getCenter().getY()), -(A->getCenter().getZ())));
-        B->transform(new motion3D(-(B->getCenter().getX()), -(B->getCenter().getY()), -(B->getCenter().getZ())));
+        motion3D *motionA = new motion3D(-(A->getCenter().getX()), -(A->getCenter().getY()), -(A->getCenter().getZ()));
+        motion3D *motionB = new motion3D(-(B->getCenter().getX()), -(B->getCenter().getY()), -(B->getCenter().getZ()));
+
+        A->transform(motionA);
+        B->transform(motionB);
+
+        delete motionA;
+        delete motionB;
+
 
         A->scalePoints(normFactor);
         B->scalePoints(normFactor);
@@ -81,7 +88,9 @@ Data::Data(char * paramsfile){
     cM = NULL;
     fM = NULL;
 
-    params.MMD = A->getMMD();
+//    params.MMD = A->getMMD();
+
+
 //    params.nOutliersA = A->calcOutliers(10*A->getMMD());
 //    params.nOutliersB = B->calcOutliers(10*B->getMMD());
 
@@ -95,9 +104,8 @@ Data::Data(char * paramsfile){
  *
  */
 Data::~Data(){
-
-    delete A;
-    delete B;
+    if(A!=NULL)  delete A;
+   if(B!=NULL) delete B;
     delete result;
     delete cM;
     delete fM;

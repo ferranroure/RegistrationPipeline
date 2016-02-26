@@ -8,14 +8,16 @@ using namespace std;
 int main(int argc, char** argv)
 {
     // Reading parameters
-    Pipeline pipeline(argv[1]);
 
-    int repetitions=10000;
-
+    int repetitions=100000000000;
+cout<<"enter the sandman"<<endl;
     for(int i=0;i<repetitions;i++)
     {
+
+        Pipeline pipeline(argv[1]);
+
         //    pipeline.execute();
-        pipeline.executeResidueComputation();
+       // pipeline.executeResidueComputation();
     }
     return 0;
 }

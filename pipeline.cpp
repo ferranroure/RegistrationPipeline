@@ -18,7 +18,6 @@ Pipeline::Pipeline(){
  * a file.
  */
 Pipeline::Pipeline(char * paramsfile){
-
     detection = NULL;
     description = NULL;
     searching = NULL;
@@ -26,7 +25,7 @@ Pipeline::Pipeline(char * paramsfile){
 
     data = new Data(paramsfile);
 
-    createMethods();
+    //createMethods();
 }
 
 
@@ -34,7 +33,6 @@ Pipeline::Pipeline(char * paramsfile){
  *
  */
 Pipeline::~Pipeline(){
-
     delete data;
 
     if(detection!=NULL) delete detection;

@@ -25,9 +25,13 @@ vector<Element *> converterYago::convertArray(vector<Point *> *P) {
         e->setPoint(point3D(P->at(i)->getX(), P->at(i)->getY(), P->at(i)->getZ()));
         e->setIndex(i);
 
-        res.push_back(e);
-    }
 
+        res.push_back(e);
+        //if(i==0)cout<<"IS TIHS THE SAME?"<<*res[0]<<endl;
+
+        //delete e;
+    }
+//cout<<"**************************************************************************************IS TIHS THE SAME?"<<*res[0]<<endl;
     return res;
 }
 

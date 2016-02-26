@@ -114,6 +114,8 @@ CompressedONode::~CompressedONode()
 		*it=NULL;
 	//	delete *it;
 	}
+
+	llistaElements.clear();
 }
 
 CompressedONode& CompressedONode::operator=(const CompressedONode &n)
