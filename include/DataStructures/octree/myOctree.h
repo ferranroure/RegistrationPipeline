@@ -32,6 +32,9 @@ public:
     returnData calcOneNN(Point *queryPoint, float errEps);
     returnData calcOwnNN(Point *queryPoint);
     vector<returnData> calcNneigh(Point *queryPoint, int nNeigh);
+
+    void printStats();
+
 };
 
 

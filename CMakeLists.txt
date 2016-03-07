@@ -111,6 +111,7 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
             include/DataStructures/trihash/myTriHash.cpp
             include/DataStructures/compressedOctree/myCompressedOctree.cpp
             include/DataStructures/noDataStructure/noDataStructure.cpp
+            include/DataStructures/gridTree/myGridTree.cpp
             include/mypcl.cpp
             include/plyio.cpp
             include/point.cpp
@@ -123,6 +124,7 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
             include/Converters/converterCGAL.cpp
             include/Converters/converterYago.cpp
             include/Converters/converterKdtree.cpp
+            include/Converters/converterGridTree.cpp
             include/4pcsRegistrationObject.cpp
             include/DataStructures/octree/Octree.cpp
             include/DataStructures/octree/Node.cpp
@@ -179,7 +181,8 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
             external/MoreStructures/TriHash/TriHash.cpp
             external/MoreStructures/AuxiliaryClasses/Element.cpp
             external/MoreStructures/AuxiliaryClasses/point3D.cpp
-
+            external/MoreStructures/GridTree/GridTree.cpp
+            external/MoreStructures/GridTree/Cell.cpp
             include/IDescriptor.h
             include/IManagerIO.h
             include/DataStructures/IDataStructure.h

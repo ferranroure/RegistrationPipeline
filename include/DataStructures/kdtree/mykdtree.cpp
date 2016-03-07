@@ -18,7 +18,6 @@ myKdtree::myKdtree(vector<Point*> *P){
 
     kdTree = new ANNkd_tree(dataPts, nnPts, DIMENSIONS);
 
-
 //    kdTree = new ANNkd_tree(					// build search structure
 //            dataPts,					// the data points
 //            nPts,						// number of points
@@ -220,4 +219,12 @@ returnData myKdtree::findPair(Point *queryPoint, float dist) {
     annDeallocPt(q);
 
     return rd;
+}
+
+void myKdtree::printStats() {
+
+    ANNkdStats st;
+    kdTree->getStats(st);
+
+    cout << st.depth;
 }

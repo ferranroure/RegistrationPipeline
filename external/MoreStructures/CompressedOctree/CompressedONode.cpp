@@ -318,7 +318,7 @@ int CompressedONode::afegirElement(Element *e,int nivellMaxim,CompressedONode *p
 
 			case 1: //Fulla negre (i no nivell maxim)
 				//cout<<"CON AFEGIR, fulla negra "<<" nivell: "<<nivell<<" pare: "<<pare<<" centre "<<(*e).getPoint()<<endl;
-				//Transformem el node actual en node parcial i hi introduim els 2 elements.
+				//Transformem el node actual en node parcial i hi introduim els 2 grid.
 				if (nivell < nivellMaxim) {
 					llistaElements.push_back(e);
 					res = crearFills(nivellMaxim);
@@ -382,7 +382,7 @@ int CompressedONode::afegirElement(Element *e,int nivellMaxim,CompressedONode *p
 							break;
 					}
 
-					//Afegim els elements al nou node
+					//Afegim els grid al nou node
 					vector<Element *> llistaAux = llistaElements;
 					llistaAux.push_back(e);
 					aux->setLlistaElements(llistaAux);
@@ -394,8 +394,8 @@ int CompressedONode::afegirElement(Element *e,int nivellMaxim,CompressedONode *p
 					int fillNodeAntic = aux->aQuinFill(this);
 					int fillNouElement = aux->aQuinFill(e);
 					
-					while ( (fillNodeAntic==fillNouElement) && (aux->getNivell()<nivellMaxim) ) { //Mentre els 2 elements hagin d'anar al mateix fill
-					// YY no estiguem al nivell maxim -1 (posem el -1 perque quan afegim els 2 elements baixarem
+					while ( (fillNodeAntic==fillNouElement) && (aux->getNivell()<nivellMaxim) ) { //Mentre els 2 grid hagin d'anar al mateix fill
+					// YY no estiguem al nivell maxim -1 (posem el -1 perque quan afegim els 2 grid baixarem
 					// un altre nivell)
 
 						//Primer canviem el punt d'ancoratge (basePoint)
@@ -431,13 +431,13 @@ int CompressedONode::afegirElement(Element *e,int nivellMaxim,CompressedONode *p
 						aux->mida = aux->mida/2; //La mida del node sera la meitat
 						aux->nivell++; //El node tindra un nivell mes
 			
-						//Actualitzem el fill que han d'anar els elements
+						//Actualitzem el fill que han d'anar els grid
 						fillNodeAntic = aux->aQuinFill(this);
 						fillNouElement = aux->aQuinFill(e);
 					}
 
 					//Mirem si hem arribat al nivell maxim. En cas d'haver-hi arribat,
-					//no cal que fem res (ja hi ha els elements dins el node aux).
+					//no cal que fem res (ja hi ha els grid dins el node aux).
 					//Altrament, afegim el node actual i l'element com a fills del node aux.
 					if (aux->getNivell() < nivellMaxim) {
 						//Afegim el node
@@ -698,7 +698,7 @@ void CompressedONode::esborrarElement(Element *e,int nivellMaxim,CompressedONode
 					switch (f1->tipus())
 					{
 						case 1:
-							//Comprovem quants elements hi ha
+							//Comprovem quants grid hi ha
 							if (f1->getLlistaElements().size()>1) { 
 								//Més d'un element = Nivell Maxim
 								//Transformem el node actual com el node fill i eliminem el fill
@@ -741,7 +741,7 @@ void CompressedONode::esborrarElement(Element *e,int nivellMaxim,CompressedONode
 									}
 									mida = pareMida/2.0;
 									nivell = pareNivell+1;
-									//Afegim els elements al nou node
+									//Afegim els grid al nou node
 									llistaElements = f1->getLlistaElements();
 									delete f1; f1=NULL;
 								} else {
@@ -776,7 +776,7 @@ void CompressedONode::esborrarElement(Element *e,int nivellMaxim,CompressedONode
 					switch (f2->tipus())
 					{
 						case 1:
-							//Comprovem quants elements hi ha
+							//Comprovem quants grid hi ha
 							if (f2->getLlistaElements().size()>1) { 
 								//Més d'un element = Nivell Maxim
 								//Transformem el node actual com el node fill i eliminem el fill
@@ -820,7 +820,7 @@ void CompressedONode::esborrarElement(Element *e,int nivellMaxim,CompressedONode
 									}
 									mida = pareMida/2.0;
 									nivell = pareNivell+1;
-									//Afegim els elements al nou node
+									//Afegim els grid al nou node
 									llistaElements = f2->getLlistaElements();
 									delete f2; f2=NULL;
 								} else {
@@ -855,7 +855,7 @@ void CompressedONode::esborrarElement(Element *e,int nivellMaxim,CompressedONode
 					switch (f3->tipus())
 					{
 						case 1:
-							//Comprovem quants elements hi ha
+							//Comprovem quants grid hi ha
 							if (f3->getLlistaElements().size()>1) { 
 								//Més d'un element = Nivell Maxim
 								//Transformem el node actual com el node fill i eliminem el fill
@@ -899,7 +899,7 @@ void CompressedONode::esborrarElement(Element *e,int nivellMaxim,CompressedONode
 									}
 									mida = pareMida/2.0;
 									nivell = pareNivell+1;
-									//Afegim els elements al nou node
+									//Afegim els grid al nou node
 									llistaElements = f3->getLlistaElements();
 									delete f3; f3=NULL;
 								} else {
@@ -934,7 +934,7 @@ void CompressedONode::esborrarElement(Element *e,int nivellMaxim,CompressedONode
 					switch (f4->tipus())
 					{
 						case 1:
-							//Comprovem quants elements hi ha
+							//Comprovem quants grid hi ha
 							if (f4->getLlistaElements().size()>1) { 
 								//Més d'un element = Nivell Maxim
 								//Transformem el node actual com el node fill i eliminem el fill
@@ -978,7 +978,7 @@ void CompressedONode::esborrarElement(Element *e,int nivellMaxim,CompressedONode
 									}
 									mida = pareMida/2.0;
 									nivell = pareNivell+1;
-									//Afegim els elements al nou node
+									//Afegim els grid al nou node
 									llistaElements = f4->getLlistaElements();
 									delete f4; f4=NULL;
 								} else {
@@ -1013,7 +1013,7 @@ void CompressedONode::esborrarElement(Element *e,int nivellMaxim,CompressedONode
 					switch (f5->tipus())
 					{
 						case 1:
-							//Comprovem quants elements hi ha
+							//Comprovem quants grid hi ha
 							if (f5->getLlistaElements().size()>1) { 
 								//Més d'un element = Nivell Maxim
 								//Transformem el node actual com el node fill i eliminem el fill
@@ -1057,7 +1057,7 @@ void CompressedONode::esborrarElement(Element *e,int nivellMaxim,CompressedONode
 									}
 									mida = pareMida/2.0;
 									nivell = pareNivell+1;
-									//Afegim els elements al nou node
+									//Afegim els grid al nou node
 									llistaElements = f5->getLlistaElements();
 									delete f5; f5=NULL;
 								} else {
@@ -1092,7 +1092,7 @@ void CompressedONode::esborrarElement(Element *e,int nivellMaxim,CompressedONode
 					switch (f6->tipus())
 					{
 						case 1:
-							//Comprovem quants elements hi ha
+							//Comprovem quants grid hi ha
 							if (f6->getLlistaElements().size()>1) { 
 								//Més d'un element = Nivell Maxim
 								//Transformem el node actual com el node fill i eliminem el fill
@@ -1136,7 +1136,7 @@ void CompressedONode::esborrarElement(Element *e,int nivellMaxim,CompressedONode
 									}
 									mida = pareMida/2.0;
 									nivell = pareNivell+1;
-									//Afegim els elements al nou node
+									//Afegim els grid al nou node
 									llistaElements = f6->getLlistaElements();
 									delete f6; f6=NULL;
 								} else {
@@ -1172,7 +1172,7 @@ void CompressedONode::esborrarElement(Element *e,int nivellMaxim,CompressedONode
 					switch (f7->tipus())
 					{
 						case 1:
-							//Comprovem quants elements hi ha
+							//Comprovem quants grid hi ha
 							if (f7->getLlistaElements().size()>1) { 
 								//Més d'un element = Nivell Maxim
 								//Transformem el node actual com el node fill i eliminem el fill
@@ -1216,7 +1216,7 @@ void CompressedONode::esborrarElement(Element *e,int nivellMaxim,CompressedONode
 									}
 									mida = pareMida/2.0;
 									nivell = pareNivell+1;
-									//Afegim els elements al nou node
+									//Afegim els grid al nou node
 									llistaElements = f7->getLlistaElements();
 									delete f7; f7=NULL;
 								} else {
@@ -1251,7 +1251,7 @@ void CompressedONode::esborrarElement(Element *e,int nivellMaxim,CompressedONode
 					switch (f8->tipus())
 					{
 						case 1:
-							//Comprovem quants elements hi ha
+							//Comprovem quants grid hi ha
 							if (f8->getLlistaElements().size()>1) { 
 								//Més d'un element = Nivell Maxim
 								//Transformem el node actual com el node fill i eliminem el fill
@@ -1295,7 +1295,7 @@ void CompressedONode::esborrarElement(Element *e,int nivellMaxim,CompressedONode
 									}
 									mida = pareMida/2.0;
 									nivell = pareNivell+1;
-									//Afegim els elements al nou node
+									//Afegim els grid al nou node
 									llistaElements = f8->getLlistaElements();
 									delete f8; f8=NULL;
 								} else {
@@ -1370,12 +1370,12 @@ bool CompressedONode::nodeBuit()
         return ( (f1==NULL)&&(f2==NULL)&&(f3==NULL)&&(f4==NULL)&&(f5==NULL)&&(f6==NULL)&&(f7==NULL)&&(f8==NULL)&&(llistaElements.size()==0) );
 }
 
-//Crea els fills d'un node a partir dels 2 elements que hi ha dins d'ell
+//Crea els fills d'un node a partir dels 2 grid que hi ha dins d'ell
 int CompressedONode::crearFills(int nivellMaxim)
 {
-	//Hem de crear els fills del node depenent dels 2 elements que te
-	//Per fer-ho, primer mirem a quins fills han d'anar cada un dels dos elements:
-	//--> Si els elements van a 2 fills diferents, simplement creem aquests 2 fills
+	//Hem de crear els fills del node depenent dels 2 grid que te
+	//Per fer-ho, primer mirem a quins fills han d'anar cada un dels dos grid:
+	//--> Si els grid van a 2 fills diferents, simplement creem aquests 2 fills
 	//--> Altrament (van al mateix fill), hem d'anar saltant de nivell fins que vagin a dos
 	//	fills diferents o arribem al nivell maxim del quadtree
 	int res;
@@ -1383,8 +1383,8 @@ int CompressedONode::crearFills(int nivellMaxim)
 	int fill1 = aQuinFill(llistaElements[0]);
 	int fill2 = aQuinFill(llistaElements[1]);
 	
-	while ( (fill1==fill2) && (nivell<nivellMaxim) && (nivell>0) ) { //Mentre els 2 elements hagin d'anar al mateix fill
-	// YY no estiguem al nivell maxim -1 (posem el -1 perque quan afegim els 2 elements baixarem
+	while ( (fill1==fill2) && (nivell<nivellMaxim) && (nivell>0) ) { //Mentre els 2 grid hagin d'anar al mateix fill
+	// YY no estiguem al nivell maxim -1 (posem el -1 perque quan afegim els 2 grid baixarem
 	// un altre nivell) YY el nivell no sigui 0 (ja que si es l'arrel no li canviarem la seva mida)
 	
 		//Primer canviem el punt d'ancoratge (basePoint)
@@ -1420,7 +1420,7 @@ int CompressedONode::crearFills(int nivellMaxim)
 		mida = mida/2; //La mida del node sera la meitat
 		nivell++; //El node tindra un nivell mes
 		
-		//Actualitzem el fill que han d'anar els elements
+		//Actualitzem el fill que han d'anar els grid
 		fill1 = aQuinFill(llistaElements[0]);
 		fill2 = aQuinFill(llistaElements[1]);
 		
@@ -1442,7 +1442,7 @@ int CompressedONode::crearFills(int nivellMaxim)
 //Retorna cert si el node conté l'element e
 bool CompressedONode::pertany(Element *e) 
 {
-	//cout << "\t dins el pertany, num elements: " << llistaElements.size() << endl;
+	//cout << "\t dins el pertany, num grid: " << llistaElements.size() << endl;
 	vector<Element*>::iterator i = llistaElements.end();
 	while (i!=llistaElements.begin())
 	{
@@ -1914,7 +1914,7 @@ void CompressedONode::actualitzarInfGeo()
 	if (f8 != NULL) f8->actualitzarInfGeo();
 }
 
-//Retorna la llista d'elements que formen part de la circumferencia "e-eps"
+//Retorna la llista d'grid que formen part de la circumferencia "e-eps"
 list<Element*> * CompressedONode::weightedNeighbors(Element *e,double eps)
 {
 	list<Element*> *ret = NULL;
@@ -2282,7 +2282,7 @@ list<Element*> * CompressedONode::report(Element *e)
 {
 	list<Element*> *ret = new list<Element*>();
 	
-	//Report all Matching elements in the node
+	//Report all Matching grid in the node
 	vector<Element*>::iterator it;
 	for(it=llistaElements.begin();it!=llistaElements.end();it++)
 	{
@@ -2300,7 +2300,7 @@ list<Element*> * CompressedONode::reportIf(Element *e,double r)
 {
 	list<Element*> *ret = new list<Element*>();
 	
-	//Report all Matching elements in the node
+	//Report all Matching grid in the node
 	vector<Element*>::iterator it;
 	for(it =llistaElements.begin(); it != llistaElements.end(); it++)
 	{
@@ -2345,7 +2345,7 @@ bool CompressedONode::compatible(CompressedInformacioGeometrica info,CompressedI
 }
 
 //Compatibility functions for every attribute
-//First attribute, number of elements
+//First attribute, number of grid
  bool CompressedONode::compatible_num_elements(CompressedInformacioGeometrica info,CompressedInformacioGeometrica *infoNode)
  {
 	int numElementsInfo = info.getNumElements();
@@ -2362,7 +2362,7 @@ bool CompressedONode::compatible(CompressedInformacioGeometrica info,CompressedI
 	vector<int> numElementsInfo = info.getNumElementsHistograma();
 	vector<int> numElementsNode = infoNode->getNumElementsHistograma();
 
-	//Controlem el numero d'elements per a cada Interval (Categoria)
+	//Controlem el numero d'grid per a cada Interval (Categoria)
 	vector<int>::iterator itInfo = numElementsInfo.begin();
 	vector<int>::iterator itNode = numElementsNode.begin();
 

@@ -25,7 +25,10 @@ class TriHash
 	TriHash(vector<Element *> vec, int numC=-1, double iTol=0.0000000001);
 
 	// destructor
-	~TriHash(){};	
+	~TriHash(){};
+
+	int getNumElems();
+	int getSlotsPerDimension();
 
 	int findSlot(double val, char type, bool checkOutOfBounds=false); // type=x,y,z returns the slot (for the givenn) where value val falls into. "checkOutOfBounds" indictes if we get out of bonds querys back IN bounds or if we throw an exception.
   

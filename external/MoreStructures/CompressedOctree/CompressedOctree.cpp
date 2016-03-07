@@ -80,7 +80,7 @@ void CompressedOctree::calcularCub()
 		mida = 2;
 	} else {
 		//Primer calculem les tres coordenades per obtenir el punt d'ancoratge
-		//i la distancia maxima entre dos elements
+		//i la distancia maxima entre dos grid
 		double xMin,yMin,zMin;
 		double xMax,yMax,zMax;
 		
@@ -3451,7 +3451,7 @@ vector<bool> CompressedOctree::descomprimeix(CompressedONode *t,CompressedONode 
 				}
 			
 				CompressedONode *fillAdoptiu = new CompressedONode(ancoratgeFillAdoptiu,mida/2,t->getNivell()+1);
-				// li posem la llista d'elements del que sera el seu fill
+				// li posem la llista d'grid del que sera el seu fill
 				fillAdoptiu->setLlistaElements( vFills[i]->getLlistaElements());
 						
 				// la informacio geometrica tambe la copiem igual
@@ -3603,4 +3603,9 @@ void CompressedOctree::recomprimeix(vector<bool> fillsTocats, CompressedONode * 
 
 	//cout<<"surto de reccomprimir "<<endl;
 	//nAux->write();
+}
+
+CompressedONode * CompressedOctree::getArrel() {
+
+	return arrel;
 }

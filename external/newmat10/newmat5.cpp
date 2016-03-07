@@ -423,7 +423,7 @@ void GeneralMatrix::NegAdd(Real f)
    
 void GeneralMatrix::Negate(GeneralMatrix* gm1)
 {
-   // change sign of elements
+   // change sign of grid
    REPORT
    Real* s1=gm1->store; Real* s=store; int i=(storage >> 2);
    while (i--)
@@ -537,7 +537,7 @@ MatrixInput BandMatrix::operator<<(Real)
 void BandMatrix::operator<<(const Real*)
 { Throw(ProgramException("Cannot use array read with a BandMatrix")); }
 
-// ************************* Reverse order of elements ***********************
+// ************************* Reverse order of grid ***********************
 
 void GeneralMatrix::ReverseElements(GeneralMatrix* gm)
 {

@@ -106,8 +106,10 @@ returnData myTriHash::calcOwnNN(Point *queryPoint) {
 
 vector<returnData> myTriHash::calcNneigh(Point *queryPoint, int nNeigh) {
 
+     return std::vector<returnData>();
+}
 
+void myTriHash::printStats() {
 
-
-    return std::vector<returnData>();
+    cout << "Load factor: " << trihash->getNumElems() / pow(trihash->getSlotsPerDimension(), 3);
 }

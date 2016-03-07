@@ -72,3 +72,9 @@ vector<returnData> noDataStructure::calcNneigh(Point *queryPoint, int nNeigh) {
 
     return std::vector<returnData>();
 }
+
+void noDataStructure::printStats() {
+
+    cout << "No statistics to print" << endl;
+
+}

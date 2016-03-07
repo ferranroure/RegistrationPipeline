@@ -5,8 +5,8 @@
         <!--<infile2>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/coral_left_moved.ply</infile2>-->
         <!--<infile>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/Rocks_right.ply</infile>-->
         <!--<infile2>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/Rocks_left_moved.ply</infile2>-->
-        <infile>../../models/ResidueTests/fast_spiral.ply</infile>
-        <infile2>../../models/ResidueTests/fast_spiral.ply</infile2>
+        <infile>../../models/ResidueTests/medium_spiral0.ply</infile>
+        <infile2>../../models/ResidueTests/buddha1.ply</infile2>
         <!--<infile>../models/prova/bun0.ply</infile>-->
         <!--<infile2>../models/prova/bun1.ply</infile2>-->
         <!--<infileTemp>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/temp.ply</infileTemp>-->
@@ -59,7 +59,7 @@
 
     <generalProperties>
         <percOfPoints>1</percOfPoints>
-        <nnErrorFactor>1</nnErrorFactor>
+        <nnErrorFactor>2</nnErrorFactor>
         <percOfNoise>0</percOfNoise> <!-- normalized % of MMD (perc * MMD) -->
         <normalizeModels>false</normalizeModels>
         <dataStructure>trihash</dataStructure> <!-- options: kdtree, octree, compressedOctree, trihash, noDataStructure or your own -->

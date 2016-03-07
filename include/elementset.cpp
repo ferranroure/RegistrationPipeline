@@ -1,6 +1,7 @@
 #include "elementset.h"
 #include "DataStructures/compressedOctree/myCompressedOctree.h"
 #include "DataStructures/noDataStructure/noDataStructure.h"
+#include "timer.h"
 
 /* CONSTRUCTOR -----------------------------------------------------------
  *
@@ -367,7 +368,6 @@ void ElementSet::createDataStructure(){
         cerr << "I can't undestand your dataStructure!" << endl;
         exit(EXIT_FAILURE);
     }
-
 
     if(octree!=NULL) delete octree;
     //octree = new Octree(workpoints, 5, xmin, xmax, ymin, ymax, zmin, zmax);

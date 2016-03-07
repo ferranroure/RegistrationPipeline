@@ -44,7 +44,7 @@ TriHash::TriHash(vector<Element *> vec, int numC, double iTol)
 
 	//cout<<"TriHash::TriHash limits computed"<<endl;
 	
-	// traverse elements updating limits
+	// traverse grid updating limits
 	vector<Element *>::iterator it;
 	for(it=vec.begin();it!=vec.end();it++)
 	{
@@ -81,15 +81,15 @@ TriHash::TriHash(vector<Element *> vec, int numC, double iTol)
 // alternative initialization
 /*for(int i=0;i<slotsPerDimension;i++)
 	{
-		elements.push_back(vector<vector<vector<Element *> > > () );
+		grid.push_back(vector<vector<vector<Element *> > > () );
 
 		for(int j=0;j<slotsPerDimension;j++)
 		{
-			elements[i].push_back(vector<vector<Element *> >  () );
+			grid[i].push_back(vector<vector<Element *> >  () );
 	
 			for(int k=0;k<slotsPerDimension;k++)
 			{
-				elements[i][j].push_back(vector<Element *>() );
+				grid[i][j].push_back(vector<Element *>() );
 			}
 		}
 	}*/
@@ -314,10 +314,10 @@ vector<Element *> TriHash::uniformSampling(int totalContribution)
 
 	//cout<<"vector<Element *> TriHash::uniformSampling(int totalContribution) Begin"<<endl;
 
-	// if we need to contribute more elements than what we have, we throw an exception
+	// if we need to contribute more grid than what we have, we throw an exception
 	if(totalContribution > numElems )
 	{
-		cout<<"vector<Element *> TriHash::uniformSampling(int totalContribution) Sampling too big! contribution "<<totalContribution<<" number of elements "<<numElems<<endl;
+		cout<<"vector<Element *> TriHash::uniformSampling(int totalContribution) Sampling too big! contribution "<<totalContribution<<" number of grid "<<numElems<<endl;
 		throw("vector<Element *> TriHash::uniformSampling(int totalContribution) Sampling too big!");
 	}
 
@@ -367,7 +367,7 @@ vector<Element *> TriHash::uniformSampling(int totalContribution)
 						// this slot can contribute more
 						int contribution = tentContribSlot + compt;
 
-						// beware of the maximum number of elements in the slot
+						// beware of the maximum number of grid in the slot
 						if(contribution > elements[i][j][k].size()) contribution = elements[i][j][k].size();
 						 
 						// we now have decided the new contribution, adjust total contributionsSoFar and contributionPerSlot[i][j][k]
@@ -431,8 +431,8 @@ vector<Element *> TriHash::firstElementsInSlot(int i, int j, int k, int numEleme
 	vector<Element *> ret = vector<Element *>();
 	if(elements[i][j][k].size()<numElements)
 	{
-		cout<<"vector<Element *> TriHash::firstElementsInSlot(int i, int j, int k, int numElements ), exception, you ask for too many elements! "<<endl;
-		throw("vector<Element *> TriHash::firstElementsInSlot(int i, int j, int k, int numElements ), exception, you ask for too many elements! ");
+		cout<<"vector<Element *> TriHash::firstElementsInSlot(int i, int j, int k, int numElements ), exception, you ask for too many grid! "<<endl;
+		throw("vector<Element *> TriHash::firstElementsInSlot(int i, int j, int k, int numElements ), exception, you ask for too many grid! ");
 	}
 
 	for(int l=0;l<numElements;l++) ret.push_back(elements[i][j][k][l]);
@@ -448,8 +448,8 @@ vector<Element *> TriHash::randomElementsInSlot(int i, int j, int k, int numElem
 
 	if(elements[i][j][k].size()<numElements)
 	{
-		cout<<"vector<Element *> TriHash::firstElementsInSlot(int i, int j, int k, int numElements ), exception, you ask for too many elements! "<<endl;
-		throw("vector<Element *> TriHash::firstElementsInSlot(int i, int j, int k, int numElements ), exception, you ask for too many elements! ");
+		cout<<"vector<Element *> TriHash::firstElementsInSlot(int i, int j, int k, int numElements ), exception, you ask for too many grid! "<<endl;
+		throw("vector<Element *> TriHash::firstElementsInSlot(int i, int j, int k, int numElements ), exception, you ask for too many grid! ");
 	}
 
 	// create a random permutation of the 
@@ -473,4 +473,14 @@ vector<Element *> TriHash::randomElementsInSlot(int i, int j, int k, int numElem
 	
 
 	return ret;
+}
+
+int TriHash::getNumElems() {
+
+	return numElems;
+}
+
+int TriHash::getSlotsPerDimension() {
+
+	return slotsPerDimension;
 }
