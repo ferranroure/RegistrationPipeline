@@ -2,13 +2,20 @@
 // Created by ferran on 4/03/16.
 //
 
+
 #ifndef PIPELINE_MYPOINT_H
 #define PIPELINE_MYPOINT_H
 
-#define tole 0.00001
+#include <iostream>
+#include "math.h"
+
+#define tole 0.000001
+
+using namespace std;
 
 class myPoint {
 
+private:
     double x;
     double y;
     double z;
@@ -18,6 +25,7 @@ class myPoint {
 public:
     myPoint();
     myPoint(double _x, double _y, double _z, int _ind=-1);
+    myPoint(const myPoint &p);
     ~myPoint();
 
     double getX(){return x;};
@@ -27,7 +35,17 @@ public:
     int getIndex();
     void setIndex(int _ind);
 
-    double dist(const myPoint &p);
+    double dist(myPoint &p);
+
+    void print();
+
+    //Comparison operators
+    bool operator ==(myPoint p)const;
+    bool operator <(myPoint p)const;
+    bool operator !=(myPoint p)const;
+    bool operator >(myPoint p)const;
+    bool operator <=(myPoint p)const;
+    bool operator >=(myPoint p)const;
 };
 
 

@@ -28,6 +28,7 @@
 #include "DataStructures/octree/myOctree.h"
 #include "DataStructures/trihash/myTriHash.h"
 #include "DataStructures/octree/Octree.h"
+#include "DataStructures/gridTree/myGridTree.h"
 
 using namespace std;
 

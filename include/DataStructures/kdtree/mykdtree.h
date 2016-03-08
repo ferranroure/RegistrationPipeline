@@ -48,7 +48,7 @@ public:
     ANNdistArray		dists;                              // Near neighbor distances.
     ANNkd_tree*			kdTree;                             // Search structure.
 
-    converterKdtree *ckdt;
+    converterKdtree     *ckdt;
 
 
     // Methods ------------------------------------------------------------------------

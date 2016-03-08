@@ -244,8 +244,9 @@ vector<Element *> TriHash::neigbors(point3D p, double eps)
 				for(it=(elements[i][j][k]).begin();it!=(elements[i][j][k]).end();it++)
 				{	
 					point3D currentP=(*it)->getPoint();
-					double dist = currentP.dist(p); 
-					if( p!=currentP && dist<eps) 
+					double dist = currentP.dist(p);
+
+					if( p!=currentP && dist<eps)
 					{
 						returnValue.push_back(*it);
 					}

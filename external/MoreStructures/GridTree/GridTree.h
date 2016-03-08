@@ -24,6 +24,7 @@ public:
     GridTree(vector<myPoint *> &vec, int numC=-1, double iTol=0.0000000001);
     ~GridTree();
 
+    void kdtreezation();                        // creartes kdtree in each cell with nPoints > certain number.
     int getNumElems();
     int getSlotsPerDimension();
 
@@ -31,7 +32,7 @@ public:
 
     vector<int> slotsTouched(double min, double max, char type); // returns minimum and maximum slots touched by an interval in a dimension x,y o z (indicated by type)
 
-    vector<myPoint *> neigbors(myPoint *p, double eps); // returns all neigbors at distance at most eps from p, if it finds p it does not return it
+    vector<myPoint *> neighbors(myPoint *p, double eps); // returns all neigbors at distance at most eps from p, if it finds p it does not return it
 
 };
 

@@ -63,6 +63,9 @@ GridTree::GridTree(vector<myPoint*> &vec, int numC, double iTol)
         for(int j=0;j<slotsPerDimension;j++)
         {
             grid[i][j]=vector<Cell *>(slotsPerDimension);
+            for (int k = 0; k < slotsPerDimension; ++k) {
+                grid[i][j][k] = new Cell();
+            }
         }
     }
 
@@ -77,10 +80,10 @@ GridTree::GridTree(vector<myPoint*> &vec, int numC, double iTol)
         y = findSlot(currentP->getY(),'y');
         z = findSlot(currentP->getZ(),'z');
 
-
         grid[x][y][z]->addPoint(currentP);
     }
 
+    kdtreezation();
 }
 
 GridTree::~GridTree() {
@@ -93,6 +96,23 @@ GridTree::~GridTree() {
             }
         }
     }
+}
+
+void GridTree::kdtreezation(){
+
+    int thsPoints = 10;
+
+    for (int i = 0; i < slotsPerDimension; ++i) {
+        for (int j = 0; j < slotsPerDimension; ++j) {
+            for (int k = 0; k < slotsPerDimension; ++k) {
+
+                Cell *cell = grid[i][j][k];
+
+                cell->kdtreezation(thsPoints);
+            }
+        }
+    }
+
 }
 
 int GridTree::findSlot(double val, char type,bool margin)
@@ -168,11 +188,11 @@ vector<int> GridTree::slotsTouched(double min, double max, char type)
     return returnValue;
 }
 
-vector<myPoint *> GridTree::neigbors(myPoint *p, double eps)
+vector<myPoint *> GridTree::neighbors(myPoint *p, double eps)
 {
     //cout<<"GridTree::neigbors neighbors search for "<<p<<" at distance "<<eps<<endl;
     // find points in a query cube and then choose the ones inside the query sphere
-    vector<myPoint *> returnValue = vector<myPoint *>();
+    vector<myPoint *> returnValue;
 
     vector<int> limitsX = slotsTouched(p->getX()-eps, p->getX()+eps, 'x');
     vector<int> limitsY = slotsTouched(p->getY()-eps, p->getY()+eps, 'y');
@@ -190,21 +210,45 @@ vector<myPoint *> GridTree::neigbors(myPoint *p, double eps)
         {
             for(int k=limitsZ[0];k<=limitsZ[1];k++)
             {
-                vector<myPoint *>::iterator it;
-                for (int i_p = 0; i_p < grid[i][j][k]->get_nPoints(); ++i_p)
-                {
-                    myPoint * currentP = (*it);
+                Cell *currentCell = grid[i][j][k];
+
+                if (currentCell->isKdtreezed()){
+
+                    ANNpoint q;
+                    q = annAllocPt(3);
+                    q[0] = p->getX();
+                    q[1] = p->getY();
+                    q[2] = p->getZ();
+
+                    ANNidxArray nnIdx = new ANNidx[1];
+                    ANNdistArray dists = new ANNdist[1];
+
+                    currentCell->getKdtree()->annkSearch(q, 1, nnIdx, dists, eps);
+
+                    myPoint *currentP = currentCell->getPoint(nnIdx[0]);
                     double dist = currentP->dist(*p);
-                    if( p!=currentP && dist<eps)
-                    {
-                        returnValue.push_back(*it);
+
+                    if (*p != *currentP && dist < eps) {
+                        returnValue.push_back(currentCell->getPoint(nnIdx[0]));
+                    }
+
+                    delete[] nnIdx;
+                    delete[] dists;
+                    annDeallocPt(q);
+                }
+                else {
+                    for (int i_p = 0; i_p < grid[i][j][k]->get_nPoints(); ++i_p) {
+                        myPoint *currentP = currentCell->getPoint(i_p);
+                        double dist = currentP->dist(*p);
+
+                        if (*p != *currentP && dist < eps) {
+                            returnValue.push_back(currentP);
+                        }
                     }
                 }
             }
         }
     }
-
-
 
     return returnValue;
 }

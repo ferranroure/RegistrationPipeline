@@ -48,7 +48,7 @@ returnData myCompressedOctree::calcOneNN(Point *queryPoint, float errEps) {
         for (list<Element *>::iterator it = vnn->begin(); it != vnn->end(); ++it) {
 
             float dist = p.dist((*it)->getPoint());
-            if (dist < bestDist && (*it)->getPoint() != p) {
+            if (dist < bestDist && (*it)->getPoint() != p && dist <= errEps) {
                 bestDist = dist;
                 nn->setPoint((*it)->getPoint());
             }

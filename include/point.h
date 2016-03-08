@@ -21,8 +21,8 @@
 
 using namespace std;
 
-//#define tole 0.000001
-#define tole 0.00001
+#define tole 0.000001
+//#define tole 0.00001
 
 struct pointColor {
 

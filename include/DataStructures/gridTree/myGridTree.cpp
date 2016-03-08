@@ -31,7 +31,7 @@ returnData myGridTree::calcOneNN(Point *queryPoint, float errEps) {
     myPoint *p = new myPoint(queryPoint->getX(), queryPoint->getY(), queryPoint->getZ());
 
     vector<myPoint*> vnn;
-    vnn = gridtree->neigbors(p, errEps);
+    vnn = gridtree->neighbors(p, errEps);
 
     myPoint *nn = NULL;
 
@@ -45,7 +45,6 @@ returnData myGridTree::calcOneNN(Point *queryPoint, float errEps) {
         }
     }
 
-//    Element * nn = GridTree->nearestNeighbor(p);
 
     returnData rd;
     if(vnn.empty()){
@@ -74,9 +73,10 @@ returnData myGridTree::calcOwnNN(Point *queryPoint) {
     vector<myPoint*> vnn;
     int factor = 1;
     while(vnn.empty()) {
-        vnn = gridtree->neigbors(p, diagonal * 0.01 * factor);
+        vnn = gridtree->neighbors(p, diagonal * 0.01 * factor);
         ++factor;
     }
+
     myPoint *nn = NULL;
 
     float bestDist = FLT_MAX;
@@ -87,8 +87,6 @@ returnData myGridTree::calcOwnNN(Point *queryPoint) {
             nn = vnn.at(i);
         }
     }
-
-//    Element * nn = GridTree->nearestNeighbor(p);
 
     returnData rd;
     if(vnn.empty()){
@@ -102,6 +100,8 @@ returnData myGridTree::calcOwnNN(Point *queryPoint) {
         rd.sqrDist = dist * dist;
         delete pnn;
     }
+
+    delete p;
 
     return rd;
 }

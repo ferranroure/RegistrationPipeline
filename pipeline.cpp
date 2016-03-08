@@ -315,8 +315,8 @@ void Pipeline::executeResidueComputation(){
 //    cout << ";";
 
 
-//    computeResidue(true);
-    syntheticComputeResidue();
+    computeResidue(true);
+//    syntheticComputeResidue();
 //    cout << endl;
 }
 
@@ -405,7 +405,7 @@ void Pipeline::computeResidue(bool test) {
        int maxLoops = 50;
 
 //        Read matrix file to apply different movements anc compute residues. Check time and obtain a mean value.
-       vector<motion3D> matrices = readMatrices("bun/matrix.xls");
+       vector<motion3D> matrices = readMatrices("bust/matrix.xls");
        int i = 0;
        for (i = 0; i < matrices.size(); ++i) {
 

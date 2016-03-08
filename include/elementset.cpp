@@ -312,6 +312,7 @@ void ElementSet::calcMMD(){
 
     MMD = sum / workpoints->size();
 
+
 }
 
 
@@ -364,8 +365,11 @@ void ElementSet::createDataStructure(){
     else if(dataStructureType=="noDataStructure"){
         dataStruct = new noDataStructure(workpoints);
     }
+    else if(dataStructureType=="gridtree"){
+        dataStruct = new myGridTree(workpoints, diagonal);
+    }
     else{
-        cerr << "I can't undestand your dataStructure!" << endl;
+        cerr << "I can't understand your dataStructure!" << endl;
         exit(EXIT_FAILURE);
     }
 

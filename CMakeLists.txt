@@ -183,6 +183,7 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
             external/MoreStructures/AuxiliaryClasses/point3D.cpp
             external/MoreStructures/GridTree/GridTree.cpp
             external/MoreStructures/GridTree/Cell.cpp
+            external/MoreStructures/GridTree/myPoint.cpp
             include/IDescriptor.h
             include/IManagerIO.h
             include/DataStructures/IDataStructure.h
