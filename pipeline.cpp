@@ -321,6 +321,17 @@ void Pipeline::executeResidueComputation(){
     cout << endl;
 }
 
+void Pipeline::thrsKdtreeTest(){
+
+    input.setData(data);
+    input.execute();
+
+    int size = data->A->nPoints();
+    float base = pow(size,1/3);
+    int factor = 2;
+
+}
+
 void Pipeline::syntheticComputeResidue(){
 
     float rot = 0; // 0.5 degrees.

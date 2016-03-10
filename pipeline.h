@@ -63,6 +63,7 @@ public:
     void executeResidueComputation();       // Execution of residue computation test.
     void computeResidue(bool test=false);   // Compute residue and % of paired points between views.
     void syntheticComputeResidue();         // Residue computation tests for synthetic models.
+    void thrsKdtreeTest();                  // Test to discver the best thrs to create kdtree in the gridtree;
     vector<motion3D> readMatrices(const char *file);
 
     void calcGroundTruth(ElementSet *X,
