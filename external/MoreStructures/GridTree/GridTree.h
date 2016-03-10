@@ -1,5 +1,6 @@
 #include "myPoint.h"
 #include "Cell.h"
+#include <ANN/ANNperf.h>
 #include <vector>
 
 #ifndef _GRIDTREE_
@@ -27,6 +28,7 @@ public:
     void kdtreezation();                        // creartes kdtree in each cell with nPoints > certain number.
     int getNumElems();
     int getSlotsPerDimension();
+    float getMeanHeight();
 
     int findSlot(double val, char type, bool checkOutOfBounds=false); // type=x,y,z returns the slot (for the givenn) where value val falls into. "checkOutOfBounds" indictes if we get out of bonds querys back IN bounds or if we throw an exception.
 

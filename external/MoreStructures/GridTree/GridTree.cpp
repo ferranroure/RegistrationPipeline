@@ -100,7 +100,7 @@ GridTree::~GridTree() {
 
 void GridTree::kdtreezation(){
 
-    int thsPoints = 10;
+    int thsPoints = 5;
 
     for (int i = 0; i < slotsPerDimension; ++i) {
         for (int j = 0; j < slotsPerDimension; ++j) {
@@ -190,6 +190,7 @@ vector<int> GridTree::slotsTouched(double min, double max, char type)
 
 vector<myPoint *> GridTree::neighbors(myPoint *p, double eps)
 {
+
     //cout<<"GridTree::neigbors neighbors search for "<<p<<" at distance "<<eps<<endl;
     // find points in a query cube and then choose the ones inside the query sphere
     vector<myPoint *> returnValue;
@@ -220,16 +221,21 @@ vector<myPoint *> GridTree::neighbors(myPoint *p, double eps)
                     q[1] = p->getY();
                     q[2] = p->getZ();
 
-                    ANNidxArray nnIdx = new ANNidx[1];
-                    ANNdistArray dists = new ANNdist[1];
+                    ANNidxArray nnIdx = new ANNidx[2];
+                    ANNdistArray dists = new ANNdist[2];
 
-                    currentCell->getKdtree()->annkSearch(q, 1, nnIdx, dists, eps);
+                    currentCell->getKdtree()->annkSearch(q, 2, nnIdx, dists, 0.0001);
 
                     myPoint *currentP = currentCell->getPoint(nnIdx[0]);
                     double dist = currentP->dist(*p);
 
-                    if (*p != *currentP && dist < eps) {
-                        returnValue.push_back(currentCell->getPoint(nnIdx[0]));
+                    if(dist <= eps) {
+                        if (*p != *currentP) {
+                            returnValue.push_back(currentCell->getPoint(nnIdx[0]));
+                        }
+                        else {
+                            returnValue.push_back(currentCell->getPoint(nnIdx[1]));
+                        }
                     }
 
                     delete[] nnIdx;
@@ -241,7 +247,7 @@ vector<myPoint *> GridTree::neighbors(myPoint *p, double eps)
                         myPoint *currentP = currentCell->getPoint(i_p);
                         double dist = currentP->dist(*p);
 
-                        if (*p != *currentP && dist < eps) {
+                        if (*p != *currentP && dist <= eps) {
                             returnValue.push_back(currentP);
                         }
                     }
@@ -262,4 +268,27 @@ int GridTree::getNumElems() {
 int GridTree::getSlotsPerDimension() {
 
     return slotsPerDimension;
+}
+
+float GridTree::getMeanHeight() {
+
+    float sum_depth = 0;
+    int nKdtreezed = 0;
+
+    for (int i = 0; i < slotsPerDimension; ++i) {
+        for (int j = 0; j < slotsPerDimension; ++j) {
+            for (int k = 0; k < slotsPerDimension; ++k) {
+
+                if(grid[i][j][k]->isKdtreezed()) {
+                    nKdtreezed++;
+                    ANNkdStats st;
+                    grid[i][j][k]->getKdtree()->getStats(st);
+
+                    sum_depth += st.depth;
+                }
+            }
+        }
+    }
+
+    return sum_depth/nKdtreezed;
 }

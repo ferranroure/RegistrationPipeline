@@ -39,7 +39,7 @@ returnData myTriHash::calcOneNN(Point *queryPoint, float errEps) {
     float bestDist = FLT_MAX;
     for (int i = 0; i < vnn.size(); ++i) {
         float dist = p.dist(vnn.at(i)->getPoint());
-        if(dist<bestDist){
+        if(dist<bestDist && dist <= errEps){
             bestDist = dist;
             nn = vnn.at(i);
         }

@@ -298,26 +298,27 @@ void Pipeline::executeResidueComputation(){
     input.setData(data);
     input.execute();
 
-    cout << endl << endl;
-    cout << "-----------------------------------------------------------------------------------------" << endl;
-    cout << "                                                   PIPELINE PROJECT - RESIDUE COMPUTATION" << endl;
-    cout << "Target model:         " << data->params.infile << endl;
-    cout << "Candidate model:      " << data->params.infile2 << endl;
-    cout << "Data Structure:       " << data->params.dataStructure << endl;
-    cout << "% of used points:     " << data->params.percOfPoints*100 << "%" <<  endl;
+//    cout << endl << endl;
+//    cout << "-----------------------------------------------------------------------------------------" << endl;
+//    cout << "                                                   PIPELINE PROJECT - RESIDUE COMPUTATION" << endl;
+//    cout << "Target model:         " << data->params.infile << endl;
+//    cout << "Candidate model:      " << data->params.infile2 << endl;
+//    cout << "Data Structure:       " << data->params.dataStructure << endl;
+//    cout << "MMD:                  " << data->A->getMMD() << endl;
+//    cout << "% of used points:     " << data->params.percOfPoints*100 << "%" <<  endl;
 
-//    Timer timer;
-//    timer.reset();
-//    data->A->createDataStructure();
+    Timer timer;
+    timer.reset();
+    data->A->createDataStructure();
 //    cout << "Data Structure construction time: " << timer.elapsed() << " sec. " << endl;
-//    cout << timer.elapsed() << ";";
-//    data->A->getDataStruct()->printStats();
-//    cout << ";";
+    cout << timer.elapsed() << ";";
+    data->A->getDataStruct()->printStats();
+    cout << ";;";
 
 
     computeResidue(true);
 //    syntheticComputeResidue();
-//    cout << endl;
+    cout << endl;
 }
 
 void Pipeline::syntheticComputeResidue(){
@@ -350,7 +351,7 @@ void Pipeline::syntheticComputeResidue(){
         double res = data->A->calcNN(copy.getPoints(), data->params.percOfPoints, data->params.nnErrorFactor, pairedPoints);
         double t = timer.elapsed();
         sum_time += t;
-        cout << ((float) pairedPoints / (float) data->A->allpoints->size()) << ";" << ((float) pairedPoints / (float) copy.allpoints->size()) << ";" << t << ";" << endl;
+//        cout << ((float) pairedPoints / (float) data->A->allpoints->size()) << ";" << ((float) pairedPoints / (float) copy.allpoints->size()) << ";" << t << ";" << endl;
 
 
 
@@ -361,8 +362,8 @@ void Pipeline::syntheticComputeResidue(){
 //        copy.createFileFromData("cube/cube"+i_text.str()+".ply");
     }
 
-    cout << "#movements: "<< i << " Mean Time: " << sum_time/i << " sec." << endl;
-//        cout << sum_time/i;
+//    cout << "#movements: "<< i << " Mean Time: " << sum_time/i << " sec." << endl;
+        cout << sum_time/i;
 
 }
 
@@ -405,7 +406,7 @@ void Pipeline::computeResidue(bool test) {
        int maxLoops = 50;
 
 //        Read matrix file to apply different movements anc compute residues. Check time and obtain a mean value.
-       vector<motion3D> matrices = readMatrices("bust/matrix.xls");
+       vector<motion3D> matrices = readMatrices("bun/matrix.xls");
        int i = 0;
        for (i = 0; i < matrices.size(); ++i) {
 
@@ -424,8 +425,8 @@ void Pipeline::computeResidue(bool test) {
            if(i >= maxLoops) break;
        }
 
-       cout << "#movements: "<< i << " Mean Time: " << sum_time/i << " sec." << endl;
-
+//       cout << "#movements: "<< i << " Mean Time: " << sum_time/i << " sec." << endl;
+        cout << sum_time/i;
 
 //        cout << res << ";";
 //        cout << ((float) pairedPoints / (float) data->A->allpoints->size()) << ";";;

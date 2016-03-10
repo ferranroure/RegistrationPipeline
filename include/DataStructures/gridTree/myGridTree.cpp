@@ -113,5 +113,9 @@ vector<returnData> myGridTree::calcNneigh(Point *queryPoint, int nNeigh) {
 
 void myGridTree::printStats() {
 
-    cout << "Load factor: " << gridtree->getNumElems() / pow(gridtree->getSlotsPerDimension(), 3);
+    // for each cell, get kdtree's height.
+    float meanHeight = gridtree->getMeanHeight();
+
+//    cout << "Load factor: " << gridtree->getNumElems() / pow(gridtree->getSlotsPerDimension(), 3);
+    cout <<  gridtree->getNumElems() / pow(gridtree->getSlotsPerDimension(), 3) << ";" << meanHeight;
 }

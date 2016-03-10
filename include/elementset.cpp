@@ -310,6 +310,7 @@ void ElementSet::calcMMD(){
 //        cout << sqrt(rd.sqrDist) << endl;
     }
 
+
     MMD = sum / workpoints->size();
 
 
