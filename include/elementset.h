@@ -113,6 +113,8 @@ public:
     void    scalePoints(float normFactor);
     void    addPoint(Point *p);
 
+    void    updateDataStructure(IDataStructure *ed);
+
 
     // Getters and Setters ---------------------------------------------------------------------------------------------
 

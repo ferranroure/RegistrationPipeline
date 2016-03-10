@@ -26,6 +26,7 @@ public:
     // Methods ------------------------------------------------------------
     myGridTree();
     myGridTree(vector<Point *> *P, float _diag);
+    myGridTree(vector<Point *> *P, float _diag, int slotsPerDim, int _thsPoints);
     ~myGridTree();
 
     returnData calcOneNN(Point *queryPoint, float errEps);

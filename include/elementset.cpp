@@ -800,3 +800,9 @@ void ElementSet::addPoint(Point *p) {
     points->push_back(*p);
 
 }
+
+void ElementSet::updateDataStructure(IDataStructure *ds){
+
+    delete dataStruct;
+    dataStruct = ds;
+}

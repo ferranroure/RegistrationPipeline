@@ -20,6 +20,15 @@ myGridTree::myGridTree(vector<Point *> *P, float _diag) {
     gridtree = new GridTree(points);
 }
 
+
+myGridTree::myGridTree(vector<Point *> *P, float _diag, int slotsPerDim, int _thsPoints) {
+
+    diagonal = _diag;
+    ads = new converterGridTree();
+    vector<myPoint *> points = ads->convertArray(P);
+    gridtree = new GridTree(points, slotsPerDim, _thsPoints);
+}
+
 myGridTree::~myGridTree() {
 
     delete gridtree;

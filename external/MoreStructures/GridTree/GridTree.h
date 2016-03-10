@@ -20,9 +20,11 @@ class GridTree
 
     int nPoints;
 
-public:
 
-    GridTree(vector<myPoint *> &vec, int numC=-1, double iTol=0.0000000001);
+public:
+    int thsPoints;
+
+    GridTree(vector<myPoint *> &vec, int numC=-1, int _thsPoints=5, double iTol=0.0000000001);
     ~GridTree();
 
     void kdtreezation();                        // creartes kdtree in each cell with nPoints > certain number.

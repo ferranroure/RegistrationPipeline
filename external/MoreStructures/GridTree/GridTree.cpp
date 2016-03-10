@@ -1,9 +1,10 @@
 #include "GridTree.h"
 
-GridTree::GridTree(vector<myPoint*> &vec, int numC, double iTol)
+GridTree::GridTree(vector<myPoint*> &vec, int numC, int _thsPoints, double iTol)
 {
     slotsPerDimension = numC;
     tol=iTol;
+    thsPoints = _thsPoints;
 
     nPoints = vec.size();
 
@@ -100,7 +101,7 @@ GridTree::~GridTree() {
 
 void GridTree::kdtreezation(){
 
-    int thsPoints = 5;
+//    int thsPoints = 5;
 
     for (int i = 0; i < slotsPerDimension; ++i) {
         for (int j = 0; j < slotsPerDimension; ++j) {

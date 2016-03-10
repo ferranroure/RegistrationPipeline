@@ -307,17 +307,18 @@ void Pipeline::executeResidueComputation(){
 //    cout << "MMD:                  " << data->A->getMMD() << endl;
 //    cout << "% of used points:     " << data->params.percOfPoints*100 << "%" <<  endl;
 
-    Timer timer;
-    timer.reset();
-    data->A->createDataStructure();
-//    cout << "Data Structure construction time: " << timer.elapsed() << " sec. " << endl;
-    cout << timer.elapsed() << ";";
-    data->A->getDataStruct()->printStats();
-    cout << ";;";
+//    Timer timer;
+//    timer.reset();
+//    data->A->createDataStructure();
+////    cout << "Data Structure construction time: " << timer.elapsed() << " sec. " << endl;
+//    cout << timer.elapsed() << ";";
+//    data->A->getDataStruct()->printStats();
+//    cout << ";;";
 
 
-    computeResidue(true);
+//    computeResidue(true);
 //    syntheticComputeResidue();
+    thrsKdtreeTest();
     cout << endl;
 }
 
@@ -327,8 +328,38 @@ void Pipeline::thrsKdtreeTest(){
     input.execute();
 
     int size = data->A->nPoints();
-    float base = pow(size,1/3);
+    int slotsPerDim = pow(size, (1 / 3.));
     int factor = 2;
+
+    cout << "Thrs Test" << endl;
+
+    for (int i = 0; i < 5; ++i) {
+        cout << "Slot per dimension: " << slotsPerDim << endl;
+//        int thsPoints = size / pow(slotsPerDim,3); // loadfactor.
+        int thsPoints = 1; // loadfactor.
+
+        for (int j = 0; j < 5; ++j) {
+            cout << "Thrs of points to use kdtree: " << thsPoints << endl;
+            myGridTree *gridtreeA = new myGridTree(data->A->getWorkpoints(), data->A->getDiagonal(), slotsPerDim, thsPoints);
+            myGridTree *gridtreeB = new myGridTree(data->B->getWorkpoints(), data->B->getDiagonal(), slotsPerDim, thsPoints);
+
+            data->A->updateDataStructure(gridtreeA);
+            data->B->updateDataStructure(gridtreeB);
+
+            // Regular test: 1 execution.
+            Timer timer;
+            int pairedPoints = 0;
+            timer.reset();
+            double res = data->A->calcNN(data->B->getPoints(), data->params.percOfPoints, data->params.nnErrorFactor, pairedPoints);
+            double time = timer.elapsed();
+            cout << "% of paired points of A : " << ((float) pairedPoints / (float) data->A->allpoints->size()) * 100 << "%" << " in " << time << " sec." << endl;
+
+            thsPoints = thsPoints * 5;
+        }
+
+        slotsPerDim = slotsPerDim / factor;
+        cout << endl;
+    }
 
 }
 
@@ -403,41 +434,41 @@ void Pipeline::computeResidue(bool test) {
     else{
 
 //        // Regular test: 1 execution.
-//         Timer timer;
-//         int pairedPoints = 0;
-//         timer.reset();
-//         double res = data->A->calcNN(data->B->getPoints(), data->params.percOfPoints, data->params.nnErrorFactor, pairedPoints);
-//         double time = timer.elapsed();
-//         cout << "% of paired points of A : " << ((float) pairedPoints / (float) data->A->allpoints->size()) * 100 << "%" << " in " << time << " sec." << endl;
+         Timer timer;
+         int pairedPoints = 0;
+         timer.reset();
+         double res = data->A->calcNN(data->B->getPoints(), data->params.percOfPoints, data->params.nnErrorFactor, pairedPoints);
+         double time = timer.elapsed();
+         cout << "% of paired points of A : " << ((float) pairedPoints / (float) data->A->allpoints->size()) * 100 << "%" << " in " << time << " sec." << endl;
 
 
 ////        // Multi execution test.
-       Timer timer;
-       double sum_time = 0;
-       int maxLoops = 50;
-
-//        Read matrix file to apply different movements anc compute residues. Check time and obtain a mean value.
-       vector<motion3D> matrices = readMatrices("bun/matrix.xls");
-       int i = 0;
-       for (i = 0; i < matrices.size(); ++i) {
-
-           ElementSet *aux = new ElementSet(*(data->B));
-           aux->transform(&matrices.at(i));
-
-           int pairedPoints = 0;
-           timer.reset();
-           double res = data->A->calcNN(aux->getPoints(), data->params.percOfPoints, data->params.nnErrorFactor, pairedPoints);
-           sum_time += timer.elapsed();
-//           cout << "% of paired points of A : " << ((float) pairedPoints / (float) data->A->allpoints->size()) * 100 << "%" << " in " << timer.elapsed() << " sec." << endl;
-//           cout << ((float) pairedPoints / (float) data->A->allpoints->size()) << ";" << ((float) pairedPoints / (float) data->B->allpoints->size()) << ";" << timer.elapsed() << ";" << endl;
-
-           delete aux;
-
-           if(i >= maxLoops) break;
-       }
-
-//       cout << "#movements: "<< i << " Mean Time: " << sum_time/i << " sec." << endl;
-        cout << sum_time/i;
+//       Timer timer;
+//       double sum_time = 0;
+//       int maxLoops = 50;
+//
+////        Read matrix file to apply different movements anc compute residues. Check time and obtain a mean value.
+//       vector<motion3D> matrices = readMatrices("bun/matrix.xls");
+//       int i = 0;
+//       for (i = 0; i < matrices.size(); ++i) {
+//
+//           ElementSet *aux = new ElementSet(*(data->B));
+//           aux->transform(&matrices.at(i));
+//
+//           int pairedPoints = 0;
+//           timer.reset();
+//           double res = data->A->calcNN(aux->getPoints(), data->params.percOfPoints, data->params.nnErrorFactor, pairedPoints);
+//           sum_time += timer.elapsed();
+////           cout << "% of paired points of A : " << ((float) pairedPoints / (float) data->A->allpoints->size()) * 100 << "%" << " in " << timer.elapsed() << " sec." << endl;
+////           cout << ((float) pairedPoints / (float) data->A->allpoints->size()) << ";" << ((float) pairedPoints / (float) data->B->allpoints->size()) << ";" << timer.elapsed() << ";" << endl;
+//
+//           delete aux;
+//
+//           if(i >= maxLoops) break;
+//       }
+//
+////       cout << "#movements: "<< i << " Mean Time: " << sum_time/i << " sec." << endl;
+//        cout << sum_time/i;
 
 //        cout << res << ";";
 //        cout << ((float) pairedPoints / (float) data->A->allpoints->size()) << ";";;
