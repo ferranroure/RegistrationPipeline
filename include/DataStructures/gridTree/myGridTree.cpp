@@ -128,3 +128,13 @@ void myGridTree::printStats() {
 //    cout << "Load factor: " << gridtree->getNumElems() / pow(gridtree->getSlotsPerDimension(), 3);
     cout <<  gridtree->getNumElems() / pow(gridtree->getSlotsPerDimension(), 3) << ";" << meanHeight;
 }
+
+int myGridTree::getnKdtrees() {
+
+    return gridtree->getnKdtrees();
+}
+
+int myGridTree::getnFilledCells() {
+
+    return gridtree->getnFilledCells();
+}

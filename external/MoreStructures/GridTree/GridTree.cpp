@@ -5,6 +5,8 @@ GridTree::GridTree(vector<myPoint*> &vec, int numC, int _thsPoints, double iTol)
     slotsPerDimension = numC;
     tol=iTol;
     thsPoints = _thsPoints;
+    nKdtrees = 0;
+    nfilledCells = 0;
 
     nPoints = vec.size();
 
@@ -110,6 +112,9 @@ void GridTree::kdtreezation(){
                 Cell *cell = grid[i][j][k];
 
                 cell->kdtreezation(thsPoints);
+
+                if(cell->get_nPoints() > thsPoints) nKdtrees++;
+                if(cell->get_nPoints() > 0) nfilledCells++;
             }
         }
     }
@@ -292,4 +297,15 @@ float GridTree::getMeanHeight() {
     }
 
     return sum_depth/nKdtreezed;
+}
+
+
+int GridTree::getnKdtrees() {
+
+    return nKdtrees;
+}
+
+int GridTree::getnFilledCells() {
+
+    return nfilledCells;
 }

@@ -19,6 +19,8 @@ class GridTree
     double tol; // tolerance to prevent numerical representation errors
 
     int nPoints;
+    int nKdtrees;
+    int nfilledCells;
 
 
 public:
@@ -31,6 +33,8 @@ public:
     int getNumElems();
     int getSlotsPerDimension();
     float getMeanHeight();
+    int getnKdtrees();
+    int getnFilledCells();
 
     int findSlot(double val, char type, bool checkOutOfBounds=false); // type=x,y,z returns the slot (for the givenn) where value val falls into. "checkOutOfBounds" indictes if we get out of bonds querys back IN bounds or if we throw an exception.
 

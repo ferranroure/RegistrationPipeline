@@ -34,6 +34,8 @@ public:
     vector<returnData> calcNneigh(Point *queryPoint, int nNeigh);
 
     void printStats();
+    int getnKdtrees();
+    int getnFilledCells();
 
 };
 

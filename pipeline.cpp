@@ -330,31 +330,69 @@ void Pipeline::thrsKdtreeTest(){
     int size = data->A->nPoints();
     int slotsPerDim = pow(size, (1 / 3.));
     int factor = 2;
+    float factors[] = {1,5,10,20};
 
     cout << "Thrs Test" << endl;
+    cout << "Density ratio;" << data->A->getMMD()/data->A->getDiagonal() << endl;
+    cout << "#CELLS; FILLED_CELS; OCUPATION_RATIO; #KDTREES; KDTREE_RATIO; THRS_POINTS; TIME" << endl;
 
     for (int i = 0; i < 5; ++i) {
-        cout << "Slot per dimension: " << slotsPerDim << endl;
-//        int thsPoints = size / pow(slotsPerDim,3); // loadfactor.
-        int thsPoints = 1; // loadfactor.
+        int thsPoints = size / pow(slotsPerDim,3); // loadfactor.
+//        int thsPoints = 1; // loadfactor.
 
-        for (int j = 0; j < 5; ++j) {
-            cout << "Thrs of points to use kdtree: " << thsPoints << endl;
-            myGridTree *gridtreeA = new myGridTree(data->A->getWorkpoints(), data->A->getDiagonal(), slotsPerDim, thsPoints);
-            myGridTree *gridtreeB = new myGridTree(data->B->getWorkpoints(), data->B->getDiagonal(), slotsPerDim, thsPoints);
+        for (int j = 0; j < 4; ++j) {
+
+            myGridTree *gridtreeA = new myGridTree(data->A->getWorkpoints(), data->A->getDiagonal(), slotsPerDim, thsPoints*factors[j]);
+            myGridTree *gridtreeB = new myGridTree(data->B->getWorkpoints(), data->B->getDiagonal(), slotsPerDim, thsPoints*factors[j]);
 
             data->A->updateDataStructure(gridtreeA);
             data->B->updateDataStructure(gridtreeB);
 
-            // Regular test: 1 execution.
-            Timer timer;
-            int pairedPoints = 0;
-            timer.reset();
-            double res = data->A->calcNN(data->B->getPoints(), data->params.percOfPoints, data->params.nnErrorFactor, pairedPoints);
-            double time = timer.elapsed();
-            cout << "% of paired points of A : " << ((float) pairedPoints / (float) data->A->allpoints->size()) * 100 << "%" << " in " << time << " sec." << endl;
+//            // Regular test: 1 execution.
+//            Timer timer;
+//            int pairedPoints = 0;
+//            timer.reset();
+//            double res = data->A->calcNN(data->B->getPoints(), data->params.percOfPoints, data->params.nnErrorFactor, pairedPoints);
+//            double time = timer.elapsed();
 
-            thsPoints = thsPoints * 5;
+
+//             Multi execution test.
+            Timer timer;
+            double sum_time = 0;
+            int maxLoops = 50;
+
+//        Read matrix file to apply different movements anc compute residues. Check time and obtain a mean value.
+            vector<motion3D> matrices = readMatrices("matrix.xls");
+            int i = 0;
+            for (i = 0; i < matrices.size(); ++i) {
+
+                ElementSet *aux = new ElementSet(*(data->B));
+                aux->transform(&matrices.at(i));
+
+                int pairedPoints = 0;
+                timer.reset();
+                double res = data->A->calcNN(aux->getPoints(), data->params.percOfPoints, data->params.nnErrorFactor, pairedPoints);
+                sum_time += timer.elapsed();
+
+                delete aux;
+
+                if(i >= maxLoops) break;
+            }
+            double time = sum_time/i;
+
+
+
+
+            cout << pow(slotsPerDim,3) << ";";
+            cout << gridtreeA->getnFilledCells() << ";";
+            cout << gridtreeA->getnFilledCells() / pow(slotsPerDim,3) * 100 << "%;";
+            cout << gridtreeA->getnKdtrees() << ";";
+            cout << (gridtreeA->getnKdtrees() / pow(slotsPerDim,3))*100 << "%;";
+            cout << thsPoints*factors[j] << ";";
+            cout <<  time << ";";
+            cout << endl;
+
+//            thsPoints = thsPoints * 2;
         }
 
         slotsPerDim = slotsPerDim / factor;
