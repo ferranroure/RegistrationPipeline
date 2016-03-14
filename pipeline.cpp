@@ -412,7 +412,6 @@ void Pipeline::thrsKdtreeTest(){
 //---------------------------------------------------------------------------------------------------------------
 
 
-
             cout << pow(slotsPerDim,3) << ";";
             cout << gridtreeA->getnFilledCells() << ";";
             cout << gridtreeA->getnFilledCells() / pow(slotsPerDim,3) * 100 << "%;";
