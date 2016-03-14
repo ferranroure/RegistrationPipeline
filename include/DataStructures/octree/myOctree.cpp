@@ -62,3 +62,9 @@ vector<returnData> myOctree::calcNneigh(Point *queryPoint, int nNeigh) {
 
     return vrd;
 }
+
+
+void myOctree::printStats() {
+
+    cout << "Depth: " << octree->getTreeDepth() << endl;
+}

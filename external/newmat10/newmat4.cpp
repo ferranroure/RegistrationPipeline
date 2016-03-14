@@ -24,7 +24,7 @@ namespace NEWMAT {
 
 // ************************* general utilities *************************/
 
-static int tristore(int n)                    // elements in triangular matrix
+static int tristore(int n)                    // grid in triangular matrix
 { return (n*(n+1))/2; }
 
 
@@ -864,7 +864,7 @@ SimpleIntArray::SimpleIntArray(int xn) : n(xn)
 
 SimpleIntArray::~SimpleIntArray() { REPORT  if (a) delete [] a; }
 
-// access an element of an array; return a "reference" so elements
+// access an element of an array; return a "reference" so grid
 // can be modified.
 // check index is within range
 // in this array class the index runs from 0 to n-1
@@ -877,7 +877,7 @@ int& SimpleIntArray::operator[](int i)
 }
 
 // same thing again but for arrays declared constant so we can't
-// modify its elements
+// modify its grid
 
 int SimpleIntArray::operator[](int i) const
 {
@@ -886,12 +886,12 @@ int SimpleIntArray::operator[](int i) const
    return a[i];
 }
 
-// set all the elements equal to a given value
+// set all the grid equal to a given value
 
 void SimpleIntArray::operator=(int ai)
    { REPORT  for (int i = 0; i < n; i++) a[i] = ai; }
 
-// set the elements equal to those of another array.
+// set the grid equal to those of another array.
 // check the arrays are of the same length
 
 void SimpleIntArray::operator=(const SimpleIntArray& b)

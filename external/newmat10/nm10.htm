@@ -154,7 +154,7 @@ squares, linear equation solve and eigenvalues. </P>
 </TR>
 <TR>
 <TD>IdentityMatrix</TD>
-<TD>diagonal matrix, elements have same value</TD>
+<TD>diagonal matrix, grid have same value</TD>
 </TR>
 </TABLE>
 </BLOCKQUOTE>
@@ -165,7 +165,7 @@ determinant, Cholesky decomposition, QR triangularisation, singular value
 decomposition, eigenvalues of a symmetric matrix, sorting, fast Fourier
 transform, printing and an interface with <I>Numerical Recipes in C</I>. </P>
 <P>It is intended for matrices in the range 10 x 10 to the maximum size your
-machine will accommodate in a single array. The number of elements in an array
+machine will accommodate in a single array. The number of grid in an array
 cannot exceed the maximum size of an <I>int</I>. The package will work for very
 small matrices but becomes rather inefficient. Some of the factorisation
 functions are not (yet) optimised for paged memory and so become inefficient
@@ -467,9 +467,9 @@ matrix expressions on the stack rather than the heap. See the discussion on
 <P>The option <A HREF="#testing">DO_FREE_CHECK</A> is used for tracking memory
 leaks and normally should not be activated. </P>
 <P>Activate SETUP_C_SUBSCRIPTS if you want to use traditional C style
-<A HREF="#elements">element access</A>. Note that this does <I>not</I> change
+<A HREF="#grid">element access</A>. Note that this does <I>not</I> change
 the starting point for indices when you are using round brackets for accessing
-elements or selecting submatrices. It does enable you to use C style square
+grid or selecting submatrices. It does enable you to use C style square
 brackets.</P>
 <P>Activate <TT>#define use_namespace</TT> if you want to use <A
 HREF="#namesp">namespaces</A>. Do this only if you are sure your compiler
@@ -730,7 +730,7 @@ matrix, f scalar</A>. </LI>
 <LI><A HREF="#trigtran">Fast trigonometric transforms</A>.
 </LI>
 <LI><A HREF="#unary">Reverse</A> function for reversing order of
-elements in a vector or matrix. </LI>
+grid in a vector or matrix. </LI>
 <LI><A HREF="#scalar3">IsSingular</A> function. </LI>
 <LI>An option is included for defining <A
 HREF="#namesp">namespaces</A>. </LI>
@@ -864,7 +864,7 @@ which is used to check that we are detecting non-zero matrices). The printout
 should state that it has found just one non-zero matrix. </P>
 <P>The test program should be run with <I>Real</I> typedefed to <I>double</I>
 rather than <I>float</I> in <A HREF="#custom">include.h</A>. </P>
-<P>Make sure the <A HREF="#elements">C subscripts</A> are enabled if you want
+<P>Make sure the <A HREF="#grid">C subscripts</A> are enabled if you want
 to test these. </P>
 <P>If you are carrying out some form of bounds checking, for example, with
 Borland's <I>CodeGuard</I>, then disable the testing of the <A
@@ -1277,7 +1277,7 @@ already been reported. </P>
 <TR>
 <TD VALIGN="TOP" ALIGN="LEFT" WIDTH="50%"> <A HREF="#constr">3.1
 Constructors </A><BR>
-<A HREF="#elements">3.2 Accessing elements </A><BR>
+<A HREF="#grid">3.2 Accessing grid </A><BR>
 <A HREF="#copy">3.3 Assignment and copying </A><BR>
 <A HREF="#entering">3.4 Entering values </A><BR>
 <A HREF="#unary">3.5 Unary operations </A><BR>
@@ -1311,7 +1311,7 @@ HREF="#output">3.17 Output </A><BR>
 </TR>
 </TABLE>
 <H2><A NAME="constr"></A>3.1 Constructors</H2>
-<P CLASS="small"><A HREF="#elements">next</A> - <A HREF="#elements">skip</A> -
+<P CLASS="small"><A HREF="#grid">next</A> - <A HREF="#grid">skip</A> -
 <A HREF="#refer">up</A> - <A HREF="#top">start</A></P>
 <P>To construct an <I>m</I> x <I>n</I> matrix, <TT>A</TT>, (<I>m</I> and
 <I>n</I> are integers) use </P>
@@ -1344,16 +1344,16 @@ constructors: </P>
     ColumnVector CV(n);
 </PRE>
 
-<P><b>These constructors do <EM>not</EM> initialise the elements of the matrices.
+<P><b>These constructors do <EM>not</EM> initialise the grid of the matrices.
 </b>
-To set all the elements to zero use, for example, </P>
+To set all the grid to zero use, for example, </P>
 <PRE>    Matrix A(m, n); A = 0.0;
 </PRE>
 
 <P>The IdentityMatrix takes one argument in its constructor specifying its 
 dimension.</P>
 <pre>    IdentityMatrix I(n);</pre>
-<p>The value of the diagonal elements <b>is</b> set to 1 by default, but you can 
+<p>The value of the diagonal grid <b>is</b> set to 1 by default, but you can
 change this value as with other matrix types. </p>
 
 <P>You can also construct vectors and matrices without specifying the
@@ -1371,12 +1371,12 @@ matrix expression. </P>
 
 <P>Only conversions that don't lose information are supported - eg you cannot
 convert an upper triangular matrix into a diagonal matrix using =. </P>
-<H2><A NAME="elements"></A>3.2 Accessing elements 
+<H2><A NAME="grid"></A>3.2 Accessing grid
 </H2>
 <P CLASS="small"><A HREF="#copy">next</A> - <A HREF="#copy">skip</A> -
 <A HREF="#refer">up</A> - <A HREF="#top">start</A></P>
 <P>Elements are accessed by expressions of the form <TT>A(i,j)</TT> where
-<I>i</I> and <I>j</I> run from 1 to the appropriate dimension. Access elements
+<I>i</I> and <I>j</I> run from 1 to the appropriate dimension. Access grid
 of vectors with just one argument. Diagonal matrices can accept one or two
 subscripts. </P>
 <P>This is different from the earliest version of the package in which the
@@ -1385,7 +1385,7 @@ subscripts ran from 0 to one less than the appropriate dimension. Use
 <P><TT>A(i,j)</TT> and <TT>A.element(i,j)</TT> can appear on either side of an
 = sign. </P>
 <P>If you activate the <TT>#define SETUP_C_SUBSCRIPTS</TT> in
-<TT>include.h</TT> you can also access elements using the traditional C style
+<TT>include.h</TT> you can also access grid using the traditional C style
 notation. That is <TT>A[i][j]</TT> for matrices (except diagonal) and
 <TT>V[i]</TT> for vectors and diagonal matrices. The subscripts start at zero
 (i.e. like element) and there is <I>no</I> range checking. Because of the
@@ -1393,7 +1393,7 @@ possibility of confusing <TT>V(i)</TT> and <TT>V[i]</TT>, I suggest you do
 <I>not</I> activate this option unless you really want to use it. </P>
 <P>Symmetric matrices are stored as lower triangular matrices. It is important
 to remember this if you are using the <TT>A[i][j]</TT> method of accessing
-elements. Make sure the first subscript is greater than or equal to the second
+grid. Make sure the first subscript is greater than or equal to the second
 subscript. However, if you are using the <TT>A(i,j)</TT> method the program
 will swap <TT>i</TT> and <TT>j</TT> if necessary; so it doesn't matter if you
 think of the storage as being in the upper triangle (but it <I>does</I> matter
@@ -1439,10 +1439,10 @@ of the band matrix. </P>
 <PRE>    A.Inject(D);
 </PRE>
 
-<P>to copy the elements of <TT>D</TT> to the corresponding elements of
-<TT>A</TT> but leave the elements of <TT>A</TT> unchanged if there is no
+<P>to copy the grid of <TT>D</TT> to the corresponding grid of
+<TT>A</TT> but leave the grid of <TT>A</TT> unchanged if there is no
 corresponding element of <TT>D</TT> (the <TT>=</TT> operator would set them to
-0). This is useful, for example, for setting the diagonal elements of a matrix
+0). This is useful, for example, for setting the diagonal grid of a matrix
 without disturbing the rest of the matrix. Unlike <TT>=</TT> and
 <TT>&lt;&lt;</TT>, Inject does not reset the dimensions of <TT>A</TT>, which
 must match those of <TT>D</TT>. Inject does <I>not</I> test for no loss of
@@ -1452,11 +1452,11 @@ information. </P>
 expression it might not be obvious to the user what type it would have. So I
 thought it best to disallow expressions. </P>
 <P>Inject can be used for loading values from a regular matrix into a band
-matrix. (Don't forget to zero any elements of the left hand side that will not
+matrix. (Don't forget to zero any grid of the left hand side that will not
 be set by the loading operation). </P>
 <P>Both <TT>&lt;&lt;</TT> and Inject can be used with submatrix expressions on
 the left hand side. See the section on <A HREF="#submat">submatrices</A>. </P>
-<P>To set the elements of a matrix to a scalar use operator <TT>=</TT> </P>
+<P>To set the grid of a matrix to a scalar use operator <TT>=</TT> </P>
 <PRE>    Real r; int m,n;
     ......
     Matrix A(m,n); A = r;</PRE>
@@ -1468,7 +1468,7 @@ the left hand side. See the section on <A HREF="#submat">submatrices</A>. </P>
 either <tt>=</tt> or <tt>&lt;&lt;</tt> the original data array associated with the matrix 
   being assigned to is destroyed 
 even if there is no change in length. See the section on <a href="#stor">storage</a>. 
-This means, in particular, that pointers to matrix elements - e.g.
+This means, in particular, that pointers to matrix grid - e.g.
 <tt>Real* a; a = &amp;(A(1,1));</tt> become invalid. If you want avoid this you 
   can use 
 <tt>Inject</tt> rather than <tt>=</tt>. But remember that you may need to zero 
@@ -1479,13 +1479,13 @@ This means, in particular, that pointers to matrix elements - e.g.
 <H2><A NAME="entering"></A>3.4 Entering values</H2>
 <P CLASS="small"><A HREF="#unary">next</A> - <A HREF="#unary">skip</A> -
 <A HREF="#refer">up</A> - <A HREF="#top">start</A></P>
-<P>You can load the elements of a matrix from an array: </P>
+<P>You can load the grid of a matrix from an array: </P>
 <PRE>    Matrix A(3,2);
     Real a[] = { 11,12,21,22,31,33 };
     A &lt;&lt; a;
 </PRE>
 
-<P>This construction does <I>not</I> check that the numbers of elements match
+<P>This construction does <I>not</I> check that the numbers of grid match
 correctly. This version of <TT>&lt;&lt;</TT> can be used with submatrices on
 the left hand side. It is not defined for band matrices. </P>
 <P>Alternatively you can enter short lists using a sequence of numbers
@@ -1524,10 +1524,10 @@ data. </p>
 <P CLASS="small"><A HREF="#binary">next</A> - <A HREF="#binary">skip</A> -
 <A HREF="#refer">up</A> - <A HREF="#top">start</A></P>
 <P>The package supports unary operations </P>
-<PRE>    X = -A;           // change sign of elements
+<PRE>    X = -A;           // change sign of grid
     X = A.t();        // transpose
     X = A.i();        // inverse (of square matrix A)
-    X = A.Reverse();  // reverse order of elements of vector
+    X = A.Reverse();  // reverse order of grid of vector
                       // or matrix (not band matrix)
 </PRE>
 
@@ -1570,19 +1570,19 @@ and the inverse of <TT>A</TT> would be calculated. It is probably better to use
 RowVector or ColumnVector. </LI>
 <LI>If <TT>A</TT> is <I> m</I> x <I>p</I>, <TT>B</TT> is <I> m</I> x <I>q</I>,
 then <TT>A | B</TT> is <I> m</I> x (<I>p</I>+<I>q</I>) with the <I>k</I>-th row
-being the elements of the <I>k</I>-th row of <TT>A</TT> followed by the
-elements of the <I>k</I>-th row of <TT>B</TT>. </LI>
+being the grid of the <I>k</I>-th row of <TT>A</TT> followed by the
+grid of the <I>k</I>-th row of <TT>B</TT>. </LI>
 <LI>If <TT>A</TT> is <I> p</I> x <I>n</I>, <TT>B</TT> is <I> q</I> x <I>n</I>,
 then <TT>A &amp; B</TT> is (<I>p</I>+<I>q</I>) x <I> n</I> with the <I>k</I>-th
-column being the elements of the <I>k</I>-th column of <TT>A</TT> followed by
-the elements of the <I>k</I>-th column of <TT>B</TT>. </LI>
+column being the grid of the <I>k</I>-th column of <TT>A</TT> followed by
+the grid of the <I>k</I>-th column of <TT>B</TT>. </LI>
 <LI>For complicated concatenations of matrices, consider instead using
 <A HREF="#submat">submatrices</A>. </LI>
 <LI>See the section on <A HREF="#submat">submatrices</A> on using a submatrix
 on the RHS of an expression. </LI>
 <LI>Two matrices are equal if their difference is zero. They may be of
 different types. For the CroutMatrix or BandLUMatrix they must be of the same
-type and have all their elements equal. This is not a very useful operator and
+type and have all their grid equal. This is not a very useful operator and
 is included for compatibility with some container templates. </LI>
 <LI>The inequality operators are included for compatibility with the
 <A HREF="#stl">standard template library</A>. If actually called, they will
@@ -1612,16 +1612,16 @@ use</P>
 <H2><A NAME="matscal"></A>3.7 Matrix and scalar</H2>
 <P CLASS="small"><A HREF="#scalar1">next</A> - <A HREF="#scalar1">skip</A> -
 <A HREF="#refer">up</A> - <A HREF="#top">start</A></P>
-<P>The following expressions multiply the elements of a matrix <TT>A</TT> by a
+<P>The following expressions multiply the grid of a matrix <TT>A</TT> by a
 scalar <TT>f</TT>: <TT>A * f</TT> or <TT>f * A</TT> . Likewise one can divide
-the elements of a matrix <TT>A</TT> by a scalar <TT>f</TT>: <TT>A / f</TT> . 
+the grid of a matrix <TT>A</TT> by a scalar <TT>f</TT>: <TT>A / f</TT> .
 </P>
 <P>The expressions <TT>A + f</TT> and <TT>A - f</TT> add or subtract a
-rectangular matrix of the same dimension as <TT>A</TT> with elements equal to
+rectangular matrix of the same dimension as <TT>A</TT> with grid equal to
 <TT>f</TT> to or from the matrix <TT>A</TT> . </P>
 <P>The expression <TT>f + A</TT> is an alternative to <TT>A + f</TT>. The
 expression <TT>f - A</TT> subtracts matrix <TT>A</TT> from a rectangular matrix
-of the same dimension as <TT>A</TT> and with elements equal to <TT>f</TT> . 
+of the same dimension as <TT>A</TT> and with grid equal to <TT>f</TT> .
 </P>
 <P>The expression <TT>A += f</TT> replaces <TT>A</TT> by <TT>A + f</TT>.
 Operators <TT>-=</TT>, <TT>*=</TT>, <TT>/=</TT> are similarly defined. </P>
@@ -1635,8 +1635,8 @@ functions. </P>
 <PRE>    int m = A.Nrows();                     // number of rows
     int n = A.Ncols();                     // number of columns
     MatrixType mt = A.Type();              // type of matrix
-    Real* s = A.Store();                   // pointer to array of elements
-    int l = A.Storage();                   // length of array of elements
+    Real* s = A.Store();                   // pointer to array of grid
+    int l = A.Storage();                   // length of array of grid
     MatrixBandWidth mbw = A.BandWidth();   // upper and lower bandwidths
 </PRE>
 
@@ -1651,7 +1651,7 @@ non-band matrices -1 is returned for both these values. </P>
 matrix - maximum &amp; minimum</H2>
 <P CLASS="small"><A HREF="#scalar3">next</A> - <A HREF="#scalar3">skip</A> -
 <A HREF="#refer">up</A> - <A HREF="#top">start</A></P>
-<P>This page describes functions for finding the maximum and minimum elements
+<P>This page describes functions for finding the maximum and minimum grid
 of a matrix. </P>
 <PRE>    int i, j;
     Real mv = A.MaximumAbsoluteValue();    // maximum of absolute values
@@ -1683,19 +1683,19 @@ matrix - numerical</H2>
 <P CLASS="small"><A HREF="#submat">next</A> - <A HREF="#submat">skip</A> -
 <A HREF="#refer">up</A> - <A HREF="#top">start</A></P>
 <PRE>    Real r = A.AsScalar();                 // value of 1x1 matrix
-    Real ssq = A.SumSquare();              // sum of squares of elements
+    Real ssq = A.SumSquare();              // sum of squares of grid
     Real sav = A.SumAbsoluteValue();       // sum of absolute values
     Real s = A.Sum();                      // sum of values
     Real norm = A.Norm1();                 // maximum of sum of absolute
-                                              values of elements of a column
+                                              values of grid of a column
     Real norm = A.NormInfinity();          // maximum of sum of absolute
-                                              values of elements of a row
+                                              values of grid of a row
     Real norm = A.NormFrobenius();         // square root of sum of squares
-                                           // of the elements
+                                           // of the grid
     Real t = A.Trace();                    // trace
     Real d = A.Determinant();              // determinant
     LogAndSign ld = A.LogDeterminant();    // log of determinant
-    bool z = A.IsZero();                   // test all elements zero
+    bool z = A.IsZero();                   // test all grid zero
     bool s = A.IsSingular();               // A is a CroutMatrix or
                                               BandLUMatrix
     Real s = DotProduct(A, B);             // dot product of A and B
@@ -1712,13 +1712,13 @@ type LogAndSign use </P>
 <P>Note that the direct use of the function <TT>Determinant()</TT> will often
 cause a floating point overflow exception. </P>
 <P><TT>A.IsZero()</TT> returns Boolean value <TT>true</TT> if the matrix
-<TT>A</TT> has all elements equal to 0.0. </P>
+<TT>A</TT> has all grid equal to 0.0. </P>
 <P><TT>IsSingular</TT> is defined only for CroutMatrix and BandLUMatrix. It
-returns <TT>true</TT> if one of the diagonal elements of the LU decomposition
+returns <TT>true</TT> if one of the diagonal grid of the LU decomposition
 is exactly zero. </P>
 <P><TT>DotProduct(const Matrix&amp; A,const Matrix&amp; B)</TT> converts both
 of the arguments to rectangular matrices, checks that they have the same number
-of elements and then calculates the first element of <TT>A * </TT>first element
+of grid and then calculates the first element of <TT>A * </TT>first element
 of <TT>B + </TT>second element of <TT>A * </TT>second element of <TT>B +
 ...</TT> ignoring the row/column structure of <TT>A</TT> and <TT>B</TT>. It is
 primarily intended for the situation where <TT>A</TT> and <TT>B</TT> are row or
@@ -1773,7 +1773,7 @@ or <TT>&lt;&lt;</TT> or within an expression think of its type as follows </P>
 
 <P>If SubMatrix or its variant appears on the left hand side of <TT>=</TT> or
 <TT>&lt;&lt;</TT> , think of its type being Matrix. Thus <TT>L.Row(1)</TT>
-where <TT>L</TT> is LowerTriangularMatrix expects <TT>L.Ncols()</TT> elements
+where <TT>L</TT> is LowerTriangularMatrix expects <TT>L.Ncols()</TT> grid
 even though it will use only one of them. If you are using <TT>=</TT> the
 program will check for no loss of data.</P>
 
@@ -1784,7 +1784,7 @@ Real on the right-hand side. In each case there must be no loss of information.
 </P>
 <P>The <TT>Row</TT> version can appear on the left hand side of
 <TT>&lt;&lt;</TT> for <A HREF="#entering">loading literal data</A> into a row.
-Load only the number of elements that are actually going to be stored in
+Load only the number of grid that are actually going to be stored in
 memory. </P>
 <P>Do not use the <TT>+=</TT> and <TT>-=</TT> operations with a submatrix of a
 SymmetricMatrix or BandSymmetricMatrix on the LHS and a Real on the RHS.</P>
@@ -1802,7 +1802,7 @@ HREF="#binary">concatenation operators</A>. </P>
 <P CLASS="small"><A HREF="#ch_type">next</A> - <A HREF="#ch_type">skip</A> -
 <A HREF="#refer">up</A> - <A HREF="#top">start</A></P>
 <P>The following operations change the dimensions of a matrix. The values of
-the elements are lost. </P>
+the grid are lost. </P>
 <PRE>    A.ReSize(nrows,ncols);        // for type Matrix or nricMatrix
     A.ReSize(n);                  // for all other types, except Band
     A.ReSize(n,lower,upper);      // for BandMatrix
@@ -1836,7 +1836,7 @@ diagonal matrix). </P>
 <H2><A NAME="ch_type"></A>3.13 Change type</H2>
 <P CLASS="small"><A HREF="#solve">next</A> - <A HREF="#solve">skip</A> -
 <A HREF="#refer">up</A> - <A HREF="#top">start</A></P>
-<P>The following functions interpret the elements of a matrix (stored row by
+<P>The following functions interpret the grid of a matrix (stored row by
 row) to be a vector or matrix of a different type. Actual copying is usually
 avoided where these occur as part of a more complicated expression. </P>
 <PRE>    A.AsRow()
@@ -2099,7 +2099,7 @@ matrix Q to get </P>
          \ X   Y /     \ 0   Z / </PRE>
 
 <P>This is good for solving least squares problems: choose b (matrix or column
-vector) to minimise the sum of the squares of the elements of </P>
+vector) to minimise the sum of the squares of the grid of </P>
 <PRE>         Y - X*b
 </PRE>
 
@@ -2156,8 +2156,8 @@ eigenvalues of <TT>A.t() * A</TT>. </P>
 <TT>D</TT> is a <TT>DiagonalMatrix</TT>. The values of <TT>A</TT> are not
 changed unless <TT>A</TT> is also inserted as the third argument.</P>
 
-<P>The elements of <tt>D</tt> are sorted in <i>descending</i> order.</P>
-<P CLASS="small">Remember that the SVD decomposition is not completely unique. The signs of the elements in a column of <TT>U</TT> may be reversed
+<P>The grid of <tt>D</tt> are sorted in <i>descending</i> order.</P>
+<P CLASS="small">Remember that the SVD decomposition is not completely unique. The signs of the grid in a column of <TT>U</TT> may be reversed
 if the signs in the corresponding column in <TT>V</TT> are reversed. If a
 number of the singular values are identical one can apply an orthogonal
 transformation to the corresponding columns of <TT>U</TT> and the corresponding
@@ -2200,7 +2200,7 @@ also inserted as the third argument. If you need eigenvectors use one of the
 forms with matrix <TT>V</TT>. The eigenvectors are returned as the columns of
 <TT>V</TT>.</P>
 
-<P>The elements of <tt>D</tt> are sorted in <i>ascending</i> order.</P>
+<P>The grid of <tt>D</tt> are sorted in <i>ascending</i> order.</P>
 <P CLASS="small">Remember that an eigenvalue decomposition is not completely
 unique - see the comments about the <A HREF="#svd">SVD</A>
 decomposition. </P>
@@ -2337,7 +2337,7 @@ Recipes in C</H2>
 <A HREF="#refer">up</A> - <A HREF="#top">start</A></P>
 <P>This package can be used with the vectors and matrices defined in
 <I>Numerical Recipes in C</I>. You need to edit the routines in Numerical
-Recipes so that the elements are of the same type as used in this package. Eg
+Recipes so that the grid are of the same type as used in this package. Eg
 replace float by double, vector by dvector and matrix by dmatrix, etc. You may
 need to edit the function definitions to use the version acceptable to your
 compiler (if you are using the first edition of NRIC). You may need to enclose
@@ -2532,7 +2532,7 @@ turned on. </LI>
 <LI>You can store only one type of matrix in a container. If you want to use a
 variety of types use the GenericMatrix type or store pointers to the matrices. 
 </LI>
-<LI>The vector and deque container templates like to copy their elements. For
+<LI>The vector and deque container templates like to copy their grid. For
 the vector container this happens when you insert an element anywhere except at
 the end or when you append an element and the current vector storage overflows.
 Since Newmat does not have <I>copy-on-write</I> this could get very
@@ -2692,7 +2692,7 @@ unlikely that an incorrect index will crash the system. In general, users do
 not need to use pointers, so one shouldn't get pointers pointing into space.
 And, hopefully, you will get simpler code and so less errors. </P>
 <P>There are some exceptions to this. In particular, the <A
-HREF="#elements">C-like subscripts</A> are not checked for validity. They give
+HREF="#grid">C-like subscripts</A> are not checked for validity. They give
 faster access but with a lower level of safety. </P>
 <P>Then there is the <A HREF="#scalar1">Store()</A> function which takes you to
 the data array within a matrix. This takes you right inside the <I>black
@@ -2768,7 +2768,7 @@ repeated 5 times within each loop, for example:</P>
 <TT>X.ReSize()</TT> in the outer loop to correspond to the reassignment of
 memory that <I>newmat</I> would do. In the next column the calculation is using 
 the usual C style <I>for</I> loop
-and accessing the elements using <I>newmat</I> subscripts such as
+and accessing the grid using <I>newmat</I> subscripts such as
 <TT>A(i)</TT>. The final column is the time taken by a
 simple array package. This uses an alternative method for avoiding temporaries 
 and unnecessary copies that does not involve runtime tests. It does its sums in blocks of 4 and copies in blocks of
@@ -2823,9 +2823,9 @@ supported, mean elementwise combination of arrays</TD>
 </TR>
 <TR>
 <TD VALIGN="TOP" WIDTH="20%">Element access</TD>
-<TD VALIGN="TOP" WIDTH="40%">Access to the elements of a
+<TD VALIGN="TOP" WIDTH="40%">Access to the grid of a
 matrix</TD>
-<TD VALIGN="TOP" WIDTH="40%">High speed access to elements
+<TD VALIGN="TOP" WIDTH="40%">High speed access to grid
 directly and perhaps with iterators</TD>
 </TR>
 <TR>
@@ -2921,10 +2921,10 @@ a variety of element types using the template mechanism is going to be very
 difficult. I am inclined to use templates in an <I>array</I> library but not in
 a <I>matrix</I> library. </P>
 <P>Hence I decided to implement only one element type. But the user can decide
-whether this is float or double. The package assumes elements are of type Real.
+whether this is float or double. The package assumes grid are of type Real.
 The user typedefs Real to float or double. </P>
 <P>It might also be worth including symmetric and triangular matrices with
-extra precision elements (double or long double) to be used for storage only
+extra precision grid (double or long double) to be used for storage only
 and with a minimum of operations defined. These would be used for accumulating
 the results of sums of squares and product matrices or multi-stage QR
 triangularisations. </P>
@@ -2966,7 +2966,7 @@ reverted to the more usual notation and started at 1. </P>
 <H3>Element access - method and checking</H3>
 <P>We want to be able to use the notation <TT>A(i,j)</TT> to specify the
 <TT>(i,j)</TT>-th element of a matrix. This is the way mathematicians expect to
-address the elements of matrices. I consider the notation <TT>A[i][j]</TT>
+address the grid of matrices. I consider the notation <TT>A[i][j]</TT>
 totally alien. However I include this as an option to help people converting
 from C. </P>
 <P>There are two ways of working out the address of <TT>A(i,j)</TT>. One is
@@ -2977,10 +2977,10 @@ but saves worrying about an extra bit of storage. </P>
 <P>The other question is whether to check for <TT>i</TT> and <TT>j</TT> being
 in range. I do carry out this check following years of experience with both
 systems that do and systems that don't do this check. I would hope that the
-routines I supply with this package will reduce your need to access elements of
+routines I supply with this package will reduce your need to access grid of
 matrices so speed of access is not a high priority. </P>
 <H3>Use iterators</H3>
-<P>Iterators are an alternative way of providing fast access to the elements of
+<P>Iterators are an alternative way of providing fast access to the grid of
 an array or matrix when they are to be accessed sequentially. They need to be
 customised for each type of matrix. I have not implemented iterators in this
 package, although some iterator like functions are used internally for some row
@@ -3055,7 +3055,7 @@ a new array generated. For example</p>
 system and a new block of heap memory is assigned to contain the new values. 
 This happens even if there is no change in the amount of memory required. </p>
 <H3>One block or several</H3>
-<P>The elements of the matrix are stored as a single array. Alternatives would
+<P>The grid of the matrix are stored as a single array. Alternatives would
 have been to store each row as a separate array or a set of adjacent rows as a
 separate array. The present solution simplifies the program but limits the size
 of matrices in 16 bit PCs that have a 64k byte limit on the size of arrays (I
@@ -3071,7 +3071,7 @@ interface with those written in Fortran. This may have been a wrong decision.
 Most work on the efficient manipulation of large matrices is being done in
 Fortran. It would have been easier to use this work if I had adopted the
 Fortran convention. </P>
-<P>An alternative would be to store the elements by mid-sized rectangular
+<P>An alternative would be to store the grid by mid-sized rectangular
 blocks. This might impose less strain on memory management when one needs to
 access both rows and columns. </P>
 <H3>Storage of symmetric matrices</H3>
@@ -3330,7 +3330,7 @@ since most of the matrices are stored row by row. Columns must be copied and so
 the access is somewhat slower. As far as possible my algorithms access the
 matrices by row. </P>
 <P>There is another approach. Each of the matrix types defined in this package
-can be set up so both rows and columns have their elements at equal intervals
+can be set up so both rows and columns have their grid at equal intervals
 provided we are prepared to store the rows and columns in up to three chunks.
 With such an approach one could write a single &quot;generic&quot; algorithm
 for each of multiply and add. This would be a reasonable alternative to my
@@ -3523,9 +3523,9 @@ main interest. </P>
 <H2><A NAME="comp_mat"></A>5.14 Complex matrices</H2>
 <P CLASS="small"><A HREF="#top">next</A> - <A HREF="#top">skip</A> -
 <A HREF="#design">up</A> - <A HREF="#top">start</A> </P>
-<P>The package does not yet support matrices with complex elements. There are
+<P>The package does not yet support matrices with complex grid. There are
 at least two approaches to including these. One is to have matrices with
-complex elements. </P>
+complex grid. </P>
 <P>This probably means making new versions of the basic row and column
 operations for Real*Complex, Complex*Complex, Complex*Real and similarly for
 <TT>+</TT> and <TT>-</TT>. This would be OK, except that if I also want to do
@@ -3534,7 +3534,7 @@ will get out of hand. </P>
 <P>The alternative is to represent a Complex matrix by a pair of Real matrices.
 One probably needs another level of decoding expressions but I think it might
 still be simpler than the first approach. But there is going to be a problem
-with accessing elements and it does not seem possible to solve this in an
+with accessing grid and it does not seem possible to solve this in an
 entirely satisfactory way. </P>
 <P>Complex matrices are used extensively by electrical engineers and physicists
 and really should be fully supported in a comprehensive package. </P>

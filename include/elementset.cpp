@@ -1,5 +1,7 @@
 #include "elementset.h"
 #include "DataStructures/compressedOctree/myCompressedOctree.h"
+#include "DataStructures/noDataStructure/noDataStructure.h"
+#include "timer.h"
 
 /* CONSTRUCTOR -----------------------------------------------------------
  *
@@ -308,7 +310,9 @@ void ElementSet::calcMMD(){
 //        cout << sqrt(rd.sqrDist) << endl;
     }
 
+
     MMD = sum / workpoints->size();
+
 
 }
 
@@ -359,11 +363,16 @@ void ElementSet::createDataStructure(){
     else if(dataStructureType=="trihash"){
         dataStruct = new myTriHash(workpoints, diagonal);
     }
+    else if(dataStructureType=="noDataStructure"){
+        dataStruct = new noDataStructure(workpoints);
+    }
+    else if(dataStructureType=="gridtree"){
+        dataStruct = new myGridTree(workpoints, diagonal);
+    }
     else{
-        cerr << "I can't undestand your dataStructure!" << endl;
+        cerr << "I can't understand your dataStructure!" << endl;
         exit(EXIT_FAILURE);
     }
-
 
     if(octree!=NULL) delete octree;
     //octree = new Octree(workpoints, 5, xmin, xmax, ymin, ymax, zmin, zmax);

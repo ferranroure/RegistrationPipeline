@@ -18,7 +18,6 @@ myKdtree::myKdtree(vector<Point*> *P){
 
     kdTree = new ANNkd_tree(dataPts, nnPts, DIMENSIONS);
 
-
 //    kdTree = new ANNkd_tree(					// build search structure
 //            dataPts,					// the data points
 //            nPts,						// number of points
@@ -37,7 +36,7 @@ myKdtree::~myKdtree(){
     annDeallocPts(dataPts);
     //annDeallocPts(queryPts);
     delete kdTree;
-    annClose();
+//    annClose();
     delete ckdt;
 }
 
@@ -120,7 +119,7 @@ returnData myKdtree::calcOneNN(Point *queryPoint, float errEps) {
         nnIdx = new ANNidx[1];						// allocate near neighbor indices
         dists = new ANNdist[1];						// allocate near neighbor dists
 
-        kdTree->annkSearch(q, 1, nnIdx, dists, ERROR);
+        kdTree->annkSearch(q, 1, nnIdx, dists, errEps);
 
         sqrDist = dists[0];
     }
@@ -220,4 +219,12 @@ returnData myKdtree::findPair(Point *queryPoint, float dist) {
     annDeallocPt(q);
 
     return rd;
+}
+
+void myKdtree::printStats() {
+
+    ANNkdStats st;
+    kdTree->getStats(st);
+
+    cout << st.depth;
 }

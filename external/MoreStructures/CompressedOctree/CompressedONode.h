@@ -78,7 +78,7 @@ class CompressedONode
 		int tipus(); //Retorna quin es el seu tipus de node (fulla blanca, negre o node parcial).
 		bool esFulla(); //Retorna cert si el node no te fills
 		bool nodeBuit(); //Retorna cert si es fulla blanca
-		int crearFills(int); //Metode que crea els fills d'un node a partir dels 2 elements que hi ha.
+		int crearFills(int); //Metode que crea els fills d'un node a partir dels 2 grid que hi ha.
 		bool pertany(Element *e); 
 		vector<bool> aQuinsFills(Element *e);
 		int aQuinFill(Element *e); //Retorna el numero de fill que pertany l'element e.
@@ -89,7 +89,7 @@ class CompressedONode
 
 		void actualitzarInfGeo(); //Metode per actualitzar la informacio geometrica
 
-		list<Element*> * weightedNeighbors(Element *e,double epsilon); //Retorna la llista d'elements que formen part de la circumferencia "e-epsilon"
+		list<Element*> * weightedNeighbors(Element *e,double epsilon); //Retorna la llista d'grid que formen part de la circumferencia "e-epsilon"
 		bool contained(Element *e,double r); //Retorna cert si el node forma part de la circumferencia zona "e-r", altrament fals
 		bool stabbingSimple(Element *e, double r);
 		bool stabbing(Element *e,double r); //Retorna cert si alguna part del node forma part de la circumferencia "e-r", altrament fals
@@ -99,7 +99,7 @@ class CompressedONode
 		list<Element*> *  reportIf(Element *e,double r); //Report all Elements in the node matching the parameters radius and distance requirement
 		
 		static bool compatible(CompressedInformacioGeometrica,CompressedInformacioGeometrica*,bool bNum,bool bHisto,bool bDist,double eps); //Operation for atribute compatibility
-		static bool compatible_num_elements(CompressedInformacioGeometrica,CompressedInformacioGeometrica*); //First attribute: number of elements
+		static bool compatible_num_elements(CompressedInformacioGeometrica,CompressedInformacioGeometrica*); //First attribute: number of grid
 		static bool compatible_weights(CompressedInformacioGeometrica,CompressedInformacioGeometrica*); //Second attribute: weights
 		static bool compatible_distances(CompressedInformacioGeometrica,CompressedInformacioGeometrica*,double eps); //Third attribute: distances
 

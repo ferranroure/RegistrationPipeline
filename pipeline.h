@@ -62,6 +62,9 @@ public:
     void executeTest();                     // Execution for tests without any cout.
     void executeResidueComputation();       // Execution of residue computation test.
     void computeResidue(bool test=false);   // Compute residue and % of paired points between views.
+    void syntheticComputeResidue();         // Residue computation tests for synthetic models.
+    vector<motion3D> readMatrices(const char *file);
+
     void calcGroundTruth(ElementSet *X,
                         IDescription *desc);// Compute groundtruth of a given ElementSet.
     void applyMovement(int type);           // Apply computed movement to ElementSet B.

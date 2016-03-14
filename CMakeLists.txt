@@ -110,6 +110,8 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
             include/DataStructures/octree/myOctree.cpp
             include/DataStructures/trihash/myTriHash.cpp
             include/DataStructures/compressedOctree/myCompressedOctree.cpp
+            include/DataStructures/noDataStructure/noDataStructure.cpp
+            include/DataStructures/gridTree/myGridTree.cpp
             include/mypcl.cpp
             include/plyio.cpp
             include/point.cpp
@@ -122,6 +124,7 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
             include/Converters/converterCGAL.cpp
             include/Converters/converterYago.cpp
             include/Converters/converterKdtree.cpp
+            include/Converters/converterGridTree.cpp
             include/4pcsRegistrationObject.cpp
             include/DataStructures/octree/Octree.cpp
             include/DataStructures/octree/Node.cpp
@@ -178,7 +181,9 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
             external/MoreStructures/TriHash/TriHash.cpp
             external/MoreStructures/AuxiliaryClasses/Element.cpp
             external/MoreStructures/AuxiliaryClasses/point3D.cpp
-
+            external/MoreStructures/GridTree/GridTree.cpp
+            external/MoreStructures/GridTree/Cell.cpp
+            external/MoreStructures/GridTree/myPoint.cpp
             include/IDescriptor.h
             include/IManagerIO.h
             include/DataStructures/IDataStructure.h
@@ -193,7 +198,7 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
     # -frounding-math -> something for CGAL library
 #    set(CMAKE_CXX_FLAGS "-std=c++11 -frounding-math")
     #    set(CMAKE_CXX_FLAGS "-pg -frounding-math")
-    set(CMAKE_CXX_FLAGS "-frounding-math -pg")
+    set(CMAKE_CXX_FLAGS "-frounding-math")
 
     add_executable( Pipeline ${SOURCES} )
     target_link_libraries(Pipeline ${ANN_LIB} ${PCL_LIBRARIES} ${OpenCV_LIBS} ${VTK_LIBRARIES} ${CGAL_LIB})

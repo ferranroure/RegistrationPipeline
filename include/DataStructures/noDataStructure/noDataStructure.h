@@ -2,31 +2,25 @@
 // Created by ferran on 18/01/16.
 //
 
-#ifndef PIPELINE_MYTRIHASH_H
-#define PIPELINE_MYTRIHASH_H
+#ifndef PIPELINE_noDataStructure_H
+#define PIPELINE_noDataStructure_H
 
 
 #include "../IDataStructure.h"
 #include "../../point.h"
-#include "../../Converters/converterYago.h"
-#include "../../../external/MoreStructures/TriHash/TriHash.h"
-#include "../../../external/MoreStructures/AuxiliaryClasses/point3D.h"
 
-
-class myTriHash : public IDataStructure {
-
+class noDataStructure : public IDataStructure {
 
 public:
 
     // Elements -----------------------------------------------------------
-    TriHash *trihash;
-    converterYago *ads;
-    float diagonal;
+    // NO Elements
+    vector<Point*> *points;
 
     // Methods ------------------------------------------------------------
-    myTriHash();
-    myTriHash(vector<Point *> *P, float _diag);
-    ~myTriHash();
+    noDataStructure();
+    noDataStructure(vector<Point *> *P);
+    ~noDataStructure();
 
     returnData calcOneNN(Point *queryPoint, float errEps);
     returnData calcOwnNN(Point *queryPoint);
@@ -37,4 +31,4 @@ public:
 };
 
 
-#endif //PIPELINE_MYTRIHASH_H
+#endif //PIPELINE_noDataStructure_H

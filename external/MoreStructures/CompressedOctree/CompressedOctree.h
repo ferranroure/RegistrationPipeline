@@ -54,6 +54,7 @@ class CompressedOctree
 		int getNivellActual(); //Metode que retorna el nivell de profunditat actual
 		int getNivellMaxim(); //Metode que retorna el nivell de profunditat maxim
 		void setNivellMaxim(int); //Metode que introdueix el nivell maxim
+		CompressedONode * getArrel();
 		
 		void afegirElement(Element *); //Metode que posa una esfera a l'octree, retorna el nivell de l'octree
 		void esborrarElement(Element *); //Metode que treu l'esfera de l'octree, retorna el nivell de l'octree
@@ -74,7 +75,7 @@ class CompressedOctree
 		//metode inline per retornar l'i-essim element d'un CompressedOctree.
 		Element getIthElement(int i){return *llistaElements[i];}
 
-		//metode inline per retornar el nombre d'elements d'un CompressedOctree.
+		//metode inline per retornar el nombre d'grid d'un CompressedOctree.
 		int cardinal(){return llistaElements.size();}
 		
 		//metode inline per retornar una zona candidata que conte tot el compressedOctree

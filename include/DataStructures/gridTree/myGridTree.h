@@ -2,31 +2,31 @@
 // Created by ferran on 18/01/16.
 //
 
-#ifndef PIPELINE_MYTRIHASH_H
-#define PIPELINE_MYTRIHASH_H
+#ifndef PIPELINE_MYGRIDTREE_H
+#define PIPELINE_MYGRIDTREE_H
 
 
 #include "../IDataStructure.h"
 #include "../../point.h"
-#include "../../Converters/converterYago.h"
-#include "../../../external/MoreStructures/TriHash/TriHash.h"
-#include "../../../external/MoreStructures/AuxiliaryClasses/point3D.h"
+#include "../../Converters/converterGridTree.h"
+#include "../../../external/MoreStructures/GridTree/GridTree.h"
+#include "../../../external/MoreStructures/GridTree/myPoint.h"
 
 
-class myTriHash : public IDataStructure {
+class myGridTree : public IDataStructure {
 
 
 public:
 
     // Elements -----------------------------------------------------------
-    TriHash *trihash;
-    converterYago *ads;
+    GridTree *gridtree;
+    converterGridTree *ads;
     float diagonal;
 
     // Methods ------------------------------------------------------------
-    myTriHash();
-    myTriHash(vector<Point *> *P, float _diag);
-    ~myTriHash();
+    myGridTree();
+    myGridTree(vector<Point *> *P, float _diag);
+    ~myGridTree();
 
     returnData calcOneNN(Point *queryPoint, float errEps);
     returnData calcOwnNN(Point *queryPoint);
@@ -37,4 +37,4 @@ public:
 };
 
 
-#endif //PIPELINE_MYTRIHASH_H
+#endif //PIPELINE_MYGRIDTREE_H

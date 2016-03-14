@@ -30,7 +30,15 @@ returnData myCompressedOctree::calcOneNN(Point *queryPoint, float errEps) {
     point3D p(queryPoint->getX(), queryPoint->getY(), queryPoint->getZ());
     Element *aux = new Element(p, 0);
 
+//    CompressedONode *t = cOctree->getArrel();
+//    CompressedONode nodeAux = CompressedONode(t->getAncoratge(),t->getMida(),t->getNivell() );
+//    vector<bool> fillsTocats = cOctree->descomprimeix(t,&nodeAux);
+
     list<Element*> *vnn  = cOctree->weightedNeighbors(aux, errEps);
+
+//    cOctree->recomprimeix(fillsTocats,&nodeAux);
+//    delete t;
+
 
     Element *nn = new Element();
 
@@ -40,7 +48,7 @@ returnData myCompressedOctree::calcOneNN(Point *queryPoint, float errEps) {
         for (list<Element *>::iterator it = vnn->begin(); it != vnn->end(); ++it) {
 
             float dist = p.dist((*it)->getPoint());
-            if (dist < bestDist && (*it)->getPoint() != p) {
+            if (dist < bestDist && (*it)->getPoint() != p && dist <= errEps) {
                 bestDist = dist;
                 nn->setPoint((*it)->getPoint());
             }
@@ -87,6 +95,7 @@ returnData myCompressedOctree::calcOwnNN(Point *queryPoint) {
     for(list<Element*>::iterator it = vnn->begin(); it!=vnn->end(); ++it ){
 
         float dist = p.dist((*it)->getPoint());
+
         if(dist<bestDist && (*it)->getPoint()!=p){
             bestDist = dist;
             nn->setPoint((*it)->getPoint());
@@ -117,4 +126,9 @@ returnData myCompressedOctree::calcOwnNN(Point *queryPoint) {
 
 vector<returnData> myCompressedOctree::calcNneigh(Point *queryPoint, int nNeigh) {
     return std::vector<returnData>();
+}
+
+void myCompressedOctree::printStats() {
+
+    cout << cOctree->getNivellActual() << endl;
 }

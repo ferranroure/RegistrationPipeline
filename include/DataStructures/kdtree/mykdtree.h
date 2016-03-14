@@ -27,13 +27,12 @@
 #include <math.h>
 #include "../../point.h"
 #include <ANN/ANN.h>
+#include "ANN/ANNperf.h"
 #include "../IDataStructure.h"
 #include "../../Converters/converterKdtree.h"
 
-
 #define DIMENSIONS 3       // Dimensions
 #define ERROR 0.0001       // Error bound
-
 
 
 class myKdtree : public IDataStructure
@@ -49,7 +48,8 @@ public:
     ANNdistArray		dists;                              // Near neighbor distances.
     ANNkd_tree*			kdTree;                             // Search structure.
 
-    converterKdtree *ckdt;
+    converterKdtree     *ckdt;
+
 
     // Methods ------------------------------------------------------------------------
     myKdtree();                                             // Constructor.
@@ -60,6 +60,8 @@ public:
     returnData calcOwnNN(Point *queryPoint);                // Finds a real NN (not itself) of a given QueryPoint from the same point cloud. (used for MMD).
     vector<returnData> calcNneigh(Point *queryPoint, int nNeigh); // Finds N nearest neighbours.
     returnData findPair(Point *queryPoint, float dist);     // Find a pair for queryPoint at distance dist
+
+    void printStats();
 
 };
 

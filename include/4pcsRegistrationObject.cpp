@@ -765,6 +765,8 @@ double fpcsRegistrationObject::	verify(const vector<Point3D> &v1,
 			dists,
 			app);
 
+
+
 		if (dists[0]<e) s++;
 		if (rnd-i+s<a) return (float)s / (float)rnd;
 	}
@@ -852,7 +854,7 @@ bool fpcsRegistrationObject::tryOne(
 	}
 
 	//printing the base A
-	writePly("../models/bases/baseA.ply", quad);
+//	writePly("../models/bases/baseA.ply", quad);
 
 //	cout << "Selected base: " << endl;
 //	cout << quad[0].x << ", " << quad[0].y << ", " << quad[0].z << endl;
@@ -930,12 +932,19 @@ bool fpcsRegistrationObject::tryOne(
 		// f deu ser la distància mitjana entre les correspondències.
 		double f;
 		f=computeBestRigid(pr,R,tx,ty,tz,cx,cy,cz);
+
+		writeMatrix("matrix.xls", R, cx, cy, cz, tx, ty, tz);
+
 //		cout << f << endl;
 		if (f<5*eps) {
 			// Aqui no sé perquè torna a multiplicar meanDist*eps*2. En principi esta fent: meanDist*(meanDist*2*delta)*2
 			f = verify(list2, meanDist0 * eps * 2.0, R, bestf, cx, cy, cz, tx, ty, tz);
 
+			// For residue computation tests.
+
 			if (f > bestf) {
+
+
 				base[0] = id1;
 				base[1] = id2;
 				base[2] = id3;
@@ -974,8 +983,8 @@ bool fpcsRegistrationObject::tryOne(
 //				query.push_back(m2[c1]);
 //				query.push_back(m2[d1]);
 
-				writePly("../models/bases/baseA.ply", baseA);
-				writePly("../models/bases/baseB.ply", query);
+//				writePly("../models/bases/baseA.ply", baseA);
+//				writePly("../models/bases/baseB.ply", query);
 
 
 //		exit(0);
@@ -992,6 +1001,8 @@ bool fpcsRegistrationObject::tryOne(
 				btx = tx;
 				bty = ty;
 				btz = tz;
+
+
 			}
 			if (bestf > thr) goto done;
 		}
@@ -1252,8 +1263,8 @@ float fpcsRegistrationObject::compute(vector<Point3D> &v1, vector<Point3D> &v2, 
 
 	initialize(v1,v2,delta,overlapEstimation);
 
-	writePly("../models/bases/model4pcsA.ply", list1);
-	writePly("../models/bases/model4pcsB.ply", list2);
+//	writePly("../models/bases/model4pcsA.ply", list1);
+//	writePly("../models/bases/model4pcsB.ply", list2);
 
 	bool ok=false;
 	while (!ok)
@@ -1285,4 +1296,34 @@ void fpcsRegistrationObject::writePly(string outpath, vector<Point3D> points) {
 	else{
 		plyio.writeFile(outpath, &lin);
 	}
+}
+
+void fpcsRegistrationObject::writeMatrix(const char *outpath, LA_Fmat &rMat, double cx, double cy, double cz, double tx,
+										 double ty, double tz) {
+
+	ofstream file;
+	file.open (outpath, std::ios_base::app);
+
+	Point3D p(cx+xc2,cy+yc2,cz+zc2);
+	transform(p,rMat,0,0,0,0,0,0);
+	file << rMat(0,0) << ";";
+	file << rMat(0,1) << ";";
+	file << rMat(0,2) << ";";
+	file << cx-p.x+tx+xc1 << ";";
+	file << rMat(1,0) << ";";
+	file << rMat(1,1) << ";";
+	file << rMat(1,2) << ";";
+	file << cy-p.y+ty+yc1 << ";";
+	file << rMat(2,0) << ";";
+	file << rMat(2,1) << ";";
+	file << rMat(2,2) << ";";
+	file << cz-p.z+tz+zc1 << ";";
+	file << 0 << ";";
+	file << 0 << ";";
+	file << 0 << ";";
+	file << 1 << ";";
+	file << "\n";
+
+	file.close();
+
 }

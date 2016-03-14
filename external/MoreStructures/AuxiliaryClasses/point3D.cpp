@@ -96,7 +96,7 @@ vector3D point3D::operator-(point3D p)
 bool point3D::operator==(point3D p) const
 {
 	// account for small variations attributed to noise or rounding errors	
-	return ( (fabs(x-p.x )<tol) && (fabs(z-p.z )<tol) && (fabs(z-p.z )<tol) );
+	return ( (fabs(x-p.x )<tol) && (fabs(y-p.y )<tol) && (fabs(z-p.z )<tol) );
 }
 
 bool point3D::operator<(point3D p) const //lexicographyc order

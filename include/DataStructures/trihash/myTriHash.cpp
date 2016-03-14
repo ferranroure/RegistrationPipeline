@@ -39,7 +39,7 @@ returnData myTriHash::calcOneNN(Point *queryPoint, float errEps) {
     float bestDist = FLT_MAX;
     for (int i = 0; i < vnn.size(); ++i) {
         float dist = p.dist(vnn.at(i)->getPoint());
-        if(dist<bestDist){
+        if(dist<bestDist && dist <= errEps){
             bestDist = dist;
             nn = vnn.at(i);
         }
@@ -106,8 +106,10 @@ returnData myTriHash::calcOwnNN(Point *queryPoint) {
 
 vector<returnData> myTriHash::calcNneigh(Point *queryPoint, int nNeigh) {
 
+     return std::vector<returnData>();
+}
 
+void myTriHash::printStats() {
 
-
-    return std::vector<returnData>();
+    cout << "Load factor: " << trihash->getNumElems() / pow(trihash->getSlotsPerDimension(), 3);
 }

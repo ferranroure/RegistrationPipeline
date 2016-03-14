@@ -267,4 +267,7 @@ public:
 	// ---------------- FERRAN --------------
 
 	void writePly(string outpath, vector<Point3D> points);
-};
+	void writeMatrix(const char *outpath, LA_Fmat &rMat, double cx, double cy, double cz, double tx,
+                         double ty, double tz);
+
+	};

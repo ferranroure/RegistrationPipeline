@@ -9,10 +9,10 @@
 
 //tupla per la llista de radis
 struct  Interval {
-	vector<Element *> llistaElements; //Llista d'elements
+	vector<Element *> llistaElements; //Llista d'grid
 	int numElements; //Numero de radis que tenen el valor 'r'
-	double distMax; //Distancia maxima entre dos elements
-	double distMin; //Distancia minima entre dos elements
+	double distMax; //Distancia maxima entre dos grid
+	double distMin; //Distancia minima entre dos grid
 	
 	
 	Interval() 
@@ -62,14 +62,14 @@ struct  Interval {
 			if ( distActual > distMax ) distMax = distActual;
 		}
 		
-		//Actualitzem numero d'elements
+		//Actualitzem numero d'grid
 		numElements++;
 		llistaElements.push_back(e);
 	}
 
 	void afegir(Interval i)
 	{
-		//Afegim els elements de l'interval "i" a l'interval actual
+		//Afegim els grid de l'interval "i" a l'interval actual
 		vector<Element *>::iterator it;
 		for (it=i.llistaElements.begin(); it!=i.llistaElements.end(); it++) {
 			afegir(*it);
@@ -172,7 +172,7 @@ class CompressedInformacioGeometrica
 			}
 			else
 			{
-				cout<<"Error CompInfGeom::getHistogramsIthPosition, no hi ha tants elements!"<<endl;
+				cout<<"Error CompInfGeom::getHistogramsIthPosition, no hi ha tants grid!"<<endl;
 				exit(-1);	
 			}	
 		}

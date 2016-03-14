@@ -129,7 +129,7 @@ void det_ColorSpaceSampling::extractColorSpaceSampling(ElementSet *X, int sample
 
 
 
-//    // Assign values to the elements
+//    // Assign values to the grid
 //    int values = 0;
 //    for(index i = 0; i != 3; ++i)
 //        for(index j = 0; j != 4; ++j)
