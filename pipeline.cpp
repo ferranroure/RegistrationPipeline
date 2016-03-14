@@ -348,7 +348,7 @@ void Pipeline::thrsKdtreeTest(){
             data->A->updateDataStructure(gridtreeA);
             data->B->updateDataStructure(gridtreeB);
 
-//            // Regular test: 1 execution.
+//------------Regular test: 1 execution. -----------------------------------------------------------------------
 //            Timer timer;
 //            int pairedPoints = 0;
 //            timer.reset();
@@ -356,30 +356,60 @@ void Pipeline::thrsKdtreeTest(){
 //            double time = timer.elapsed();
 
 
-//             Multi execution test.
-            Timer timer;
-            double sum_time = 0;
-            int maxLoops = 50;
+//----------Multi execution test.-------------------------------------------------------------------------------
+//            Timer timer;
+//            double sum_time = 0;
+//            int maxLoops = 50;
+//
+////        Read matrix file to apply different movements anc compute residues. Check time and obtain a mean value.
+//            vector<motion3D> matrices = readMatrices("matrix.xls");
+//            int i = 0;
+//            for (i = 0; i < matrices.size(); ++i) {
+//
+//                ElementSet *aux = new ElementSet(*(data->B));
+//                aux->transform(&matrices.at(i));
+//
+//                int pairedPoints = 0;
+//                timer.reset();
+//                double res = data->A->calcNN(aux->getPoints(), data->params.percOfPoints, data->params.nnErrorFactor, pairedPoints);
+//                sum_time += timer.elapsed();
+//
+//                delete aux;
+//
+//                if(i >= maxLoops) break;
+//            }
+//            double time = sum_time/i;
 
-//        Read matrix file to apply different movements anc compute residues. Check time and obtain a mean value.
-            vector<motion3D> matrices = readMatrices("matrix.xls");
+//----------Synthetic test --------------------------------------------------------------------------------------
+            float rot = 0; // 0.5 degrees.
+            float inc = 0.0005;
+            float sum_time = 0;
             int i = 0;
-            for (i = 0; i < matrices.size(); ++i) {
+            Timer timer;
 
-                ElementSet *aux = new ElementSet(*(data->B));
-                aux->transform(&matrices.at(i));
+            for (i = 0; i < 50; ++i) {
+
+                rot = rot + inc;
+
+                ElementSet copy(*(data->A));
+                motion3D mx(rot, 1);
+                motion3D my(rot, 2);
+                motion3D mz(rot, 3);
+
+                copy.transform(&mx);
+                copy.transform(&my);
+                copy.transform(&mz);
 
                 int pairedPoints = 0;
                 timer.reset();
-                double res = data->A->calcNN(aux->getPoints(), data->params.percOfPoints, data->params.nnErrorFactor, pairedPoints);
-                sum_time += timer.elapsed();
+                double res = data->A->calcNN(copy.getPoints(), data->params.percOfPoints, data->params.nnErrorFactor, pairedPoints);
+                double t = timer.elapsed();
+                sum_time += t;
 
-                delete aux;
-
-                if(i >= maxLoops) break;
             }
-            double time = sum_time/i;
 
+            double time = sum_time/i;
+//---------------------------------------------------------------------------------------------------------------
 
 
 
