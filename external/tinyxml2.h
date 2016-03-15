@@ -1123,7 +1123,7 @@ private:
 
 
 /** The element is a container class. It has a value, the element name,
-	and can contain other grid, text, comments, and unknowns.
+	and can contain other elements, text, comments, and unknowns.
 	Elements also contain an arbitrary number of attributes.
 */
 class TINYXML2_LIB XMLElement : public XMLNode

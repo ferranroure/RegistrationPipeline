@@ -75,7 +75,7 @@ class CompressedOctree
 		//metode inline per retornar l'i-essim element d'un CompressedOctree.
 		Element getIthElement(int i){return *llistaElements[i];}
 
-		//metode inline per retornar el nombre d'grid d'un CompressedOctree.
+		//metode inline per retornar el nombre d'elements d'un CompressedOctree.
 		int cardinal(){return llistaElements.size();}
 		
 		//metode inline per retornar una zona candidata que conte tot el compressedOctree

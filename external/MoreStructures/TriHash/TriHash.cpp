@@ -44,7 +44,7 @@ TriHash::TriHash(vector<Element *> vec, int numC, double iTol)
 
 	//cout<<"TriHash::TriHash limits computed"<<endl;
 	
-	// traverse grid updating limits
+	// traverse elements updating limits
 	vector<Element *>::iterator it;
 	for(it=vec.begin();it!=vec.end();it++)
 	{
@@ -64,7 +64,7 @@ TriHash::TriHash(vector<Element *> vec, int numC, double iTol)
 	//cout<<"y: ("<<limits[1][0]<<" , "<<limits[1][1]<<")"<<endl;
 	//cout<<"z: ("<<limits[2][0]<<" , "<<limits[2][1]<<")"<<endl;
 
-	// now that we know its dimensions, distribute the points throughout the grid
+	// now that we know its dimensions, distribute the points throughout the elements
 	// memory initialization
 	elements = vector<vector<vector<vector<Element *> > > >(slotsPerDimension);
 
@@ -76,25 +76,25 @@ TriHash::TriHash(vector<Element *> vec, int numC, double iTol)
 			elements[i][j]=vector< vector<Element *> >(slotsPerDimension);
 		}
 	}
-	//cout<<"TriHash::TriHash grid initialized"<<endl;
+	//cout<<"TriHash::TriHash elements initialized"<<endl;
 
 // alternative initialization
 /*for(int i=0;i<slotsPerDimension;i++)
 	{
-		grid.push_back(vector<vector<vector<Element *> > > () );
+		elements.push_back(vector<vector<vector<Element *> > > () );
 
 		for(int j=0;j<slotsPerDimension;j++)
 		{
-			grid[i].push_back(vector<vector<Element *> >  () );
+			elements[i].push_back(vector<vector<Element *> >  () );
 	
 			for(int k=0;k<slotsPerDimension;k++)
 			{
-				grid[i][j].push_back(vector<Element *>() );
+				elements[i][j].push_back(vector<Element *>() );
 			}
 		}
 	}*/
 
-	// distribute points in grid slots
+	// distribute points in elements slots
 	for(it=vec.begin();it!=vec.end();it++)
 	{
 		int x,y,z;
@@ -315,10 +315,10 @@ vector<Element *> TriHash::uniformSampling(int totalContribution)
 
 	//cout<<"vector<Element *> TriHash::uniformSampling(int totalContribution) Begin"<<endl;
 
-	// if we need to contribute more grid than what we have, we throw an exception
+	// if we need to contribute more elements than what we have, we throw an exception
 	if(totalContribution > numElems )
 	{
-		cout<<"vector<Element *> TriHash::uniformSampling(int totalContribution) Sampling too big! contribution "<<totalContribution<<" number of grid "<<numElems<<endl;
+		cout<<"vector<Element *> TriHash::uniformSampling(int totalContribution) Sampling too big! contribution "<<totalContribution<<" number of elements "<<numElems<<endl;
 		throw("vector<Element *> TriHash::uniformSampling(int totalContribution) Sampling too big!");
 	}
 
@@ -368,7 +368,7 @@ vector<Element *> TriHash::uniformSampling(int totalContribution)
 						// this slot can contribute more
 						int contribution = tentContribSlot + compt;
 
-						// beware of the maximum number of grid in the slot
+						// beware of the maximum number of elements in the slot
 						if(contribution > elements[i][j][k].size()) contribution = elements[i][j][k].size();
 						 
 						// we now have decided the new contribution, adjust total contributionsSoFar and contributionPerSlot[i][j][k]
@@ -432,8 +432,8 @@ vector<Element *> TriHash::firstElementsInSlot(int i, int j, int k, int numEleme
 	vector<Element *> ret = vector<Element *>();
 	if(elements[i][j][k].size()<numElements)
 	{
-		cout<<"vector<Element *> TriHash::firstElementsInSlot(int i, int j, int k, int numElements ), exception, you ask for too many grid! "<<endl;
-		throw("vector<Element *> TriHash::firstElementsInSlot(int i, int j, int k, int numElements ), exception, you ask for too many grid! ");
+		cout<<"vector<Element *> TriHash::firstElementsInSlot(int i, int j, int k, int numElements ), exception, you ask for too many elements! "<<endl;
+		throw("vector<Element *> TriHash::firstElementsInSlot(int i, int j, int k, int numElements ), exception, you ask for too many elements! ");
 	}
 
 	for(int l=0;l<numElements;l++) ret.push_back(elements[i][j][k][l]);
@@ -449,8 +449,8 @@ vector<Element *> TriHash::randomElementsInSlot(int i, int j, int k, int numElem
 
 	if(elements[i][j][k].size()<numElements)
 	{
-		cout<<"vector<Element *> TriHash::firstElementsInSlot(int i, int j, int k, int numElements ), exception, you ask for too many grid! "<<endl;
-		throw("vector<Element *> TriHash::firstElementsInSlot(int i, int j, int k, int numElements ), exception, you ask for too many grid! ");
+		cout<<"vector<Element *> TriHash::firstElementsInSlot(int i, int j, int k, int numElements ), exception, you ask for too many elements! "<<endl;
+		throw("vector<Element *> TriHash::firstElementsInSlot(int i, int j, int k, int numElements ), exception, you ask for too many elements! ");
 	}
 
 	// create a random permutation of the 

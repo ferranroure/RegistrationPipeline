@@ -58,7 +58,7 @@ bool CompressedCandidateZone::in_zone_query(point3D p)
 
 // NEW!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-// returns the number of grid inside a candidate zone.
+// returns the number of elements inside a candidate zone.
 int CompressedCandidateZone::cardinal()
 {
 	int res=0;
@@ -166,7 +166,7 @@ int CompressedCandidateZone::cardinal()
 
 // returns the ith element in the candidate zone.
 
-// Precondition, this contains at least i grid
+// Precondition, this contains at least i elements
 Element CompressedCandidateZone::getIthElement(unsigned int i) 
 {
 	if (zone_type == 1)
@@ -1452,7 +1452,7 @@ bool CompressedCandidateZone::acceptable(CompressedInformacioGeometrica info,dou
 
 		int i=0;
 
-		// recollim tots els grid
+		// recollim tots els elements
 		vector<Element > vAux = vector<Element >();
 		while( i<8 )
 		{

@@ -54,6 +54,6 @@ void ss_4PCS::execute() {
 
     float a = matcher.compute(*set1, *set2, delta, overlap, mat);
     data->cM = a4pcs.mat2motion(mat);
-    data->cM->write(cout);
+//    data->cM->write(cout);
     delete set1, set2;
 }

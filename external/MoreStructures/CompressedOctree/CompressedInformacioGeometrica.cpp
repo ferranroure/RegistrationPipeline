@@ -142,7 +142,7 @@ void CompressedInformacioGeometrica::afegir(CompressedInformacioGeometrica *info
 	numElements+=info->numElements;
 	if (midaNode<info->midaNode) midaNode = info->midaNode;
 	
-	//Afegim els grid de "info" a l'histograma
+	//Afegim els elements de "info" a l'histograma
 	vector<Interval>::iterator i1,i2;
 	i2=info->histograma.begin();
 	for (i1=histograma.begin(); i1!=histograma.end(); i1++) {

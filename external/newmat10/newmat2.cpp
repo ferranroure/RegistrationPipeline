@@ -60,7 +60,7 @@ void MatrixRowCol::Sub(const MatrixRowCol& mrc)
 }
 
 void MatrixRowCol::Inject(const MatrixRowCol& mrc)
-// copy stored grid only
+// copy stored elements only
 {
    REPORT
    int f = mrc.skip; int l = f + mrc.storage; int lx = skip + storage;
@@ -567,7 +567,7 @@ Real MatrixRowCol::SumAbsoluteValue()
    return sum;
 }
 
-// max absolute value of r and grid of row/col
+// max absolute value of r and elements of row/col
 // we use <= or >= in all of these so we are sure of getting
 // r reset at least once.
 Real MatrixRowCol::MaximumAbsoluteValue1(Real r, int& i)
@@ -579,7 +579,7 @@ Real MatrixRowCol::MaximumAbsoluteValue1(Real r, int& i)
    return r;
 }
 
-// min absolute value of r and grid of row/col
+// min absolute value of r and elements of row/col
 Real MatrixRowCol::MinimumAbsoluteValue1(Real r, int& i)
 {
    REPORT
@@ -589,7 +589,7 @@ Real MatrixRowCol::MinimumAbsoluteValue1(Real r, int& i)
    return r;
 }
 
-// max value of r and grid of row/col
+// max value of r and elements of row/col
 Real MatrixRowCol::Maximum1(Real r, int& i)
 {
    REPORT
@@ -599,7 +599,7 @@ Real MatrixRowCol::Maximum1(Real r, int& i)
    return r;
 }
 
-// min value of r and grid of row/col
+// min value of r and elements of row/col
 Real MatrixRowCol::Minimum1(Real r, int& i)
 {
    REPORT

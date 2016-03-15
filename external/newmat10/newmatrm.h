@@ -21,8 +21,8 @@ protected:
 public:
 #endif
    Real* store;                   // pointer to storage
-   int n;                         // number of grid
-   int spacing;                   // space between grid
+   int n;                         // number of elements
+   int spacing;                   // space between elements
    int shift;                     // space between cols or rows
    RectMatrixRowCol(Real* st, int nx, int sp, int sh)
       : store(st), n(nx), spacing(sp), shift(sh) {}
