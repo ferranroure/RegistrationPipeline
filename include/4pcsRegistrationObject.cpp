@@ -49,6 +49,29 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 using namespace std;
 
 
+fpcsRegistrationObject::fpcsRegistrationObject() {
+
+	dataStruct = NULL;
+	dataStructType = "gridtree";
+	app = 0.0;
+	useNormals = 1;
+	normDiff = 0.01;
+	qd = -1;
+	numTry = -1;
+	meanDist0 = 1.0;
+	estFrac = 0.9;
+	thr = -1;
+	debug = false;
+	sample = ((float)500);
+	quad.resize(4);
+}
+
+fpcsRegistrationObject::~fpcsRegistrationObject(){
+
+	delete dataStruct;
+}
+
+
 
 static fstream debugf;
 
@@ -686,37 +709,23 @@ double fpcsRegistrationObject::meanDist(vector<Point3D> &v)
 	srand(0);
 	int i;
 	float d=0.0;
-	ANNpoint		query_pt;
-	ANNidxArray		nn_idx;
-	ANNdistArray	dists;
-
-	query_pt = annAllocPt(3);
-	nn_idx = new ANNidx[2];
-	dists = new ANNdist[2];
 
 	int n=0;
 	for (i=0;i<FIX_RAND*10;i++)
 	{
 		int k=rand()%v.size();
-		query_pt[0]=v[k].x;
-		query_pt[1]=v[k].y;
-		query_pt[2]=v[k].z;
-		the_tree->annkSearch(
-			query_pt,
-			2,
-			nn_idx,
-			dists,
-			app);
-		if (sqrt(dists[1])<diam*0.05)
+		Point *queryP = new Point(v[k].x, v[k].y, v[k].z);
+
+		returnData rd =dataStruct->calcOwnNN(queryP);
+
+		if (sqrt(rd.sqrDist)<diam*0.05)
 		{
-			d += sqrt(dists[1]);
+			d += sqrt(rd.sqrDist);
 			n++;
 		}
+		delete queryP;
 	}
 
-	annDeallocPt(query_pt);
-	delete [] nn_idx;
-	delete [] dists;
 
 	return d/(float)n;
 }
@@ -741,12 +750,6 @@ double fpcsRegistrationObject::	verify(const vector<Point3D> &v1,
 	Point3D	p;
 	float jmp = (float)n1/(float)rnd;
 
-	ANNpoint		query_pt;
-	ANNidxArray		nn_idx;
-	ANNdistArray	dists;
-	query_pt = annAllocPt(3);
-	nn_idx = new ANNidx[1];
-	dists = new ANNdist[1];
 
 
 	for (i=0;i<rnd;i++)
@@ -755,27 +758,19 @@ double fpcsRegistrationObject::	verify(const vector<Point3D> &v1,
 
 		transform(p,R,cx,cy,cz,tx,ty,tz);
 
-		query_pt[0]=p.x;
-		query_pt[1]=p.y;
-		query_pt[2]=p.z;
-		the_tree->annkSearch(
-			query_pt,
-			1,
-			nn_idx,
-			dists,
-			app);
+		Point *queryP = new Point(p.x, p.y, p.z);
 
+		returnData rd = dataStruct->calcOneNN(queryP, e);
 
-
-		if (dists[0]<e) s++;
+		if (rd.sqrDist<e) s++;
 		if (rnd-i+s<a) return (float)s / (float)rnd;
+
+		delete queryP;
 	}
 
 //	cout << "-------------------------> LCP: " << s << " s/size: " << (float)s/(float)rnd << endl;
 
-	annDeallocPt(query_pt);
-	delete [] nn_idx;
-	delete [] dists;
+
 	return (float)s / (float)rnd;
 }
 
@@ -1126,16 +1121,19 @@ void fpcsRegistrationObject::initialize(std::vector<Point3D> &v1,std::vector<Poi
 	// passa de la llista a un format per tractar amb el kdtree.
 	int n_pts = list1.size();
 	cout << "# of samples: " << n_pts << endl;
-	if (data_pts0) annDeallocPts(data_pts0);
-	if (the_tree) delete the_tree;
 
-	data_pts0 = annAllocPts(n_pts, 3);
+	if (dataStruct) delete dataStruct;
+
+	vector<Point*> points;
+
 	for (i = 0; i < list1.size(); i++)
 	{
-		data_pts0[i][0]=list1[i].x;
-		data_pts0[i][1]=list1[i].y;
-		data_pts0[i][2]=list1[i].z;
+		Point *p = new Point(list1[i].x, list1[i].y, list1[i].z);
+		p->setIndex(i);
+		points.push_back(p);
 	}
+
+
 
 	diam = 0.0;
 	int at,bt;
@@ -1155,11 +1153,14 @@ void fpcsRegistrationObject::initialize(std::vector<Point3D> &v1,std::vector<Poi
 		}
 	}
 
+	if(dataStructType == "kdtree"){
+		dataStruct = new myKdtree(&points);
+	}
+	else if(dataStructType == "gridtree"){
+		dataStruct = new myGridTree(&points, diam);
+	}
 
-	the_tree = new ANNkd_tree(
-		data_pts0,
-		n_pts,
-		3);
+
 	meanDist0 = meanDist(list1)*2.0;
 
 	// incialitza variables globals.
@@ -1326,4 +1327,9 @@ void fpcsRegistrationObject::writeMatrix(const char *outpath, LA_Fmat &rMat, dou
 
 	file.close();
 
+}
+
+void fpcsRegistrationObject::setDataStructType(string type){
+
+	dataStructType = type;
 }

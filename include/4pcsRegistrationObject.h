@@ -51,6 +51,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "../ISearchingStrategy.h"
 #include "plyio.h"
 #include "point.h"
+#include "DataStructures/IDataStructure.h"
 // --------------------------------------
 
 // ublass definitions
@@ -118,8 +119,9 @@ class fpcsRegistrationObject
 {
 private:
 	// internal data members
-	ANNkd_tree *the_tree;
-	ANNpointArray data_pts0;
+	IDataStructure *dataStruct;
+	string dataStructType;
+
 	float app;
 	int useNormals;
 	float normDiff;
@@ -189,23 +191,26 @@ private:
 
 // public section
 public:
-	fpcsRegistrationObject():
-			the_tree(0),
-			data_pts0(0),
-			app(0.0),
-			useNormals(1),
-			normDiff(0.01),
-			qd(-1),
-			numTry(-1),
-			meanDist0(1.0),
-			estFrac(0.9),
-			thr(-1),
-			debug(false),
-			sample((float)500)
-	  {
-		  quad.resize(4);
-	  }
-	~fpcsRegistrationObject() {}
+
+	fpcsRegistrationObject();
+	~fpcsRegistrationObject();
+	void setDataStructType(string type);
+//	fpcsRegistrationObject():
+//			dataStruct(0),
+//			app(0.0),
+//			useNormals(1),
+//			normDiff(0.01),
+//			qd(-1),
+//			numTry(-1),
+//			meanDist0(1.0),
+//			estFrac(0.9),
+//			thr(-1),
+//			debug(false),
+//			sample((float)500)
+//	  {
+//		  quad.resize(4);
+//	  }
+//	~fpcsRegistrationObject() {}
 	/**
 	Compute an approximation of the LCP (directional) from set2 to set1.
 	The input sets may or may not contain a normal information for any point.
