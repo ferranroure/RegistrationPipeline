@@ -67,8 +67,7 @@ returnData myGridTree::calcOneNN(Point *queryPoint, float errEps) {
 returnData myGridTree::calcOwnNN(Point *queryPoint) {
 
     myPoint *p = new myPoint(queryPoint->getX(), queryPoint->getY(), queryPoint->getZ());
-
-//    cout << diagonal << endl;
+    p->setIndex(queryPoint->getIndex());
 
     vector<myPoint*> vnn;
     int factor = 1;

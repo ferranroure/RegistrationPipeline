@@ -39,7 +39,7 @@ void ss_4PCS::execute() {
     // This parameter is used to select the 4th point in de base from A. Is provided in order to not select a point
     // which its correspondece in Q falls in a non-overlapping area.
     // qd = diam*overlap*2.0; -> this qd is used to find a wide point. length(u)< qd.
-    float overlap = 0.3;
+    float overlap = 0.2;
 
     converter4PCS a4pcs;
     vector<Point3D> * set1 = a4pcs.points24PCS(data->A->getWorkpoints(), false, true);
@@ -51,7 +51,7 @@ void ss_4PCS::execute() {
     matcher.setNumberOfPoints(n_points);
     matcher.setNormDiff(norm_diff);
     matcher.setUseNormal(true);
-    matcher.setDataStructType("gridtree");
+    matcher.setDataStructType(data->params.dataStructure);
 
     float a = matcher.compute(*set1, *set2, delta, overlap, mat);
     data->cM = a4pcs.mat2motion(mat);

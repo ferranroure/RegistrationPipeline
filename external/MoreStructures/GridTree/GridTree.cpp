@@ -199,10 +199,15 @@ vector<myPoint *> GridTree::neighbors(myPoint *p, double eps)
     vector<int> limitsY = slotsTouched(p->getY()-eps, p->getY()+eps, 'y');
     vector<int> limitsZ = slotsTouched(p->getZ()-eps, p->getZ()+eps, 'z');
 
-    //cout<<"GridTree::neigbors limits values found: "<<endl;
-    //cout<<"x: ("<<limitsX[0]<<" , "<<limitsX[1]<<")"<<endl;
-    //cout<<"y: ("<<limitsY[0]<<" , "<<limitsY[1]<<")"<<endl;
-    //cout<<"z: ("<<limitsZ[0]<<" , "<<limitsZ[1]<<")"<<endl;
+
+//    if(p->getIndex() == 14){
+//
+//        cout<<"GridTree::neigbors limits values found: "<<endl;
+//        cout<<"x: ("<<limitsX[0]<<" , "<<limitsX[1]<<")"<<endl;
+//        cout<<"y: ("<<limitsY[0]<<" , "<<limitsY[1]<<")"<<endl;
+//        cout<<"z: ("<<limitsZ[0]<<" , "<<limitsZ[1]<<")"<<endl;
+//    }
+
 
 
     for(int i=limitsX[0];i<=limitsX[1];i++)
@@ -212,6 +217,7 @@ vector<myPoint *> GridTree::neighbors(myPoint *p, double eps)
             for(int k=limitsZ[0];k<=limitsZ[1];k++)
             {
                 Cell *currentCell = grid[i][j][k];
+
 
                 if (currentCell->isKdtreezed()){
 
@@ -227,15 +233,15 @@ vector<myPoint *> GridTree::neighbors(myPoint *p, double eps)
                     currentCell->getKdtree()->annkSearch(q, 2, nnIdx, dists, 0.0001);
 
                     myPoint *currentP = currentCell->getPoint(nnIdx[0]);
+                    if (*p == *currentP) {
+                        currentP = currentCell->getPoint(nnIdx[1]);
+                    }
+
                     double dist = currentP->dist(*p);
 
                     if(dist <= eps) {
-                        if (*p != *currentP) {
-                            returnValue.push_back(currentCell->getPoint(nnIdx[0]));
-                        }
-                        else {
-                            returnValue.push_back(currentCell->getPoint(nnIdx[1]));
-                        }
+
+                        returnValue.push_back(currentP);
                     }
 
                     delete[] nnIdx;
@@ -246,9 +252,10 @@ vector<myPoint *> GridTree::neighbors(myPoint *p, double eps)
                     for (int i_p = 0; i_p < grid[i][j][k]->get_nPoints(); ++i_p) {
                         myPoint *currentP = currentCell->getPoint(i_p);
                         double dist = currentP->dist(*p);
-
-                        if (*p != *currentP && dist <= eps) {
-                            returnValue.push_back(currentP);
+                        if(dist <= eps) {
+                            if (*p != *currentP) {
+                                returnValue.push_back(currentP);
+                            }
                         }
                     }
                 }

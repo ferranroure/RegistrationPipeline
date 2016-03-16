@@ -331,6 +331,7 @@ bool fpcsRegistrationObject::findQuads(const vector<Point3D> &v,
 	int i,j;
 	int n_pts = 2*r1.size();
 	ANNkd_tree		*tree;
+//	IDataStructure *dt_aux = NULL;
 	int n = n_pts;
 
 	ANNpointArray	data_pts = annAllocPts(n_pts, 3);
@@ -711,18 +712,23 @@ double fpcsRegistrationObject::meanDist(vector<Point3D> &v)
 	float d=0.0;
 
 	int n=0;
-	for (i=0;i<FIX_RAND*10;i++)
+//	for (i=0;i<FIX_RAND*10;i++)
+	for (int k=0; k<v.size(); k++)
 	{
-		int k=rand()%v.size();
+//		int k=rand()%v.size();
 		Point *queryP = new Point(v[k].x, v[k].y, v[k].z);
+		queryP->setIndex(k);
 
-		returnData rd =dataStruct->calcOwnNN(queryP);
+		returnData rd = dataStruct->calcOwnNN(queryP);
 
 		if (sqrt(rd.sqrDist)<diam*0.05)
 		{
 			d += sqrt(rd.sqrDist);
 			n++;
 		}
+
+//		cout << k << ";" << rd.index << ";" << v[rd.index].x << ";"<< v[rd.index].y << ";" << v[rd.index].z << ";" << rd.sqrDist << endl;
+
 		delete queryP;
 	}
 
@@ -749,6 +755,7 @@ double fpcsRegistrationObject::	verify(const vector<Point3D> &v1,
 	int a=bestf*rnd;
 	Point3D	p;
 	float jmp = (float)n1/(float)rnd;
+	float root_e = sqrt(e);
 
 
 
@@ -760,7 +767,7 @@ double fpcsRegistrationObject::	verify(const vector<Point3D> &v1,
 
 		Point *queryP = new Point(p.x, p.y, p.z);
 
-		returnData rd = dataStruct->calcOneNN(queryP, e);
+		returnData rd = dataStruct->calcOneNN(queryP, root_e);
 
 		if (rd.sqrDist<e) s++;
 		if (rnd-i+s<a) return (float)s / (float)rnd;
@@ -1162,6 +1169,8 @@ void fpcsRegistrationObject::initialize(std::vector<Point3D> &v1,std::vector<Poi
 
 
 	meanDist0 = meanDist(list1)*2.0;
+
+//	cout << meanDist0 << " " << diam << endl; exit(0);
 
 	// incialitza variables globals.
 	delta=meanDist0*delta;
