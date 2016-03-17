@@ -35,6 +35,7 @@ public:
     vector<int> slotsTouched(double min, double max, char type); // returns minimum and maximum slots touched by an interval in a dimension x,y o z (indicated by type)
 
     vector<myPoint *> neighbors(myPoint *p, double eps); // returns all neigbors at distance at most eps from p, if it finds p it does not return it
+    vector<myPoint *> oneNeighbor(myPoint *p, double eps); // returns all neigbors at distance at most eps from p, if it finds p it does not return it
 
 };
 

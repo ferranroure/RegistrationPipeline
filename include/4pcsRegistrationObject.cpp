@@ -766,17 +766,27 @@ double fpcsRegistrationObject::	verify(const vector<Point3D> &v1,
 		transform(p,R,cx,cy,cz,tx,ty,tz);
 
 		Point *queryP = new Point(p.x, p.y, p.z);
+		queryP->setIndex(i);
 
 		returnData rd = dataStruct->calcOneNN(queryP, root_e);
 
-		if (rd.sqrDist<e) s++;
+
+
+		if (rd.sqrDist<e)
+		{
+			s++;
+//			cout << i << " " << rd.index << " dist: " << sqrt(rd.sqrDist) << " thrs: " << e << endl;
+
+		}
+
+
+
 		if (rnd-i+s<a) return (float)s / (float)rnd;
 
 		delete queryP;
 	}
 
-//	cout << "-------------------------> LCP: " << s << " s/size: " << (float)s/(float)rnd << endl;
-
+	cout << "-------------------------> LCP: " << s << " s/size: " << (float)s/(float)rnd << endl;
 
 	return (float)s / (float)rnd;
 }
@@ -899,7 +909,7 @@ bool fpcsRegistrationObject::tryOne(
 	{
 		return false;
 	}
-	cout << ret.size() << " of " << r1.size() << " candidate found in : " << timer.elapsed() << "s. " << endl;
+//	cout << ret.size() << " of " << r1.size() << " candidate found in : " << timer.elapsed() << "s. " << endl;
 
 	bool first = false;
 
@@ -935,11 +945,11 @@ bool fpcsRegistrationObject::tryOne(
 		double f;
 		f=computeBestRigid(pr,R,tx,ty,tz,cx,cy,cz);
 
-		writeMatrix("matrix.xls", R, cx, cy, cz, tx, ty, tz);
+//		writeMatrix("matrix.xls", R, cx, cy, cz, tx, ty, tz);
 
-//		cout << f << endl;
 		if (f<5*eps) {
 			// Aqui no sé perquè torna a multiplicar meanDist*eps*2. En principi esta fent: meanDist*(meanDist*2*delta)*2
+			timer.reset();
 			f = verify(list2, meanDist0 * eps * 2.0, R, bestf, cx, cy, cz, tx, ty, tz);
 
 			// For residue computation tests.
@@ -961,17 +971,17 @@ bool fpcsRegistrationObject::tryOne(
 //				cout << "Saving Bases..." << endl;
 //				cout << "BaseA: " << id1 << " "<< id2 << " "<< id3 << " "<< id4 << endl;
 //				cout << "BaseB: " << a1 << " "<< b1 << " "<< c1 << " "<< d1 << endl;
-				vector<Point3D> baseA;
-				baseA.push_back(Point3D(m1[id1].x+xc1, m1[id1].y+yc1, m1[id1].z+zc1));
-				baseA.push_back(Point3D(m1[id2].x+xc1, m1[id2].y+yc1, m1[id2].z+zc1));
-				baseA.push_back(Point3D(m1[id3].x+xc1, m1[id3].y+yc1, m1[id3].z+zc1));
-				baseA.push_back(Point3D(m1[id4].x+xc1, m1[id4].y+yc1, m1[id4].z+zc1));
-
-				vector<Point3D> query;
-				query.push_back(Point3D(m2[a1].x+xc2, m2[a1].y+yc2, m2[a1].z+zc2));
-				query.push_back(Point3D(m2[b1].x+xc2, m2[b1].y+yc2, m2[b1].z+zc2));
-				query.push_back(Point3D(m2[c1].x+xc2, m2[c1].y+yc2, m2[c1].z+zc2));
-				query.push_back(Point3D(m2[d1].x+xc2, m2[d1].y+yc2, m2[d1].z+zc2));
+//				vector<Point3D> baseA;
+//				baseA.push_back(Point3D(m1[id1].x+xc1, m1[id1].y+yc1, m1[id1].z+zc1));
+//				baseA.push_back(Point3D(m1[id2].x+xc1, m1[id2].y+yc1, m1[id2].z+zc1));
+//				baseA.push_back(Point3D(m1[id3].x+xc1, m1[id3].y+yc1, m1[id3].z+zc1));
+//				baseA.push_back(Point3D(m1[id4].x+xc1, m1[id4].y+yc1, m1[id4].z+zc1));
+//
+//				vector<Point3D> query;
+//				query.push_back(Point3D(m2[a1].x+xc2, m2[a1].y+yc2, m2[a1].z+zc2));
+//				query.push_back(Point3D(m2[b1].x+xc2, m2[b1].y+yc2, m2[b1].z+zc2));
+//				query.push_back(Point3D(m2[c1].x+xc2, m2[c1].y+yc2, m2[c1].z+zc2));
+//				query.push_back(Point3D(m2[d1].x+xc2, m2[d1].y+yc2, m2[d1].z+zc2));
 
 //				vector<Point3D> baseA;
 //				baseA.push_back(m1[id1]);

@@ -1,4 +1,5 @@
 #include "mykdtree.h"
+#include "../../timer.h"
 
 /* CONSTRUCTOR -----------------------------------------------------------
  *
@@ -114,13 +115,14 @@ returnData myKdtree::calcOneNN(Point *queryPoint, float errEps) {
 
     ANNpoint q = ckdt->convertPoint(queryPoint);
 
+    Timer timer;
+
     if(kdTree->nPoints() > 0){
 
         nnIdx = new ANNidx[1];						// allocate near neighbor indices
         dists = new ANNdist[1];						// allocate near neighbor dists
 
-        kdTree->annkSearch(q, 1, nnIdx, dists, errEps);
-
+        kdTree->annkSearch(q, 1, nnIdx, dists, 0.0001);
         sqrDist = dists[0];
     }
     else{

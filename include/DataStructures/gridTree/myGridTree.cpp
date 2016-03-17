@@ -30,8 +30,9 @@ returnData myGridTree::calcOneNN(Point *queryPoint, float errEps) {
 
     myPoint *p = new myPoint(queryPoint->getX(), queryPoint->getY(), queryPoint->getZ());
 
+//    cout << "ONE NN ----------------------------" << endl;
     vector<myPoint*> vnn;
-    vnn = gridtree->neighbors(p, errEps);
+    vnn = gridtree->oneNeighbor(p, errEps);
 
     myPoint *nn = NULL;
 
@@ -54,8 +55,7 @@ returnData myGridTree::calcOneNN(Point *queryPoint, float errEps) {
     else {
         rd.index = nn->getIndex();
         Point *pnn = new Point(nn->getX(), nn->getY(), nn->getZ());
-        float dist = queryPoint->dist(pnn);
-        rd.sqrDist = dist * dist;
+        rd.sqrDist = queryPoint->sqrtDist(pnn);
         delete pnn;
     }
 

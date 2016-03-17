@@ -194,6 +194,7 @@ void Pipeline::execute(){
     cout << "Coarse Alignment results:" << endl;
     computeResidue(false);
 
+//    exit(0);
     if(data->params.useRefinement){
 
         cout << "------------------------------------------------------------------------------------> REFINEMENT START" << endl;

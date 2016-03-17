@@ -188,6 +188,8 @@ vector<int> GridTree::slotsTouched(double min, double max, char type)
     return returnValue;
 }
 
+
+
 vector<myPoint *> GridTree::neighbors(myPoint *p, double eps)
 {
 
@@ -200,8 +202,8 @@ vector<myPoint *> GridTree::neighbors(myPoint *p, double eps)
     vector<int> limitsZ = slotsTouched(p->getZ()-eps, p->getZ()+eps, 'z');
 
 
-//    if(p->getIndex() == 14){
-//
+//    if(p->getIndex() == 0){
+////
 //        cout<<"GridTree::neigbors limits values found: "<<endl;
 //        cout<<"x: ("<<limitsX[0]<<" , "<<limitsX[1]<<")"<<endl;
 //        cout<<"y: ("<<limitsY[0]<<" , "<<limitsY[1]<<")"<<endl;
@@ -266,6 +268,81 @@ vector<myPoint *> GridTree::neighbors(myPoint *p, double eps)
     return returnValue;
 }
 
+
+vector<myPoint *> GridTree::oneNeighbor(myPoint *p, double eps)
+{
+
+    //cout<<"GridTree::neigbors neighbors search for "<<p<<" at distance "<<eps<<endl;
+    // find points in a query cube and then choose the ones inside the query sphere
+    vector<myPoint *> returnValue;
+
+    vector<int> limitsX = slotsTouched(p->getX()-eps, p->getX()+eps, 'x');
+    vector<int> limitsY = slotsTouched(p->getY()-eps, p->getY()+eps, 'y');
+    vector<int> limitsZ = slotsTouched(p->getZ()-eps, p->getZ()+eps, 'z');
+
+
+//    if(p->getIndex() == 0){
+////
+//        cout<<"GridTree::neigbors limits values found: "<<endl;
+//        cout<<"x: ("<<limitsX[0]<<" , "<<limitsX[1]<<")"<<endl;
+//        cout<<"y: ("<<limitsY[0]<<" , "<<limitsY[1]<<")"<<endl;
+//        cout<<"z: ("<<limitsZ[0]<<" , "<<limitsZ[1]<<")"<<endl;
+//    }
+
+
+
+    for(int i=limitsX[0];i<=limitsX[1];i++)
+    {
+        for(int j=limitsY[0];j<=limitsY[1];j++)
+        {
+            for(int k=limitsZ[0];k<=limitsZ[1];k++)
+            {
+                Cell *currentCell = grid[i][j][k];
+
+
+                if (currentCell->isKdtreezed()){
+
+                    ANNpoint q;
+                    q = annAllocPt(3);
+                    q[0] = p->getX();
+                    q[1] = p->getY();
+                    q[2] = p->getZ();
+
+                    ANNidxArray nnIdx = new ANNidx[1];
+                    ANNdistArray dists = new ANNdist[1];
+
+                    currentCell->getKdtree()->annkSearch(q, 1, nnIdx, dists, 0.0001);
+
+                    myPoint *currentP = currentCell->getPoint(nnIdx[0]);
+
+                    double dist = currentP->dist(*p);
+
+                    if(dist <= eps) {
+
+                        returnValue.push_back(currentP);
+                    }
+
+                    delete[] nnIdx;
+                    delete[] dists;
+                    annDeallocPt(q);
+                }
+                else {
+                    for (int i_p = 0; i_p < grid[i][j][k]->get_nPoints(); ++i_p) {
+                        myPoint *currentP = currentCell->getPoint(i_p);
+                        double dist = currentP->dist(*p);
+                        if(dist <= eps) {
+                            if (*p != *currentP) {
+                                returnValue.push_back(currentP);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return returnValue;
+}
 
 int GridTree::getNumElems() {
 
