@@ -48,7 +48,7 @@ void ref_ICP::execute(){
  */
 void ref_ICP::execute(){
 
-    myICP *icp = new myICP(data->params.infile, data->params.infileTemp);
+    myICP *icp = new myICP(data->params.infile, data->params.infileTemp, data->A->getDataStruct(), data->B->getDataStruct());
 
     data->fM = icp->align();
 

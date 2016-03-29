@@ -34,7 +34,8 @@ public:
     // Methods ----------------------------------------------------------------
     myICP();                                    // Constructor.
     myICP(ElementSet *A, ElementSet *B);        // Constructor with the initial pointsets.
-    myICP(string infile1, string infile2);      // Constructor with initial files.
+    myICP(string infile1, string infile2,
+        IDataStructure *ds1, IDataStructure *ds2);      // Constructor with initial files.
     ~myICP();                                   // Desctructor.
     motion3D *align();                          // Calulate fine alignment.
 

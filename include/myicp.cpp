@@ -36,9 +36,9 @@ myICP::myICP(ElementSet *A, ElementSet *B){
 /* CONSTRUCTOR -----------------------------------------------------------
  *
  */
-myICP::myICP(string infile1, string infile2){
+myICP::myICP(string infile1, string infile2, IDataStructure *ds1, IDataStructure *ds2){
 
-    fm = new fineMatching(infile1.c_str(), infile2.c_str());
+    fm = new fineMatching(infile1.c_str(), infile2.c_str(), ds1, ds2);
 }
 
 

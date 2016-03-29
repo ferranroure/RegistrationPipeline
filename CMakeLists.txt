@@ -136,7 +136,7 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
             external/FineMatching/reorder_verts.cc
             external/FineMatching/remove.cc
             external/FineMatching/overlap.cc
-            external/FineMatching/mesh_align.cc
+#            external/FineMatching/mesh_align.cc
             external/FineMatching/fineMatching.cpp
             external/FineMatching/filter.cc
             external/FineMatching/TriMesh_tstrips.cc

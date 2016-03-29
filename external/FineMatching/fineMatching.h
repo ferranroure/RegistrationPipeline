@@ -20,11 +20,12 @@ class fineMatching
 	// sets to be matched
 	TriMesh * mesh1;
 	TriMesh * mesh2;
-	string dataStructType;
+	IDataStructure *ds1;
+	IDataStructure *ds2;
 
 	public:
 		// creator function (llegint dos arxius ply)
-		fineMatching(const char *file1,const char *file2, string _dataStructType);
+		fineMatching(const char *file1,const char *file2, IDataStructure *_ds1, IDataStructure *_ds2);
         fineMatching(TriMesh *A, TriMesh *B);
         ~fineMatching();
 
