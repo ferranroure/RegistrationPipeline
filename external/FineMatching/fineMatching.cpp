@@ -1,11 +1,11 @@
 #include "./fineMatching.h"
 
 
-fineMatching::fineMatching(const char *filename1,const char *filename2)
+fineMatching::fineMatching(const char *filename1,const char *filename2, string _dataStructType)
 {
 	mesh1 = TriMesh::read(filename1);
 	mesh2 = TriMesh::read(filename2);
-
+	dataStructType = _dataStructType;
 }
 
 fineMatching::fineMatching(TriMesh *A, TriMesh *B){
@@ -53,7 +53,6 @@ double fineMatching::iCP(xform &xf1,xform &xf2)
 	xform xf2;
 	string xffilename2 = xfname(filename2);
 	xf2.read(xffilename2);*/
-
 
 	KDtree *kd1 = new KDtree(mesh1->vertices);
 	KDtree *kd2 = new KDtree(mesh2->vertices);
