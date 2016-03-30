@@ -249,13 +249,16 @@ static void select_and_match(TriMesh *s1, TriMesh *s2,
 		bool pointcloud2 = (s2->faces.empty() && s2->tstrips.empty());
 		NormCompat nc(n, s2, pointcloud2);
 
-//		const float *match = kd2->closest_to_pt(p, maxdist2, &nc);
 		// ------------------------ ferran ------------------------------
 		Point *myP = new Point(p[0], p[1],p[2]);
-		returnData rd = kd2->calcOneNN(myP, maxdist2);
+		returnData rd = kd2->calcOneNN(myP, maxdist);
 		int imatch = rd.index;
-		// --------------------------------------------------------------
 
+		if(imatch==-1) continue;
+		if (!pointcloud2 && s2->is_bdy(imatch)) continue;
+//		 --------------------------------------------------------------
+
+//		const float *match = kd2->closest_to_pt(p, maxdist2, &nc);
 //		if (!match)
 //			continue;
 //		int imatch = (match - (const float *) &(s2->vertices[0][0])) / 3;

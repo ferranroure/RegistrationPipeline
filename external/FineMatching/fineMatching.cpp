@@ -20,8 +20,6 @@ fineMatching::~fineMatching(){
 
     delete mesh1;
     delete mesh2;
-	delete ds1;
-	delete ds2;
 }
 
 
