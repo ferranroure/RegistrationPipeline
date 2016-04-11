@@ -78,7 +78,7 @@ public:
     vector3D operator-(Point p);
 
     double dist(Point *a); 							// Distance between two points
-    double sqrtDist(Point *a);
+    double sqrDist(Point *a);
     Point distVector(Point a);
     void setDescriptor(IDescriptor *desc);
     void copyDescriptor(IDescriptor *desc);

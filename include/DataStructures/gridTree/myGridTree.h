@@ -28,7 +28,7 @@ public:
     myGridTree(vector<Point *> *P, float _diag);
     ~myGridTree();
 
-    returnData calcOneNN(Point *queryPoint, float errEps);
+    returnData calcOneNN(Point *queryPoint, float eps);
     returnData calcOwnNN(Point *queryPoint);
     vector<returnData> calcNneigh(Point *queryPoint, int nNeigh);
 

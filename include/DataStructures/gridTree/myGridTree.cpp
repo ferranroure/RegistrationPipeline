@@ -26,22 +26,22 @@ myGridTree::~myGridTree() {
     delete ads;
 }
 
-returnData myGridTree::calcOneNN(Point *queryPoint, float errEps) {
+returnData myGridTree::calcOneNN(Point *queryPoint, float eps) {
 
     myPoint *p = new myPoint(queryPoint->getX(), queryPoint->getY(), queryPoint->getZ());
 
 //    cout << "ONE NN ----------------------------" << endl;
     vector<myPoint*> vnn;
-    vnn = gridtree->oneNeighbor(p, errEps);
+    vnn = gridtree->oneNeighbor(p, eps);
 
     myPoint *nn = NULL;
 
 
-    float bestDist = FLT_MAX;
+    float bestSqrDist = FLT_MAX;
     for (int i = 0; i < vnn.size(); ++i) {
-        float dist = p->dist(*(vnn.at(i)));
-        if(dist<bestDist){
-            bestDist = dist;
+        float sqrDist = p->sqrdist(*(vnn.at(i)));
+        if(sqrDist < bestSqrDist){
+            bestSqrDist = sqrDist;
             nn = vnn.at(i);
         }
     }
@@ -55,7 +55,7 @@ returnData myGridTree::calcOneNN(Point *queryPoint, float errEps) {
     else {
         rd.index = nn->getIndex();
         Point *pnn = new Point(nn->getX(), nn->getY(), nn->getZ());
-        rd.sqrDist = queryPoint->sqrtDist(pnn);
+        rd.sqrDist = queryPoint->sqrDist(pnn);
         delete pnn;
     }
 
@@ -78,11 +78,11 @@ returnData myGridTree::calcOwnNN(Point *queryPoint) {
 
     myPoint *nn = NULL;
 
-    float bestDist = FLT_MAX;
+    float bestSqrDist = FLT_MAX;
     for (int i = 0; i < vnn.size(); ++i) {
-        float dist = p->dist(*(vnn.at(i)));
-        if(dist<bestDist){
-            bestDist = dist;
+        float sqrdist = p->sqrdist(*(vnn.at(i)));
+        if(sqrdist < bestSqrDist){
+            bestSqrDist = sqrdist;
             nn = vnn.at(i);
         }
     }
@@ -95,8 +95,8 @@ returnData myGridTree::calcOwnNN(Point *queryPoint) {
     else {
         rd.index = nn->getIndex();
         Point *pnn = new Point(nn->getX(), nn->getY(), nn->getZ());
-        float dist = queryPoint->dist(pnn);
-        rd.sqrDist = dist * dist;
+        rd.sqrDist = queryPoint->sqrDist(pnn);
+
         delete pnn;
     }
 

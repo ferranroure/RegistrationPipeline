@@ -122,7 +122,7 @@ returnData myKdtree::calcOneNN(Point *queryPoint, float errEps) {
         nnIdx = new ANNidx[1];						// allocate near neighbor indices
         dists = new ANNdist[1];						// allocate near neighbor dists
 
-        kdTree->annkSearch(q, 1, nnIdx, dists, 0.0001);
+        kdTree->annkSearch(q, 1, nnIdx, dists, errEps);
         sqrDist = dists[0];
     }
     else{

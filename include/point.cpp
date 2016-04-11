@@ -260,7 +260,7 @@ double Point::dist(Point *a)
     return res;
 }
 
-double Point::sqrtDist(Point *a)
+double Point::sqrDist(Point *a)
 {
     double res = 0;
     res=( pow(a->getX()-x,2) + pow(a->getY()-y,2) + pow(a->getZ()-z,2) );

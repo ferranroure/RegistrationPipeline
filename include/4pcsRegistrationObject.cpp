@@ -768,7 +768,7 @@ double fpcsRegistrationObject::	verify(const vector<Point3D> &v1,
 		Point *queryP = new Point(p.x, p.y, p.z);
 		queryP->setIndex(i);
 
-		returnData rd = dataStruct->calcOneNN(queryP, root_e);
+		returnData rd = dataStruct->calcOneNN(queryP, root_e); // e is sqr(dist)
 
 
 

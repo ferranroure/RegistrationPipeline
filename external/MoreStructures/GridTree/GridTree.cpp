@@ -196,6 +196,7 @@ vector<myPoint *> GridTree::neighbors(myPoint *p, double eps)
     //cout<<"GridTree::neigbors neighbors search for "<<p<<" at distance "<<eps<<endl;
     // find points in a query cube and then choose the ones inside the query sphere
     vector<myPoint *> returnValue;
+    double sqrEps = eps * eps;
 
     vector<int> limitsX = slotsTouched(p->getX()-eps, p->getX()+eps, 'x');
     vector<int> limitsY = slotsTouched(p->getY()-eps, p->getY()+eps, 'y');
@@ -239,9 +240,9 @@ vector<myPoint *> GridTree::neighbors(myPoint *p, double eps)
                         currentP = currentCell->getPoint(nnIdx[1]);
                     }
 
-                    double dist = currentP->dist(*p);
+                    double sqrDist = currentP->sqrdist(*p);
 
-                    if(dist <= eps) {
+                    if(sqrDist <= sqrEps) {
 
                         returnValue.push_back(currentP);
                     }
@@ -253,8 +254,8 @@ vector<myPoint *> GridTree::neighbors(myPoint *p, double eps)
                 else {
                     for (int i_p = 0; i_p < grid[i][j][k]->get_nPoints(); ++i_p) {
                         myPoint *currentP = currentCell->getPoint(i_p);
-                        double dist = currentP->dist(*p);
-                        if(dist <= eps) {
+                        double sqrDist = currentP->sqrdist(*p);
+                        if(sqrDist <= sqrEps) {
                             if (*p != *currentP) {
                                 returnValue.push_back(currentP);
                             }
@@ -275,6 +276,7 @@ vector<myPoint *> GridTree::oneNeighbor(myPoint *p, double eps)
     //cout<<"GridTree::neigbors neighbors search for "<<p<<" at distance "<<eps<<endl;
     // find points in a query cube and then choose the ones inside the query sphere
     vector<myPoint *> returnValue;
+    double sqrEps = eps * eps;
 
     vector<int> limitsX = slotsTouched(p->getX()-eps, p->getX()+eps, 'x');
     vector<int> limitsY = slotsTouched(p->getY()-eps, p->getY()+eps, 'y');
@@ -315,9 +317,9 @@ vector<myPoint *> GridTree::oneNeighbor(myPoint *p, double eps)
 
                     myPoint *currentP = currentCell->getPoint(nnIdx[0]);
 
-                    double dist = currentP->dist(*p);
+                    double sqrDist = currentP->sqrdist(*p);
 
-                    if(dist <= eps) {
+                    if(sqrDist <= sqrEps) {
 
                         returnValue.push_back(currentP);
                     }
@@ -329,8 +331,8 @@ vector<myPoint *> GridTree::oneNeighbor(myPoint *p, double eps)
                 else {
                     for (int i_p = 0; i_p < grid[i][j][k]->get_nPoints(); ++i_p) {
                         myPoint *currentP = currentCell->getPoint(i_p);
-                        double dist = currentP->dist(*p);
-                        if(dist <= eps) {
+                        double sqrDist = currentP->sqrdist(*p);
+                        if(sqrDist <= sqrEps) {
                             if (*p != *currentP) {
                                 returnValue.push_back(currentP);
                             }
