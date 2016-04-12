@@ -757,10 +757,24 @@ double fpcsRegistrationObject::	verify(const vector<Point3D> &v1,
 	float jmp = (float)n1/(float)rnd;
 	float root_e = sqrt(e);
 
+//	vector<int> indx;
+//	indx.push_back(400);
+//	indx.push_back(411);
+//	indx.push_back(421);
+//	indx.push_back(438);
+//	indx.push_back(448);
+//	indx.push_back(452);
+//	indx.push_back(502);
+//	indx.push_back(505);
+//	indx.push_back(575);
+//	indx.push_back(576);
+
 
 
 	for (i=0;i<rnd;i++)
+//	for (i=0;i<indx.size();i++)
 	{
+//		p=v1[indx.at(i)];
 		p=v1[i];
 
 		transform(p,R,cx,cy,cz,tx,ty,tz);
@@ -768,7 +782,7 @@ double fpcsRegistrationObject::	verify(const vector<Point3D> &v1,
 		Point *queryP = new Point(p.x, p.y, p.z);
 		queryP->setIndex(i);
 
-		returnData rd = dataStruct->calcOneNN(queryP, root_e); // e is sqr(dist)
+		returnData rd = dataStruct->calcOneNN(queryP, root_e);
 
 
 
@@ -780,14 +794,13 @@ double fpcsRegistrationObject::	verify(const vector<Point3D> &v1,
 		}
 
 
-
 		if (rnd-i+s<a) return (float)s / (float)rnd;
 
 		delete queryP;
 	}
 
-	cout << "-------------------------> LCP: " << s << " s/size: " << (float)s/(float)rnd << endl;
-
+//	cout << "-------------------------> LCP: " << s << " s/size: " << (float)s/(float)rnd << endl;
+//	exit(0);
 	return (float)s / (float)rnd;
 }
 
@@ -1021,7 +1034,7 @@ bool fpcsRegistrationObject::tryOne(
 //		cout << "             Candidate checked in: " << timer.elapsed() << endl; timer.reset();
 	}
 done:
-	cout << "     " <<  A << " candidates checked in: " <<  globalTimer.elapsed() << " bestf: " << bestf << endl;
+//	cout << "     " <<  A << " candidates checked in: " <<  globalTimer.elapsed() << " bestf: " << bestf << endl;
 	if (bestf>thr) return true; else return false;
 }
 
@@ -1175,6 +1188,9 @@ void fpcsRegistrationObject::initialize(std::vector<Point3D> &v1,std::vector<Poi
 	}
 	else if(dataStructType == "gridtree"){
 		dataStruct = new myGridTree(&points, diam);
+	}
+	else if(dataStructType == "trihash"){
+		dataStruct = new myTriHash(&points, diam);
 	}
 
 

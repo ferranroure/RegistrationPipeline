@@ -146,6 +146,8 @@ void Pipeline::execute(){
     cout << "3D REGISTRATION PIPELINE" << endl;
     cout << "----------------------------------------------" << endl;
 
+    float time = 0;
+
     data->printParams();
 
     // Compute groundtruth
@@ -184,10 +186,12 @@ void Pipeline::execute(){
     if(data->params.useSS){
 
         cout << "------------------------------------------------------------------------------------> SEARCHING STRATEGIES START" << endl;
+        timer.reset();
         searching->execute();
+        time = timer.elapsed();
         applyMovement(COARSE);
         cout << endl;
-        cout << "------------------------------------------------------------------------------------> SEARCHING STRATEGIES DONE in: " << timer.elapsed() << " sec." << endl; timer.reset();
+        cout << "------------------------------------------------------------------------------------> SEARCHING STRATEGIES DONE in: " << time << " sec." << endl; timer.reset();
         cout << endl << endl;
     }
 
@@ -198,10 +202,12 @@ void Pipeline::execute(){
     if(data->params.useRefinement){
 
         cout << "------------------------------------------------------------------------------------> REFINEMENT START" << endl;
+        timer.reset();
         refinement->execute();
+        time = timer.elapsed();
         applyMovement(FINE);
         cout << endl;
-        cout << "------------------------------------------------------------------------------------> REFINEMENT DONE in: " << timer.elapsed() << " sec." << endl; timer.reset();
+        cout << "------------------------------------------------------------------------------------> REFINEMENT DONE in: " << time << " sec." << endl; timer.reset();
         cout << endl << endl;
     }
 

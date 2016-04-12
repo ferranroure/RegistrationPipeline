@@ -233,7 +233,7 @@ vector<myPoint *> GridTree::neighbors(myPoint *p, double eps)
                     ANNidxArray nnIdx = new ANNidx[2];
                     ANNdistArray dists = new ANNdist[2];
 
-                    currentCell->getKdtree()->annkSearch(q, 2, nnIdx, dists, 0.0001);
+                    currentCell->getKdtree()->annkSearch(q, 2, nnIdx, dists, 0);
 
                     myPoint *currentP = currentCell->getPoint(nnIdx[0]);
                     if (*p == *currentP) {
@@ -313,7 +313,7 @@ vector<myPoint *> GridTree::oneNeighbor(myPoint *p, double eps)
                     ANNidxArray nnIdx = new ANNidx[1];
                     ANNdistArray dists = new ANNdist[1];
 
-                    currentCell->getKdtree()->annkSearch(q, 1, nnIdx, dists, 0.0001);
+                    currentCell->getKdtree()->annkSearch(q, 1, nnIdx, dists, 0);
 
                     myPoint *currentP = currentCell->getPoint(nnIdx[0]);
 
