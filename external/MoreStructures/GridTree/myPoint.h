@@ -36,6 +36,7 @@ public:
     void setIndex(int _ind);
 
     double dist(myPoint &p);
+    double sqrdist(myPoint &p);
 
     void print();
 

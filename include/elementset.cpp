@@ -308,8 +308,10 @@ void ElementSet::calcMMD(){
 
         sum += sqrt(rd.sqrDist);
 //        cout << sqrt(rd.sqrDist) << endl;
-    }
+//   		cout << (*it)->getIndex() << ";" << rd.index << ";" /*<< v[rd.index].x << ";"<< v[rd.index].x << ";" << v[rd.index].x << ";"*/ << rd.sqrDist << endl;
 
+    }
+//exit(0);
 
     MMD = sum / workpoints->size();
 
@@ -393,6 +395,7 @@ double ElementSet::calcNN(vector<Point> *Q, double percOfPoints, float errorFact
     double MSD = 0;
     int err = 0;
     vector<int> NNv;
+    float sqrErr = pow(MMD*errorFactor,2);
 
     //srand(time(NULL));
     double rn;
@@ -406,7 +409,7 @@ double ElementSet::calcNN(vector<Point> *Q, double percOfPoints, float errorFact
 
             // counting errors
 //            cout << sqrt(rd.sqrDist) << " " << MMD*errorFactor << endl;
-            if(sqrt(rd.sqrDist) > MMD*errorFactor) err++;
+            if(rd.sqrDist > sqrErr) err++;
             else {
                 MSD += rd.sqrDist;
                 NNv.push_back(rd.index);
