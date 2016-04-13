@@ -1183,6 +1183,7 @@ void fpcsRegistrationObject::initialize(std::vector<Point3D> &v1,std::vector<Poi
 		}
 	}
 
+
 	if(dataStructType == "kdtree"){
 		dataStruct = new myKdtree(&points);
 	}
