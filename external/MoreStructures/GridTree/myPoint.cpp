@@ -39,6 +39,14 @@ double myPoint::dist(myPoint &p) {
     return res;
 }
 
+double myPoint::sqrdist(myPoint &p) {
+
+    double res = 0;
+    res = ( pow(p.getX()-x,2) + pow(p.getY()-y,2) + pow(p.getZ()-z,2) );
+
+    return res;
+}
+
 
 int myPoint::getIndex() {
 

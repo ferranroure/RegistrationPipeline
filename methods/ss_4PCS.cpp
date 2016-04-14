@@ -18,7 +18,7 @@ void ss_4PCS::execute() {
 
 
     // Bunny: 0.1, 500, 0.1, 0.3
-    // Buddha: 0.2, 1000, 0.1, 0.2
+    // Buddha: 0.2 / 0.1, 1000, 0.1, 0.2
     // Joints: 0.2, 1000, 0.1, 0.2
     // Bust: 0.1, 1000, 0.1, 0.2
 
@@ -37,7 +37,7 @@ void ss_4PCS::execute() {
     float delta = 0.1;
 
     // This parameter is used to select the 4th point in de base from A. Is provided in order to not select a point
-    // which its correspondece in Q falls in a non-overlapping area.
+    // which its correspondence in Q falls in a non-overlapping area.
     // qd = diam*overlap*2.0; -> this qd is used to find a wide point. length(u)< qd.
     float overlap = 0.2;
 
@@ -51,6 +51,7 @@ void ss_4PCS::execute() {
     matcher.setNumberOfPoints(n_points);
     matcher.setNormDiff(norm_diff);
     matcher.setUseNormal(true);
+    matcher.setDataStructType(data->params.dataStructure);
 
     float a = matcher.compute(*set1, *set2, delta, overlap, mat);
     data->cM = a4pcs.mat2motion(mat);

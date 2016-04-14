@@ -5,10 +5,10 @@
         <!--<infile2>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/coral_left_moved.ply</infile2>-->
         <!--<infile>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/Rocks_right.ply</infile>-->
         <!--<infile2>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/Rocks_left_moved.ply</infile2>-->
-        <!--<infile>../../models/ResidueTests/bun0.ply</infile>-->
-        <!--<infile2>../../models/ResidueTests/bun1_sol.ply</infile2>-->
-        <infile>../../models/prova/bust0.ply</infile>
-        <infile2>../../models/prova/bust1.ply</infile2>
+        <infile>../../models/ResidueTests/bun0.ply</infile>
+        <infile2>../../models/ResidueTests/bun1.ply</infile2>
+        <!--<infile>../../models/prova/office0.ply</infile>-->
+        <!--<infile2>../../models/prova/office1.ply</infile2>-->
         <!--<infileTemp>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/temp.ply</infileTemp>-->
         <!--<outfile>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/out.ply</outfile>-->
         <infileTemp>../../models/prova/temp.ply</infileTemp>

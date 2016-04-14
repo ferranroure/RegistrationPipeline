@@ -49,6 +49,29 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 using namespace std;
 
 
+fpcsRegistrationObject::fpcsRegistrationObject() {
+
+	dataStruct = NULL;
+	dataStructType = "gridtree";
+	app = 0.0;
+	useNormals = 1;
+	normDiff = 0.01;
+	qd = -1;
+	numTry = -1;
+	meanDist0 = 1.0;
+	estFrac = 0.9;
+	thr = -1;
+	debug = false;
+	sample = ((float)500);
+	quad.resize(4);
+}
+
+fpcsRegistrationObject::~fpcsRegistrationObject(){
+
+	delete dataStruct;
+}
+
+
 
 static fstream debugf;
 
@@ -308,6 +331,7 @@ bool fpcsRegistrationObject::findQuads(const vector<Point3D> &v,
 	int i,j;
 	int n_pts = 2*r1.size();
 	ANNkd_tree		*tree;
+//	IDataStructure *dt_aux = NULL;
 	int n = n_pts;
 
 	ANNpointArray	data_pts = annAllocPts(n_pts, 3);
@@ -686,37 +710,28 @@ double fpcsRegistrationObject::meanDist(vector<Point3D> &v)
 	srand(0);
 	int i;
 	float d=0.0;
-	ANNpoint		query_pt;
-	ANNidxArray		nn_idx;
-	ANNdistArray	dists;
-
-	query_pt = annAllocPt(3);
-	nn_idx = new ANNidx[2];
-	dists = new ANNdist[2];
 
 	int n=0;
-	for (i=0;i<FIX_RAND*10;i++)
+//	for (i=0;i<FIX_RAND*10;i++)
+	for (int k=0; k<v.size(); k++)
 	{
-		int k=rand()%v.size();
-		query_pt[0]=v[k].x;
-		query_pt[1]=v[k].y;
-		query_pt[2]=v[k].z;
-		the_tree->annkSearch(
-			query_pt,
-			2,
-			nn_idx,
-			dists,
-			app);
-		if (sqrt(dists[1])<diam*0.05)
+//		int k=rand()%v.size();
+		Point *queryP = new Point(v[k].x, v[k].y, v[k].z);
+		queryP->setIndex(k);
+
+		returnData rd = dataStruct->calcOwnNN(queryP);
+
+		if (sqrt(rd.sqrDist)<diam*0.05)
 		{
-			d += sqrt(dists[1]);
+			d += sqrt(rd.sqrDist);
 			n++;
 		}
+
+//		cout << k << ";" << rd.index << ";" << v[rd.index].x << ";"<< v[rd.index].y << ";" << v[rd.index].z << ";" << rd.sqrDist << endl;
+
+		delete queryP;
 	}
 
-	annDeallocPt(query_pt);
-	delete [] nn_idx;
-	delete [] dists;
 
 	return d/(float)n;
 }
@@ -740,42 +755,52 @@ double fpcsRegistrationObject::	verify(const vector<Point3D> &v1,
 	int a=bestf*rnd;
 	Point3D	p;
 	float jmp = (float)n1/(float)rnd;
+	float root_e = sqrt(e);
 
-	ANNpoint		query_pt;
-	ANNidxArray		nn_idx;
-	ANNdistArray	dists;
-	query_pt = annAllocPt(3);
-	nn_idx = new ANNidx[1];
-	dists = new ANNdist[1];
+//	vector<int> indx;
+//	indx.push_back(400);
+//	indx.push_back(411);
+//	indx.push_back(421);
+//	indx.push_back(438);
+//	indx.push_back(448);
+//	indx.push_back(452);
+//	indx.push_back(502);
+//	indx.push_back(505);
+//	indx.push_back(575);
+//	indx.push_back(576);
+
 
 
 	for (i=0;i<rnd;i++)
+//	for (i=0;i<indx.size();i++)
 	{
+//		p=v1[indx.at(i)];
 		p=v1[i];
 
 		transform(p,R,cx,cy,cz,tx,ty,tz);
 
-		query_pt[0]=p.x;
-		query_pt[1]=p.y;
-		query_pt[2]=p.z;
-		the_tree->annkSearch(
-			query_pt,
-			1,
-			nn_idx,
-			dists,
-			app);
+		Point *queryP = new Point(p.x, p.y, p.z);
+		queryP->setIndex(i);
+
+		returnData rd = dataStruct->calcOneNN(queryP, root_e);
 
 
 
-		if (dists[0]<e) s++;
+		if (rd.sqrDist<e)
+		{
+			s++;
+//			cout << i << " " << rd.index << " dist: " << sqrt(rd.sqrDist) << " thrs: " << e << endl;
+
+		}
+
+
 		if (rnd-i+s<a) return (float)s / (float)rnd;
+
+		delete queryP;
 	}
 
 //	cout << "-------------------------> LCP: " << s << " s/size: " << (float)s/(float)rnd << endl;
-
-	annDeallocPt(query_pt);
-	delete [] nn_idx;
-	delete [] dists;
+//	exit(0);
 	return (float)s / (float)rnd;
 }
 
@@ -897,7 +922,7 @@ bool fpcsRegistrationObject::tryOne(
 	{
 		return false;
 	}
-	cout << ret.size() << " of " << r1.size() << " candidate found in : " << timer.elapsed() << "s. " << endl;
+//	cout << ret.size() << " of " << r1.size() << " candidate found in : " << timer.elapsed() << "s. " << endl;
 
 	bool first = false;
 
@@ -933,11 +958,11 @@ bool fpcsRegistrationObject::tryOne(
 		double f;
 		f=computeBestRigid(pr,R,tx,ty,tz,cx,cy,cz);
 
-		writeMatrix("matrix.xls", R, cx, cy, cz, tx, ty, tz);
+//		writeMatrix("matrix.xls", R, cx, cy, cz, tx, ty, tz);
 
-//		cout << f << endl;
 		if (f<5*eps) {
 			// Aqui no sé perquè torna a multiplicar meanDist*eps*2. En principi esta fent: meanDist*(meanDist*2*delta)*2
+			timer.reset();
 			f = verify(list2, meanDist0 * eps * 2.0, R, bestf, cx, cy, cz, tx, ty, tz);
 
 			// For residue computation tests.
@@ -959,17 +984,17 @@ bool fpcsRegistrationObject::tryOne(
 //				cout << "Saving Bases..." << endl;
 //				cout << "BaseA: " << id1 << " "<< id2 << " "<< id3 << " "<< id4 << endl;
 //				cout << "BaseB: " << a1 << " "<< b1 << " "<< c1 << " "<< d1 << endl;
-				vector<Point3D> baseA;
-				baseA.push_back(Point3D(m1[id1].x+xc1, m1[id1].y+yc1, m1[id1].z+zc1));
-				baseA.push_back(Point3D(m1[id2].x+xc1, m1[id2].y+yc1, m1[id2].z+zc1));
-				baseA.push_back(Point3D(m1[id3].x+xc1, m1[id3].y+yc1, m1[id3].z+zc1));
-				baseA.push_back(Point3D(m1[id4].x+xc1, m1[id4].y+yc1, m1[id4].z+zc1));
-
-				vector<Point3D> query;
-				query.push_back(Point3D(m2[a1].x+xc2, m2[a1].y+yc2, m2[a1].z+zc2));
-				query.push_back(Point3D(m2[b1].x+xc2, m2[b1].y+yc2, m2[b1].z+zc2));
-				query.push_back(Point3D(m2[c1].x+xc2, m2[c1].y+yc2, m2[c1].z+zc2));
-				query.push_back(Point3D(m2[d1].x+xc2, m2[d1].y+yc2, m2[d1].z+zc2));
+//				vector<Point3D> baseA;
+//				baseA.push_back(Point3D(m1[id1].x+xc1, m1[id1].y+yc1, m1[id1].z+zc1));
+//				baseA.push_back(Point3D(m1[id2].x+xc1, m1[id2].y+yc1, m1[id2].z+zc1));
+//				baseA.push_back(Point3D(m1[id3].x+xc1, m1[id3].y+yc1, m1[id3].z+zc1));
+//				baseA.push_back(Point3D(m1[id4].x+xc1, m1[id4].y+yc1, m1[id4].z+zc1));
+//
+//				vector<Point3D> query;
+//				query.push_back(Point3D(m2[a1].x+xc2, m2[a1].y+yc2, m2[a1].z+zc2));
+//				query.push_back(Point3D(m2[b1].x+xc2, m2[b1].y+yc2, m2[b1].z+zc2));
+//				query.push_back(Point3D(m2[c1].x+xc2, m2[c1].y+yc2, m2[c1].z+zc2));
+//				query.push_back(Point3D(m2[d1].x+xc2, m2[d1].y+yc2, m2[d1].z+zc2));
 
 //				vector<Point3D> baseA;
 //				baseA.push_back(m1[id1]);
@@ -1009,7 +1034,7 @@ bool fpcsRegistrationObject::tryOne(
 //		cout << "             Candidate checked in: " << timer.elapsed() << endl; timer.reset();
 	}
 done:
-	cout << "     " <<  A << " candidates checked in: " <<  globalTimer.elapsed() << " bestf: " << bestf << endl;
+//	cout << "     " <<  A << " candidates checked in: " <<  globalTimer.elapsed() << " bestf: " << bestf << endl;
 	if (bestf>thr) return true; else return false;
 }
 
@@ -1125,17 +1150,20 @@ void fpcsRegistrationObject::initialize(std::vector<Point3D> &v1,std::vector<Poi
 
 	// passa de la llista a un format per tractar amb el kdtree.
 	int n_pts = list1.size();
-	cout << "# of samples: " << n_pts << endl;
-	if (data_pts0) annDeallocPts(data_pts0);
-	if (the_tree) delete the_tree;
+//	cout << "# of samples: " << n_pts << endl;
 
-	data_pts0 = annAllocPts(n_pts, 3);
+	if (dataStruct) delete dataStruct;
+
+	vector<Point*> points;
+
 	for (i = 0; i < list1.size(); i++)
 	{
-		data_pts0[i][0]=list1[i].x;
-		data_pts0[i][1]=list1[i].y;
-		data_pts0[i][2]=list1[i].z;
+		Point *p = new Point(list1[i].x, list1[i].y, list1[i].z);
+		p->setIndex(i);
+		points.push_back(p);
 	}
+
+
 
 	diam = 0.0;
 	int at,bt;
@@ -1156,11 +1184,23 @@ void fpcsRegistrationObject::initialize(std::vector<Point3D> &v1,std::vector<Poi
 	}
 
 
-	the_tree = new ANNkd_tree(
-		data_pts0,
-		n_pts,
-		3);
+	if(dataStructType == "kdtree"){
+		dataStruct = new myKdtree(&points);
+	}
+	else if(dataStructType == "gridtree"){
+		dataStruct = new myGridTree(&points, diam);
+	}
+	else if(dataStructType == "trihash"){
+		dataStruct = new myTriHash(&points, diam);
+	}
+	else{
+		dataStruct = new myGridTree(&points, diam);
+	}
+
+
 	meanDist0 = meanDist(list1)*2.0;
+
+//	cout << meanDist0 << " " << diam << endl; exit(0);
 
 	// incialitza variables globals.
 	delta=meanDist0*delta;
@@ -1326,4 +1366,9 @@ void fpcsRegistrationObject::writeMatrix(const char *outpath, LA_Fmat &rMat, dou
 
 	file.close();
 
+}
+
+void fpcsRegistrationObject::setDataStructType(string type){
+
+	dataStructType = type;
 }
