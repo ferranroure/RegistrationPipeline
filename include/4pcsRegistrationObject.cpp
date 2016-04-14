@@ -1150,7 +1150,7 @@ void fpcsRegistrationObject::initialize(std::vector<Point3D> &v1,std::vector<Poi
 
 	// passa de la llista a un format per tractar amb el kdtree.
 	int n_pts = list1.size();
-	cout << "# of samples: " << n_pts << endl;
+//	cout << "# of samples: " << n_pts << endl;
 
 	if (dataStruct) delete dataStruct;
 
@@ -1192,6 +1192,9 @@ void fpcsRegistrationObject::initialize(std::vector<Point3D> &v1,std::vector<Poi
 	}
 	else if(dataStructType == "trihash"){
 		dataStruct = new myTriHash(&points, diam);
+	}
+	else{
+		dataStruct = new myGridTree(&points, diam);
 	}
 
 
