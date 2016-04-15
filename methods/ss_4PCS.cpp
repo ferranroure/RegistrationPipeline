@@ -39,7 +39,7 @@ void ss_4PCS::execute() {
     // This parameter is used to select the 4th point in de base from A. Is provided in order to not select a point
     // which its correspondence in Q falls in a non-overlapping area.
     // qd = diam*overlap*2.0; -> this qd is used to find a wide point. length(u)< qd.
-    float overlap = 0.3;
+    float overlap = 0.2;
 
     converter4PCS a4pcs;
     vector<Point3D> * set1 = a4pcs.points24PCS(data->A->getWorkpoints(), false, true);
