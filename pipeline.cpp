@@ -186,7 +186,7 @@ void Pipeline::execute(){
     if(data->params.useSS){
 
         float sumtime = 0;
-        int nTries = 4;
+        int nTries = 50;
         for(int i=1; i<=nTries; i++) {
             timer.reset();
             searching->execute();
@@ -195,14 +195,14 @@ void Pipeline::execute(){
             sumtime += time;
         }
 
-        cout << "4PCS | DS: " << data->params.dataStructure << " | mean time: " << sumtime/nTries << endl;
+        cout << "4PCS | DS: " << data->params.dataStructure << " | mean time of " << nTries << " exec: " << sumtime/nTries << endl;
 
 
 //        cout << "------------------------------------------------------------------------------------> SEARCHING STRATEGIES START" << endl;
 //        timer.reset();
 //        searching->execute();
 //        time = timer.elapsed();
-//        applyMovement(COARSE);
+        applyMovement(COARSE);
 //        cout << endl;
 //        cout << "------------------------------------------------------------------------------------> SEARCHING STRATEGIES DONE in: " << time << " sec." << endl; timer.reset();
 //        cout << endl << endl;
@@ -216,7 +216,7 @@ void Pipeline::execute(){
     if(data->params.useRefinement){
 
         float sumtime = 0;
-        int nTries = 4;
+        int nTries = 50;
         for(int i=1; i<=nTries; i++) {
             timer.reset();
             refinement->execute();
@@ -225,7 +225,7 @@ void Pipeline::execute(){
             sumtime += time;
         }
 
-        cout << "ICP | DS: " << data->params.dataStructure << " | mean time: " << sumtime/nTries << endl;
+        cout << "ICP | DS: " << data->params.dataStructure << " | mean time: of " << nTries << " exec: " << sumtime/nTries << endl;
 
         exit(0);
 
