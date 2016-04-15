@@ -793,10 +793,10 @@ double fpcsRegistrationObject::	verify(const vector<Point3D> &v1,
 
 		}
 
+		delete queryP;
 
 		if (rnd-i+s<a) return (float)s / (float)rnd;
 
-		delete queryP;
 	}
 
 //	cout << "-------------------------> LCP: " << s << " s/size: " << (float)s/(float)rnd << endl;

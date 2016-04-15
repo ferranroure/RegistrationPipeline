@@ -186,7 +186,7 @@ void Pipeline::execute(){
     if(data->params.useSS){
 
         float sumtime = 0;
-        int nTries = 50;
+        int nTries = 4;
         for(int i=1; i<=nTries; i++) {
             timer.reset();
             searching->execute();
@@ -197,7 +197,6 @@ void Pipeline::execute(){
 
         cout << "DS: " << data->params.dataStructure << " | mean time: " << sumtime/nTries << endl;
 
-        exit(0);
 
 //        cout << "------------------------------------------------------------------------------------> SEARCHING STRATEGIES START" << endl;
 //        timer.reset();
@@ -210,11 +209,25 @@ void Pipeline::execute(){
     }
 
 
-    cout << "Coarse Alignment results:" << endl;
-    computeResidue(false);
+//    cout << "Coarse Alignment results:" << endl;
+//    computeResidue(false);
 
 //    exit(0);
     if(data->params.useRefinement){
+
+        float sumtime = 0;
+        int nTries = 4;
+        for(int i=1; i<=nTries; i++) {
+            timer.reset();
+            refinement->execute();
+            time = timer.elapsed();
+            cout << "# test: " << i << " time: " << time << endl;
+            sumtime += time;
+        }
+
+        cout << "DS: " << data->params.dataStructure << " | mean time: " << sumtime/nTries << endl;
+
+        exit(0);
 
         cout << "------------------------------------------------------------------------------------> REFINEMENT START" << endl;
         timer.reset();

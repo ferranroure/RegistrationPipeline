@@ -253,6 +253,7 @@ static void select_and_match(TriMesh *s1, TriMesh *s2,
 		Point *myP = new Point(p[0], p[1],p[2]);
 		returnData rd = kd2->calcOneNN(myP, maxdist);
 		int imatch = rd.index;
+		delete myP;
 
 		if(imatch==-1) continue;
 		if (!pointcloud2 && s2->is_bdy(imatch)) continue;
