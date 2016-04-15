@@ -191,11 +191,11 @@ void Pipeline::execute(){
             timer.reset();
             searching->execute();
             time = timer.elapsed();
-            cout << "# test: " << i << " time: " << time << endl;
+//            cout << "# test: " << i << " time: " << time << endl;
             sumtime += time;
         }
 
-        cout << "DS: " << data->params.dataStructure << " | mean time: " << sumtime/nTries << endl;
+        cout << "4PCS | DS: " << data->params.dataStructure << " | mean time: " << sumtime/nTries << endl;
 
 
 //        cout << "------------------------------------------------------------------------------------> SEARCHING STRATEGIES START" << endl;
@@ -221,11 +221,11 @@ void Pipeline::execute(){
             timer.reset();
             refinement->execute();
             time = timer.elapsed();
-            cout << "# test: " << i << " time: " << time << endl;
+//            cout << "# test: " << i << " time: " << time << endl;
             sumtime += time;
         }
 
-        cout << "DS: " << data->params.dataStructure << " | mean time: " << sumtime/nTries << endl;
+        cout << "ICP | DS: " << data->params.dataStructure << " | mean time: " << sumtime/nTries << endl;
 
         exit(0);
 
