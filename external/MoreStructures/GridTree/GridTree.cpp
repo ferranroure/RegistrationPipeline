@@ -270,11 +270,71 @@ vector<myPoint *> GridTree::neighbors(myPoint *p, double eps)
 }
 
 
-vector<myPoint *> GridTree::oneNeighbor(myPoint *p, double eps)
+vector<myPoint*> GridTree::oneNeighbor(myPoint *p, double eps)
 {
 
-    vector<myPoint *> returnValue;
+    myPoint * NN = NULL;
     double sqrEps = eps * eps;
+    double bestSqrDist = DBL_MAX;
+
+    // First, we gonna search a NN in the falling slot. If we find one, we use the distance
+    // between p and its NN as eps.
+    // find the falling slot for p
+    int slotx = findSlot(p->getX(), 'x', true);
+    int sloty = findSlot(p->getY(), 'y', true);
+    int slotz = findSlot(p->getZ(), 'z', true);
+
+    Cell *currentCell = grid[slotx][sloty][slotz];
+
+
+
+    if (currentCell->isKdtreezed()){
+
+        ANNpoint q;
+        q = annAllocPt(3);
+        q[0] = p->getX();
+        q[1] = p->getY();
+        q[2] = p->getZ();
+
+        ANNidxArray nnIdx = new ANNidx[1];
+        ANNdistArray dists = new ANNdist[1];
+
+        currentCell->getKdtree()->annkSearch(q, 1, nnIdx, dists, 0);
+
+        myPoint *currentP = currentCell->getPoint(nnIdx[0]);
+
+        double sqrDist = currentP->sqrdist(*p);
+
+        if(sqrDist <= sqrEps) {
+
+            NN = currentP;
+            bestSqrDist = sqrDist;
+        }
+
+        delete[] nnIdx;
+        delete[] dists;
+        annDeallocPt(q);
+    }
+    else {
+
+        for (int i_p = 0; i_p < currentCell->get_nPoints(); ++i_p) {
+
+            myPoint *currentP = currentCell->getPoint(i_p);
+            double sqrDist = currentP->sqrdist(*p);
+
+            if(sqrDist <= sqrEps && sqrDist < bestSqrDist) {
+                if (*p != *currentP) {
+                    NN = currentP;
+                    bestSqrDist = sqrDist;
+                }
+            }
+        }
+    }
+
+    if(NN != NULL){
+        sqrEps = bestSqrDist;
+        eps = sqrt(bestSqrDist);
+    }
 
 
     vector<int> limitsX = slotsTouched(p->getX()-eps, p->getX()+eps, 'x');
@@ -288,6 +348,8 @@ vector<myPoint *> GridTree::oneNeighbor(myPoint *p, double eps)
         {
             for(int k=limitsZ[0];k<=limitsZ[1];k++)
             {
+                if(i==slotx && j==sloty && k==slotz) continue;
+
                 Cell *currentCell = grid[i][j][k];
 
 
@@ -308,9 +370,10 @@ vector<myPoint *> GridTree::oneNeighbor(myPoint *p, double eps)
 
                     double sqrDist = currentP->sqrdist(*p);
 
-                    if(sqrDist <= sqrEps) {
+                    if(sqrDist <= sqrEps && sqrDist < bestSqrDist) {
 
-                        returnValue.push_back(currentP);
+                        NN = currentP;
+                        bestSqrDist = sqrDist;
                     }
 
                     delete[] nnIdx;
@@ -321,15 +384,23 @@ vector<myPoint *> GridTree::oneNeighbor(myPoint *p, double eps)
                     for (int i_p = 0; i_p < grid[i][j][k]->get_nPoints(); ++i_p) {
                         myPoint *currentP = currentCell->getPoint(i_p);
                         double sqrDist = currentP->sqrdist(*p);
-                        if(sqrDist <= sqrEps) {
+
+                        if(sqrDist <= sqrEps && sqrDist < bestSqrDist) {
                             if (*p != *currentP) {
-                                returnValue.push_back(currentP);
+
+                                NN = currentP;
+                                bestSqrDist = sqrDist;
                             }
                         }
                     }
                 }
             }
         }
+    }
+
+    vector<myPoint*> returnValue;
+    if(NN!=NULL) {
+        returnValue.push_back(NN);
     }
 
     return returnValue;
