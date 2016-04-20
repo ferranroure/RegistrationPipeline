@@ -185,49 +185,49 @@ void Pipeline::execute(){
 
     if(data->params.useSS){
 
-        float sumtime = 0;
-        int nTries = 50;
-        for(int i=1; i<=nTries; i++) {
-            timer.reset();
-            searching->execute();
-            time = timer.elapsed();
-//            cout << "# test: " << i << " time: " << time << endl;
-            sumtime += time;
-        }
+//        float sumtime = 0;
+//        int nTries = 50;
+//        for(int i=1; i<=nTries; i++) {
+//            timer.reset();
+//            searching->execute();
+//            time = timer.elapsed();
+////            cout << "# test: " << i << " time: " << time << endl;
+//            sumtime += time;
+//        }
+//
+//        cout << "4PCS | DS: " << data->params.dataStructure << " | mean time of " << nTries << " exec: " << sumtime/nTries << endl;
 
-        cout << "4PCS | DS: " << data->params.dataStructure << " | mean time of " << nTries << " exec: " << sumtime/nTries << endl;
 
-
-//        cout << "------------------------------------------------------------------------------------> SEARCHING STRATEGIES START" << endl;
-//        timer.reset();
-//        searching->execute();
-//        time = timer.elapsed();
+        cout << "------------------------------------------------------------------------------------> SEARCHING STRATEGIES START" << endl;
+        timer.reset();
+        searching->execute();
+        time = timer.elapsed();
         applyMovement(COARSE);
-//        cout << endl;
-//        cout << "------------------------------------------------------------------------------------> SEARCHING STRATEGIES DONE in: " << time << " sec." << endl; timer.reset();
-//        cout << endl << endl;
+        cout << endl;
+        cout << "------------------------------------------------------------------------------------> SEARCHING STRATEGIES DONE in: " << time << " sec." << endl; timer.reset();
+        cout << endl << endl;
     }
 
 
-//    cout << "Coarse Alignment results:" << endl;
-//    computeResidue(false);
+    cout << "Coarse Alignment results:" << endl;
+    computeResidue(false);
 
 //    exit(0);
     if(data->params.useRefinement){
 
-        float sumtime = 0;
-        int nTries = 50;
-        for(int i=1; i<=nTries; i++) {
-            timer.reset();
-            refinement->execute();
-            time = timer.elapsed();
-//            cout << "# test: " << i << " time: " << time << endl;
-            sumtime += time;
-        }
-
-        cout << "ICP | DS: " << data->params.dataStructure << " | mean time: of " << nTries << " exec: " << sumtime/nTries << endl;
-
-        exit(0);
+//        float sumtime = 0;
+//        int nTries = 50;
+//        for(int i=1; i<=nTries; i++) {
+//            timer.reset();
+//            refinement->execute();
+//            time = timer.elapsed();
+////            cout << "# test: " << i << " time: " << time << endl;
+//            sumtime += time;
+//        }
+//
+//        cout << "ICP | DS: " << data->params.dataStructure << " | mean time: of " << nTries << " exec: " << sumtime/nTries << endl;
+//
+//        exit(0);
 
         cout << "------------------------------------------------------------------------------------> REFINEMENT START" << endl;
         timer.reset();
