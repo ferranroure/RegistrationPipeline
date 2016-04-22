@@ -115,7 +115,7 @@ void GridTree::kdtreezation(){
 
 }
 
-int GridTree::findSlot(double val, char type,bool margin)
+int GridTree::findSlot(double val, char type,bool margin, bool squared)
 {
     double min,max;
     int returnValue;
@@ -144,6 +144,10 @@ int GridTree::findSlot(double val, char type,bool margin)
             break;
     }
 
+    if(squared){
+        min = (min<0) ? min*min*-1 : min*min;
+        max = (max<0) ? max*max*-1 : max*max;
+    }
 
     //check for extreme cases
     if(fabs(max-val)<tol) returnValue=slotsPerDimension-1;
@@ -178,92 +182,15 @@ int GridTree::findSlot(double val, char type,bool margin)
 
 
 // return the minimum and maximum index of the slots affected
-vector<int> GridTree::slotsTouched(double min, double max, char type)
+vector<int> GridTree::slotsTouched(double min, double max, char type, bool squared)
 {
     vector<int> returnValue = vector<int>(2);
 
-    returnValue[0] = findSlot(min, type,true);
-    returnValue[1] = findSlot(max, type,true);
+    returnValue[0] = findSlot(min, type,true, squared);
+    returnValue[1] = findSlot(max, type,true, squared);
 
     return returnValue;
 }
-
-int GridTree::sqrFindSlot(double val, char type,bool margin)
-{
-    double min,max;
-    int returnValue;
-
-    //cout<<"GridTree::findSlot limits "<<endl<<"x: ("<<limits[0][0]<<" , "<<limits[0][1]<<")"<<endl;
-    //cout<<"y: ("<<limits[1][0]<<" , "<<limits[1][1]<<")"<<endl;
-    //cout<<"z: ("<<limits[2][0]<<" , "<<limits[2][1]<<")"<<endl;
-
-    switch( type )
-    {
-        case 'x' :
-            min = limits[0][0];
-            max = limits[0][1];
-            break;
-        case 'y' :
-            min = limits[1][0];
-            max = limits[1][1];
-            break;
-        case 'z' :
-            min = limits[2][0];
-            max = limits[2][1];
-            break;
-
-        default  : cout<<"GridTree::findSlot(double val, char type) wrong slot type???? "<<endl;
-            throw("GridTree::findSlot(double val, char type) wrong slot type???? ");
-            break;
-    }
-
-    min = (min<0) ? min*min*-1 : min*min;
-    max = (max<0) ? max*max*-1 : max*max;
-
-    //check for extreme cases
-    if(fabs(max-val)<tol) returnValue=slotsPerDimension-1;
-    else if(fabs(min-val)<tol) returnValue=0;
-    else
-    {
-        double pas = (fabs(max-min)/slotsPerDimension);
-
-        returnValue = (int)( (val-min) /pas);
-    }
-
-    if( (returnValue>=slotsPerDimension) || (returnValue<0) )
-    {
-        if(!margin)
-        {
-            cout<<"GridTree::findSlot(double val, char type) wrong slot? "<<returnValue<<endl;
-            throw("GridTree::findSlot(double val, char type) wrong slot? ");
-        }
-        else 	// set to the last slot out-of-bound queries (for example, for sentinel-guided searches
-        {
-            if(returnValue>=slotsPerDimension) returnValue=slotsPerDimension-1;
-            else returnValue=0;
-        }
-    }
-
-    //cout<<"GridTree::findSlot finished "<<returnValue<<endl<<endl<<endl<<endl;
-
-    return returnValue ;
-
-}
-
-
-
-// return the minimum and maximum index of the slots affected
-vector<int> GridTree::sqrSlotsTouched(double min, double max, char type)
-{
-    vector<int> returnValue = vector<int>(2);
-
-    returnValue[0] = sqrFindSlot(min, type,true);
-    returnValue[1] = sqrFindSlot(max, type,true);
-
-    return returnValue;
-}
-
-
 
 
 vector<myPoint *> GridTree::neighbors(myPoint *p, double eps)
@@ -363,7 +290,6 @@ vector<myPoint*> GridTree::oneNeighbor(myPoint *p, double eps)
     Cell *currentCell = grid[slotx][sloty][slotz];
 
 
-
     if (currentCell->isKdtreezed()){
 
         ANNpoint q;
@@ -414,20 +340,18 @@ vector<myPoint*> GridTree::oneNeighbor(myPoint *p, double eps)
 
     if(NN != NULL){
         sqrEps = bestSqrDist;
-         eps = sqrt(bestSqrDist);
+        //  eps = sqrt(bestSqrDist);
 
-
+        limitsX = slotsTouched(p->getX()-sqrEps, p->getX()+sqrEps, 'x', true);
+        limitsY = slotsTouched(p->getY()-sqrEps, p->getY()+sqrEps, 'y', true);
+        limitsZ = slotsTouched(p->getZ()-sqrEps, p->getZ()+sqrEps, 'z', true);
     }
     else{
 
-//      limitsX = slotsTouched(p->getX()-eps, p->getX()+eps, 'x');
-//      limitsY = slotsTouched(p->getY()-eps, p->getY()+eps, 'y');
-//      limitsZ = slotsTouched(p->getZ()-eps, p->getZ()+eps, 'z');
+     limitsX = slotsTouched(p->getX()-eps, p->getX()+eps, 'x', false);
+     limitsY = slotsTouched(p->getY()-eps, p->getY()+eps, 'y', false);
+     limitsZ = slotsTouched(p->getZ()-eps, p->getZ()+eps, 'z', false);
     }
-
-     limitsX = slotsTouched(p->getX()-eps, p->getX()+eps, 'x');
-     limitsY = slotsTouched(p->getY()-eps, p->getY()+eps, 'y');
-     limitsZ = slotsTouched(p->getZ()-eps, p->getZ()+eps, 'z');
 
 
 

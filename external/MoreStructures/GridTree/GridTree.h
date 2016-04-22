@@ -30,11 +30,9 @@ public:
     int getSlotsPerDimension();
     float getMeanHeight();
 
-    int findSlot(double val, char type, bool checkOutOfBounds=false); // type=x,y,z returns the slot (for the givenn) where value val falls into. "checkOutOfBounds" indictes if we get out of bonds querys back IN bounds or if we throw an exception.
-    int sqrFindSlot(double val, char type, bool checkOutOfBounds=false); // type=x,y,z returns the slot (for the givenn) where value val falls into. "checkOutOfBounds" indictes if we get out of bonds querys back IN bounds or if we throw an exception.
+    int findSlot(double val, char type, bool checkOutOfBounds=false, bool squared=false); // type=x,y,z returns the slot (for the givenn) where value val falls into. "checkOutOfBounds" indictes if we get out of bonds querys back IN bounds or if we throw an exception.
 
-    vector<int> slotsTouched(double min, double max, char type); // returns minimum and maximum slots touched by an interval in a dimension x,y o z (indicated by type)
-    vector<int> sqrSlotsTouched(double min, double max, char type); // returns minimum and maximum slots touched by an interval in a dimension x,y o z (indicated by type)
+    vector<int> slotsTouched(double min, double max, char type, bool squared=false); // returns minimum and maximum slots touched by an interval in a dimension x,y o z (indicated by type)
 
     vector<myPoint *> neighbors(myPoint *p, double eps); // returns all neigbors at distance at most eps from p, if it finds p it does not return it
     vector<myPoint *> oneNeighbor(myPoint *p, double eps); // returns all neigbors at distance at most eps from p, if it finds p it does not return it
