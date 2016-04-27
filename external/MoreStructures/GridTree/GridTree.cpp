@@ -273,7 +273,7 @@ vector<myPoint *> GridTree::neighbors(myPoint *p, double eps)
 }
 
 
-vector<myPoint*> GridTree::oneNeighbor(myPoint *p, double eps)
+myPoint * GridTree::oneNeighbor(myPoint *p, double eps)
 {
 
     myPoint * NN = NULL;
@@ -348,9 +348,9 @@ vector<myPoint*> GridTree::oneNeighbor(myPoint *p, double eps)
     }
     else{
 
-     limitsX = slotsTouched(p->getX()-eps, p->getX()+eps, 'x', false);
-     limitsY = slotsTouched(p->getY()-eps, p->getY()+eps, 'y', false);
-     limitsZ = slotsTouched(p->getZ()-eps, p->getZ()+eps, 'z', false);
+        limitsX = slotsTouched(p->getX()-eps, p->getX()+eps, 'x', false);
+        limitsY = slotsTouched(p->getY()-eps, p->getY()+eps, 'y', false);
+        limitsZ = slotsTouched(p->getZ()-eps, p->getZ()+eps, 'z', false);
     }
 
 
@@ -411,12 +411,7 @@ vector<myPoint*> GridTree::oneNeighbor(myPoint *p, double eps)
         }
     }
 
-    vector<myPoint*> returnValue;
-    if(NN!=NULL) {
-        returnValue.push_back(NN);
-    }
-
-    return returnValue;
+    return NN;
 }
 
 int GridTree::getNumElems() {

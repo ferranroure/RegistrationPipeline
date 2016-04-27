@@ -799,7 +799,7 @@ double fpcsRegistrationObject::	verify(const vector<Point3D> &v1,
 
 	}
 
-	cout << "-------------------------> LCP: " << s << " s/size: " << (float)s/(float)rnd << endl;
+//	cout << "-------------------------> LCP: " << s << " s/size: " << (float)s/(float)rnd << endl;
 //	exit(0);
 	return (float)s / (float)rnd;
 }

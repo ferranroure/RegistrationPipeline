@@ -31,24 +31,10 @@ returnData myGridTree::calcOneNN(Point *queryPoint, float eps) {
     myPoint *p = new myPoint(queryPoint->getX(), queryPoint->getY(), queryPoint->getZ());
 
 //    cout << "ONE NN ----------------------------" << endl;
-    vector<myPoint*> vnn;
-    vnn = gridtree->oneNeighbor(p, eps);
-
-    myPoint *nn = NULL;
-
-
-    float bestSqrDist = FLT_MAX;
-    for (int i = 0; i < vnn.size(); ++i) {
-        float sqrDist = p->sqrdist(*(vnn.at(i)));
-        if(sqrDist < bestSqrDist){
-            bestSqrDist = sqrDist;
-            nn = vnn.at(i);
-        }
-    }
-
+    myPoint *nn = gridtree->oneNeighbor(p, eps);
 
     returnData rd;
-    if(vnn.empty()){
+    if(nn == NULL){
         rd.index = -1;
         rd.sqrDist = FLT_MAX;
     }
@@ -65,6 +51,7 @@ returnData myGridTree::calcOneNN(Point *queryPoint, float eps) {
 }
 
 returnData myGridTree::calcOwnNN(Point *queryPoint) {
+
 
     myPoint *p = new myPoint(queryPoint->getX(), queryPoint->getY(), queryPoint->getZ());
     p->setIndex(queryPoint->getIndex());
