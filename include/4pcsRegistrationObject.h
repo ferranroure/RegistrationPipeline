@@ -275,4 +275,7 @@ public:
 	void writeMatrix(const char *outpath, LA_Fmat &rMat, double cx, double cy, double cz, double tx,
                          double ty, double tz);
 
+	void printStats();
+
 	};
+

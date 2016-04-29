@@ -9,7 +9,6 @@
 #include "TriMesh.h"
 #include "TriMesh_algo.h"
 #include "ICP.h"
-#include "../../include/DataStructures/IDataStructure.h"
 
 //#include "../AuxiliaryClasses/timer.h"
 
@@ -20,12 +19,10 @@ class fineMatching
 	// sets to be matched
 	TriMesh * mesh1;
 	TriMesh * mesh2;
-	IDataStructure *ds1;
-	IDataStructure *ds2;
 
 	public:
 		// creator function (llegint dos arxius ply)
-		fineMatching(const char *file1,const char *file2, IDataStructure *_ds1, IDataStructure *_ds2);
+		fineMatching(const char *file1,const char *file2);
         fineMatching(TriMesh *A, TriMesh *B);
         ~fineMatching();
 

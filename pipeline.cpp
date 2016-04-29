@@ -185,34 +185,35 @@ void Pipeline::execute(){
 
     if(data->params.useSS){
 
-       float sumtime = 0;
-       int nTries = 50;
-       for(int i=1; i<=nTries; i++) {
-           timer.reset();
-           searching->execute();
-           time = timer.elapsed();
-//            cout << "# test: " << i << " time: " << time << endl;
-           sumtime += time;
-       }
+//       float sumtime = 0;
+//       int nTries = 50;
+//       for(int i=1; i<=nTries; i++) {
+//           timer.reset();
+//           searching->execute();
+//           time = timer.elapsed();
+////            cout << "# test: " << i << " time: " << time << endl;
+//           sumtime += time;
+//       }
+//
+//       cout << "4PCS | DS: " << data->params.dataStructure << " | mean time of " << nTries << " exec: " << sumtime/nTries << endl;
+//
+//        exit(0);
 
-       cout << "4PCS | DS: " << data->params.dataStructure << " | mean time of " << nTries << " exec: " << sumtime/nTries << endl;
-
-
-//         cout << "------------------------------------------------------------------------------------> SEARCHING STRATEGIES START" << endl;
-//         timer.reset();
-//         searching->execute();
-//         time = timer.elapsed();
+         cout << "------------------------------------------------------------------------------------> SEARCHING STRATEGIES START" << endl;
+         timer.reset();
+         searching->execute();
+         time = timer.elapsed();
         applyMovement(COARSE);
-//         cout << endl;
-//         cout << "------------------------------------------------------------------------------------> SEARCHING STRATEGIES DONE in: " << time << " sec." << endl; timer.reset();
-//         cout << endl << endl;
+         cout << endl;
+         cout << "------------------------------------------------------------------------------------> SEARCHING STRATEGIES DONE in: " << time << " sec." << endl; timer.reset();
+         cout << endl << endl;
     }
 
 //
-//     cout << "Coarse Alignment results:" << endl;
-//     computeResidue(false);
+     cout << "Coarse Alignment results:" << endl;
+     computeResidue(false);
 
-    exit(0);
+//    exit(0);
     if(data->params.useRefinement){
 
 //       float sumtime = 0;
@@ -333,22 +334,22 @@ void Pipeline::executeResidueComputation(){
     input.setData(data);
     input.execute();
 
-//    cout << endl << endl;
-//    cout << "-----------------------------------------------------------------------------------------" << endl;
-//    cout << "                                                   PIPELINE PROJECT - RESIDUE COMPUTATION" << endl;
-//    cout << "Target model:         " << data->params.infile << endl;
-//    cout << "Candidate model:      " << data->params.infile2 << endl;
-//    cout << "Data Structure:       " << data->params.dataStructure << endl;
-//    cout << "MMD:                  " << data->A->getMMD() << endl;
-//    cout << "% of used points:     " << data->params.percOfPoints*100 << "%" <<  endl;
+    cout << endl << endl;
+    cout << "-----------------------------------------------------------------------------------------" << endl;
+    cout << "                                                   PIPELINE PROJECT - RESIDUE COMPUTATION" << endl;
+    cout << "Target model:         " << data->params.infile << endl;
+    cout << "Candidate model:      " << data->params.infile2 << endl;
+    cout << "Data Structure:       " << data->params.dataStructure << endl;
+    cout << "MMD:                  " << data->A->getMMD() << endl;
+    cout << "% of used points:     " << data->params.percOfPoints*100 << "%" <<  endl;
 
     Timer timer;
     timer.reset();
     data->A->createDataStructure();
-//    cout << "Data Structure construction time: " << timer.elapsed() << " sec. " << endl;
-    cout << timer.elapsed() << ";";
-    data->A->getDataStruct()->printStats();
-    cout << ";;";
+    cout << "Data Structure construction time: " << timer.elapsed() << " sec. " << endl;
+//    cout << timer.elapsed() << ";";
+//    data->A->getDataStruct()->printStats();
+//    cout << ";;";
 
 
     computeResidue(true);
@@ -438,10 +439,10 @@ void Pipeline::computeResidue(bool test) {
 ////        // Multi execution test.
 //       Timer timer;
 //       double sum_time = 0;
-//       int maxLoops = 50;
+//       int maxLoops = 10;
 //
 ////        Read matrix file to apply different movements anc compute residues. Check time and obtain a mean value.
-//       vector<motion3D> matrices = readMatrices("bun/matrix.xls");
+//       vector<motion3D> matrices = readMatrices("ResidueTests/bust/matrix.xls");
 //       int i = 0;
 //       for (i = 0; i < matrices.size(); ++i) {
 //
@@ -460,7 +461,7 @@ void Pipeline::computeResidue(bool test) {
 //           if(i >= maxLoops) break;
 //       }
 //
-////       cout << "#movements: "<< i << " Mean Time: " << sum_time/i << " sec." << endl;
+//       cout << "#movements: "<< i << " Mean Time: " << sum_time/i << " sec." << endl;
 //        cout << sum_time/i;
 
 //        cout << res << ";";

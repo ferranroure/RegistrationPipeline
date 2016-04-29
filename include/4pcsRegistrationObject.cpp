@@ -712,10 +712,10 @@ double fpcsRegistrationObject::meanDist(vector<Point3D> &v)
 	float d=0.0;
 
 	int n=0;
-//	for (i=0;i<FIX_RAND*10;i++)
-	for (int k=0; k<v.size(); k++)
+	for (i=0;i<FIX_RAND*10;i++)
+//	for (int k=0; k<v.size(); k++)
 	{
-//		int k=rand()%v.size();
+		int k=rand()%v.size();
 		Point *queryP = new Point(v[k].x, v[k].y, v[k].z);
 		queryP->setIndex(k);
 
@@ -799,7 +799,7 @@ double fpcsRegistrationObject::	verify(const vector<Point3D> &v1,
 
 	}
 
-//	cout << "-------------------------> LCP: " << s << " s/size: " << (float)s/(float)rnd << endl;
+	cout << "-------------------------> LCP: " << s << " s/size: " << (float)s/(float)rnd << endl;
 //	exit(0);
 	return (float)s / (float)rnd;
 }
@@ -1200,7 +1200,7 @@ void fpcsRegistrationObject::initialize(std::vector<Point3D> &v1,std::vector<Poi
 
 	meanDist0 = meanDist(list1)*2.0;
 
-//	cout << meanDist0 << " " << diam << endl; exit(0);
+//	cout << meanDist0/2 <<  endl;
 
 	// incialitza variables globals.
 	delta=meanDist0*delta;
@@ -1371,4 +1371,26 @@ void fpcsRegistrationObject::writeMatrix(const char *outpath, LA_Fmat &rMat, dou
 void fpcsRegistrationObject::setDataStructType(string type){
 
 	dataStructType = type;
+}
+
+void fpcsRegistrationObject::printStats(){
+
+	cout << "VALUES OF 4PCS" << endl;
+	string dataStructType;
+
+	cout << "app: " << app << endl;
+	cout << "usenormals: " << useNormals << endl;
+	cout << "normaldiff: " << normDiff << endl;
+	// és un diàmetre tunejat. Deu servir per seleccionar les bases wide.
+	cout << "qd: " << qd << endl;
+	cout << "diam: " << diam << endl;
+	cout << "numtry: " <<  numTry << endl;
+	// threshold per considarar punts aparellats (diria)
+	cout << "cdelta: " << cdelta << endl;
+	cout << "meandist: " << meanDist0 << endl;
+	// estimacio de l'oberlapping (diria)
+	cout << "estfrac: " << estFrac << endl;
+	cout << "thr: " << thr << endl;
+	cout << "bestf: " << bestf << endl;
+	cout << "currenttry: " << currentTry << endl;
 }

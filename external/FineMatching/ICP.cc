@@ -148,7 +148,7 @@ Grid::Grid(const vector<point> &pts)
 // Also fills in maxdist, if it is <= 0 on input
 void compute_overlaps(TriMesh *s1, TriMesh *s2,
 					  const xform &xf1, const xform &xf2,
-					  IDataStructure *, IDataStructure *,
+					  const KDtree *, const KDtree *,
 					  vector<float> &o1, vector<float> &o2,
 					  float &maxdist, int verbose)
 {
@@ -215,7 +215,7 @@ void compute_overlaps(TriMesh *s1, TriMesh *s2,
 // Select a number of points and find correspondences 
 static void select_and_match(TriMesh *s1, TriMesh *s2,
 							 const xform &xf1, const xform &xf2,
-							 IDataStructure *kd2, const vector<float> &sampcdf1,
+							 const KDtree *kd2, const vector<float> &sampcdf1,
 							 float incr, float maxdist, int /* verbose */,
 							 vector<PtPair> &pairs, bool flip)
 {
@@ -249,22 +249,12 @@ static void select_and_match(TriMesh *s1, TriMesh *s2,
 		bool pointcloud2 = (s2->faces.empty() && s2->tstrips.empty());
 		NormCompat nc(n, s2, pointcloud2);
 
-		// ------------------------ ferran ------------------------------
-		Point *myP = new Point(p[0], p[1],p[2]);
-		returnData rd = kd2->calcOneNN(myP, maxdist);
-		int imatch = rd.index;
-		delete myP;
-
-		if(imatch==-1) continue;
-		if (!pointcloud2 && s2->is_bdy(imatch)) continue;
-//		 --------------------------------------------------------------
-
-//		const float *match = kd2->closest_to_pt(p, maxdist2, &nc);
-//		if (!match)
-//			continue;
-//		int imatch = (match - (const float *) &(s2->vertices[0][0])) / 3;
-//		if (!pointcloud2 && s2->is_bdy(imatch))
-//			continue;
+		const float *match = kd2->closest_to_pt(p, maxdist2, &nc);
+		if (!match)
+			continue;
+		int imatch = (match - (const float *) &(s2->vertices[0][0])) / 3;
+		if (!pointcloud2 && s2->is_bdy(imatch))
+			continue;
 
 		// Project both points into world coords and save 
 		if (flip) {
@@ -462,7 +452,7 @@ void compute_scale(const vector<PtPair> &pairs, xform &alignxf,
 
 // Do one iteration of ICP
 static float ICP_iter(TriMesh *s1, TriMesh *s2, const xform &xf1, xform &xf2,
-					  IDataStructure *kd1, IDataStructure *kd2,
+					  const KDtree *kd1, const KDtree *kd2,
 					  const vector<float> &weights1, const vector<float> &weights2,
 					  float &maxdist, int verbose,
 					  vector<float> &sampcdf1, vector<float> &sampcdf2,
@@ -653,7 +643,7 @@ static float ICP_iter(TriMesh *s1, TriMesh *s2, const xform &xf1, xform &xf2,
 // Do one iteration of point-to-point ICP (this is done in the early stages
 // to assure stability)
 static float ICP_p2pt(TriMesh *s1, TriMesh *s2, const xform &xf1, xform &xf2,
-					  IDataStructure *kd1, IDataStructure *kd2,
+					  const KDtree *kd1, const KDtree *kd2,
 					  float &maxdist, int verbose,
 					  vector<float> &sampcdf1, vector<float> &sampcdf2,
 					  float &incr, bool trans_only)
@@ -758,7 +748,7 @@ static float ICP_p2pt(TriMesh *s1, TriMesh *s2, const xform &xf1, xform &xf2,
 // Do ICP.  Aligns mesh s2 to s1, updating xf2 with the new transform.
 // Returns alignment error, or -1 on failure
 float ICP(TriMesh *s1, TriMesh *s2, const xform &xf1, xform &xf2,
-		  IDataStructure *kd1, IDataStructure *kd2,
+		  const KDtree *kd1, const KDtree *kd2,
 		  vector<float> &weights1, vector<float> &weights2,
 		  float maxdist /* = 0.0f */, int verbose /* = 0 */,
 		  bool do_scale /* = false */, bool do_affine /* = false */)
@@ -920,14 +910,14 @@ float ICP(TriMesh *s1, TriMesh *s2, const xform &xf1, xform &xf2,
 		  int verbose /* = 0 */,
 		  bool do_scale /* = false */, bool do_affine /* = false */)
 {
-//	KDtree *kd1 = new KDtree(s1->vertices);
-//	KDtree *kd2 = new KDtree(s2->vertices);
-//	vector<float> weights1, weights2;
-//	float icperr = ICP(s1, s2, xf1, xf2, kd1, kd2,
-//					   weights1, weights2, 0.0f, verbose,
-//					   do_scale, do_affine);
-//	delete kd2;
-//	delete kd1;
-//	return icperr;
+	KDtree *kd1 = new KDtree(s1->vertices);
+	KDtree *kd2 = new KDtree(s2->vertices);
+	vector<float> weights1, weights2;
+	float icperr = ICP(s1, s2, xf1, xf2, kd1, kd2,
+					   weights1, weights2, 0.0f, verbose,
+					   do_scale, do_affine);
+	delete kd2;
+	delete kd1;
+	return icperr;
 }
 
