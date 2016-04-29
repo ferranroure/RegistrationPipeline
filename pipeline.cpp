@@ -203,7 +203,7 @@ void Pipeline::execute(){
          timer.reset();
          searching->execute();
          time = timer.elapsed();
-        applyMovement(COARSE);
+         applyMovement(COARSE);
          cout << endl;
          cout << "------------------------------------------------------------------------------------> SEARCHING STRATEGIES DONE in: " << time << " sec." << endl; timer.reset();
          cout << endl << endl;
