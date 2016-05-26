@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/RegistrationPipeline.iml" filepath="$PROJECT_DIR$/.idea/RegistrationPipeline.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/RegPipeline.iml" filepath="$PROJECT_DIR$/.idea/RegPipeline.iml" />
     </modules>
   </component>
 </project>

@@ -4,13 +4,14 @@
 #	- C++ (sudo apt-get install build-essentials)
 #	- Cmake (sudo apt-get install cmake)
 #	- ANN lib (compile and copy to: /usr/local/lib/)
-#	- Point Cloud Libraries (pcl)
-#		sudo add-apt-repository ppa:v-launchpad-jochen-sprickerhof-de/pcl
-#		sudo apt-get update
-#		sudo apt-get install libpcl-all
+#   - Libnabo -> (compile and install (maybe libann.so is needed (apt get libann-dev))
+#	- Point Cloud Libraries (pcl) sudo apt-get install libpcl-dev
 #   - OpenCV sudo apt-get install libopencv-dev
-#	- VTK libraries (5.10) https://thilinasameera.wordpress.com/2013/02/09/setting-up-vtk-and-itk-environments-for-ubuntu/
+#	- VTK libraries (5.10 or superior) https://thilinasameera.wordpress.com/2013/02/09/setting-up-vtk-and-itk-environments-for-ubuntu/
 #   - Install CGAL Library -> sudo apt-get install libcgal-dev
+
+# sudo ln -s  /usr/lib/x86_64-linux-gnu/libproj.so.<your-version> /usr/lib/x86_64-linux-gnu/libproj.so
+#
 #
 # For MAC:
 #   - Install VTK -> http://stackoverflow.com/questions/17329258/how-to-install-vtk-6-1-for-osx-10-8-with-cocoa-xcode-support
@@ -77,7 +78,8 @@ endif()
 
 find_package( OpenCV REQUIRED)
 
-
+#find_package(Eigen3 REQUIRED)
+#include_directories(${EIGEN3_INCLUDE_DIR})
 
 if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
 
@@ -201,7 +203,7 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
     set(CMAKE_CXX_FLAGS "-frounding-math")
 
     add_executable( Pipeline ${SOURCES} )
-    target_link_libraries(Pipeline ${ANN_LIB} ${PCL_LIBRARIES} ${OpenCV_LIBS} ${VTK_LIBRARIES} ${CGAL_LIB})
+    target_link_libraries(Pipeline ${ANN_LIB} ${PCL_LIBRARIES} ${OpenCV_LIBS} ${VTK_LIBRARIES} ${CGAL_LIB} -L/opt/lib)
 
     #${NEWMAT_LIB} -> sembla que no cal.
 

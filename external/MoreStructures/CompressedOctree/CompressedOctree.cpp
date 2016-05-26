@@ -201,7 +201,7 @@ void CompressedOctree::marcarElement(Element *e)
 	{
 		arrel->marcarElement(e);
 	}
-	catch (int i)
+	catch (int err)
 	{
 		//cout<<"Marcar de CO, mirant d'adobar-ho"<<endl;
 
