@@ -10,7 +10,7 @@
 #	- VTK libraries (5.10 or superior) https://thilinasameera.wordpress.com/2013/02/09/setting-up-vtk-and-itk-environments-for-ubuntu/
 #   - Install CGAL Library -> sudo apt-get install libcgal-dev
 
-# sudo ln -s  /usr/lib/x86_64-linux-gnu/libproj.so.<your-version> /usr/lib/x86_64-linux-gnu/libproj.so
+# sudo ln -s  /usr/lib/x86_64-linux-gnu/libproj.so.<your-version> /usr/lib/x86_64-linux-gnu/libproj.so -> maybe not needed.
 #
 #
 # For MAC:
@@ -114,6 +114,7 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
             include/DataStructures/compressedOctree/myCompressedOctree.cpp
             include/DataStructures/noDataStructure/noDataStructure.cpp
             include/DataStructures/gridTree/myGridTree.cpp
+            include/DataStructures/libnabo/myLibNabo.cpp
             include/mypcl.cpp
             include/plyio.cpp
             include/point.cpp
@@ -127,6 +128,7 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
             include/Converters/converterYago.cpp
             include/Converters/converterKdtree.cpp
             include/Converters/converterGridTree.cpp
+            include/Converters/converterEigen.cpp
             include/4pcsRegistrationObject.cpp
             include/DataStructures/octree/Octree.cpp
             include/DataStructures/octree/Node.cpp
