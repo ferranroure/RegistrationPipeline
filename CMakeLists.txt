@@ -61,7 +61,6 @@ link_directories(/usr/local/lib/ann_1.1.2/lib)
 
 
 
-
 FIND_LIBRARY (  NEWMAT_LIB
         NAMES newmat
         PATHS external/newmat10 )
