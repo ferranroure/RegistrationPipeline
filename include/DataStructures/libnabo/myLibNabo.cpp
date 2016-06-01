@@ -10,6 +10,11 @@ myLibNabo::myLibNabo() {
     nns = NULL;
 }
 
+myLibNabo::~myLibNabo() {
+
+    delete nns;
+}
+
 myLibNabo::myLibNabo(vector<Point *> *P) {
 
     ceig = new converterEigen();
@@ -17,4 +22,24 @@ myLibNabo::myLibNabo(vector<Point *> *P) {
     dataPts = ceig->convertArray(P);
 
     nns = NNSearchF::createKDTreeLinearHeap(dataPts);
+}
+
+returnData myLibNabo::calcOneNN(Point *queryPoint, float errEps) {
+
+}
+
+returnData myLibNabo::calcOwnNN(Point *queryPoint) {
+
+}
+
+vector<returnData> myLibNabo::calcNneigh(Point *queryPoint, int nNeigh) {
+
+}
+
+returnData myLibNabo::findPair(Point *queryPoint, float dist) {
+
+}
+
+void myLibNabo::printStats() {
+
 }

@@ -19,8 +19,8 @@ public:
     converterEigen();
     ~converterEigen();
 
-    Matrix3f convertArray(vector<Point *> *P);
-    Vector3f convertPoint(Point *p);
+    MatrixXf convertArray(vector<Point *> *P);
+    VectorXf convertPoint(Point *p);
 };
 
 

@@ -24,6 +24,7 @@
 
 using namespace Nabo;
 using namespace Eigen;
+using namespace std;
 
 
 class myLibNabo : public IDataStructure {
@@ -33,7 +34,7 @@ public:
     // Elements -----------------------------------------------------
 
     NNSearchF * nns;
-    Matrix3f dataPts;
+    MatrixXf dataPts;
 
     converterEigen * ceig;
 
