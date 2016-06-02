@@ -13,12 +13,9 @@
 # sudo ln -s  /usr/lib/x86_64-linux-gnu/libproj.so.<your-version> /usr/lib/x86_64-linux-gnu/libproj.so
 #
 #
-# For MAC:
-#   - Install VTK -> http://stackoverflow.com/questions/17329258/how-to-install-vtk-6-1-for-osx-10-8-with-cocoa-xcode-support
-#   - Install PCL using Homebrew -> http://www.pointclouds.org/documentation/tutorials/installing_homebrew.php
-#       This instalation also provide VTK
-#   - Install eigen -> download and install from website (cmake .. > make > make install...)
-#   - Install openCV -> like eigen
+# For MAC: (using homebrew)
+#   - Install PCL (includes eigen and vtk) -> brew install pcl --without-apps --without-tools --without-qt --HEAD
+#   - Install openCV -> brew install opencv
 #   - Install ANN -> brew install ann
 #   - Install CGAL Library -> brew install cgal
 #
