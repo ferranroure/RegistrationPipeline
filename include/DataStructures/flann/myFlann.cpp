@@ -11,7 +11,10 @@ myFlann::myFlann() {
 
 myFlann::myFlann(vector<Point *> *P) {
 
-    dataPts
+    dataPts = new flann::Matrix<float>(cfln->convertArray(P), P->size(), 3);
+
+    kdtree = new flann::Index<flann::L2<int> >(*dataPts, flann::KDTreeIndexParams(8));
+    kdtree->buildIndex();
 }
 
 myFlann::~myFlann() {

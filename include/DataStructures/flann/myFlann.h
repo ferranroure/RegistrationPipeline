@@ -7,6 +7,7 @@
 
 
 #include "../IDataStructure.h"
+#include "../../Converters/converterFlann.h"
 #include <flann/flann.hpp>
 
 class myFlann : IDataStructure {
@@ -16,7 +17,7 @@ public:
 
 
 // Elements ---------------------------------------
-    flann::Matrix<float> dataPts;
+    flann::Matrix<float> *dataPts;
     flann::Index<flann::L2<int> > *kdtree;
 
     converterFlann *cfln;

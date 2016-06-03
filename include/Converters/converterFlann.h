@@ -17,7 +17,7 @@ public:
     converterFlann();
     ~converterFlann();
 
-    flann::Matrix<float> convertArray(vector<Point *> *P);     // Tranforms a vector<Point> to an ANNpointArray.
+    float* convertArray(vector<Point *> *P);     // Tranforms a vector<Point> array of floats (return a pointer to a first element)
     flann::Matrix<float> convertPoint(Point *p);                    // Tranforms a Point to an ANNpoint.
 
 

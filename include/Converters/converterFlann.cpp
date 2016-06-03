@@ -12,7 +12,7 @@ converterFlann::~converterFlann(){
 
 }
 
-flann::Matrix<float> converterFlann::convertArray(vector<Point *> *P){
+float* converterFlann::convertArray(vector<Point *> *P){
 
 
 }
