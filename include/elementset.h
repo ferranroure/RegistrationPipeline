@@ -20,15 +20,19 @@
 #include <math.h>
 #include "point.h"
 #include "plyio.h"
-#include "DataStructures/kdtree/mykdtree.h"
 #include "mypcl.h"
 #include "descdist.h"
 #include "base.h"
 #include "../external/motion3D.h"
+#include "DataStructures/kdtree/mykdtree.h"
 #include "DataStructures/octree/myOctree.h"
 #include "DataStructures/trihash/myTriHash.h"
 #include "DataStructures/octree/Octree.h"
 #include "DataStructures/gridTree/myGridTree.h"
+#include "DataStructures/compressedOctree/myCompressedOctree.h"
+#include "DataStructures/noDataStructure/noDataStructure.h"
+#include "DataStructures/flann/myFlann.h"
+
 
 using namespace std;
 

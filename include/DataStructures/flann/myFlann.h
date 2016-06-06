@@ -10,7 +10,8 @@
 #include "../../Converters/converterFlann.h"
 #include <flann/flann.hpp>
 
-class myFlann : IDataStructure {
+
+class myFlann : public IDataStructure {
 
 
 public:
@@ -18,7 +19,7 @@ public:
 
 // Elements ---------------------------------------
     flann::Matrix<float> *dataPts;
-    flann::Index<flann::L2<int> > *kdtree;
+    flann::Index<flann::L2<float> > *kdtree;
 
     converterFlann *cfln;
 
@@ -27,14 +28,13 @@ public:
     myFlann(vector<Point*> *P);
     ~myFlann();
 
-private:
-    virtual returnData calcOneNN(Point *queryPoint, float errEps);
+    returnData calcOneNN(Point *queryPoint, float errEps);
 
-    virtual returnData calcOwnNN(Point *queryPoint);
+    returnData calcOwnNN(Point *queryPoint);
 
-    virtual vector<returnData> calcNneigh(Point *queryPoint, int nNeigh);
+    vector<returnData> calcNneigh(Point *queryPoint, int nNeigh);
 
-    virtual void printStats();
+    void printStats();
 
 
 

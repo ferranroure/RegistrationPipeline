@@ -1,7 +1,5 @@
 #include "elementset.h"
-#include "DataStructures/compressedOctree/myCompressedOctree.h"
-#include "DataStructures/noDataStructure/noDataStructure.h"
-#include "timer.h"
+
 
 /* CONSTRUCTOR -----------------------------------------------------------
  *
@@ -370,6 +368,9 @@ void ElementSet::createDataStructure(){
     }
     else if(dataStructureType=="gridtree"){
         dataStruct = new myGridTree(workpoints, diagonal);
+    }
+    else if(dataStructureType=="flann"){
+        dataStruct = new myFlann(workpoints);
     }
     else{
         cerr << "I can't understand your dataStructure!" << endl;

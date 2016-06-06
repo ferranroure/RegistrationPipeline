@@ -5,6 +5,9 @@
 #ifndef PIPELINE_CONVERTERFLANN_H
 #define PIPELINE_CONVERTERFLANN_H
 
+#define DIMENSIONS 3       // Dimensions
+
+
 #include "../point.h"
 #include <flann/flann.hpp>
 #include <vector>

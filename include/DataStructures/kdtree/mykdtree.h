@@ -31,7 +31,7 @@
 #include "../IDataStructure.h"
 #include "../../Converters/converterKdtree.h"
 
-#define DIMENSIONS 3       // Dimensions
+
 #define ERROR 0.0001       // Error bound
 
 
