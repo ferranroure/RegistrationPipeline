@@ -16,32 +16,19 @@ myFlann::myFlann() {
 myFlann::myFlann(vector<Point *> *P) {
 
 
-//    int nn = 3;
-//
-//    Matrix<float> dataset;
-//    Matrix<float> query;
-//
-//    Matrix<int> indices(new int[query.rows*nn], query.rows, nn);
-//    Matrix<float> dists(new float[query.rows*nn], query.rows, nn);
-//
-//    // construct an randomized kd-tree index using 4 kd-trees
-//    Index<L2<float> > index(dataset, flann::KDTreeIndexParams(4));
-//    index.buildIndex();
-//
-//    // do a knn search, using 128 checks
-//    index.knnSearch(query, indices, dists, nn, flann::SearchParams(128));
-//
-//    delete[] dataset.ptr();
-//    delete[] query.ptr();
-//    delete[] indices.ptr();
-//    delete[] dists.ptr();
 
     cfln = new converterFlann();
 
-    dataPts = new flann::Matrix<float>(cfln->convertArray(P), P->size(), DIMENSIONS);
 
-    kdtree = new flann::Index<flann::L2<float> >(*dataPts, flann::KDTreeIndexParams(128));
+    dataPts = cfln->convertArray(P);
+
+    cout << dataPts->rows << " " << dataPts->cols << endl;
+
+    cout << *dataPts[0][0] << " " << *dataPts[0][1] << " " << *dataPts[0][2] << endl;
+exit(0);
+    kdtree = new flann::Index<flann::L2<float> >(*dataPts, flann::KDTreeIndexParams(16));
     kdtree->buildIndex();
+
 }
 
 myFlann::~myFlann() {
@@ -64,8 +51,7 @@ returnData myFlann::calcOneNN(Point *queryPoint, float errEps) {
 
 
         //do a knn search, using 128 checks
-        kdtree->knnSearch(q, indices, dists, 1, flann::SearchParams(4));
-
+        kdtree->knnSearch(q, indices, dists, 1, flann::SearchParams(12));
         sqrDist = *(dists[0]);
     }
     else{
@@ -86,19 +72,21 @@ returnData myFlann::calcOwnNN(Point *queryPoint) {
 
     // distance
     double sqrDist = 0;
+    int nQ = 2;
 
     flann::Matrix<float> q = cfln->convertPoint(queryPoint);
 
-    flann::Matrix<int> indices(new int[q.rows*2], q.rows, 2);
-    flann::Matrix<float> dists(new float[q.rows*2], q.rows, 2);
+    flann::Matrix<int> indices(new int[q.rows*nQ], q.rows, nQ);
+    flann::Matrix<float> dists(new float[q.rows*nQ], q.rows, nQ);
 
 
     if(kdtree->size() > 0){
 
 
         //do a knn search, using 128 checks
-        kdtree->knnSearch(q, indices, dists, 2, flann::SearchParams(4));
-        sqrDist = *(dists[1]);
+        kdtree->knnSearch(q, indices, dists, nQ, flann::SearchParams(12));
+
+        sqrDist = dists[1][0];
     }
     else{
 
@@ -108,7 +96,11 @@ returnData myFlann::calcOwnNN(Point *queryPoint) {
 
     returnData rd;
     rd.sqrDist = sqrDist;
-    rd.index = *(indices[1]);
+    rd.index = indices[1][0];
+
+//    cout << queryPoint->getIndex() << endl;
+//    cout << rd.index << endl;
+//    exit(0);
 
 
     return rd;

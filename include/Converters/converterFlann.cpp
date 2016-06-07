@@ -12,21 +12,28 @@ converterFlann::~converterFlann(){
 
 }
 
-float* converterFlann::convertArray(vector<Point *> *P){
+flann::Matrix<float> * converterFlann::convertArray(vector<Point *> *P){
 
     float points[P->size()*DIMENSIONS];
 
-    int i = 0;
-    while (i < P->size()){
+    int j = 0;
+    for (int i = 0; i<P->size(); i++){
 
-        points[i] = (float)P->at(i)->getX();
-        points[i+1] = (float)P->at(i)->getY();
-        points[i+2] = (float)P->at(i)->getZ();
+        points[j] = (float)P->at(i)->getX(); j++;
+        points[j] = (float)P->at(i)->getY(); j++;
+        points[j] = (float)P->at(i)->getZ(); j++;
 
-        i = i+3;
     }
 
-    return points;
+    P->at(0)->print();
+    cout << points[0] << " " << points[1] << " " << points[2] << endl;
+
+    flann::Matrix<float> *nari = new flann::Matrix<float>(points, P->size(), DIMENSIONS);
+
+    cout << *nari[0][0] << " " << *nari[0][1] << " " << *nari[0][2] << endl;
+
+    exit(0);
+    return new flann::Matrix<float>(points, P->size(), DIMENSIONS);
 }
 
 flann::Matrix<float> converterFlann::convertPoint(Point *p){
@@ -37,7 +44,7 @@ flann::Matrix<float> converterFlann::convertPoint(Point *p){
     p_arr[1] = p->getY();
     p_arr[2] = p->getZ();
 
-    flann::Matrix<float> point(p_arr, 1, 2  );
+    flann::Matrix<float> point(p_arr, 1, 3);
 
     return point;
 
