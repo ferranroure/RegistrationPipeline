@@ -22,10 +22,6 @@ myFlann::myFlann(vector<Point *> *P) {
 
     dataPts = cfln->convertArray(P);
 
-    cout << dataPts->rows << " " << dataPts->cols << endl;
-
-    cout << *dataPts[0][0] << " " << *dataPts[0][1] << " " << *dataPts[0][2] << endl;
-exit(0);
     kdtree = new flann::Index<flann::L2<float> >(*dataPts, flann::KDTreeIndexParams(16));
     kdtree->buildIndex();
 
@@ -51,7 +47,8 @@ returnData myFlann::calcOneNN(Point *queryPoint, float errEps) {
 
 
         //do a knn search, using 128 checks
-        kdtree->knnSearch(q, indices, dists, 1, flann::SearchParams(12));
+        kdtree->knnSearch(q, indices, dists, 1, flann::SearchParams(4));
+
         sqrDist = *(dists[0]);
     }
     else{
@@ -84,8 +81,9 @@ returnData myFlann::calcOwnNN(Point *queryPoint) {
 
 
         //do a knn search, using 128 checks
-        kdtree->knnSearch(q, indices, dists, nQ, flann::SearchParams(12));
+        kdtree->knnSearch(q, indices, dists, nQ, flann::SearchParams(16));
 
+        cout << *(dists[0]) << " " << *(dists.ptr()) << endl;
         sqrDist = dists[1][0];
     }
     else{
@@ -100,7 +98,7 @@ returnData myFlann::calcOwnNN(Point *queryPoint) {
 
 //    cout << queryPoint->getIndex() << endl;
 //    cout << rd.index << endl;
-//    exit(0);
+    exit(0);
 
 
     return rd;

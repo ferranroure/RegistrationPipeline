@@ -30,9 +30,9 @@ flann::Matrix<float> * converterFlann::convertArray(vector<Point *> *P){
 
     flann::Matrix<float> *nari = new flann::Matrix<float>(points, P->size(), DIMENSIONS);
 
-    cout << *nari[0][0] << " " << *nari[0][1] << " " << *nari[0][2] << endl;
+//    cout << *nari[0][0] << " " << *nari[0][1] << " " << *nari[0][2] << endl;
 
-    exit(0);
+//    exit(0);
     return new flann::Matrix<float>(points, P->size(), DIMENSIONS);
 }
 
