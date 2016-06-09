@@ -32,6 +32,7 @@
 #include "DataStructures/compressedOctree/myCompressedOctree.h"
 #include "DataStructures/noDataStructure/noDataStructure.h"
 #include "DataStructures/flann/myFlann.h"
+#include "DataStructures/kdtreeCV/myKdtreeCV.h"
 
 
 using namespace std;

@@ -372,6 +372,9 @@ void ElementSet::createDataStructure(){
     else if(dataStructureType=="flann"){
         dataStruct = new myFlann(workpoints);
     }
+    else if(dataStructureType=="kdtreeCV"){
+        dataStruct = new myKdtreeCV(workpoints);
+    }
     else{
         cerr << "I can't understand your dataStructure!" << endl;
         exit(EXIT_FAILURE);
