@@ -63,7 +63,7 @@ public:
     vector<Point*> *allpoints;
     ElementSet();                                                   // Constructor NULL.
     ElementSet(ElementSet &ES);                                     // Copy constructor.
-    ElementSet(vector<Point> *lin, string _DSType);                                 // Constructor from vector<Point>.
+    ElementSet(vector<Point> *lin, string _DSType);                 // Constructor from vector<Point>.
     ElementSet(string file, string _DSType, float normFactor=1);    // Constructor from specific file.
     ~ElementSet();                                                  // Destructor.
 
