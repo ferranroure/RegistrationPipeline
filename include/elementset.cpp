@@ -305,15 +305,15 @@ void ElementSet::calcMMD(){
         returnData rd = dataStruct->calcOwnNN(*it);
 
         sum += sqrt(rd.sqrDist);
-        cout << sqrt(rd.sqrDist) << endl;
+//        cout << sqrt(rd.sqrDist) << endl;
 //   		cout << (*it)->getIndex() << ";" << rd.index << ";" /*<< v[rd.index].x << ";"<< v[rd.index].x << ";" << v[rd.index].x << ";"*/ << rd.sqrDist << endl;
 
     }
 
     MMD = sum / workpoints->size();
-    cout << MMD << endl;
+//    cout << MMD << endl;
 
-    exit(0);
+//    exit(0);
 
 
 }
