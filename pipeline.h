@@ -24,6 +24,7 @@
 #include "methods/det_iss.h"
 #include "methods/det_RandomSampling.h"
 #include "methods/det_NormalSpaceSampling.h"
+#include "methods/det_HierarchicalNormalSpaceSampling.h"
 #include "methods/det_ColorSpaceSampling.h"
 #include "methods/det_KinectSuperSampling.h"
 #include "methods/det_DistConnectedComponents.h"

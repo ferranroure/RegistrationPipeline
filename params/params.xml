@@ -5,23 +5,23 @@
         <!--<infile2>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/coral_left_moved.ply</infile2>-->
         <!--<infile>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/Rocks_right.ply</infile>-->
         <!--<infile2>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/Rocks_left_moved.ply</infile2>-->
-        <infile>../../models/ResidueTests/bun0.ply</infile>
-        <infile2>../../models/ResidueTests/bun1.ply</infile2>
+        <infile>../../models/bun0.ply</infile>
+        <infile2>../../models/bun1.ply</infile2>
         <!--<infile>../../models/prova/office0.ply</infile>-->
         <!--<infile2>../../models/prova/office1.ply</infile2>-->
         <!--<infileTemp>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/temp.ply</infileTemp>-->
         <!--<outfile>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/out.ply</outfile>-->
-        <infileTemp>../../models/ResidueTests/temp.ply</infileTemp>
-        <outfile>../../models/ResidueTests/out.ply</outfile>
-        <outres>/home/ferran/MEGA/PROJECTS/Pipeline/models/descriptors.txt</outres>
+        <infileTemp>../../models/temp.ply</infileTemp>
+        <outfile>../../models/sts/out.ply</outfile>
+        <outres>/home/yago/code/RegistrationPipeline/workDir/descriptors.txt</outres>
     </files>
 
-
     <methods>
-        <detection use="false">
-            <method>ColorSpaceSampling</method>
+        <detection use="true">
+            <method>HierarchicalNormalSpaceSampling</method>
             <properties>
                 <nSamples>1000</nSamples>
+                <nLevels>10</nLevels>
             </properties>
         </detection>
 

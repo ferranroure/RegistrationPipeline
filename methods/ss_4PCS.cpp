@@ -27,7 +27,7 @@ void ss_4PCS::execute() {
     float thr = 0.2; // THRESHOLD FOR THE bestf
 
     // Número de punts que consideren. Més o menys, pq en fan un tractament random raro.
-    int n_points = 1000;
+    int n_points = 100;
 
     // Diferències entre les normals. No sé perquè ho fan servir.
     float norm_diff = 360; //30

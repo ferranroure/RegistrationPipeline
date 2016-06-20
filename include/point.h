@@ -103,6 +103,17 @@ public:
     bool operator <=(Point p)const;
     bool operator >=(Point p)const;
 
+
+    void write(ostream& os)
+    {
+        os << "(" << x << "," << y << "," << z << ")";
+    }
+    friend ostream& operator<<(ostream& os,Point p)
+    {
+        p.write(os);
+        return os;
+    }
+
 };
 
 #endif // POINT_H

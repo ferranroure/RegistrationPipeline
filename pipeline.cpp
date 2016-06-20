@@ -61,6 +61,10 @@ void Pipeline::createMethods(){
             detection = new det_NormalSpaceSampling();
             detection->setData(data);
         }
+        else if(data->params.detectMethod == "HierarchicalNormalSpaceSampling"){
+            detection = new det_HierarchicalNormalSpaceSampling();
+            detection->setData(data);
+        }
         else if(data->params.detectMethod == "ColorSpaceSampling"){
             detection = new det_ColorSpaceSampling();
             detection->setData(data);

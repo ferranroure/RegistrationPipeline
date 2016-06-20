@@ -244,6 +244,8 @@ void Data::setParametersXML(char * paramsfile){
     params.useDetection = toBool(det->Attribute("use"));
     XMLElement *detProp =  det->FirstChildElement("properties");
     params.nSamples = atoi( detProp->FirstChildElement("nSamples")->GetText() );
+    params.nLevels = atoi( detProp->FirstChildElement("nLevels")->GetText() );
+
 
     XMLElement *desc = methods->FirstChildElement("description");
     params.descMethod = desc->FirstChildElement("method")->GetText();
