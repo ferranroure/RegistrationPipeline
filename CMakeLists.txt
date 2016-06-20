@@ -113,7 +113,7 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
             include/DataStructures/compressedOctree/myCompressedOctree.cpp
             include/DataStructures/noDataStructure/noDataStructure.cpp
             include/DataStructures/gridTree/myGridTree.cpp
-            include/DataStructures/flann/myFlann.cpp
+#            include/DataStructures/flann/myFlann.cpp
             include/DataStructures/kdtreeCV/myKdtreeCV.cpp
             include/mypcl.cpp
             include/plyio.cpp
@@ -128,7 +128,7 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
             include/Converters/converterYago.cpp
             include/Converters/converterKdtree.cpp
             include/Converters/converterGridTree.cpp
-            include/Converters/converterFlann.cpp
+#            include/Converters/converterFlann.cpp
             include/Converters/converterKdtreeCV.cpp
             include/4pcsRegistrationObject.cpp
             include/DataStructures/octree/Octree.cpp
