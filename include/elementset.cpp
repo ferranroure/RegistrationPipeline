@@ -1,7 +1,5 @@
 #include "elementset.h"
-#include "DataStructures/compressedOctree/myCompressedOctree.h"
-#include "DataStructures/noDataStructure/noDataStructure.h"
-#include "timer.h"
+
 
 /* CONSTRUCTOR -----------------------------------------------------------
  *
@@ -311,9 +309,11 @@ void ElementSet::calcMMD(){
 //   		cout << (*it)->getIndex() << ";" << rd.index << ";" /*<< v[rd.index].x << ";"<< v[rd.index].x << ";" << v[rd.index].x << ";"*/ << rd.sqrDist << endl;
 
     }
-//exit(0);
 
     MMD = sum / workpoints->size();
+//    cout << MMD << endl;
+
+//    exit(0);
 
 
 }
@@ -370,6 +370,12 @@ void ElementSet::createDataStructure(){
     }
     else if(dataStructureType=="gridtree"){
         dataStruct = new myGridTree(workpoints, diagonal);
+    }
+    else if(dataStructureType=="flann"){
+        dataStruct = new myFlann(workpoints);
+    }
+    else if(dataStructureType=="kdtreeCV"){
+        dataStruct = new myKdtreeCV(workpoints);
     }
     else{
         cerr << "I can't understand your dataStructure!" << endl;

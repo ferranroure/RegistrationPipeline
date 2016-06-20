@@ -12,6 +12,8 @@
 #ifndef IDATASTRUCTURE_H
 #define IDATASTRUCTURE_H
 
+#define DIMENSIONS 3       // Dimensions
+
 #include <iostream>
 #include <vector>
 #include "../point.h"

@@ -58,7 +58,6 @@ link_directories(/usr/local/lib/ann_1.1.2/lib)
 
 
 
-
 FIND_LIBRARY (  NEWMAT_LIB
         NAMES newmat
         PATHS external/newmat10 )
@@ -111,6 +110,8 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
             include/DataStructures/compressedOctree/myCompressedOctree.cpp
             include/DataStructures/noDataStructure/noDataStructure.cpp
             include/DataStructures/gridTree/myGridTree.cpp
+#            include/DataStructures/flann/myFlann.cpp
+            include/DataStructures/kdtreeCV/myKdtreeCV.cpp
             include/mypcl.cpp
             include/plyio.cpp
             include/point.cpp
@@ -124,9 +125,12 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
             include/Converters/converterYago.cpp
             include/Converters/converterKdtree.cpp
             include/Converters/converterGridTree.cpp
+#            include/Converters/converterFlann.cpp
+            include/Converters/converterKdtreeCV.cpp
             include/4pcsRegistrationObject.cpp
             include/DataStructures/octree/Octree.cpp
             include/DataStructures/octree/Node.cpp
+
 
 
             external/vector3D.cpp

@@ -20,15 +20,20 @@
 #include <math.h>
 #include "point.h"
 #include "plyio.h"
-#include "DataStructures/kdtree/mykdtree.h"
 #include "mypcl.h"
 #include "descdist.h"
 #include "base.h"
 #include "../external/motion3D.h"
+#include "DataStructures/kdtree/mykdtree.h"
 #include "DataStructures/octree/myOctree.h"
 #include "DataStructures/trihash/myTriHash.h"
 #include "DataStructures/octree/Octree.h"
 #include "DataStructures/gridTree/myGridTree.h"
+#include "DataStructures/compressedOctree/myCompressedOctree.h"
+#include "DataStructures/noDataStructure/noDataStructure.h"
+#include "DataStructures/flann/myFlann.h"
+#include "DataStructures/kdtreeCV/myKdtreeCV.h"
+
 
 using namespace std;
 
@@ -58,7 +63,7 @@ public:
     vector<Point*> *allpoints;
     ElementSet();                                                   // Constructor NULL.
     ElementSet(ElementSet &ES);                                     // Copy constructor.
-    ElementSet(vector<Point> *lin, string _DSType);                                 // Constructor from vector<Point>.
+    ElementSet(vector<Point> *lin, string _DSType);                 // Constructor from vector<Point>.
     ElementSet(string file, string _DSType, float normFactor=1);    // Constructor from specific file.
     ~ElementSet();                                                  // Destructor.
 
