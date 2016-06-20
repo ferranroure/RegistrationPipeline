@@ -20,9 +20,9 @@ cv::Mat * converterKdtreeCV::convertArray(vector<Point *> *P) {
     for(int i=0; i<P->size(); i++){
 
 
-        points->at<float>(0, i) = P->at(i)->getX();
-        points->at<float>(1, i) = P->at(i)->getY();
-        points->at<float>(2, i) = P->at(i)->getZ();
+        points->at<float>(i, 0) = P->at(i)->getX();
+        points->at<float>(i, 1) = P->at(i)->getY();
+        points->at<float>(i, 2) = P->at(i)->getZ();
 
 
 //        vector<float> p;
