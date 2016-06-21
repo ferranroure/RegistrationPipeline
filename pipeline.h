@@ -60,8 +60,8 @@ public:
     void createMethods();                   // Creation of each method depending on the params file.
     void execute();                         // Execution of the pipeline.
     void executeTest();                     // Execution for tests without any cout.
-    void executeResidueComputation();       // Execution of residue computation test.
-    void computeResidue(bool test=false);   // Compute residue and % of paired points between views.
+    void executeResidueComputation(bool multitest, char * matrix_path);       // Execution of residue computation test.
+    void computeResidue();   // Compute residue and % of paired points between views.
     void syntheticComputeResidue();         // Residue computation tests for synthetic models.
     vector<motion3D> readMatrices(const char *file);
 

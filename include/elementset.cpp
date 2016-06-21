@@ -371,9 +371,6 @@ void ElementSet::createDataStructure(){
     else if(dataStructureType=="gridtree"){
         dataStruct = new myGridTree(workpoints, diagonal);
     }
-    else if(dataStructureType=="flann"){
-        dataStruct = new myFlann(workpoints);
-    }
     else if(dataStructureType=="kdtreeCV"){
         dataStruct = new myKdtreeCV(workpoints);
     }

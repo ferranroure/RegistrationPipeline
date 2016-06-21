@@ -211,7 +211,7 @@ void Pipeline::execute(){
 
 //
      cout << "Coarse Alignment results:" << endl;
-     computeResidue(false);
+    computeResidue();
 
 //    exit(0);
     if(data->params.useRefinement){
@@ -241,7 +241,7 @@ void Pipeline::execute(){
     }
 
     cout << "Fine Alignment results:" << endl;
-    computeResidue(false);
+    computeResidue();
 
     output.setData(data);
     cout << "------------------------------------------------------------------------------------> OUTPUT START" << endl;
@@ -305,7 +305,7 @@ void Pipeline::executeTest(){
         searching->execute();
         cout << timer.elapsed() << ";";
         applyMovement(COARSE);
-        computeResidue(true);
+        computeResidue();
     }
     else cout << "-;-;-;-;";
 
@@ -315,7 +315,7 @@ void Pipeline::executeTest(){
         refinement->execute();
         cout << timer.elapsed() << ";";
         applyMovement(FINE);
-        computeResidue(true);
+        computeResidue();
     }
     else cout << "-;-;-;-;";
 
@@ -329,32 +329,68 @@ void Pipeline::executeTest(){
 }
 
 
-void Pipeline::executeResidueComputation(){
+void Pipeline::executeResidueComputation(bool multitest, char * matrix_path) {
 
     input.setData(data);
     input.execute();
 
+    Timer timer;
+    int pairedPoints = 0;
+
     cout << endl << endl;
     cout << "-----------------------------------------------------------------------------------------" << endl;
     cout << "                                                   PIPELINE PROJECT - RESIDUE COMPUTATION" << endl;
-    cout << "Target model:         " << data->params.infile << endl;
-    cout << "Candidate model:      " << data->params.infile2 << endl;
-    cout << "Data Structure:       " << data->params.dataStructure << endl;
-    cout << "MMD:                  " << data->A->getMMD() << endl;
-    cout << "% of used points:     " << data->params.percOfPoints*100 << "%" <<  endl;
-
-    Timer timer;
+    cout << "Target model:         ;" << data->params.infile << endl;
+    cout << "Candidate model:      ;" << data->params.infile2 << endl;
+    cout << "Data Structure:       ;" << data->params.dataStructure << endl;
+    cout << "MMD:                  ;" << data->A->getMMD() << endl;
+    cout << "% of used points:     ;" << data->params.percOfPoints*100 << "%" <<  endl;
     timer.reset();
     data->A->createDataStructure();
-    cout << "Data Structure construction time: " << timer.elapsed() << " sec. " << endl;
-//    cout << timer.elapsed() << ";";
-//    data->A->getDataStruct()->printStats();
-//    cout << ";;";
+    cout << "Data Structure construction time: ;" << timer.elapsed() << " sec. " << endl;
 
 
-    computeResidue(true);
-//    syntheticComputeResidue();
-    cout << endl;
+    if( ! multitest) {
+        // Regular test: 1 execution.
+        timer.reset();
+        double res = data->A->calcNN(data->B->getPoints(), data->params.percOfPoints, data->params.nnErrorFactor, pairedPoints);
+        double time = timer.elapsed();
+        cout << "% of paired points of A : " << ((float) pairedPoints / (float) data->A->allpoints->size()) * 100 <<
+        "%" << " in " << time << " sec." << endl;
+
+    }
+    else {
+        // Multi-execution test.
+        double sum_time = 0;
+        int maxLoops = 50;
+
+        // Read matrix file to apply different movements anc compute residues. Check time and obtain a mean value.
+        vector<motion3D> matrices = readMatrices(matrix_path);
+        int i = 0;
+
+        cout << endl;
+        cout << "MULTI-EXECUTION TEST" << endl;
+        cout << "% OF PAIRED POINTS; RESIDUE; TIME "<< endl;
+
+        for (i = 0; i < matrices.size(); ++i) {
+
+            ElementSet *aux = new ElementSet(*(data->B));
+            aux->transform(&matrices.at(i));
+
+            timer.reset();
+            double res = data->A->calcNN(aux->getPoints(), data->params.percOfPoints, data->params.nnErrorFactor, pairedPoints);
+            sum_time += timer.elapsed();
+            cout << ((float) pairedPoints / (float) data->A->allpoints->size()) << ";" << res << ";" << timer.elapsed() << ";" << endl;
+
+            delete aux;
+
+            if (i >= maxLoops) break;
+        }
+
+        cout << "#movements: " << i << " Mean Time: " << sum_time / i << " sec." << endl;
+
+    }
+
 }
 
 void Pipeline::syntheticComputeResidue(){
@@ -404,70 +440,23 @@ void Pipeline::syntheticComputeResidue(){
 }
 
 
-void Pipeline::computeResidue(bool test) {
+void Pipeline::computeResidue() {
 
 
+    int pairedPoints = 0;
+    double res = data->A->calcNN(data->B->getPoints(), data->params.percOfPoints, data->params.nnErrorFactor, pairedPoints);
 
+    int pairedPoints2 = 0;
+    double res2 = data->B->calcNN(data->A->getPoints(), data->params.percOfPoints, data->params.nnErrorFactor, pairedPoints2);
 
-    if(test==false) {
+    cout << "MMD A: " << data->A->getMMD() << " MMD B: " << data->B->getMMD() << endl;
+    // Printing the results of the execution.
+    cout << "% of paired points of A : " << ((float) pairedPoints / (float) data->A->allpoints->size()) * 100 <<
+    "%" << endl;
+    cout << "% of paired points of B: " << ((float) pairedPoints2 / (float) data->B->allpoints->size()) * 100 <<
+    "%" << endl;
+    cout << "Residue: " << res << endl;
 
-        int pairedPoints = 0;
-        double res = data->A->calcNN(data->B->getPoints(), data->params.percOfPoints, data->params.nnErrorFactor, pairedPoints);
-
-        int pairedPoints2 = 0;
-        double res2 = data->B->calcNN(data->A->getPoints(), data->params.percOfPoints, data->params.nnErrorFactor, pairedPoints2);
-
-        cout << "MMD A: " << data->A->getMMD() << " MMD B: " << data->B->getMMD() << endl;
-        // Printing the results of the execution.
-        cout << "% of paired points of A : " << ((float) pairedPoints / (float) data->A->allpoints->size()) * 100 <<
-        "%" << endl;
-        cout << "% of paired points of B: " << ((float) pairedPoints2 / (float) data->B->allpoints->size()) * 100 <<
-        "%" << endl;
-        cout << "Residue: " << res << endl;
-    }
-    else{
-
-//        // Regular test: 1 execution.
-         Timer timer;
-         int pairedPoints = 0;
-         timer.reset();
-         double res = data->A->calcNN(data->B->getPoints(), data->params.percOfPoints, data->params.nnErrorFactor, pairedPoints);
-         double time = timer.elapsed();
-         cout << "% of paired points of A : " << ((float) pairedPoints / (float) data->A->allpoints->size()) * 100 << "%" << " in " << time << " sec." << endl;
-
-
-////        // Multi execution test.
-//       Timer timer;
-//       double sum_time = 0;
-//       int maxLoops = 10;
-//
-////        Read matrix file to apply different movements anc compute residues. Check time and obtain a mean value.
-//       vector<motion3D> matrices = readMatrices("ResidueTests/bust/matrix.xls");
-//       int i = 0;
-//       for (i = 0; i < matrices.size(); ++i) {
-//
-//           ElementSet *aux = new ElementSet(*(data->B));
-//           aux->transform(&matrices.at(i));
-//
-//           int pairedPoints = 0;
-//           timer.reset();
-//           double res = data->A->calcNN(aux->getPoints(), data->params.percOfPoints, data->params.nnErrorFactor, pairedPoints);
-//           sum_time += timer.elapsed();
-////           cout << "% of paired points of A : " << ((float) pairedPoints / (float) data->A->allpoints->size()) * 100 << "%" << " in " << timer.elapsed() << " sec." << endl;
-////           cout << ((float) pairedPoints / (float) data->A->allpoints->size()) << ";" << ((float) pairedPoints / (float) data->B->allpoints->size()) << ";" << timer.elapsed() << ";" << endl;
-//
-//           delete aux;
-//
-//           if(i >= maxLoops) break;
-//       }
-//
-//       cout << "#movements: "<< i << " Mean Time: " << sum_time/i << " sec." << endl;
-//        cout << sum_time/i;
-
-//        cout << res << ";";
-//        cout << ((float) pairedPoints / (float) data->A->allpoints->size()) << ";";;
-//        cout << ((float) pairedPoints2 / (float) data->B->allpoints->size()) << ";";;
-    }
 }
 
 vector<motion3D> Pipeline::readMatrices(const char *file){
