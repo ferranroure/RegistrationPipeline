@@ -21,6 +21,7 @@ void ss_4PCS::execute() {
     // Buddha: 0.2 / 0.1, 1000, 0.1, 0.2
     // Joints: 0.2, 1000, 0.1, 0.2
     // Bust: 0.1, 1000, 0.1, 0.2
+    // Frog: 0.2, 1000, 0.1, 0.3
 
 
     // Aquest thr seria % de punts aparellats mínims a partir del qual considerem que s'ha fet registre. Si és -1 s'agafa l'estimació d'overlap "overlap".
@@ -39,7 +40,7 @@ void ss_4PCS::execute() {
     // This parameter is used to select the 4th point in de base from A. Is provided in order to not select a point
     // which its correspondence in Q falls in a non-overlapping area.
     // qd = diam*overlap*2.0; -> this qd is used to find a wide point. length(u)< qd.
-    float overlap = 0.2;
+    float overlap = 0.3;
 
     converter4PCS a4pcs;
     vector<Point3D> * set1 = a4pcs.points24PCS(data->A->getWorkpoints(), false, true);

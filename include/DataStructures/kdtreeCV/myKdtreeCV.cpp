@@ -22,7 +22,7 @@ myKdtreeCV::myKdtreeCV(vector<Point *> *P) {
 
     dataPts = ckdcv->convertArray(P);
 
-    kdtree = new cv::flann::Index(*dataPts, cv::flann::KDTreeIndexParams(45));
+    kdtree = new cv::flann::Index(*dataPts, cv::flann::KDTreeIndexParams(4));
 
 }
 
@@ -43,7 +43,7 @@ returnData myKdtreeCV::calcOneNN(Point *queryPoint, float errEps) {
     vector<float> dists(1);
 
     //do a knn search, using 128 checks
-    kdtree->knnSearch(q, indices, dists, 1, cv::flann::SearchParams(45));
+    kdtree->knnSearch(q, indices, dists, 1, cv::flann::SearchParams(16));
 
     sqrDist = dists.at(0);
 
@@ -66,7 +66,7 @@ returnData myKdtreeCV::calcOwnNN(Point *queryPoint) {
     vector<float> dists(2);
 
     //do a knn search, using 128 checks
-    kdtree->knnSearch(q, indices, dists, 2, cv::flann::SearchParams(45));
+    kdtree->knnSearch(q, indices, dists, 2, cv::flann::SearchParams(16));
 
     sqrDist = dists.at(1);
 
