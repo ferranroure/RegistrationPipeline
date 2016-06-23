@@ -30,6 +30,7 @@ myKdtreeCV::~myKdtreeCV() {
 
     delete dataPts;
     delete kdtree;
+    delete ckdcv;
 }
 
 returnData myKdtreeCV::calcOneNN(Point *queryPoint, float errEps) {
