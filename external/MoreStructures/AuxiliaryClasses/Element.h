@@ -33,7 +33,8 @@ class Element
 	public:
 		Element(); //Default constructor
 		Element(double x, double y, double z, double r, string s); // constructor with parameters, unused parameters get default values 
-		Element(point3D p, double r); 	 // constructor with parameters, unused parameters get default values 	
+		Element(point3D p, double r); 	 // constructor with parameters, unused parameters get default values
+		~Element();
 	
 		void operator=(const Element& e); //assignment
 		Element(const Element& e); //Copy constructor  		

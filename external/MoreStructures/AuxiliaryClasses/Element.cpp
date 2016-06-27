@@ -59,6 +59,11 @@ Element::Element(const Element& e)
 	}
 }
 
+Element::~Element(){
+
+	delete desc;
+}
+
 //operador d'assignacio!
 void Element::operator=(const Element& e) 
 {
