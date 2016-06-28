@@ -22,6 +22,7 @@ public:
     TriHash *trihash;
     converterYago *ads;
     float diagonal;
+    vector<Element*> points;
 
     // Methods ------------------------------------------------------------
     myTriHash();

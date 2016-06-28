@@ -16,7 +16,7 @@ myTriHash::myTriHash(vector<Point *> *P, float _diag) {
 
     diagonal = _diag;
     ads = new converterYago();
-    vector<Element *> points = ads->convertArray(P);
+    points = ads->convertArray(P);
     trihash = new TriHash(points);
 }
 
@@ -24,6 +24,10 @@ myTriHash::~myTriHash() {
 
     delete trihash;
     delete ads;
+    for(int i=0; i<points.size(); i++){
+        delete points[i];
+    }
+    points.clear();
 }
 
 returnData myTriHash::calcOneNN(Point *queryPoint, float errEps) {
