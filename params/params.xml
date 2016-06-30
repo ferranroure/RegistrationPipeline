@@ -5,8 +5,8 @@
         <!--<infile2>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/coral_left_moved.ply</infile2>-->
         <!--<infile>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/Rocks_right.ply</infile>-->
         <!--<infile2>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/Rocks_left_moved.ply</infile2>-->
-        <infile>../../models/ResidueTests/bun0.ply</infile>
-        <infile2>../../models/ResidueTests/bun1.ply</infile2>
+        <infile>../../models/ResidueTests/bust0.ply</infile>
+        <infile2>../../models/ResidueTests/bust1.ply</infile2>
         <!--<infile>../../models/prova/office0.ply</infile>-->
         <!--<infile2>../../models/prova/office1.ply</infile2>-->
         <!--<infileTemp>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/temp.ply</infileTemp>-->
@@ -62,6 +62,6 @@
         <nnErrorFactor>2</nnErrorFactor>
         <percOfNoise>0</percOfNoise> <!-- normalized % of MMD (perc * MMD) -->
         <normalizeModels>false</normalizeModels>
-        <dataStructure>flann</dataStructure> <!-- options: gridtree, kdtree, kdtreeCV, octree, compressedOctree, trihash, noDataStructure or your own -->
+        <dataStructure>gridtree</dataStructure> <!-- options: gridtree, kdtree, kdtreeCV, octree, compressedOctree, trihash, noDataStructure or your own -->
     </generalProperties>
 </params>

@@ -102,6 +102,7 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
             methods/ss_4PCS.cpp
             methods/ss_3PS.cpp
             methods/ss_Grid3D.cpp
+            methods/ss_Super4PCS.cpp
             include/elementset.cpp
             include/myicp.cpp
             include/DataStructures/kdtree/mykdtree.cpp
@@ -190,6 +191,8 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
             include/IDescriptor.h
             include/IManagerIO.h
             include/DataStructures/IDataStructure.h
+
+            external/Super4PCS/super4pcs/shared4pcs.h
 
             IDetection.h
             IDescription.h
