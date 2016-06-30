@@ -22,7 +22,7 @@ myFlann::myFlann(vector<Point *> *P) {
 
     dataPts = cfln->convertArray(P);
 
-    kdtree = new flann::Index<flann::L2<float> >(*dataPts, flann::KDTreeIndexParams(16));
+    kdtree = new flann::KDTreeSingleIndex<flann::L2<float> >(*dataPts, flann::KDTreeSingleIndexParams());
     kdtree->buildIndex();
 
 }
@@ -45,11 +45,10 @@ returnData myFlann::calcOneNN(Point *queryPoint, float errEps) {
 
     if(kdtree->size() > 0){
 
-
         //do a knn search, using 128 checks
-        kdtree->knnSearch(q, indices, dists, 1, flann::SearchParams(4));
+        kdtree->knnSearch(q, indices, dists, 1, flann::SearchParams());
 
-        sqrDist = *(dists[0]);
+        sqrDist = dists[0][0];
     }
     else{
 
@@ -59,7 +58,7 @@ returnData myFlann::calcOneNN(Point *queryPoint, float errEps) {
 
     returnData rd;
     rd.sqrDist = sqrDist;
-    rd.index = *(indices[0]);
+    rd.index = indices[0][0];
 
 
     return rd;
@@ -73,6 +72,7 @@ returnData myFlann::calcOwnNN(Point *queryPoint) {
 
     flann::Matrix<float> q = cfln->convertPoint(queryPoint);
 
+
     flann::Matrix<int> indices(new int[q.rows*nQ], q.rows, nQ);
     flann::Matrix<float> dists(new float[q.rows*nQ], q.rows, nQ);
 
@@ -81,10 +81,11 @@ returnData myFlann::calcOwnNN(Point *queryPoint) {
 
 
         //do a knn search, using 128 checks
-        kdtree->knnSearch(q, indices, dists, nQ, flann::SearchParams(16));
+        kdtree->knnSearch(q, indices, dists, nQ, flann::SearchParams());
 
-        cout << *(dists[0]) << " " << *(dists.ptr()) << endl;
-        sqrDist = dists[1][0];
+//        cout << *(dists[0]) << " " << *(dists.ptr()) << endl;
+//        cout << dists[0][0] << " " << dists[1][0] << endl;
+        sqrDist = dists[0][1];
     }
     else{
 
@@ -94,11 +95,10 @@ returnData myFlann::calcOwnNN(Point *queryPoint) {
 
     returnData rd;
     rd.sqrDist = sqrDist;
-    rd.index = indices[1][0];
+    rd.index = indices[0][1];
 
 //    cout << queryPoint->getIndex() << endl;
 //    cout << rd.index << endl;
-    exit(0);
 
 
     return rd;

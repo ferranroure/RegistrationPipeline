@@ -19,7 +19,7 @@ public:
 
 // Elements ---------------------------------------
     flann::Matrix<float> *dataPts;
-    flann::Index<flann::L2<float> > *kdtree;
+    flann::KDTreeSingleIndex<flann::L2<float> > *kdtree;
 
     converterFlann *cfln;
 
