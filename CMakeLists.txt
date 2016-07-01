@@ -192,7 +192,7 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
             include/IManagerIO.h
             include/DataStructures/IDataStructure.h
 
-            external/Super4PCS/super4pcs/shared4pcs.h
+#            external/Super4PCS/super4pcs/shared4pcs.h
 
             IDetection.h
             IDescription.h
@@ -200,11 +200,13 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
             ISearchingStrategy.cpp
             IRefinement.h )
 
+    add_subdirectory(${PROJECT_SOURCE_DIR}/external/Super4PCS)
+
     # -pg -> profiler
     # -frounding-math -> something for CGAL library
 #    set(CMAKE_CXX_FLAGS "-std=c++11 -frounding-math")
     #    set(CMAKE_CXX_FLAGS "-pg -frounding-math")
-    set(CMAKE_CXX_FLAGS "-frounding-math")
+    set(CMAKE_CXX_FLAGS "-frounding-math -std=c++11" )
 
     add_executable( Pipeline ${SOURCES} )
     target_link_libraries(Pipeline ${ANN_LIB} ${PCL_LIBRARIES} ${OpenCV_LIBS} ${VTK_LIBRARIES} ${CGAL_LIB} -L/opt/lib)

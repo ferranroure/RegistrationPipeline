@@ -7,6 +7,9 @@
 #include <vector>
 #include "../external/Super4PCS/super4pcs/shared4pcs.h"
 
+using namespace match_4pcs;
+using namespace std;
+
 
 class ss_Super4PCS : public ISearchingStrategy{
 
