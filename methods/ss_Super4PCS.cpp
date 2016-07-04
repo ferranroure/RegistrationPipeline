@@ -17,7 +17,7 @@ void ss_Super4PCS::setData(Data *d) {
 void ss_Super4PCS::execute() {
 
     // Our matcher.
-    Match4PCSOptions options;
+    match_4pcs::Match4PCSOptions options;
 
     // Set parameters.
 //    cv::Mat mat = cv::Mat::eye(4, 4, CV_64F);
@@ -30,5 +30,7 @@ void ss_Super4PCS::execute() {
     // Match and return the score (estimated overlap or the LCP).
     float score = 0;
 
-    MatchSuper4PCS matcher(options);
+    match_4pcs::MatchSuper4PCS matcher(options);
+
+    cout << "caca" << endl;
 }

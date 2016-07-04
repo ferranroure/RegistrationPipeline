@@ -192,7 +192,9 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
             include/IManagerIO.h
             include/DataStructures/IDataStructure.h
 
+#            external/Super4PCS/super4pcs/super4pcs.cc
 #            external/Super4PCS/super4pcs/shared4pcs.h
+
 
             IDetection.h
             IDescription.h
@@ -200,7 +202,28 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
             ISearchingStrategy.cpp
             IRefinement.h )
 
-    add_subdirectory(${PROJECT_SOURCE_DIR}/external/Super4PCS)
+    #adding super4pcs
+    add_subdirectory(${PROJECT_SOURCE_DIR}/external/Super4PCS/3rdparty/chealpix EXCLUDE_FROM_ALL)
+    include_directories(${Chealpix_INCLUDE_DIR})
+
+    set(Super4PCS_DIR ${PROJECT_SOURCE_DIR}/external/Super4PCS/super4pcs)
+    include_directories(${Super4PCS_DIR})
+
+    set(Super4PCS_SRC
+            ${Super4PCS_DIR}/4pcs.cc
+            ${Super4PCS_DIR}/super4pcs.cc
+            )
+    set(Super4PCS_INCLUDE
+            ${Super4PCS_DIR}/shared4pcs.h
+            ${Super4PCS_DIR}/pairExtraction.h
+            ${Super4PCS_DIR}/4pcs.h
+            ${Super4PCS_DIR}/pairCreationFunctor.h
+            )
+
+    add_subdirectory(${Super4PCS_DIR}/io)
+    add_subdirectory(${Super4PCS_DIR}/accelerators)
+
+    add_library(super4pcs_algo  ${Super4PCS_SRC} ${Super4PCS_INCLUDE})
 
     # -pg -> profiler
     # -frounding-math -> something for CGAL library
@@ -210,8 +233,8 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
 
     add_executable( Pipeline ${SOURCES} )
     target_link_libraries(Pipeline ${ANN_LIB} ${PCL_LIBRARIES} ${OpenCV_LIBS} ${VTK_LIBRARIES} ${CGAL_LIB} -L/opt/lib)
-
-    #${NEWMAT_LIB} -> sembla que no cal.
+    TARGET_LINK_LIBRARIES(super4pcs_algo super4pcs_io super4pcs_accel)
+    TARGET_LINK_LIBRARIES(Pipeline super4pcs_algo)
 
 else()
 
