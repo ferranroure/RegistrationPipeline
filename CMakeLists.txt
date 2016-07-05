@@ -202,12 +202,27 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
             ISearchingStrategy.cpp
             IRefinement.h )
 
-    #adding super4pcs
-    add_subdirectory(${PROJECT_SOURCE_DIR}/external/Super4PCS/3rdparty/chealpix EXCLUDE_FROM_ALL)
-    include_directories(${Chealpix_INCLUDE_DIR})
+
+
+    # -pg -> profiler
+    # -frounding-math -> something for CGAL library
+    #    set(CMAKE_CXX_FLAGS "-std=c++11 -frounding-math")
+    #    set(CMAKE_CXX_FLAGS "-pg -frounding-math")
+    set(CMAKE_CXX_FLAGS "-frounding-math -std=c++11" )
+
+    #adding super4pcs ------------------------------------------------------------------------------
+
+    # add the binary tree to the search path for include files
+#    include_directories("${PROJECT_BINARY_DIR}")
+
 
     set(Super4PCS_DIR ${PROJECT_SOURCE_DIR}/external/Super4PCS/super4pcs)
     include_directories(${Super4PCS_DIR})
+
+    list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/external/Super4PCS/cmake")
+
+    add_subdirectory(${PROJECT_SOURCE_DIR}/external/Super4PCS/3rdparty/chealpix EXCLUDE_FROM_ALL)
+    include_directories(${Chealpix_INCLUDE_DIR})
 
     set(Super4PCS_SRC
             ${Super4PCS_DIR}/4pcs.cc
@@ -225,16 +240,13 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
 
     add_library(super4pcs_algo  ${Super4PCS_SRC} ${Super4PCS_INCLUDE})
 
-    # -pg -> profiler
-    # -frounding-math -> something for CGAL library
-#    set(CMAKE_CXX_FLAGS "-std=c++11 -frounding-math")
-    #    set(CMAKE_CXX_FLAGS "-pg -frounding-math")
-    set(CMAKE_CXX_FLAGS "-frounding-math -std=c++11" )
 
     add_executable( Pipeline ${SOURCES} )
-    target_link_libraries(Pipeline ${ANN_LIB} ${PCL_LIBRARIES} ${OpenCV_LIBS} ${VTK_LIBRARIES} ${CGAL_LIB} -L/opt/lib)
+    target_link_libraries(${PROJECT_NAME} ${ANN_LIB} ${PCL_LIBRARIES} ${OpenCV_LIBS} ${VTK_LIBRARIES} ${CGAL_LIB} -L/opt/lib)
     TARGET_LINK_LIBRARIES(super4pcs_algo super4pcs_io super4pcs_accel)
-    TARGET_LINK_LIBRARIES(Pipeline super4pcs_algo)
+    TARGET_LINK_LIBRARIES(${PROJECT_NAME} super4pcs_algo)
+    TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${Chealpix_LIBS} )
+
 
 else()
 
