@@ -41,7 +41,7 @@ void ss_Super4PCS::execute() {
     timer.reset();
     score = matcher.ComputeTransformation(set1, &set2, &mat);
     double time = timer.elapsed();
-    cout << "SUPER 4PCS TIME: " << time << endl;
-
+    cout << "Computing time: " << time << endl;
+    cout << "Score: " << score << endl;
     data->cM = cs4pcs.convertMatrix(mat);
 }

@@ -5,6 +5,7 @@
 #include "../ISearchingStrategy.h"
 #include "../include/point.h"
 #include "../include/Converters/converter4PCS.h"
+#include "../include/timer.h"
 
 #include <vector>
 
