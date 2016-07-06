@@ -128,6 +128,7 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
             include/Converters/converterGridTree.cpp
             include/Converters/converterFlann.cpp
             include/Converters/converterKdtreeCV.cpp
+            include/Converters/converterSuper4PCS.cpp
             include/4pcsRegistrationObject.cpp
             include/DataStructures/octree/Octree.cpp
             include/DataStructures/octree/Node.cpp

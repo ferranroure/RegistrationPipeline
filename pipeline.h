@@ -33,6 +33,7 @@
 #include "methods/ss_4PCS.h"
 #include "methods/ss_3PS.h"
 #include "methods/ss_Grid3D.h"
+#include "methods/ss_Super4PCS.h"
 #include "methods/ref_icp.h"
 
 #define COARSE 1
