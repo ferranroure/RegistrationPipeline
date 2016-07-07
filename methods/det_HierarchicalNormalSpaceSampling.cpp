@@ -7,10 +7,10 @@
 void det_HierarchicalNormalSpaceSampling::setData(Data *d)
 {
     data = d;
-    int veryMinimum=5;
+    int veryMinimum=data->params.nSamples;
     // at this point, determine the parameters of the hierarchy
     numLevels=data->params.nLevels;
-    minNumber= (data->B->nPoints()/pow(4,numLevels)< veryMinimum) ? veryMinimum : data->B->nPoints()/pow(4,numLevels); // the number of elements in the upper level. In intermediate levels, it increases exponentially (num_elements_level_i = minNumber + a^i where a=pow(|B|-minNumber,1/
+    minNumber= (data->B->nPoints()/pow(step,numLevels)< veryMinimum) ? veryMinimum : data->B->nPoints()/pow(step,numLevels); // the number of elements in the upper level. In intermediate levels, it increases exponentially (num_elements_level_i = minNumber + a^i where a=pow(|B|-minNumber,1/
 
  //   cout<<"numElements "<<data->B->nPoints()<<endl;
  //   cout << "HierarchicalNormalSpaceSampling setting data with "<<numLevels<<" "<<minNumber<<endl;
@@ -23,17 +23,18 @@ void det_HierarchicalNormalSpaceSampling::execute()
     {
         // call hierarchize
         initialised=true;
-        hierarchizeSet(data->B);
+        hierarchizeSet(data->A,&pyramidA,&bucketsA);
+        hierarchizeSet(data->B,&pyramidB,&bucketsB);
+
     }
 
-//    extractHierarchicalNormalSpaceSampling(data->A, data->params.nSamples);
-    extractHierarchicalNormalSpaceSampling(data->params.nSamples);
+//    extractHierarchicalNormalSpaceSampling(data->params.nSamples);
  //   cout<<"det_HierarchicalNormalSpaceSampling:: finished executing"<<endl;
 
 }
 
 
-void det_HierarchicalNormalSpaceSampling::hierarchizeSet(ElementSet *X) {
+void det_HierarchicalNormalSpaceSampling::hierarchizeSet(ElementSet *X, vector<vector<Point*>* > *pyramid, vector<vector<vector<Point*> > > *buckets) {
 
   //  cout << "HierarchicalNormalSpaceSampling running..., Hierarchizing with "<<    data->params.nLevels<<" levels " << endl;
     const double PI = 3.141592653589793;
@@ -80,22 +81,22 @@ void det_HierarchicalNormalSpaceSampling::hierarchizeSet(ElementSet *X) {
          if(binY==numBucketsDimension)binY--;
 
          // Add it to the Bin
-         buckets[binX][binY].push_back( (*allThePoints)[compt] );
+         (*buckets)[binX][binY].push_back( (*allThePoints)[compt] );
          //cout << "HierarchicalNormalSpaceSampling Listing points and normals. "<<(*it).first<<" and "<<(*it).second<<" has angles "<<phi<<","<<theta<<" and radius "<<radius<<" goes to bins ("<<binX<<","<<binY<<") this bucket has this many points "<<buckets[binX][binY].size()<<endl;
          compt++;
      }
 
     // Build piramid with the proper points
     // The lowermost set is the whole of X
-    pyramid=vector<vector<Point*>* >();
-    pyramid.push_back(allThePoints);
+    (*pyramid)=vector<vector<Point*>* >();
+    (*pyramid).push_back(allThePoints);
 
-    double currentSize=X->nPoints()/4;
+    double currentSize=X->nPoints()/step;
     int level=1;
     int totalBuckets=numBucketsDimension*numBucketsDimension;
     while((level<numLevels)&&(currentSize>minNumber))
     {
-        vector<vector<int> >* contributions=contributionPerBucket(currentSize, &buckets);
+        vector<vector<int> >* contributions=contributionPerBucket(currentSize, buckets);
    //     cout<<"Starting LEVEL "<<level<<" need "<<currentSize<<" going as far down as "<<minNumber<<endl;
 
         // now go over the bucket and sample randomly the proper number in each bucket
@@ -106,7 +107,7 @@ void det_HierarchicalNormalSpaceSampling::hierarchizeSet(ElementSet *X) {
             for(int j=0;j<numBucketsDimension;j++)
             {
                 // Get random dampling of the assgined contributions per bucket in this bucket
-                vector<Point *> *randSampling=randomSample(&buckets[i][j],(*contributions)[i][j]);
+                vector<Point *> *randSampling=randomSample(&(*buckets)[i][j],(*contributions)[i][j]);
 
                 // add the elements in the uniform sampling to cAux
                 for (int l = 0; l < randSampling->size(); l++) {
@@ -115,10 +116,10 @@ void det_HierarchicalNormalSpaceSampling::hierarchizeSet(ElementSet *X) {
             }
         }
 
-        pyramid.push_back(pointsInThisLevel);
+        (*pyramid).push_back(pointsInThisLevel);
  //       cout<<"FINISHED LEVEL "<<level<<" contributed "<<pointsInThisLevel->size()<<endl;
         level++;
-        currentSize=currentSize/4;
+        currentSize=currentSize/step;
 
     }
 
@@ -215,29 +216,67 @@ vector<vector<int> >*  det_HierarchicalNormalSpaceSampling::contributionPerBucke
 
 void det_HierarchicalNormalSpaceSampling::extractHierarchicalNormalSpaceSampling(int sample) {
 //cout<<"det_HierarchicalNormalSpaceSampling::extractHierarchicalNormalSpaceSampling, we want to extract "<<sample<<" points"<<endl;
-// FIRST find proper level
-    int i=pyramid.size()-1;
+
+    // sample the two sets separately
+
+    // FIRST find proper level
+    int i=pyramidA.size()-1;
     bool finished=false;
     while( (i>0)&&!finished)
     {
   //   cout<<"Trying to sample at level "<<i<<" here we have this many points "<<pyramid[i]->size()<<" we need "<<sample<<endl;
-        if(sample<pyramid[i]->size())
+        if(sample<pyramidA[i]->size())
         {
-            vector<Point*> *v=data->B->getWorkpoints();
-            v  = randomSample(pyramid[i], sample);
+            vector<Point*> *v=data->A->getWorkpoints();
+            v  = randomSample(pyramidA[i], sample);
             finished=true;
         }
         else{
 
             i--;
-    //        cout<<"decreased "<<i<<endl;
 
         }
     }
 
-//    X->createFileFromData("../models/test4Scaled.ply", "../models/provanormals.ply", true);
+    // FIRST find proper level
+    i=pyramidB.size()-1;
+    finished=false;
+    while( (i>0)&&!finished)
+    {
+        //   cout<<"Trying to sample at level "<<i<<" here we have this many points "<<pyramid[i]->size()<<" we need "<<sample<<endl;
+        if(sample<pyramidB[i]->size())
+        {
+            vector<Point*> *v=data->B->getWorkpoints();
+            v  = randomSample(pyramidB[i], sample);
+            finished=true;
+        }
+        else{
+
+            i--;
+
+        }
+    }
+
 
 }
+
+void det_HierarchicalNormalSpaceSampling::extractHierarchicalNormalSpaceLevel(int level)
+{
+    data->A->getWorkpoints()->clear();
+    data->B->getWorkpoints()->clear();
+
+//    cout<<"det_HierarchicalNormalSpaceSampling sampling level "<<level<<" of "<<pyramidA.size()<<" with this many points "<<pyramidA[level]->size()<<" and "<<data->A->getWorkpoints()->size()<<endl;
+    for(int i=0;i<pyramidA[level]->size();i++) {
+           data->A->getWorkpoints()->push_back((*pyramidA[level])[i]);
+    }
+
+    for(int i=0;i<pyramidB[level]->size();i++) {
+        data->B->getWorkpoints()->push_back((*pyramidB[level])[i]);
+    }
+  //  cout<<"det_HierarchicalNormalSpaceSampling sampled level "<<level<<" of "<<pyramidA.size()<<" with this many points "<<pyramidA[level]->size()<<" and "<<data->A->getWorkpoints()->size()<<endl;
+
+}
+
 
 vector<Point *> * randomSample(vector<Point *> *v, int numSamples)
 {
@@ -264,3 +303,4 @@ vector<Point *> * randomSample(vector<Point *> *v, int numSamples)
 
     return NULL;
 }
+

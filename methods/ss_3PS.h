@@ -22,7 +22,7 @@ public:
     ~ss_3PS();
 
     void setData(Data *d);
-    void execute();
+    double execute();
 
     Base * selectBase(ElementSet * es);
     Base *selectOrthogonalBase(ElementSet *es, double thrs);

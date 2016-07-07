@@ -16,7 +16,7 @@ public:
     ~ss_Grid3D();
 
     void setData(Data *d);
-    void execute();
+    double execute();
 };
 
 

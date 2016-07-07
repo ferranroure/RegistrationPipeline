@@ -62,33 +62,35 @@
       <sourceFolder url="file://$MODULE_DIR$/IRefinement.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/IDescription.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/methods/ss_SmartForce.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/methods/det_ColorSpaceSampling.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/methods/des_sp.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/methods/des_sp.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/methods/det_NormalSpaceSampling.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/methods/det_HierarchicalNormalSpaceSampling.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/methods/det_RandomSampling.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/methods/det_ColorSpaceSampling.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/methods/det_iss.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/methods/des_shot.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/methods/det_iss.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/methods/des_shot.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/methods/det_HierarchicalNormalSpaceSampling.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/methods/ss_3PS.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/methods/det_KinectSuperSampling.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/methods/ref_icp.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/methods/ss_Grid3D.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/methods/det_ColorSpaceSampling.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/methods/det_DistConnectedComponents.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/methods/ss_3PS.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/methods/des_sp.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/methods/det_HierarchicalNormalSpaceSampling.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/methods/det_NormalSpaceSampling.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/methods/ss_Grid3D.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/methods/det_KinectSuperSampling.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/methods/ss_SmartForce.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/methods/det_NormalSpaceSampling.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/methods/ss_3PS.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/methods/des_shot.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/methods/ss_4PCS.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/methods/ss_4PCS.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/methods/ref_icp.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/methods/des_sp.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/methods/det_KinectSuperSampling.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/methods/det_RandomSampling.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/methods/det_ColorSpaceSampling.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/methods/ss_Grid3D.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/methods/ss_4PCS.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/methods/det_HierarchicalNormalSpaceSampling.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/methods/det_iss.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/methods/ref_icp.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/methods/det_RandomSampling.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/methods/ss_4PCS.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/methods/des_shot.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/methods/det_DistConnectedComponents.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/methods/ss_SmartForce.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/methods/ss_HNSS.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/methods/det_DistConnectedComponents.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/methods/ref_icp.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/methods/ss_HNSS.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/data.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/inputhandler.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />

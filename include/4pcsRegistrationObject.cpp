@@ -1084,29 +1084,45 @@ void fpcsRegistrationObject::initialize(std::vector<Point3D> &v1,std::vector<Poi
 	sampMapP.clear();
 	sampMapQ.clear();
 
-	// SEL·LECCIÓ RANDOM UNA MICA ESTRANYA.
-	// sample és el número de punts que li diem a la crida del compute.
-	// Agafa els randoms divisibles per s1 i s2. Acaba aconseguint més o menys #"sample" punts.
-	int s1 = v1.size()/sample;
-	int s2 = v2.size()/sample;
+	if(sample<v1.size())
+	{
+		cout<<"************************************************************************************************************************************sampling needed "<<v1.size()<<endl;
 
-	for (i=0;i<v1.size();i++)
-	{
-		if (rand()%s1==0)
-		{
-//			cout << "id: " << i << endl;
-			list1.push_back(v1[i]);
-			sampMapP.push_back(i);
+		// SEL·LECCIÓ RANDOM UNA MICA ESTRANYA.
+		// sample és el número de punts que li diem a la crida del compute.
+		// Agafa els randoms divisibles per s1 i s2. Acaba aconseguint més o menys #"sample" punts.
+		int s1 = v1.size() / sample;
+		int s2 = v2.size() / sample;
+
+		for (i = 0; i < v1.size(); i++) {
+			if (rand() % s1 == 0) {
+				//			cout << "id: " << i << endl;
+				list1.push_back(v1[i]);
+				sampMapP.push_back(i);
+			}
+		}
+		for (i = 0; i < v2.size(); i++) {
+			if (rand() % s2 == 0) {
+				list2.push_back(v2[i]);
+				sampMapQ.push_back(i);
+			}
 		}
 	}
-	for (i=0;i<v2.size();i++)
+	else// no sampling needed
 	{
-		if (rand()%s2==0)
-		{
-			list2.push_back(v2[i]);
-			sampMapQ.push_back(i);
+		//cout<<"no sampling "<<v1.size()<<endl;
+
+		for (i = 0; i < v1.size(); i++) {
+				list1.push_back(v1[i]);
+				sampMapP.push_back(i);
+		}
+		for (i = 0; i < v2.size(); i++) {
+				list2.push_back(v2[i]);
+				sampMapQ.push_back(i);
 		}
 	}
+
+	cout<<"dins del 4points object, he samplejat "<<list1.size()<<" "<<list2.size()<<" venitn de smaple "<<sample<<endl;
 
 	// TOTA AQUESTA HISTÒRIA ÉS PER TRASLLADAR ELS PUNTS SELECIONATS AL CENTRE DE MASSES
 	// I TREBALLAR DES D'ALLÀ.
@@ -1150,7 +1166,7 @@ void fpcsRegistrationObject::initialize(std::vector<Point3D> &v1,std::vector<Poi
 
 	// passa de la llista a un format per tractar amb el kdtree.
 	int n_pts = list1.size();
-//	cout << "# of samples: " << n_pts << endl;
+//cout << "# of samples: " << n_pts << endl;
 
 	if (dataStruct) delete dataStruct;
 
@@ -1168,19 +1184,36 @@ void fpcsRegistrationObject::initialize(std::vector<Point3D> &v1,std::vector<Poi
 	diam = 0.0;
 	int at,bt;
 	// FIX_RAND = 1000.
-	for (i=0;i<FIX_RAND;i++)
-	{
-		// suposo que deu ser per agafar un punt random dins de list2.size();
-		at=rand()%list2.size();
-		bt=rand()%list2.size();
-		// crea un vector entre els dos punts sel·leccionats
-		point u(list2[bt].x-list2[at].x,list2[bt].y-list2[at].y,list2[bt].z-list2[at].z);
-		double l=len(u);
-		// n'extreu la distància i ho fa servir de diamatre (suposo que servirà per sel·leccionar el quad inicial)
-		if (l>diam)
-		{
-			diam = l;
+	if(FIX_RAND<list2.size()) {
+		for (i = 0; i < FIX_RAND; i++) {
+			// suposo que deu ser per agafar un punt random dins de list2.size();
+			at = rand() % list2.size();
+			bt = rand() % list2.size();
+			// crea un vector entre els dos punts sel·leccionats
+			point u(list2[bt].x - list2[at].x, list2[bt].y - list2[at].y, list2[bt].z - list2[at].z);
+			double l = len(u);
+			// n'extreu la distància i ho fa servir de diametre (suposo que servirà per sel·leccionar el quad inicial)
+			if (l > diam) {
+				diam = l;
+			}
 		}
+		cout<<"4pcs regobject approximate diameter "<<diam<<endl;
+
+	}
+else // we have few points so we compute the real diameter
+ {
+		for (i = 0; i < list2.size(); i++) {
+			for (j = 0; j < list2.size(); j++) {
+				// crea un vector entre els dos punts sel·leccionats
+				point u(list2[i].x - list2[j].x, list2[i].y - list2[j].y, list2[i].z - list2[j].z);
+				double l = len(u);
+				// n'extreu la distància i ho fa servir de diametre (suposo que servirà per sel·leccionar el quad inicial)
+				if (l > diam) {
+					diam = l;
+				}
+			}
+		}
+	cout<<"4pcs regobject Computed diameter "<<diam<<endl;
 	}
 
 
@@ -1234,10 +1267,10 @@ bool fpcsRegistrationObject::perform_N_steps(int n,double mat[4][4],vector<Point
 	float lb=bestf;
 
 
-//	cout << "4PCS_reg::Numtry = " << numTry << endl;
+//	cout << "4PCS_reg::Numtry = " << numTry <<" "<<n<<endl;
 	for (i=currentTry;i<currentTry+n;i++)
 	{
-//		cout << "4PCS_reg :: tries: " << i << " ";
+//		cout << "4PCS_reg :: tries: " << i << " "<<endl;
 		ok=tryOne(list1,list2,bestf,cdelta,rMat);
 		if (ok || i>numTry) break;
 	}
@@ -1293,6 +1326,10 @@ bool fpcsRegistrationObject::perform_N_steps(int n,double mat[4][4],vector<Point
 		}
 		v2 = ccv;
 	}
+
+	if(!ok) {cout<<"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++4points Failed to produce a result "<<endl; }
+	else{cout<<"++++++++++++++++++++++++++++++++++++++++++++++++++++Finished ok!"<<endl;}
+
 	return ok || currentTry>numTry;
 }
 
@@ -1300,7 +1337,6 @@ bool fpcsRegistrationObject::perform_N_steps(int n,double mat[4][4],vector<Point
 float fpcsRegistrationObject::compute(vector<Point3D> &v1, vector<Point3D> &v2, float delta, float overlapEstimation,
 									  double mat[4][4])
 {
-
 	initialize(v1,v2,delta,overlapEstimation);
 
 //	writePly("../models/bases/model4pcsA.ply", list1);

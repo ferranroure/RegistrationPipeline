@@ -211,7 +211,7 @@ vector<Base*> ss_3PS::findOrthogonalCandidates(Point *a, Point *b, ElementSet *e
 
 
 
-void ss_3PS::execute() {
+double ss_3PS::execute() {
 
     /*
      * ESQUEMA DE L'ALGORISME
@@ -379,6 +379,6 @@ void ss_3PS::execute() {
 
 
     }
-
+return percPairedPoints;
 
 }

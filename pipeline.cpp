@@ -1,4 +1,5 @@
 #include "pipeline.h"
+#include "methods/ss_HNSS.h"
 
 
 /* CONSTRUCTOR ------------------------------------------------------------
@@ -100,15 +101,15 @@ void Pipeline::createMethods(){
         }
     }
 
-    // Searching Strategies ---
+    // Searching Strategies --- // hierarchichal and not
     if(data->params.useSS){
         if(data->params.SSMethod == "SmartForce"){
             searching = new ss_SmartForce();
             searching->setData(data);
         }
         else if(data->params.SSMethod == "4PCS"){
-            searching = new ss_4PCS();
-            searching->setData(data);
+             searching = new ss_4PCS();
+             searching->setData(data);
         }
         else if(data->params.SSMethod == "3PS"){
             searching = new ss_3PS();
@@ -122,6 +123,15 @@ void Pipeline::createMethods(){
             cerr << "ERROR: The Searching Strategy method is not valid." << endl;
             exit(EXIT_FAILURE);
         }
+
+        // Set the hierarchical part
+        if(data->params.useDetection&&data->params.detectMethod == "HierarchicalNormalSpaceSampling")
+        {
+            ISearchingStrategy *searchingInner=searching;
+            searching = new ss_HNSS(searchingInner,(det_HierarchicalNormalSpaceSampling*)detection);
+            searching->setData(data);
+        }
+
     }
 
     // Refinement ---
@@ -214,7 +224,6 @@ void Pipeline::execute(){
     }
 
 //
-     cout << "Coarse Alignment results:" << endl;
      computeResidue(false);
 
 //    exit(0);

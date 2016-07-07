@@ -36,7 +36,7 @@ public:
     ~ISearchingStrategy();
 
     virtual void setData(Data *d) = 0;
-    virtual void execute() = 0;
+    virtual double execute() = 0; // should return the percentage of coupled points so the pipeline can tell if the matching went well.
 
     motion3D *findBestMotion(float thrs, Base *BA, Base *BB, double &minRes, float &percPairedPoints,
                                                  motion3D *bestMotion, float percOfPoints);

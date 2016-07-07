@@ -18,7 +18,7 @@ void ss_Grid3D::setData(Data *d) {
     data = d;
 }
 
-void ss_Grid3D::execute() {
+double ss_Grid3D::execute() {
 
     Point *pA = data->A->getRandomPoint();                  // Use random point from A.
 //    Point *pA = data->A->getPoint(58);                    // Use specific point from A for the tests.
@@ -236,5 +236,7 @@ void ss_Grid3D::execute() {
     cout << "Residue: " << minRes << endl;
     cout << "Num of total cells: " << nCells*nCells*nCells*n << endl; // REVISAR QUE AIXO ESTÀ MALAMENT!
     cout << "Num of explored cells: " << count << endl;
+
+    return ((float)pairedPoints / size );
 }
 

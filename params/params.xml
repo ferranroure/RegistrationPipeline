@@ -1,27 +1,19 @@
 <params>
     <files>
         <realData>true</realData>
-        <!--<infile>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/coral_right.ply</infile>-->
-        <!--<infile2>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/coral_left_moved.ply</infile2>-->
-        <!--<infile>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/Rocks_right.ply</infile>-->
-        <!--<infile2>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/Rocks_left_moved.ply</infile2>-->
         <infile>../../models/bun0.ply</infile>
         <infile2>../../models/bun1.ply</infile2>
-        <!--<infile>../../models/prova/office0.ply</infile>-->
-        <!--<infile2>../../models/prova/office1.ply</infile2>-->
-        <!--<infileTemp>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/temp.ply</infileTemp>-->
-        <!--<outfile>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/out.ply</outfile>-->
         <infileTemp>../../models/temp.ply</infileTemp>
         <outfile>../../models/sts/out.ply</outfile>
         <outres>/home/yago/code/RegistrationPipeline/workDir/descriptors.txt</outres>
     </files>
 
     <methods>
-        <detection use="true">
+        <detection use="false">
             <method>HierarchicalNormalSpaceSampling</method>
             <properties>
-                <nSamples>1000</nSamples>
-                <nLevels>10</nLevels>
+                <nSamples>100</nSamples>
+                <nLevels>15</nLevels>
             </properties>
         </detection>
 
@@ -33,21 +25,20 @@
                 <nNeighbours>100</nNeighbours>
             </properties>
         </description>
-<!--
-        <searchingStrategies use="TRUE">
-            <method>DescriptorTestPCL</method>
-            <properties></properties>
-        </searchingStrategies>
--->
 
         <searchingStrategies use="true">
-            <!--<method>3PS</method>-->
             <method>4PCS</method>
-            <!--<method>SmartForce</method>-->
             <properties>
                 <nCells>3</nCells>
                 <thrsFactor>1</thrsFactor>
             </properties>
+	    <cmdLineParam use="false"> <!-- NEW!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+		<thr>0.21</thr>
+    		<n_points>1000</n_points>	
+		<norm_diff>360</norm_diff>
+		<delta>0.1</delta>
+		<overlap>0.3</overlap>	
+	    </cmdLineParam>
         </searchingStrategies>
 
         <refinement use="true">

@@ -14,7 +14,7 @@ void ss_SmartForce::setData(Data *d) {
     data = d;
 }
 
-void ss_SmartForce::execute() {
+double ss_SmartForce::execute() {
 
 
 //    cout << "SSSSSSSSSSSSSSSSS" << endl;
@@ -105,5 +105,6 @@ void ss_SmartForce::execute() {
 
     //exit(0);
 
+    return percPairedPoints;
 }
 

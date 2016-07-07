@@ -121,6 +121,7 @@ ElementSet::ElementSet(string file, string _DSType, float normFactor) {
     normals = NULL;
     dataStructureType = _DSType;
 
+    pcl::PCDReader reader;
 
     PlyIO plyio;
     points = plyio.readFile(file);

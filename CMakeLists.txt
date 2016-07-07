@@ -191,7 +191,7 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
             IDescription.h
             ISearchingStrategy.h
             ISearchingStrategy.cpp
-            IRefinement.h methods/det_HierarchicalNormalSpaceSampling.cpp methods/det_HierarchicalNormalSpaceSampling.h)
+            IRefinement.h methods/det_HierarchicalNormalSpaceSampling.cpp methods/det_HierarchicalNormalSpaceSampling.h methods/ss_HNSS.cpp methods/ss_HNSS.h)
 
     # -pg -> profiler
     # -frounding-math -> something for CGAL library

@@ -47,10 +47,19 @@ struct parameters{
     string SSMethod;                    // Searching Strategy method.
     string refineMethod;                // Refinement method.
 
-    int nLevels;                        // Number of levels for Grid3D method.
+    // parameters for the 4points data structure
+    bool fourPUseCmdLineP;                   // Turn this on or of at will
+    float thr;                          // threshold for sets to be considered matched
+    int nPoints;                       // Number of points sampled at the start of the 4points algorithm
+    float normDiff;                    // difference between normals?
+    float delta;                        // distance allowed for two points to be considered neighbors also works with base points
+    float overlap;                      // expected matching overlap between sets, condition what bases are accepted
+
+    int nLevels;                        // Number of levels for Grid3D method. MODIFIED, CURRENTLY THE NUMBERS OF LEVELS OF THE HNSS PYRAMIDS
     int nCells;                         // Number of cells x dimension for Grid3D method.
     float percOfPoints;                 // % of points of the object used to search NN residue.
-    int nSamples;                       // Number of sample points extracted in detection step.
+    int nSamples;                       // Number of sample points extracted in detection step. In the case of HNSS it is the size of the dataset at the top of the pyramid
+   // int FourPCSSample;                     // the number of points sampled by the 4PCS
     bool normalizeModels;               // Boolean about if models must be normalized or not. (divide points by biggest diagonal).
     string dataStructure;               // Data Structure used for Nearest Neighbour searching and Residue computation.
 

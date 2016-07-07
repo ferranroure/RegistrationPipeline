@@ -261,6 +261,13 @@ void Data::setParametersXML(char * paramsfile){
     XMLElement *SSProp =  SS->FirstChildElement("properties");
     params.nCells = atoi( SSProp->FirstChildElement("nCells")->GetText() );
     params.thrsFactor = atoi( SSProp->FirstChildElement("thrsFactor")->GetText() );
+    XMLElement *FourPParams = SS->FirstChildElement("cmdLineParam");
+    params.fourPUseCmdLineP = toBool(FourPParams->Attribute("use"));
+    params.thr = atof(FourPParams->FirstChildElement("thr")->GetText());
+    params.nPoints = atoi(FourPParams->FirstChildElement("n_points")->GetText());
+    params.normDiff = atof(FourPParams->FirstChildElement("norm_diff")->GetText());
+    params.delta = atof(FourPParams->FirstChildElement("delta")->GetText());
+    params.overlap = atof(FourPParams->FirstChildElement("overlap")->GetText());
 
     XMLElement *ref = methods->FirstChildElement("refinement");
     params.refineMethod = ref->FirstChildElement("method")->GetText();

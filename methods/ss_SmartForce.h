@@ -18,7 +18,7 @@ public:
     ~ss_SmartForce();
 
     void setData(Data *d);
-    void execute();
+    double execute();
 
 };
 
