@@ -1,8 +1,10 @@
 <params>
     <files>
         <realData>true</realData>
-        <infile>../../models/bun0.ply</infile>
-        <infile2>../../models/bun1.ply</infile2>
+      <!--  <infile>../../models/bun0.ply</infile> -->
+      <!--  <infile2>../../models/bun1.ply</infile2> -->
+      <infile>/home/yago/code/codePCLGUYS/code_example_high_res_laser/data/bremen_source.pcd</infile> 
+      <infile2>/home/yago/code/codePCLGUYS/code_example_high_res_laser/data/bremen_target.pcd</infile2> 
         <infileTemp>../../models/temp.ply</infileTemp>
         <outfile>../../models/sts/out.ply</outfile>
         <outres>/home/yago/code/RegistrationPipeline/workDir/descriptors.txt</outres>

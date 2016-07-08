@@ -2,6 +2,7 @@
 #include "DataStructures/compressedOctree/myCompressedOctree.h"
 #include "DataStructures/noDataStructure/noDataStructure.h"
 #include "timer.h"
+#include <pcl/io/ply_io.h>
 
 /* CONSTRUCTOR -----------------------------------------------------------
  *
@@ -121,12 +122,11 @@ ElementSet::ElementSet(string file, string _DSType, float normFactor) {
     normals = NULL;
     dataStructureType = _DSType;
 
-    pcl::PCDReader reader;
+    // first check if the file is in ply format (use ply reader) or not (use pcl)
+     PlyIO plyio;
+     points = plyio.readFile(file);
 
-    PlyIO plyio;
-    points = plyio.readFile(file);
-
-    if(normFactor!=1){
+    if (normFactor != 1) {
 
         scalePoints(normFactor);
     }
@@ -136,9 +136,10 @@ ElementSet::ElementSet(string file, string _DSType, float normFactor) {
     createDataStructure();
     calcMMD();
 
+}
 
 //    pcl = new myPCL(points, MMD);
-}
+
 
 
 /* DESTRUCTOR -----------------------------------------------------------

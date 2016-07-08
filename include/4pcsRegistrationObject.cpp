@@ -1122,8 +1122,6 @@ void fpcsRegistrationObject::initialize(std::vector<Point3D> &v1,std::vector<Poi
 		}
 	}
 
-	cout<<"dins del 4points object, he samplejat "<<list1.size()<<" "<<list2.size()<<" venitn de smaple "<<sample<<endl;
-
 	// TOTA AQUESTA HISTÒRIA ÉS PER TRASLLADAR ELS PUNTS SELECIONATS AL CENTRE DE MASSES
 	// I TREBALLAR DES D'ALLÀ.
 	for (i=0;i<list1.size();i++)
@@ -1197,7 +1195,6 @@ void fpcsRegistrationObject::initialize(std::vector<Point3D> &v1,std::vector<Poi
 				diam = l;
 			}
 		}
-		cout<<"4pcs regobject approximate diameter "<<diam<<endl;
 
 	}
 else // we have few points so we compute the real diameter
@@ -1213,7 +1210,6 @@ else // we have few points so we compute the real diameter
 				}
 			}
 		}
-	cout<<"4pcs regobject Computed diameter "<<diam<<endl;
 	}
 
 

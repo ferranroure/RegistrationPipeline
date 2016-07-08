@@ -23,6 +23,7 @@
 #include "include/plyio.h"
 #include "include/elementset.h"
 #include "external/tinyxml2.h"
+#include <pcl/io/ply_io.h>
 
 using namespace std;
 using namespace tinyxml2;

@@ -2,6 +2,36 @@
 #include "IDescription.h"
 #include "methods/des_shot.h"
 
+
+string processFileByFormat(string file) // take a file name and, if it is not in ply format, change to ply and return the new name
+{
+
+    string suffix= file.substr (file.size()-4);
+
+    if(suffix.compare(".ply")==0){return file;} //if the format is ply, do nothing
+    else {
+        cout << "READING FILE in " << suffix << " format " << file << endl;
+        pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_input(new pcl::PointCloud<pcl::PointXYZ>);
+
+        // read pcd file
+        pcl::PCDReader reader;
+        if (reader.read(file, *cloud_input) < 0) {
+            cout << "Error opening file: " << file << endl;
+            throw ("Error opening file: %s.\n", file);
+        }
+
+        // also possible to write the shit in ply format
+        pcl::PLYWriter writer;
+        string newFileName = file.substr(0,file.size()-4)+".ply";
+        writer.write(newFileName, *cloud_input);
+
+        return newFileName;
+
+
+    }
+
+}
+
 /* CONSTRUCTOR -------------------------------------------------------------
  *
  */
@@ -234,6 +264,11 @@ void Data::setParametersXML(char * paramsfile){
     params.realData = toBool( files->FirstChildElement("realData")->GetText() );
     params.infile = files->FirstChildElement("infile")->GetText();
     params.infile2 = files->FirstChildElement("infile2")->GetText();
+
+  // check if it is ply or not and fix if necessary
+    params.infile=processFileByFormat(params.infile);
+    params.infile2=processFileByFormat(params.infile2);
+
     params.infileTemp = files->FirstChildElement("infileTemp")->GetText();
     params.outfile = files->FirstChildElement("outfile")->GetText();
     params.outres = files->FirstChildElement("outres")->GetText();
@@ -315,4 +350,5 @@ void Data::crearteFileFromBase(string path, Point x, Point y, Point z){
     lin->push_back(z);
     plyio.writeBase(path, lin);
 }
+
 

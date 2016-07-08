@@ -38,7 +38,19 @@ vector<int> converterPCL::points2PCLindices(vector<Point *> *points) {
 }
 
 vector<Point> *converterPCL::PCL2points(PointCloud<PointXYZ>::Ptr cloud) {
-    return NULL;
+
+    vector<Point> *pointsToReturn = new vector<Point>();
+
+    pcl::PointCloud<pcl::PointXYZ>::iterator it;
+
+    for (it = cloud->points.begin(); it < cloud->points.end(); it++) {
+
+        pointsToReturn->push_back(Point(it->x,it->y,it->z));
+
+    }
+
+    return pointsToReturn;
+
 }
 
 PointCloud<Normal>::Ptr converterPCL::calcNormals(PointCloud<PointXYZ>::Ptr cloud, float radiusSearch) {
