@@ -22,6 +22,7 @@
 #include "external/motion3D.h"
 #include "include/base.h"
 
+
 class ISearchingStrategy
 {
 protected:

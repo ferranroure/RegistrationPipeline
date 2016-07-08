@@ -42,7 +42,7 @@
 
         <searchingStrategies use="true">
             <!--<method>3PS</method>-->
-            <method>4PCS</method>
+            <method>Super4PCS</method>
             <!--<method>SmartForce</method>-->
             <properties>
                 <nCells>3</nCells>

@@ -54,7 +54,12 @@ void ss_4PCS::execute() {
     matcher.setUseNormal(true);
     matcher.setDataStructType(data->params.dataStructure);
 
+    Timer timer;
+    timer.reset();
     float a = matcher.compute(*set1, *set2, delta, overlap, mat);
+    double time = timer.elapsed();
+    cout << "Computing Time: " << time << endl;
+
     data->cM = a4pcs.mat2motion(mat);
 //    data->cM->write(cout);
     delete set1, set2;

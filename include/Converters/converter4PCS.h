@@ -18,4 +18,4 @@ public:
 };
 
 
-#endif //ADAPTER4PCS_H
+#endif

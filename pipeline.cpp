@@ -114,6 +114,10 @@ void Pipeline::createMethods(){
             searching = new ss_Grid3D();
             searching->setData(data);
         }
+        else if(data->params.SSMethod == "Super4PCS"){
+            searching = new ss_Super4PCS();
+            searching->setData(data);
+        }
         else{
             cerr << "ERROR: The Searching Strategy method is not valid." << endl;
             exit(EXIT_FAILURE);

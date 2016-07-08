@@ -102,6 +102,7 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
             methods/ss_4PCS.cpp
             methods/ss_3PS.cpp
             methods/ss_Grid3D.cpp
+            methods/ss_Super4PCS.cpp
             include/elementset.cpp
             include/myicp.cpp
             include/DataStructures/kdtree/mykdtree.cpp
@@ -127,6 +128,7 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
             include/Converters/converterGridTree.cpp
             include/Converters/converterFlann.cpp
             include/Converters/converterKdtreeCV.cpp
+            include/Converters/converterSuper4PCS.cpp
             include/4pcsRegistrationObject.cpp
             include/DataStructures/octree/Octree.cpp
             include/DataStructures/octree/Node.cpp
@@ -191,22 +193,61 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
             include/IManagerIO.h
             include/DataStructures/IDataStructure.h
 
+#            external/Super4PCS/super4pcs/super4pcs.cc
+#            external/Super4PCS/super4pcs/shared4pcs.h
+
+
             IDetection.h
             IDescription.h
             ISearchingStrategy.h
             ISearchingStrategy.cpp
             IRefinement.h )
 
+
+
     # -pg -> profiler
     # -frounding-math -> something for CGAL library
-#    set(CMAKE_CXX_FLAGS "-std=c++11 -frounding-math")
+    #    set(CMAKE_CXX_FLAGS "-std=c++11 -frounding-math")
     #    set(CMAKE_CXX_FLAGS "-pg -frounding-math")
-    set(CMAKE_CXX_FLAGS "-frounding-math")
+    set(CMAKE_CXX_FLAGS "-frounding-math -std=c++11" )
+
+    #adding super4pcs ------------------------------------------------------------------------------
+
+    # add the binary tree to the search path for include files
+#    include_directories("${PROJECT_BINARY_DIR}")
+
+
+    set(Super4PCS_DIR ${PROJECT_SOURCE_DIR}/external/Super4PCS/super4pcs)
+    include_directories(${Super4PCS_DIR})
+
+    list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/external/Super4PCS/cmake")
+
+    add_subdirectory(${PROJECT_SOURCE_DIR}/external/Super4PCS/3rdparty/chealpix EXCLUDE_FROM_ALL)
+    include_directories(${Chealpix_INCLUDE_DIR})
+
+    set(Super4PCS_SRC
+            ${Super4PCS_DIR}/4pcs.cc
+            ${Super4PCS_DIR}/super4pcs.cc
+            )
+    set(Super4PCS_INCLUDE
+            ${Super4PCS_DIR}/shared4pcs.h
+            ${Super4PCS_DIR}/pairExtraction.h
+            ${Super4PCS_DIR}/4pcs.h
+            ${Super4PCS_DIR}/pairCreationFunctor.h
+            )
+
+    add_subdirectory(${Super4PCS_DIR}/io)
+    add_subdirectory(${Super4PCS_DIR}/accelerators)
+
+    add_library(super4pcs_algo  ${Super4PCS_SRC} ${Super4PCS_INCLUDE})
+
 
     add_executable( Pipeline ${SOURCES} )
-    target_link_libraries(Pipeline ${ANN_LIB} ${PCL_LIBRARIES} ${OpenCV_LIBS} ${VTK_LIBRARIES} ${CGAL_LIB} -L/opt/lib)
+    target_link_libraries(${PROJECT_NAME} ${ANN_LIB} ${PCL_LIBRARIES} ${OpenCV_LIBS} ${VTK_LIBRARIES} ${CGAL_LIB} -L/opt/lib)
+    TARGET_LINK_LIBRARIES(super4pcs_algo super4pcs_io super4pcs_accel)
+    TARGET_LINK_LIBRARIES(${PROJECT_NAME} super4pcs_algo)
+    TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${Chealpix_LIBS} )
 
-    #${NEWMAT_LIB} -> sembla que no cal.
 
 else()
 
