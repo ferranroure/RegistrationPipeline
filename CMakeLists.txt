@@ -113,6 +113,7 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
             include/DataStructures/gridTree/myGridTree.cpp
             include/DataStructures/flann/myFlann.cpp
             include/DataStructures/kdtreeCV/myKdtreeCV.cpp
+            include/DataStructures/4PCSkdtree/my4PCSkdtree.cpp
             include/mypcl.cpp
             include/plyio.cpp
             include/point.cpp

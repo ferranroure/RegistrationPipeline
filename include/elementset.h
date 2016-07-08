@@ -33,6 +33,7 @@
 #include "DataStructures/noDataStructure/noDataStructure.h"
 #include "DataStructures/flann/myFlann.h"
 #include "DataStructures/kdtreeCV/myKdtreeCV.h"
+#include "DataStructures/4PCSkdtree/my4PCSkdtree.h"
 
 
 using namespace std;

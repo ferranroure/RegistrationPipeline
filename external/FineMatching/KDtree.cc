@@ -42,7 +42,7 @@ typedef pair<float, const float *> pt_with_d;
 
 
 // Class for nodes in the K-D tree
-class KDtree::Node {
+class ICPtree::KDtree::Node {
 private:
 	static PoolAlloc memPool;
 
@@ -53,7 +53,7 @@ public:
 		const float *p, *dir;
 		const float *closest;
 		float closest_d, closest_d2;
-		const KDtree::CompatFunc *iscompat;
+		const ICPtree::KDtree::CompatFunc *iscompat;
 		size_t k;
 		vector<pt_with_d> knn;
 	};
@@ -90,11 +90,11 @@ public:
 
 
 // Class static variable
-PoolAlloc KDtree::Node::memPool(sizeof(KDtree::Node));
+PoolAlloc ICPtree::KDtree::Node::memPool(sizeof(KDtree::Node));
 
 
 // Create a KD tree from the points pointed to by the array pts
-KDtree::Node::Node(const float **pts, size_t n)
+ICPtree::KDtree::Node::Node(const float **pts, size_t n)
 {
 	// Leaf nodes
 	if (n <= MAX_PTS_PER_NODE) {
@@ -165,7 +165,7 @@ KDtree::Node::Node(const float **pts, size_t n)
 
 
 // Destroy a KD tree node
-KDtree::Node::~Node()
+ICPtree::KDtree::Node::~Node()
 {
 	if (!npts) {
 		delete node.child1;
@@ -175,7 +175,7 @@ KDtree::Node::~Node()
 
 
 // Crawl the KD tree
-void KDtree::Node::find_closest_to_pt(KDtree::Node::Traversal_Info &ti) const
+void ICPtree::KDtree::Node::find_closest_to_pt(ICPtree::KDtree::Node::Traversal_Info &ti) const
 {
 	// Leaf nodes
 	if (npts) {
@@ -211,7 +211,7 @@ void KDtree::Node::find_closest_to_pt(KDtree::Node::Traversal_Info &ti) const
 
 
 // Crawl the KD tree, retaining k closest points
-void KDtree::Node::find_k_closest_to_pt(KDtree::Node::Traversal_Info &ti) const
+void ICPtree::KDtree::Node::find_k_closest_to_pt(ICPtree::KDtree::Node::Traversal_Info &ti) const
 {
 	// Leaf nodes
 	if (npts) {
@@ -256,7 +256,7 @@ void KDtree::Node::find_k_closest_to_pt(KDtree::Node::Traversal_Info &ti) const
 
 // Crawl the KD tree to look for the closest point to
 // the line going through ti.p in the direction ti.dir
-void KDtree::Node::find_closest_to_ray(KDtree::Node::Traversal_Info &ti) const
+void ICPtree::KDtree::Node::find_closest_to_ray(ICPtree::KDtree::Node::Traversal_Info &ti) const
 {
 	// Leaf nodes
 	if (npts) {
@@ -289,7 +289,7 @@ void KDtree::Node::find_closest_to_ray(KDtree::Node::Traversal_Info &ti) const
 
 
 // Create a KDtree from a list of points (i.e., ptlist is a list of 3*n floats)
-void KDtree::build(const float *ptlist, size_t n)
+void ICPtree::KDtree::build(const float *ptlist, size_t n)
 {
 	vector<const float *> pts(n);
 	for (size_t i = 0; i < n; i++)
@@ -300,14 +300,14 @@ void KDtree::build(const float *ptlist, size_t n)
 
 
 // Delete a KDtree
-KDtree::~KDtree()
+ICPtree::KDtree::~KDtree()
 {
 	delete root;
 }
 
 
 // Return the closest point in the KD tree to p
-const float *KDtree::closest_to_pt(const float *p, float maxdist2 /* = 0.0f */,
+const float *ICPtree::KDtree::closest_to_pt(const float *p, float maxdist2 /* = 0.0f */,
 				   const CompatFunc *iscompat /* = NULL */) const
 {
 	Node::Traversal_Info ti;
@@ -328,7 +328,7 @@ const float *KDtree::closest_to_pt(const float *p, float maxdist2 /* = 0.0f */,
 
 // Return the closest point in the KD tree to the line
 // going through p in the direction dir
-const float *KDtree::closest_to_ray(const float *p, const float *dir,
+const float *ICPtree::KDtree::closest_to_ray(const float *p, const float *dir,
 				    float maxdist2 /* = 0.0f */,
 				    const CompatFunc *iscompat /* = NULL */) const
 {
@@ -354,7 +354,7 @@ const float *KDtree::closest_to_ray(const float *p, const float *dir,
 
 
 // Find the k nearest neighbors
-void KDtree::find_k_closest_to_pt(std::vector<const float *> &knn,
+void ICPtree::KDtree::find_k_closest_to_pt(std::vector<const float *> &knn,
 				  int k,
 				  const float *p,
 				  float maxdist2 /* = 0.0f */,

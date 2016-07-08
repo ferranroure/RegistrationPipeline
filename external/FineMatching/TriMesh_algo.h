@@ -187,7 +187,7 @@ extern void find_overlap(TriMesh *mesh1, TriMesh *mesh2,
 
 extern void find_overlap(TriMesh *mesh1, TriMesh *mesh2,
 	const xform &xf1, const xform &xf2,
-	const KDtree *kd1, const KDtree *kd2,
+	const ICPtree::KDtree *kd1, const ICPtree::KDtree *kd2,
 	float &area, float &rmsdist);
 
 #endif
