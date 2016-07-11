@@ -55,8 +55,8 @@ double fineMatching::iCP(xform &xf1,xform &xf2)
 	xf2.read(xffilename2);*/
 
 
-	ICPtree::KDtree *kd1 = new ICPtree::KDtree(mesh1->vertices);
-	ICPtree::KDtree *kd2 = new ICPtree::KDtree(mesh2->vertices);
+	KDtree *kd1 = new KDtree(mesh1->vertices);
+	KDtree *kd2 = new KDtree(mesh2->vertices);
 	vector<float> weights1, weights2;
 
 	if (bulkmode) {

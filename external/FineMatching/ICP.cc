@@ -56,7 +56,7 @@ struct PtPair {
 
 
 // A class for evaluating compatibility of normals during KDtree searches
-class NormCompat : public ICPtree::KDtree::CompatFunc {
+class NormCompat : public KDtree::CompatFunc {
 private:
 	const vec n;
 	TriMesh *m;
@@ -148,7 +148,7 @@ Grid::Grid(const vector<point> &pts)
 // Also fills in maxdist, if it is <= 0 on input
 void compute_overlaps(TriMesh *s1, TriMesh *s2,
 					  const xform &xf1, const xform &xf2,
-					  const ICPtree::KDtree *, const ICPtree::KDtree *,
+					  const KDtree *, const KDtree *,
 					  vector<float> &o1, vector<float> &o2,
 					  float &maxdist, int verbose)
 {
@@ -215,7 +215,7 @@ void compute_overlaps(TriMesh *s1, TriMesh *s2,
 // Select a number of points and find correspondences 
 static void select_and_match(TriMesh *s1, TriMesh *s2,
 							 const xform &xf1, const xform &xf2,
-							 const ICPtree::KDtree *kd2, const vector<float> &sampcdf1,
+							 const KDtree *kd2, const vector<float> &sampcdf1,
 							 float incr, float maxdist, int /* verbose */,
 							 vector<PtPair> &pairs, bool flip)
 {
@@ -452,7 +452,7 @@ void compute_scale(const vector<PtPair> &pairs, xform &alignxf,
 
 // Do one iteration of ICP
 static float ICP_iter(TriMesh *s1, TriMesh *s2, const xform &xf1, xform &xf2,
-					  const ICPtree::KDtree *kd1, const ICPtree::KDtree *kd2,
+					  const KDtree *kd1, const KDtree *kd2,
 					  const vector<float> &weights1, const vector<float> &weights2,
 					  float &maxdist, int verbose,
 					  vector<float> &sampcdf1, vector<float> &sampcdf2,
@@ -643,7 +643,7 @@ static float ICP_iter(TriMesh *s1, TriMesh *s2, const xform &xf1, xform &xf2,
 // Do one iteration of point-to-point ICP (this is done in the early stages
 // to assure stability)
 static float ICP_p2pt(TriMesh *s1, TriMesh *s2, const xform &xf1, xform &xf2,
-					  const ICPtree::KDtree *kd1, const ICPtree::KDtree *kd2,
+					  const KDtree *kd1, const KDtree *kd2,
 					  float &maxdist, int verbose,
 					  vector<float> &sampcdf1, vector<float> &sampcdf2,
 					  float &incr, bool trans_only)
@@ -748,7 +748,7 @@ static float ICP_p2pt(TriMesh *s1, TriMesh *s2, const xform &xf1, xform &xf2,
 // Do ICP.  Aligns mesh s2 to s1, updating xf2 with the new transform.
 // Returns alignment error, or -1 on failure
 float ICP(TriMesh *s1, TriMesh *s2, const xform &xf1, xform &xf2,
-		  const ICPtree::KDtree *kd1, const ICPtree::KDtree *kd2,
+		  const KDtree *kd1, const KDtree *kd2,
 		  vector<float> &weights1, vector<float> &weights2,
 		  float maxdist /* = 0.0f */, int verbose /* = 0 */,
 		  bool do_scale /* = false */, bool do_affine /* = false */)
@@ -910,8 +910,8 @@ float ICP(TriMesh *s1, TriMesh *s2, const xform &xf1, xform &xf2,
 		  int verbose /* = 0 */,
 		  bool do_scale /* = false */, bool do_affine /* = false */)
 {
-	ICPtree::KDtree *kd1 = new ICPtree::KDtree(s1->vertices);
-	ICPtree::KDtree *kd2 = new ICPtree::KDtree(s2->vertices);
+	KDtree *kd1 = new KDtree(s1->vertices);
+	KDtree *kd2 = new KDtree(s2->vertices);
 	vector<float> weights1, weights2;
 	float icperr = ICP(s1, s2, xf1, xf2, kd1, kd2,
 					   weights1, weights2, 0.0f, verbose,

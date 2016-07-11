@@ -24,7 +24,7 @@ static inline float tinyrnd()
 // find_overlap in both directions, below
 static void find_overlap_onedir(TriMesh *mesh1, TriMesh *mesh2,
 				const xform &xf1, const xform &xf2,
-                const ICPtree::KDtree *kd2, float &area, float &rmsdist)
+                const KDtree *kd2, float &area, float &rmsdist)
 {
 //cout<<endl<<"overlap:cc find ovelaproneduit aua1"<<endl;
 	area = 0.0f;
@@ -84,7 +84,7 @@ static void find_overlap_onedir(TriMesh *mesh1, TriMesh *mesh2,
 // rmsdist is unchanged if area returned as zero 
 void find_overlap(TriMesh *mesh1, TriMesh *mesh2,
 		  const xform &xf1, const xform &xf2,
-		  const ICPtree::KDtree *kd1, const ICPtree::KDtree *kd2,
+		  const KDtree *kd1, const KDtree *kd2,
 		  float &area, float &rmsdist)
 {
 	mesh1->need_normals();
@@ -114,8 +114,8 @@ void find_overlap(TriMesh *mesh1, TriMesh *mesh2,
 // Easy-to-use interfaces
 void find_overlap(TriMesh *mesh1, TriMesh *mesh2, float &area, float &rmsdist)
 {
-	ICPtree::KDtree *kd1 = new ICPtree::KDtree(mesh1->vertices);
-	ICPtree::KDtree *kd2 = new ICPtree::KDtree(mesh2->vertices);
+	KDtree *kd1 = new KDtree(mesh1->vertices);
+	KDtree *kd2 = new KDtree(mesh2->vertices);
 	find_overlap(mesh1, mesh2, xform(), xform(), kd1, kd2, area, rmsdist);
 	delete kd2;
 	delete kd1;
@@ -123,8 +123,8 @@ void find_overlap(TriMesh *mesh1, TriMesh *mesh2, float &area, float &rmsdist)
 
 void find_overlap(TriMesh *mesh1, TriMesh *mesh2,  const xform &xf1, const xform &xf2, float &area, float &rmsdist)
 {
-	ICPtree::KDtree *kd1 = new ICPtree::KDtree(mesh1->vertices);
-	ICPtree::KDtree *kd2 = new ICPtree::KDtree(mesh2->vertices);
+	KDtree *kd1 = new KDtree(mesh1->vertices);
+	KDtree *kd2 = new KDtree(mesh2->vertices);
 	find_overlap(mesh1, mesh2, xf1, xf2, kd1, kd2, area, rmsdist);
 	delete kd2;
 	delete kd1;

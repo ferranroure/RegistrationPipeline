@@ -70,7 +70,7 @@ void TriMesh::need_normals()
 		// Find normals of a point cloud
 		const int k = 6;
 		const vec ref(0, 0, 1);
-		ICPtree::KDtree kd(vertices);
+		KDtree kd(vertices);
 #pragma omp parallel for
 		for (int i = 0; i < nv; i++) {
 			vector<const float *> knn;

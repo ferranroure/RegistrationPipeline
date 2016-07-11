@@ -13,8 +13,6 @@ Note that in order to be generic, this *doesn't* use Vecs and the like...
 
 #include <vector>
 
-namespace ICPtree {
-
 	class KDtree {
 	private:
 		class Node;
@@ -58,6 +56,5 @@ namespace ICPtree {
 								  float maxdist2 = 0.0f,
 								  const CompatFunc *iscompat = NULL) const;
 	};
-}
 
 #endif
