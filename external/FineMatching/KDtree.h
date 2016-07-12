@@ -1,5 +1,5 @@
-#ifndef KDTREE_H
-#define KDTREE_H
+#ifndef ICP_KDTREE_H
+#define ICP_KDTREE_H
 /*
 Szymon Rusinkiewicz
 Princeton University

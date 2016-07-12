@@ -36,6 +36,8 @@ public:
     virtual returnData calcOwnNN(Point *queryPoint);        // Finds a real NN (not itself) of a given QueryPoint from the same point cloud. (used for MMD)
     virtual vector<returnData>  calcNneigh(Point *queryPoint, int nNeigh);
 
+    void printStats();
+
 };
 
 

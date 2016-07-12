@@ -69,7 +69,7 @@ returnData my4PCSkdtree::calcOwnNN(Point *queryPoint){
     Super4PCS::KdTree<double>::Index resId = -1;
     int factor = 1;
 
-    while (resId != Super4PCS::KdTree<double>::invalidIndex()) {
+    while (resId == Super4PCS::KdTree<double>::invalidIndex()) {
         resId = kdtree->doQueryRestrictedClosest(qP, diagonal * 0.01 * factor, queryId);
         ++factor;
     }
@@ -90,5 +90,10 @@ returnData my4PCSkdtree::calcOwnNN(Point *queryPoint){
 }
 
 vector<returnData> my4PCSkdtree::calcNneigh(Point *queryPoint, int nNeigh){
+
+}
+
+void my4PCSkdtree::printStats() {
+
 
 }
