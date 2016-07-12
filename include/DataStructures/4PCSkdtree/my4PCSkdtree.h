@@ -19,7 +19,6 @@
 class my4PCSkdtree : public IDataStructure{
 
 
-
 public:
 
     // Elements -----------------------------------------------
