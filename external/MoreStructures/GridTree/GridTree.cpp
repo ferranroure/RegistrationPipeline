@@ -100,7 +100,7 @@ GridTree::~GridTree() {
 
 void GridTree::kdtreezation(){
 
-    int thsPoints = 5;
+    int thsPoints = 500;
 
     for (int i = 0; i < slotsPerDimension; ++i) {
         for (int j = 0; j < slotsPerDimension; ++j) {

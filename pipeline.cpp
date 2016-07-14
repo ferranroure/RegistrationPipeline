@@ -368,7 +368,7 @@ void Pipeline::executeResidueComputation(bool multitest, char * matrix_path) {
         double sum_time = 0;
         int maxLoops = 10;
 
-        // Read matrix file to apply different movements anc compute residues. Check time and obtain a mean value.
+        // Read matrix file to apply different movements and compute residues. It Checks time and obtains a mean value.
         vector<motion3D> matrices = readMatrices(matrix_path);
         int i = 0;
 
@@ -388,13 +388,12 @@ void Pipeline::executeResidueComputation(bool multitest, char * matrix_path) {
 
             delete aux;
 
-            if (i >= maxLoops) break;
+//            if (i >= maxLoops) break;
         }
 
         cout << "#movements: " << i << " Mean Time: " << sum_time / i << " sec." << endl;
 
     }
-
 }
 
 void Pipeline::syntheticComputeResidue(){

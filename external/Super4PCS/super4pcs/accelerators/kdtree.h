@@ -301,9 +301,9 @@ KdTree<Scalar, Index>::finalize()
     mNodes.reserve(4*mPoints.size()/_nofPointsPerCell);
     mNodes.push_back(KdNode());
     mNodes.back().leaf = 0;
-    std::cout << "create tree" << std::endl;
+//    std::cout << "create tree" << std::endl;
     createTree(0, 0, mPoints.size(), 1, _nofPointsPerCell, _maxDepth);
-    std::cout << "create tree ... DONE (" << mPoints.size() << " points)" << std::endl;
+//    std::cout << "create tree ... DONE (" << mPoints.size() << " points)" << std::endl;
 }
 
 template<typename Scalar, typename Index>
