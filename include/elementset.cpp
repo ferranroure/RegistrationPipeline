@@ -377,8 +377,8 @@ void ElementSet::createDataStructure(){
     else if(dataStructureType=="flann"){
         dataStruct = new myFlann(workpoints);
     }
-    else if(dataStructureType=="4PCSkdtree"){
-        dataStruct = new my4PCSkdtree(workpoints, diagonal);
+    else if(dataStructureType=="S4PCSkdtree"){
+        dataStruct = new myS4PCSkdtree(workpoints, diagonal);
     }
     else{
         cerr << "I can't understand your dataStructure!" << endl;

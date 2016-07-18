@@ -214,6 +214,10 @@ vector<myPoint *> GridTree::neighbors(myPoint *p, double eps)
 //        cout<<"z: ("<<limitsZ[0]<<" , "<<limitsZ[1]<<")"<<endl;
 //    }
 
+    Super4PCS::KdTree<double>::VectorType qP;
+    qP << p->getX(),
+            p->getY(),
+            p->getZ();
 
 
     for(int i=limitsX[0];i<=limitsX[1];i++)
@@ -227,32 +231,18 @@ vector<myPoint *> GridTree::neighbors(myPoint *p, double eps)
 
                 if (currentCell->isKdtreezed()){
 
-                    ANNpoint q;
-                    q = annAllocPt(3);
-                    q[0] = p->getX();
-                    q[1] = p->getY();
-                    q[2] = p->getZ();
 
-                    ANNidxArray nnIdx = new ANNidx[2];
-                    ANNdistArray dists = new ANNdist[2];
 
-                    currentCell->getKdtree()->annkSearch(q, 2, nnIdx, dists, 0);
+                    vector< Super4PCS::KdTree<double>::VectorType > result = currentCell->getKdtree()->doQueryDist(qP, eps);
 
-                    myPoint *currentP = currentCell->getPoint(nnIdx[0]);
-                    if (*p == *currentP) {
-                        currentP = currentCell->getPoint(nnIdx[1]);
+                    if(!result.empty()) {
+
+                        for(int i=0; i<result.size(); i++){
+
+                            returnValue.push_back(new myPoint(result[i][0], result[i][1], result[i][2]));
+                        }
                     }
 
-                    double sqrDist = currentP->sqrdist(*p);
-
-                    if(sqrDist <= sqrEps) {
-
-                        returnValue.push_back(currentP);
-                    }
-
-                    delete[] nnIdx;
-                    delete[] dists;
-                    annDeallocPt(q);
                 }
                 else {
                     for (int i_p = 0; i_p < grid[i][j][k]->get_nPoints(); ++i_p) {
@@ -291,31 +281,25 @@ myPoint * GridTree::oneNeighbor(myPoint *p, double eps)
 
 
     if (currentCell->isKdtreezed()){
+        Super4PCS::KdTree<double>::VectorType qP;
+        qP << p->getX(),
+                p->getY(),
+                p->getZ();
 
-        ANNpoint q;
-        q = annAllocPt(3);
-        q[0] = p->getX();
-        q[1] = p->getY();
-        q[2] = p->getZ();
+        Super4PCS::KdTree<double>::Index resId = currentCell->getKdtree()->doQueryRestrictedClosest(qP, eps);
 
-        ANNidxArray nnIdx = new ANNidx[1];
-        ANNdistArray dists = new ANNdist[1];
+        if(resId != Super4PCS::KdTree<double>::invalidIndex()) {
 
-        currentCell->getKdtree()->annkSearch(q, 1, nnIdx, dists, 0);
+            myPoint *currentP = currentCell->getPoint(resId);
 
-        myPoint *currentP = currentCell->getPoint(nnIdx[0]);
+            double sqrDist = currentP->sqrdist(*p);
 
-        double sqrDist = currentP->sqrdist(*p);
+            if (sqrDist <= sqrEps) {
 
-        if(sqrDist <= sqrEps) {
-
-            NN = currentP;
-            bestSqrDist = sqrDist;
+                NN = currentP;
+                bestSqrDist = sqrDist;
+            }
         }
-
-        delete[] nnIdx;
-        delete[] dists;
-        annDeallocPt(q);
     }
     else {
 
@@ -368,30 +352,25 @@ myPoint * GridTree::oneNeighbor(myPoint *p, double eps)
 
                 if (currentCell->isKdtreezed()){
 
-                    ANNpoint q;
-                    q = annAllocPt(3);
-                    q[0] = p->getX();
-                    q[1] = p->getY();
-                    q[2] = p->getZ();
+                    Super4PCS::KdTree<double>::VectorType qP;
+                    qP << p->getX(),
+                            p->getY(),
+                            p->getZ();
 
-                    ANNidxArray nnIdx = new ANNidx[1];
-                    ANNdistArray dists = new ANNdist[1];
+                    Super4PCS::KdTree<double>::Index resId = currentCell->getKdtree()->doQueryRestrictedClosest(qP, eps);
 
-                    currentCell->getKdtree()->annkSearch(q, 1, nnIdx, dists, 0);
+                    if(resId != Super4PCS::KdTree<double>::invalidIndex()) {
 
-                    myPoint *currentP = currentCell->getPoint(nnIdx[0]);
+                        myPoint *currentP = currentCell->getPoint(resId);
 
-                    double sqrDist = currentP->sqrdist(*p);
+                        double sqrDist = currentP->sqrdist(*p);
 
-                    if(sqrDist <= sqrEps && sqrDist < bestSqrDist) {
+                        if (sqrDist <= sqrEps) {
 
-                        NN = currentP;
-                        bestSqrDist = sqrDist;
+                            NN = currentP;
+                            bestSqrDist = sqrDist;
+                        }
                     }
-
-                    delete[] nnIdx;
-                    delete[] dists;
-                    annDeallocPt(q);
                 }
                 else {
                     for (int i_p = 0; i_p < grid[i][j][k]->get_nPoints(); ++i_p) {
@@ -426,23 +405,23 @@ int GridTree::getSlotsPerDimension() {
 
 float GridTree::getMeanHeight() {
 
-    float sum_depth = 0;
-    int nKdtreezed = 0;
-
-    for (int i = 0; i < slotsPerDimension; ++i) {
-        for (int j = 0; j < slotsPerDimension; ++j) {
-            for (int k = 0; k < slotsPerDimension; ++k) {
-
-                if(grid[i][j][k]->isKdtreezed()) {
-                    nKdtreezed++;
-                    ANNkdStats st;
-                    grid[i][j][k]->getKdtree()->getStats(st);
-
-                    sum_depth += st.depth;
-                }
-            }
-        }
-    }
-
-    return sum_depth/nKdtreezed;
+//    float sum_depth = 0;
+//    int nKdtreezed = 0;
+//
+//    for (int i = 0; i < slotsPerDimension; ++i) {
+//        for (int j = 0; j < slotsPerDimension; ++j) {
+//            for (int k = 0; k < slotsPerDimension; ++k) {
+//
+//                if(grid[i][j][k]->isKdtreezed()) {
+//                    nKdtreezed++;
+//                    ANNkdStats st;
+//                    grid[i][j][k]->getKdtree()->getStats(st);
+//
+//                    sum_depth += st.depth;
+//                }
+//            }
+//        }
+//    }
+//
+//    return sum_depth/nKdtreezed;
 }

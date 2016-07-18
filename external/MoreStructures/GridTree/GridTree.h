@@ -1,10 +1,10 @@
+#ifndef PIPELINE_GRIDTREE_H
+#define PIPELINE_GRIDTREE_H
+
 #include "myPoint.h"
 #include "Cell.h"
 #include <ANN/ANNperf.h>
 #include <vector>
-
-#ifndef _GRIDTREE_
-#define _GRIDTREE_
 
 using namespace std;
 

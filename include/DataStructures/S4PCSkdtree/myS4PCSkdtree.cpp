@@ -2,13 +2,13 @@
 // Created by ferran on 8/07/16.
 //
 
-#include "my4PCSkdtree.h"
+#include "myS4PCSkdtree.h"
 
-my4PCSkdtree::my4PCSkdtree(){
+myS4PCSkdtree::myS4PCSkdtree(){
 
 }
 
-my4PCSkdtree::my4PCSkdtree(vector<Point *> *P, float _diag) {
+myS4PCSkdtree::myS4PCSkdtree(vector<Point *> *P, float _diag) {
 
     diagonal = _diag;
 
@@ -27,12 +27,12 @@ my4PCSkdtree::my4PCSkdtree(vector<Point *> *P, float _diag) {
     kdtree->finalize();
 }
 
-my4PCSkdtree::~my4PCSkdtree() {
+myS4PCSkdtree::~myS4PCSkdtree() {
 
     delete kdtree;
 }
 
-returnData my4PCSkdtree::calcOneNN(Point *queryPoint, float errEps){
+returnData myS4PCSkdtree::calcOneNN(Point *queryPoint, float errEps){
 
     Super4PCS::KdTree<double>::VectorType qP;
     qP << queryPoint->getX(),
@@ -57,7 +57,7 @@ returnData my4PCSkdtree::calcOneNN(Point *queryPoint, float errEps){
     return rd;
 }
 
-returnData my4PCSkdtree::calcOwnNN(Point *queryPoint){
+returnData myS4PCSkdtree::calcOwnNN(Point *queryPoint){
 
     Super4PCS::KdTree<double>::VectorType qP;
     qP << queryPoint->getX(),
@@ -89,11 +89,11 @@ returnData my4PCSkdtree::calcOwnNN(Point *queryPoint){
     return rd;
 }
 
-vector<returnData> my4PCSkdtree::calcNneigh(Point *queryPoint, int nNeigh){
+vector<returnData> myS4PCSkdtree::calcNneigh(Point *queryPoint, int nNeigh){
 
 }
 
-void my4PCSkdtree::printStats() {
+void myS4PCSkdtree::printStats() {
 
 
 }

@@ -16,7 +16,7 @@
 #include "../../point.h"
 
 
-class my4PCSkdtree : public IDataStructure{
+class myS4PCSkdtree : public IDataStructure{
 
 
 public:
@@ -28,9 +28,9 @@ public:
 
 
     // Methods ------------------------------------------------
-    my4PCSkdtree();
-    my4PCSkdtree(vector<Point*> *P, float _diag);
-    ~my4PCSkdtree();
+    myS4PCSkdtree();
+    myS4PCSkdtree(vector<Point*> *P, float _diag);
+    ~myS4PCSkdtree();
 
     virtual returnData calcOneNN(Point *queryPoint, float errEps);        // Finds Nearest Neighbor distance to a given QueryPoint.
     virtual returnData calcOwnNN(Point *queryPoint);        // Finds a real NN (not itself) of a given QueryPoint from the same point cloud. (used for MMD)
