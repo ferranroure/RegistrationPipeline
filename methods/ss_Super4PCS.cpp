@@ -31,7 +31,7 @@ void ss_Super4PCS::execute() {
 //    options.max_normal_difference = 360;
 //    options.max_color_distance = 0;
     options.max_time_seconds = 1000;
-    options.delta = 0.004;
+    options.delta = 8;
     // Match and return the score (estimated overlap or the LCP).
     float score = 0;
 

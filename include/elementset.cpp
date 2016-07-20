@@ -174,7 +174,7 @@ void ElementSet::update(){
 
 
     createDataStructure();
-    calcMMD();
+//    calcMMD();
 
 //    pcl->update(MMD);
 }

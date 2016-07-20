@@ -41,10 +41,16 @@ double myPoint::dist(myPoint &p) {
 
 double myPoint::sqrdist(myPoint &p) {
 
-    double res = 0;
-    res = ( pow(p.getX()-x,2) + pow(p.getY()-y,2) + pow(p.getZ()-z,2) );
+//    double res = 0;
+//    res = ( pow(p.getX()-x,2) + pow(p.getY()-y,2) + pow(p.getZ()-z,2) );
+//
+//    return res;
 
-    return res;
+    double _x = p.getX()-x;
+    double _y = p.getY()-y;
+    double _z = p.getZ()-z;
+
+    return ( (_x*_x) + (_y*_y) + (_z*_z) );
 }
 
 

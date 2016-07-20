@@ -210,7 +210,7 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
     # -frounding-math -> something for CGAL library
     #    set(CMAKE_CXX_FLAGS "-std=c++11 -frounding-math")
     #    set(CMAKE_CXX_FLAGS "-pg -frounding-math")
-    set(CMAKE_CXX_FLAGS "-frounding-math -std=c++11" )
+    set(CMAKE_CXX_FLAGS "-frounding-math -std=c++11")
 
     #adding super4pcs ------------------------------------------------------------------------------
 

@@ -100,7 +100,7 @@ GridTree::~GridTree() {
 
 void GridTree::kdtreezation(){
 
-    int thsPoints = 500;
+    int thsPoints = 100;
 
     for (int i = 0; i < slotsPerDimension; ++i) {
         for (int j = 0; j < slotsPerDimension; ++j) {
@@ -200,6 +200,7 @@ vector<myPoint *> GridTree::neighbors(myPoint *p, double eps)
     // find points in a query cube and then choose the ones inside the query sphere
     vector<myPoint *> returnValue;
     double sqrEps = eps * eps;
+    Cell * currentCell = NULL;
 
     vector<int> limitsX = slotsTouched(p->getX()-eps, p->getX()+eps, 'x');
     vector<int> limitsY = slotsTouched(p->getY()-eps, p->getY()+eps, 'y');
@@ -222,7 +223,7 @@ vector<myPoint *> GridTree::neighbors(myPoint *p, double eps)
         {
             for(int k=limitsZ[0];k<=limitsZ[1];k++)
             {
-                Cell *currentCell = grid[i][j][k];
+                currentCell = grid[i][j][k];
 
 
                 if (currentCell->isKdtreezed()){
@@ -238,14 +239,13 @@ vector<myPoint *> GridTree::neighbors(myPoint *p, double eps)
 
                     currentCell->getKdtree()->annkSearch(q, 2, nnIdx, dists, 0);
 
-                    myPoint *currentP = currentCell->getPoint(nnIdx[0]);
-                    if (*p == *currentP) {
-                        currentP = currentCell->getPoint(nnIdx[1]);
-                    }
 
-                    double sqrDist = currentP->sqrdist(*p);
+                    if(dists[1] <= sqrEps) {
 
-                    if(sqrDist <= sqrEps) {
+                        myPoint *currentP = currentCell->getPoint(nnIdx[0]);
+                        if (*p == *currentP) {
+                            currentP = currentCell->getPoint(nnIdx[1]);
+                        }
 
                         returnValue.push_back(currentP);
                     }
@@ -257,9 +257,9 @@ vector<myPoint *> GridTree::neighbors(myPoint *p, double eps)
                 else {
                     for (int i_p = 0; i_p < grid[i][j][k]->get_nPoints(); ++i_p) {
                         myPoint *currentP = currentCell->getPoint(i_p);
-                        double sqrDist = currentP->sqrdist(*p);
-                        if(sqrDist <= sqrEps) {
-                            if (*p != *currentP) {
+                        if (*p != *currentP) {
+                            double sqrDist = currentP->sqrdist(*p);
+                            if(sqrDist <= sqrEps) {
                                 returnValue.push_back(currentP);
                             }
                         }
@@ -279,6 +279,7 @@ myPoint * GridTree::oneNeighbor(myPoint *p, double eps)
     myPoint * NN = NULL;
     double sqrEps = eps * eps;
     double bestSqrDist = DBL_MAX;
+    Cell * currentCell = NULL;
 
     // First, we gonna search a NN in the falling slot. If we find one, we use the distance
     // between p and its NN as eps.
@@ -287,7 +288,7 @@ myPoint * GridTree::oneNeighbor(myPoint *p, double eps)
     int sloty = findSlot(p->getY(), 'y', true);
     int slotz = findSlot(p->getZ(), 'z', true);
 
-    Cell *currentCell = grid[slotx][sloty][slotz];
+    currentCell = grid[slotx][sloty][slotz];
 
 
     if (currentCell->isKdtreezed()){
@@ -303,14 +304,12 @@ myPoint * GridTree::oneNeighbor(myPoint *p, double eps)
 
         currentCell->getKdtree()->annkSearch(q, 1, nnIdx, dists, 0);
 
-        myPoint *currentP = currentCell->getPoint(nnIdx[0]);
+        if(dists[0] <= sqrEps && dists[0] < bestSqrDist) {
 
-        double sqrDist = currentP->sqrdist(*p);
-
-        if(sqrDist <= sqrEps) {
+            myPoint *currentP = currentCell->getPoint(nnIdx[0]);
 
             NN = currentP;
-            bestSqrDist = sqrDist;
+            bestSqrDist = dists[0];
         }
 
         delete[] nnIdx;
@@ -363,7 +362,7 @@ myPoint * GridTree::oneNeighbor(myPoint *p, double eps)
             {
                 if(i==slotx && j==sloty && k==slotz) continue;
 
-                Cell *currentCell = grid[i][j][k];
+                currentCell = grid[i][j][k];
 
 
                 if (currentCell->isKdtreezed()){
@@ -379,14 +378,12 @@ myPoint * GridTree::oneNeighbor(myPoint *p, double eps)
 
                     currentCell->getKdtree()->annkSearch(q, 1, nnIdx, dists, 0);
 
-                    myPoint *currentP = currentCell->getPoint(nnIdx[0]);
+                    if(dists[0] <= sqrEps && dists[0] < bestSqrDist) {
 
-                    double sqrDist = currentP->sqrdist(*p);
-
-                    if(sqrDist <= sqrEps && sqrDist < bestSqrDist) {
+                        myPoint *currentP = currentCell->getPoint(nnIdx[0]);
 
                         NN = currentP;
-                        bestSqrDist = sqrDist;
+                        bestSqrDist = dists[0];
                     }
 
                     delete[] nnIdx;
@@ -400,7 +397,6 @@ myPoint * GridTree::oneNeighbor(myPoint *p, double eps)
 
                         if(sqrDist <= sqrEps && sqrDist < bestSqrDist) {
                             if (*p != *currentP) {
-
                                 NN = currentP;
                                 bestSqrDist = sqrDist;
                             }
