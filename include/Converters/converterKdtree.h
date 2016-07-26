@@ -1,7 +1,12 @@
-//
-// Created by ferran on 18/01/16.
-// THis class is used for myKdtree
-//
+/*******************************************************************************
+ *  CONVERTER KDTREE
+ *
+ *  Transforms Pipeline data types to ANN data types
+ *
+ *  Ferran Roure (froure@eia.udg.edu)
+ *  ViCOROB Research Group
+ *  University of Girona
+ ******************************************************************************/
 
 #ifndef CONVERTERKDTREE_H
 #define CONVERTERKDTREE_H
@@ -17,13 +22,11 @@ class converterKdtree {
 
 public:
 
-    converterKdtree();
-    ~converterKdtree();
+    converterKdtree();                                  // Constructor
+    ~converterKdtree();                                 // Destructor
 
     ANNpointArray convertArray(vector<Point *> *P);     // Tranforms a vector<Point> to an ANNpointArray.
     ANNpoint convertPoint(Point *p);                    // Tranforms a Point to an ANNpoint.
 
 };
-
-
 #endif //converterKdtree_H

@@ -26,7 +26,7 @@ void ss_Super4PCS::execute() {
 
     // Set parameters.
     cv::Mat mat = cv::Mat::eye(4, 4, CV_64F);
-    options.overlap_estimation = 0.9;
+    options.overlap_estimation = 0.7;
 //    options.sample_size = 210;
 //    options.max_normal_difference = 360;
 //    options.max_color_distance = 0;

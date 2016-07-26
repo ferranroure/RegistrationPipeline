@@ -1,4 +1,5 @@
 #include "elementset.h"
+#include "timer.h"
 
 
 /* CONSTRUCTOR -----------------------------------------------------------
@@ -300,20 +301,24 @@ void ElementSet::calcMMD(){
 
     float sum = 0;
 
+    srand(1962);
+    float sample = workpoints->size()*0.1;
+    int s1 = workpoints->size()/sample;
+
     for(vector<Point*>::iterator it=workpoints->begin(); it!=workpoints->end(); ++it){
+        if (rand()%s1==0) {
 
-        returnData rd = dataStruct->calcOwnNN(*it);
+            returnData rd = dataStruct->calcOwnNN(*it);
 
-        sum += sqrt(rd.sqrDist);
+            sum += sqrt(rd.sqrDist);
 //        cout << sqrt(rd.sqrDist) << endl;
 //   		cout << (*it)->getIndex() << ";" << rd.index << ";" /*<< v[rd.index].x << ";"<< v[rd.index].x << ";" << v[rd.index].x << ";"*/ << rd.sqrDist << endl;
-
+        }
     }
 
-    MMD = sum / workpoints->size();
-//    cout << MMD << endl;
-
-//    exit(0);
+//    MMD = sum / workpoints->size();
+    MMD = sum / sample;
+    srand(1962);
 
 
 }

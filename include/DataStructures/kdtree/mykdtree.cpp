@@ -8,71 +8,51 @@ myKdtree::myKdtree(){
 
     kdTree = NULL;
 }
-  
+
+/* CONSTRUCTOR -----------------------------------------------------------
+ *
+ *      Given a Pipeline point cloud, ANN kdtree is created
+ *
+ *      @param P: is a vector of 3D point from our pipeline.
+ */
 myKdtree::myKdtree(vector<Point*> *P){
 
     ckdt = new converterKdtree();
 
-    int nnPts = P->size();
+    dataPts = ckdt->convertArray(P);
 
-    dataPts = ckdt->convertArray(P);         // Converting data from "points" to "dataPts"
-
-    kdTree = new ANNkd_tree(dataPts, nnPts, DIMENSIONS);
-
-//    kdTree = new ANNkd_tree(					// build search structure
-//            dataPts,					// the data points
-//            nPts,						// number of points
-//            DIM);						// dimension of space
-
-//    annDeallocPts(ddataPts);
+    kdTree = new ANNkd_tree(dataPts, (int)P->size(), DIMENSIONS);
 }
 
 
 /* DESTRUCTOR -----------------------------------------------------------
  *
+ *      Using ANN deleting tools for memory cleaning.
  */
 myKdtree::~myKdtree(){
 
-//    cout << "destrueixo kdtree" << endl;
     annDeallocPts(dataPts);
-    //annDeallocPts(queryPts);
     delete kdTree;
-//    annClose();
     delete ckdt;
 }
 
-///* CREATE KDTREE ----------------------------------------------------
-// *
-// *  This method creates a ANNKdtree with a given vector<Point>. It call's
-// *  ANNkd_tree() method.
-// */
-//void myKdtree::create(vector<Point*> *P){
-//
-//    nPts = P->size();
-//
-//    dataPts = convertArray(P);         // Converting data from "points" to "dataPts"
-//
-//    kdTree = new ANNkd_tree(					// build search structure
-//                    dataPts,					// the data points
-//                    nPts,						// number of points
-//                    DIM);						// dimension of space
-//
-//    //annDeallocPts(ddataPts);
-//
-//}
-
-
+/* CALC N NEIGBOURS -----------------------------------------------------
+ *
+ *      Find nearest neigbour points of a given query point.
+ *
+ *      @param queryPoint: This method find the nearest neigbours of this point.
+ *      @param nNeigh: Number of reported neighbours.
+ *      @return a vector of NN points and its distances.
+ */
 vector<returnData> myKdtree::calcNneigh(Point *queryPoint, int nNeigh) {
 
-    // distance
-    double sqrDist = 0;
 
     ANNpoint q = ckdt->convertPoint(queryPoint);
 
     if(kdTree->nPoints() > 0){
 
-        nnIdx = new ANNidx[nNeigh];						// allocate near neighbor indices
-        dists = new ANNdist[nNeigh];						// allocate near neighbor dists
+        nnIdx = new ANNidx[nNeigh];		        // allocate near neighbor indices
+        dists = new ANNdist[nNeigh];			// allocate near neighbor dists
 
         kdTree->annkSearch(q, nNeigh, nnIdx, dists, ERROR);
     }
@@ -82,19 +62,19 @@ vector<returnData> myKdtree::calcNneigh(Point *queryPoint, int nNeigh) {
         exit(EXIT_FAILURE);
     }
 
+    // returning container
     vector<returnData> ret;
 
-//    cout << "Query point id: " << queryPoint->getIndex() << endl;
+    // Coping results.
     for (int i = 0; i < nNeigh; ++i) {
 
         returnData rd;
-//        cout << nnIdx[i] << " " << dists[i] << endl;
         rd.sqrDist = dists[i];
         rd.index = nnIdx[i];
         ret.push_back(rd);
     }
-//    cout << endl;
 
+    // Free memory
     delete[] nnIdx;
     delete[] dists;
     annDeallocPt(q);
@@ -104,9 +84,12 @@ vector<returnData> myKdtree::calcNneigh(Point *queryPoint, int nNeigh) {
 
 /* CALC ONE NN -----------------------------------------------
  *
- *  This method finds the nearest neigbor (one) of a given point. It
- *  call's annkSearch() method.
- *  Returns only the distance if it's less than dmax.
+ *      This method finds the nearest neigbor (one) of a given point. It
+ *      call's annkSearch() method.
+ *
+ *      @param queryPoint: This method find the nearest neigbours of this point.
+ *      @param errEps: Error distance for approximate searching.
+ *      @return only the distance if it's less than dmax.
 */
 returnData myKdtree::calcOneNN(Point *queryPoint, float errEps) {
 
@@ -114,8 +97,6 @@ returnData myKdtree::calcOneNN(Point *queryPoint, float errEps) {
     double sqrDist = 0;
 
     ANNpoint q = ckdt->convertPoint(queryPoint);
-
-    Timer timer;
 
     if(kdTree->nPoints() > 0){
 
@@ -145,12 +126,14 @@ returnData myKdtree::calcOneNN(Point *queryPoint, float errEps) {
 
 /*  CALC OWN NN -----------------------------------------------
  *
- *  This method finds the 2nd nearest neigbor (one) of a given point. It
- *  call's annkSearch() method.
- *  This method is used to find a nearest neigbor of a point excluding itself.
- *  This is because we need to find the real NN, used to calc MMD (Mean Minimum Distance)
- *  of a point cloud. The queryPoint, in this case, is from the same point cloud.
- *  Returns only the distance if it's less than dmax.
+ *      This method finds the 2nd nearest neigbour (one) of a given point. It
+ *      call's annkSearch() method.
+ *      This method is used to find a nearest neigbor of a point excluding itself.
+ *      This is because we need to find the real NN, used to calc MMD (Mean Minimum Distance)
+ *      of a point cloud. The queryPoint, in this case, is from the same point cloud.
+ *
+ *      @param queryPoint: This method find the nearest neigbours of this point.
+ *      @return the nearest neigbour point and its distance.
 */
 returnData myKdtree::calcOwnNN(Point *queryPoint){
 
@@ -177,44 +160,6 @@ returnData myKdtree::calcOwnNN(Point *queryPoint){
     returnData rd;
     rd.sqrDist = sqrDist;
     rd.index = nnIdx[1];
-
-    delete[] nnIdx;
-    delete[] dists;
-    annDeallocPt(q);
-
-    return rd;
-}
-
-
-returnData myKdtree::findPair(Point *queryPoint, float dist) {
-
-    // distance
-    double sqrDist = 0;
-
-    ANNpoint q = ckdt->convertPoint(queryPoint);
-
-    int cand = 0;
-
-    if(kdTree->nPoints() > 0){
-
-        cand = kdTree->annkFRSearch(q, dist*dist, 0, nnIdx, dists, ERROR);
-
-        nnIdx = new ANNidx[cand];						// allocate near neighbor indices
-        dists = new ANNdist[cand];						// allocate near neighbor dists
-
-        kdTree->annkFRSearch(q, dist*dist, cand, nnIdx, dists, ERROR);
-
-        sqrDist = dists[cand-1];
-    }
-    else{
-
-        cerr << "ERROR: The kdtree is empty!" << endl;
-        exit(EXIT_FAILURE);
-    }
-
-    returnData rd;
-    rd.sqrDist = sqrDist;
-    rd.index = nnIdx[cand-1];
 
     delete[] nnIdx;
     delete[] dists;

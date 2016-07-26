@@ -406,9 +406,23 @@ void Pipeline::syntheticComputeResidue(){
     int i = 0;
     Timer timer;
 
+    cout << endl << endl;
+    cout << "-----------------------------------------------------------------------------------------" << endl;
+    cout << "                                                   PIPELINE PROJECT - RESIDUE COMPUTATION" << endl;
+    cout << "Target model:         ;" << data->params.infile << endl;
+    cout << "Candidate model:      ;" << data->params.infile2 << endl;
+    cout << "Data Structure:       ;" << data->params.dataStructure << endl;
+    cout << "MMD:                  ;" << data->A->getMMD() << endl;
+    cout << "% of used points:     ;" << data->params.percOfPoints*100 << "%" <<  endl;
+    timer.reset();
+    data->A->createDataStructure();
+    cout << "Data Structure construction time: ;" << timer.elapsed() << " sec. " << endl;
+
 //    cout << "50;;";
 
-    for (i = 0; i < 50; ++i) {
+    int nTries = 50;
+
+    for (i = 0; i < nTries; ++i) {
 
         rot = rot + inc;
 
@@ -438,7 +452,7 @@ void Pipeline::syntheticComputeResidue(){
     }
 
 //    cout << "#movements: "<< i << " Mean Time: " << sum_time/i << " sec." << endl;
-        cout << sum_time/i;
+        cout << "SearchTime ;" << sum_time/nTries << endl;
 
 }
 

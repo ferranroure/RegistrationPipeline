@@ -1,19 +1,9 @@
-//
-// Created by ferran on 18/01/16.
-//
-
 #include "converterKdtree.h"
 
-// set index in convertArray()
 
+converterKdtree::converterKdtree(){ }
 
-converterKdtree::converterKdtree(){
-
-}
-
-converterKdtree::~converterKdtree() {
-
-}
+converterKdtree::~converterKdtree() { }
 
 /* CONVERT ARRAY FOR KDTREE -----------------------------------------
  *

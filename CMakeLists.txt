@@ -243,7 +243,7 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
     add_library(super4pcs_algo  ${Super4PCS_SRC} ${Super4PCS_INCLUDE})
 
 
-    add_executable( Pipeline ${SOURCES} )
+    add_executable( ${PROJECT_NAME} ${SOURCES} )
     target_link_libraries(${PROJECT_NAME} ${ANN_LIB} ${PCL_LIBRARIES} ${OpenCV_LIBS} ${VTK_LIBRARIES} ${CGAL_LIB} -L/opt/lib)
     TARGET_LINK_LIBRARIES(super4pcs_algo super4pcs_io super4pcs_accel)
     TARGET_LINK_LIBRARIES(${PROJECT_NAME} super4pcs_algo)

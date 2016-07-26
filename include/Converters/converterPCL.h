@@ -1,5 +1,12 @@
-#ifndef ADAPTERPCL_H
-#define ADAPTERPCL_H
+/*
+ *  CONVERTER PCL
+ *
+ *  Conversion class between PCL data types and Pipleline data types. *
+ *
+ */
+
+#ifndef CONVERTERPCL_H
+#define CONVERTERPCL_H
 
 #include <vector>
 
@@ -16,7 +23,9 @@
 using namespace std;
 using namespace pcl;
 
-// Data structure used to return different data, out of this class.
+/*
+ * Data structure used to return different data, out of this class.
+ */
 struct myPCLReturn{
 
     vector<int> indices;
@@ -25,18 +34,23 @@ struct myPCLReturn{
 
 class converterPCL {
 public:
-    converterPCL();
-    ~converterPCL();
 
     // NO ELEMENTS ----------------------------
 
     // METHODS ------------------------
 
-    PointCloud<PointXYZ>::Ptr points2PCL(vector<Point*> * points);
-    vector<Point> * PCL2points(PointCloud<PointXYZ>::Ptr cloud);
-    vector<int> points2PCLindices(vector<Point*> * points);
+    converterPCL();                                 // Constructor
+    ~converterPCL();                                // Destructor
 
-    PointCloud<SHOT352>::Ptr desc2SHOT(vector<Point*> * points);
+    PointCloud<PointXYZ>::Ptr points2PCL
+            (vector<Point*> * points);              // Convert data to PCL
+    vector<Point> * PCL2points
+            (PointCloud<PointXYZ>::Ptr cloud);      // Convert PCL to data
+    vector<int> points2PCLindices
+            (vector<Point*> * points);              // Convert data to PCL (only indices)
+
+    PointCloud<SHOT352>::Ptr desc2SHOT
+            (vector<Point*> * points);              //
     PointCloud<FPFHSignature33>::Ptr desc2FPFH(vector<Point*> * points);
     PointCloud<ShapeContext1980>::Ptr desc23DSC(vector<Point*> * points);
     PointCloud< Histogram<153> >::Ptr desc2SpinImage(vector<Point*> * points);
@@ -48,4 +62,4 @@ public:
 
 };
 
-#endif // ADAPTERPCL_H
+#endif // CONVERTERPCL_H
