@@ -53,6 +53,7 @@
 
 #include <limits>
 #include <iostream>
+#include <numeric>  //iota
 
 // max depth of the tree
 #define KD_MAX_DEPTH 32
@@ -136,124 +137,166 @@ namespace Super4PCS{
     \endcode
     \ingroup groupGeometry
   */
-template<typename _Scalar, typename _Index = int >
-class KdTree
-{
-public:
-    struct KdNode
+    template<typename _Scalar, typename _Index = int >
+    class KdTree
     {
-        union {
-            struct {
-                float splitValue;
-                unsigned int firstChildId:24;
-                unsigned int dim:2;
-                unsigned int leaf:1;
-            };
-            struct {
-                unsigned int start;
-                unsigned short size;
+    public:
+        struct KdNode
+        {
+            union {
+                struct {
+                    float splitValue;
+                    unsigned int firstChildId:24;
+                    unsigned int dim:2;
+                    unsigned int leaf:1;
+                };
+                struct {
+                    unsigned int start;
+                    unsigned short size;
+                };
             };
         };
+
+        typedef _Scalar Scalar;
+        typedef _Index  Index;
+
+        static constexpr Index invalidIndex() { return -1; }
+
+        typedef Eigen::Matrix<Scalar,3,1> VectorType;
+        typedef AABB3D<Scalar> AxisAlignedBoxType;
+
+        typedef std::vector<KdNode>      NodeList;
+        typedef std::vector<VectorType>  PointList;
+        typedef std::vector<Index>       IndexList;
+
+        inline const NodeList&   _getNodes   (void) { return mNodes;   }
+        inline const PointList&  _getPoints  (void) { return mPoints;  }
+        inline const PointList&  _getIndices (void) { return mIndices;  }
+
+
+    public:
+        //! Create the Kd-Tree using memory copy.
+        KdTree(const PointList& points,
+               unsigned int nofPointsPerCell = KD_POINT_PER_CELL,
+               unsigned int maxDepth = KD_MAX_DEPTH );
+
+        //! Create a void KdTree
+        KdTree( unsigned int size = 0,
+                unsigned int nofPointsPerCell = KD_POINT_PER_CELL,
+                unsigned int maxDepth = KD_MAX_DEPTH );
+
+        //! Add a new vertex in the KdTree
+        template <class VectorDerived>
+        inline void add( const VectorDerived &p ){
+            // this is ok since the memory has been reserved at construction time
+            mPoints.push_back(p);
+            mIndices.push_back(mIndices.size());
+            mAABB.extendTo(p);
+        }
+
+        inline void add(Scalar *position){
+            add(Eigen::Map< Eigen::Matrix<Scalar, 3, 1> >(position));
+        }
+
+        //! Finalize the creation of the KdTree
+        inline
+        void finalize( );
+
+        inline const AxisAlignedBoxType& aabb() const  {return mAABB; }
+
+        ~KdTree();
+
+        inline void doQueryK(const VectorType& p);
+
+        /*!
+         * \brief Performs distance query and return vector coordinates
+         */
+        template<typename Container = std::vector<VectorType> >
+        inline void
+        doQueryDist(const VectorType& queryPoint,
+                    Scalar sqdist,
+                    Container& result){
+            _doQueryDistIndicesWithFunctor(queryPoint,
+                                           sqdist,
+                                           [&result,this](unsigned int i){
+                                               result.push_back(typename Container::value_type(mPoints[i]));
+                                           });
+        }
+
+        /*!
+         * \brief Performs distance query and return indices
+         */
+        template<typename IndexContainer = std::vector<Index> >
+        inline void
+        doQueryDistIndices(const VectorType& queryPoint,
+                           float sqdist,
+                           IndexContainer& result){
+            _doQueryDistIndicesWithFunctor(queryPoint,
+                                           sqdist,
+                                           [&result,this](unsigned int i){
+                                               result.push_back(typename IndexContainer::value_type(mIndices[i]));
+                                           });
+        }
+
+        /*!
+         * \brief Finds the closest element index within the range [0:sqrt(sqdist)]
+         * \param currentId Index of the querypoint if it belongs to the tree
+         */
+        inline Index
+                doQueryRestrictedClosestIndex(const VectorType& queryPoint,
+                                              Scalar sqdist,
+                                              int currentId = -1);
+
+        EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+
+    protected:
+
+        //! element of the stack
+        struct QueryNode
+        {
+            inline QueryNode() {}
+            inline QueryNode(unsigned int id) : nodeId(id) {}
+            //! id of the next node
+            unsigned int nodeId;
+            //! squared distance to the next node
+            Scalar sq;
+        };
+
+        /*!
+          Used to build the tree: split the subset [start..end[ according to dim
+          and splitValue, and returns the index of the first element of the second
+          subset.
+          */
+        inline
+        unsigned int split(int start, int end, unsigned int dim, Scalar splitValue);
+
+        void createTree(unsigned int nodeId,
+                        unsigned int start,
+                        unsigned int end,
+                        unsigned int level,
+                        unsigned int targetCellsize,
+                        unsigned int targetMaxDepth);
+
+
+        /*!
+         * \brief Performs distance query and pass the internal id to a functor
+         */
+        template<typename Functor >
+        inline void
+                _doQueryDistIndicesWithFunctor(const VectorType& queryPoint,
+                                               float sqdist,
+                                               Functor f);
+    protected:
+
+        PointList  mPoints;
+        IndexList  mIndices;
+        AxisAlignedBoxType mAABB;
+        NodeList   mNodes;
+        QueryNode mNodeStack[64];
+
+        unsigned int _nofPointsPerCell;
+        unsigned int _maxDepth;
     };
-
-    typedef _Scalar Scalar;
-    typedef _Index  Index;
-
-    static constexpr Index invalidIndex() { return -1; }
-
-    typedef Eigen::Matrix<Scalar,3,1> VectorType;
-    typedef AABB3D<Scalar> AxisAlignedBoxType;
-
-    typedef std::vector<KdNode>      NodeList;
-    typedef std::vector<VectorType>  PointList;
-    typedef std::vector<Index>       IndexList;
-
-    inline const NodeList&   _getNodes   (void) { return mNodes;   }
-    inline const PointList&  _getPoints  (void) { return mPoints;  }
-    inline const PointList&  _getIndices (void) { return mIndices;  }
-
-
-public:
-    //! Create the Kd-Tree using memory copy.
-    KdTree(const PointList& points,
-           unsigned int nofPointsPerCell = KD_POINT_PER_CELL,
-           unsigned int maxDepth = KD_MAX_DEPTH );
-
-    //! Create a void KdTree
-    KdTree( unsigned int size = 0,
-            unsigned int nofPointsPerCell = KD_POINT_PER_CELL,
-            unsigned int maxDepth = KD_MAX_DEPTH );
-
-    //! Add a new vertex in the KdTree
-    template <class VectorDerived>
-    inline void add( const VectorDerived &p ){
-         // this is ok since the memory has been reserved at construction time
-        mPoints.push_back(p);
-        mIndices.push_back(mIndices.size());
-        mAABB.extendTo(p);
-    }
-
-    inline void add(Scalar *position){
-        add(Eigen::Map< Eigen::Matrix<Scalar, 3, 1> >(position));
-    }
-
-    //! Finalize the creation of the KdTree
-    inline
-    void finalize( );
-
-    inline const AxisAlignedBoxType& aabb() const  {return mAABB; }
-
-    ~KdTree();
-
-    void doQueryK(const VectorType& p);
-
-    std::vector< VectorType >
-    doQueryDist(const VectorType& queryPoint,float sqdist);
-
-    Index
-    doQueryRestrictedClosest(const VectorType& queryPoint, Scalar sqdist, int currentId = -1);
-
-     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
-
-protected:
-
-    //! element of the stack
-    struct QueryNode
-    {
-        inline QueryNode() {}
-        inline QueryNode(unsigned int id) : nodeId(id) {}
-        //! id of the next node
-        unsigned int nodeId;
-        //! squared distance to the next node
-        Scalar sq;
-    };
-
-    /*!
-      Used to build the tree: split the subset [start..end[ according to dim
-      and splitValue, and returns the index of the first element of the second
-      subset.
-      */
-    inline
-    unsigned int split(int start, int end, unsigned int dim, Scalar splitValue);
-
-    void createTree(unsigned int nodeId,
-                    unsigned int start,
-                    unsigned int end,
-                    unsigned int level,
-                    unsigned int targetCellsize,
-                    unsigned int targetMaxDepth);
-
-protected:
-
-    PointList  mPoints;
-    IndexList  mIndices;
-    AxisAlignedBoxType mAABB;
-    NodeList   mNodes;
-    QueryNode mNodeStack[64];
-
-    unsigned int _nofPointsPerCell;
-    unsigned int _maxDepth;
-};
 
 
 
@@ -262,19 +305,19 @@ protected:
 /*!
   \see KdTree(unsigned int size, unsigned int nofPointsPerCell, unsigned int maxDepth)
   */
-template<typename Scalar, typename Index>
-KdTree<Scalar, Index>::KdTree(const PointList& points,
-                       unsigned int nofPointsPerCell,
-                       unsigned int maxDepth)
-    : mPoints(points),
-      mIndices(points.size()),
-      mAABB(points.cbegin(), points.cend()),
-      _nofPointsPerCell(nofPointsPerCell),
-      _maxDepth(maxDepth)
-{
-    std::iota (mIndices.begin(), mIndices.end(), 0); // Fill with 0, 1, ..., 99.
-    finalize();
-}
+    template<typename Scalar, typename Index>
+    KdTree<Scalar, Index>::KdTree(const PointList& points,
+                                  unsigned int nofPointsPerCell,
+                                  unsigned int maxDepth)
+            : mPoints(points),
+              mIndices(points.size()),
+              mAABB(points.cbegin(), points.cend()),
+              _nofPointsPerCell(nofPointsPerCell),
+              _maxDepth(maxDepth)
+    {
+        std::iota (mIndices.begin(), mIndices.end(), 0); // Fill with 0, 1, ..., 99.
+        finalize();
+    }
 
 /*!
   Second way to create the KdTree, in two time. You must call finalize()
@@ -282,39 +325,37 @@ KdTree<Scalar, Index>::KdTree(const PointList& points,
 
   \see finalize()
   */
-template<typename Scalar, typename Index>
-KdTree<Scalar, Index>::KdTree(unsigned int size,
-                       unsigned int nofPointsPerCell,
-                       unsigned int maxDepth)
-    : _nofPointsPerCell(nofPointsPerCell),
-      _maxDepth(maxDepth)
-{
-    mPoints.reserve(size);
-    mIndices.reserve(size);
-}
+    template<typename Scalar, typename Index>
+    KdTree<Scalar, Index>::KdTree(unsigned int size,
+                                  unsigned int nofPointsPerCell,
+                                  unsigned int maxDepth)
+            : _nofPointsPerCell(nofPointsPerCell),
+              _maxDepth(maxDepth)
+    {
+        mPoints.reserve(size);
+        mIndices.reserve(size);
+    }
 
-template<typename Scalar, typename Index>
-void
-KdTree<Scalar, Index>::finalize()
-{
-    mNodes.clear();
-    mNodes.reserve(4*mPoints.size()/_nofPointsPerCell);
-    mNodes.push_back(KdNode());
-    mNodes.back().leaf = 0;
-//    std::cout << "create tree" << std::endl;
-    createTree(0, 0, mPoints.size(), 1, _nofPointsPerCell, _maxDepth);
-//    std::cout << "create tree ... DONE (" << mPoints.size() << " points)" << std::endl;
-}
+    template<typename Scalar, typename Index>
+    void
+    KdTree<Scalar, Index>::finalize()
+    {
+        mNodes.clear();
+        mNodes.reserve(4*mPoints.size()/_nofPointsPerCell);
+        mNodes.push_back(KdNode());
+        mNodes.back().leaf = 0;
+//        std::cout << "create tree" << std::endl;
+        createTree(0, 0, mPoints.size(), 1, _nofPointsPerCell, _maxDepth);
+//        std::cout << "create tree ... DONE (" << mPoints.size() << " points)" << std::endl;
+    }
 
-template<typename Scalar, typename Index>
-KdTree<Scalar, Index>::~KdTree()
-{
-}
+    template<typename Scalar, typename Index>
+    KdTree<Scalar, Index>::~KdTree()
+    {
+    }
 
 
 /*!
-
-  Find the closest element within the range [0:sqrt(sqdist)]
 
   This algorithm uses the simple distance to the split plane to prune nodes.
   A more elaborated approach consists to track the closest corner of the cell
@@ -327,158 +368,155 @@ KdTree<Scalar, Index>::~KdTree()
   But, again, priority queue insertions and deletions are quite involved, and therefore
   a simple stack is by far much faster.
 
-  The optional parameter currentId is used when the query point is
+  The optionnal parameter currentId is used when the query point is
   stored in the tree, and must thus be avoided during the query
 */
-template<typename Scalar, typename Index>
-Index
-KdTree<Scalar, Index>::doQueryRestrictedClosest(const VectorType& queryPoint,
-                                         Scalar sqdist,
-                                         int currentId)
-{
-
-    Index  cl_id   = invalidIndex();
-    Scalar cl_dist = sqdist;
-
-    mNodeStack[0].nodeId = 0;
-    mNodeStack[0].sq = 0.f;
-    unsigned int count = 1;
-
-    //int nbLoop = 0;
-    while (count)
+    template<typename Scalar, typename Index>
+    Index
+    KdTree<Scalar, Index>::doQueryRestrictedClosestIndex(
+            const VectorType& queryPoint,
+            Scalar sqdist,
+            int currentId)
     {
-        //nbLoop++;
-        QueryNode& qnode = mNodeStack[count-1];
-        KdNode   & node  = mNodes[qnode.nodeId];
 
-        if (qnode.sq < cl_dist)
+        Index  cl_id   = invalidIndex();
+        Scalar cl_dist = sqdist;
+
+        mNodeStack[0].nodeId = 0;
+        mNodeStack[0].sq = 0.f;
+        unsigned int count = 1;
+
+        //int nbLoop = 0;
+        while (count)
         {
-            if (node.leaf)
+            //nbLoop++;
+            QueryNode& qnode = mNodeStack[count-1];
+            KdNode   & node  = mNodes[qnode.nodeId];
+
+            if (qnode.sq < cl_dist)
             {
-                --count; // pop
-                const int end = node.start+node.size;
-                for (int i=node.start ; i<end ; ++i){
-                    const Scalar sqdist = (queryPoint - mPoints[i]).squaredNorm();
-                    if (sqdist <= cl_dist && mIndices[i] != currentId){
-                        cl_dist = sqdist;
-                        cl_id   = mIndices[i];
+                if (node.leaf)
+                {
+                    --count; // pop
+                    const int end = node.start+node.size;
+                    for (int i=node.start ; i<end ; ++i){
+                        const Scalar sqdist = (queryPoint - mPoints[i]).squaredNorm();
+                        if (sqdist <= cl_dist && mIndices[i] != currentId){
+                            cl_dist = sqdist;
+                            cl_id   = mIndices[i];
+                        }
                     }
+                }
+                else
+                {
+                    // replace the stack top by the farthest and push the closest
+                    const Scalar new_off = queryPoint[node.dim] - node.splitValue;
+
+                    //std::cout << "new_off = " << new_off << std::endl;
+
+                    if (new_off < 0.)
+                    {
+                        mNodeStack[count].nodeId  = node.firstChildId; // stack top the farthest
+                        qnode.nodeId = node.firstChildId+1;            // push the closest
+                    }
+                    else
+                    {
+                        mNodeStack[count].nodeId  = node.firstChildId+1;
+                        qnode.nodeId = node.firstChildId;
+                    }
+                    mNodeStack[count].sq = qnode.sq;
+                    qnode.sq = new_off*new_off;
+                    ++count;
                 }
             }
             else
             {
-                // replace the stack top by the farthest and push the closest
-                const Scalar new_off = queryPoint[node.dim] - node.splitValue;
-
-                //std::cout << "new_off = " << new_off << std::endl;
-
-                if (new_off < 0.)
-                {
-                    mNodeStack[count].nodeId  = node.firstChildId; // stack top the farthest
-                    qnode.nodeId = node.firstChildId+1;            // push the closest
-                }
-                else
-                {
-                    mNodeStack[count].nodeId  = node.firstChildId+1;
-                    qnode.nodeId = node.firstChildId;
-                }
-                mNodeStack[count].sq = qnode.sq;
-                qnode.sq = new_off*new_off;
-                ++count;
+                // pop
+                --count;
             }
         }
-        else
-        {
-            // pop
-            --count;
-        }
+        return cl_id;
     }
-    return cl_id;
-}
 
 /*!
-
-    Performs distance query.
-
-
-  \see doQueryRestrictedClosest For more information about
-  algorithm.
+  \see doQueryRestrictedClosest For more information about the algorithm.
 
   This function is an alternative to doQueryK(const VectorType& queryPoint)
   that allow to perform the query by requesting a maximum distance instead of
   neighborhood size.
  */
-template<typename Scalar, typename Index>
-std::vector< typename KdTree<Scalar, Index>::VectorType >
-KdTree<Scalar, Index>::doQueryDist(const VectorType& queryPoint,float sqdist)
-{
-    mNodeStack[0].nodeId = 0;
-    mNodeStack[0].sq = 0.f;
-    unsigned int count = 1;
-
-    std::vector< VectorType >result;
-
-    while (count)
+    template<typename Scalar, typename Index>
+    template<typename Functor >
+    void
+    KdTree<Scalar, Index>::_doQueryDistIndicesWithFunctor(
+            const VectorType& queryPoint,
+            float sqdist,
+            Functor f)
     {
-        QueryNode& qnode = mNodeStack[count-1];
-        KdNode   & node  = mNodes[qnode.nodeId];
+        mNodeStack[0].nodeId = 0;
+        mNodeStack[0].sq = 0.f;
+        unsigned int count = 1;
 
-        if (qnode.sq < sqdist)
+        while (count)
         {
-            if (node.leaf)
+            QueryNode& qnode = mNodeStack[count-1];
+            KdNode   & node  = mNodes[qnode.nodeId];
+
+            if (qnode.sq < sqdist)
             {
-                --count; // pop
-                unsigned int end = node.start+node.size;
-                for (unsigned int i=node.start ; i<end ; ++i)
-                    if ( (queryPoint - mPoints[i]).squaredNorm() < sqdist){
-                        result.push_back(mPoints[i]);
-                    }
-            }
-            else
-            {
-                // replace the stack top by the farthest and push the closest
-                float new_off = queryPoint[node.dim] - node.splitValue;
-                if (new_off < 0.)
+                if (node.leaf)
                 {
-                    mNodeStack[count].nodeId  = node.firstChildId;
-                    qnode.nodeId = node.firstChildId+1;
+                    --count; // pop
+                    unsigned int end = node.start+node.size;
+                    for (unsigned int i=node.start ; i<end ; ++i)
+                        if ( (queryPoint - mPoints[i]).squaredNorm() < sqdist){
+                            f(i);
+                        }
                 }
                 else
                 {
-                    mNodeStack[count].nodeId  = node.firstChildId+1;
-                    qnode.nodeId = node.firstChildId;
+                    // replace the stack top by the farthest and push the closest
+                    Scalar new_off = queryPoint[node.dim] - node.splitValue;
+                    if (new_off < 0.)
+                    {
+                        mNodeStack[count].nodeId  = node.firstChildId;
+                        qnode.nodeId = node.firstChildId+1;
+                    }
+                    else
+                    {
+                        mNodeStack[count].nodeId  = node.firstChildId+1;
+                        qnode.nodeId = node.firstChildId;
+                    }
+                    mNodeStack[count].sq = qnode.sq;
+                    qnode.sq = new_off*new_off;
+                    ++count;
                 }
-                mNodeStack[count].sq = qnode.sq;
-                qnode.sq = new_off*new_off;
-                ++count;
+            }
+            else
+            {
+                // pop
+                --count;
             }
         }
-        else
-        {
-            // pop
-            --count;
-        }
     }
-    return result;
-}
 
-template<typename Scalar, typename Index>
-unsigned int KdTree<Scalar, Index>::split(int start, int end, unsigned int dim, Scalar splitValue)
-{
-    int l(start), r(end-1);
-    for ( ; l<r ; ++l, --r)
+    template<typename Scalar, typename Index>
+    unsigned int KdTree<Scalar, Index>::split(int start, int end, unsigned int dim, Scalar splitValue)
     {
-        while (l < end && mPoints[l][dim] < splitValue)
-            l++;
-        while (r >= start && mPoints[r][dim] >= splitValue)
-            r--;
-        if (l > r)
-            break;
-        std::swap(mPoints[l],mPoints[r]);
-        std::swap(mIndices[l],mIndices[r]);
+        int l(start), r(end-1);
+        for ( ; l<r ; ++l, --r)
+        {
+            while (l < end && mPoints[l][dim] < splitValue)
+                l++;
+            while (r >= start && mPoints[r][dim] >= splitValue)
+                r--;
+            if (l > r)
+                break;
+            std::swap(mPoints[l],mPoints[r]);
+            std::swap(mIndices[l],mIndices[r]);
+        }
+        return (mPoints[l][dim] < splitValue ? l+1 : l);
     }
-    return (mPoints[l][dim] < splitValue ? l+1 : l);
-}
 
 /*!
 
@@ -500,22 +538,22 @@ unsigned int KdTree<Scalar, Index>::split(int start, int end, unsigned int dim, 
    to prune only about 10% of the leaves, but the overhead of this pruning (ball/ABBB intersection)
    is more expensive than the gain it provides and the memory consumption is x4 higher !
 */
-template<typename Scalar, typename Index>
-void KdTree<Scalar, Index>::createTree(unsigned int nodeId, unsigned int start, unsigned int end, unsigned int level, unsigned int targetCellSize, unsigned int targetMaxDepth)
-{
+    template<typename Scalar, typename Index>
+    void KdTree<Scalar, Index>::createTree(unsigned int nodeId, unsigned int start, unsigned int end, unsigned int level, unsigned int targetCellSize, unsigned int targetMaxDepth)
+    {
 
-    KdNode& node = mNodes[nodeId];
-    AxisAlignedBoxType aabb;
-    //aabb.Set(mPoints[start]);
-    for (unsigned int i=start ; i<end ; ++i)
-        aabb.extendTo(mPoints[i]);
+        KdNode& node = mNodes[nodeId];
+        AxisAlignedBoxType aabb;
+        //aabb.Set(mPoints[start]);
+        for (unsigned int i=start ; i<end ; ++i)
+            aabb.extendTo(mPoints[i]);
 
-    VectorType diag =  Scalar(0.5) * (aabb.max()- aabb.min());
-    typename VectorType::Index dim;
+        VectorType diag =  Scalar(0.5) * (aabb.max()- aabb.min());
+        typename VectorType::Index dim;
 
 #ifdef DEBUG
 
-//    std::cout << "createTree("
+        //    std::cout << "createTree("
 //              << nodeId << ", "
 //              << start << ", "
 //              << end << ", "
@@ -527,61 +565,61 @@ void KdTree<Scalar, Index>::createTree(unsigned int nodeId, unsigned int start, 
         return;
     }
 #else
-    diag.maxCoeff(&dim);
+        diag.maxCoeff(&dim);
 #endif
 
 
 #undef DEBUG
-    node.dim = dim;
-    node.splitValue = aabb.center()(dim);
+        node.dim = dim;
+        node.splitValue = aabb.center()(dim);
 
-    unsigned int midId = split(start, end, dim, node.splitValue);
+        unsigned int midId = split(start, end, dim, node.splitValue);
 
-    node.firstChildId = mNodes.size();
+        node.firstChildId = mNodes.size();
 
-    {
-        KdNode n;
-        n.size = 0;
-        mNodes.push_back(n);
-        mNodes.push_back(n);
+        {
+            KdNode n;
+            n.size = 0;
+            mNodes.push_back(n);
+            mNodes.push_back(n);
+        }
+        //mNodes << Node() << Node();
+        //mNodes.resize(mNodes.size()+2);
+
+        {
+            // left child
+            unsigned int childId = mNodes[nodeId].firstChildId;
+            KdNode& child = mNodes[childId];
+            if (midId-start <= targetCellSize || level>=targetMaxDepth)
+            {
+                child.leaf = 1;
+                child.start = start;
+                child.size = midId-start;
+            }
+            else
+            {
+                child.leaf = 0;
+                createTree(childId, start, midId, level+1, targetCellSize, targetMaxDepth);
+            }
+        }
+
+        {
+            // right child
+            unsigned int childId = mNodes[nodeId].firstChildId+1;
+            KdNode& child = mNodes[childId];
+            if (end-midId <= targetCellSize || level>=targetMaxDepth)
+            {
+                child.leaf = 1;
+                child.start = midId;
+                child.size = end-midId;
+            }
+            else
+            {
+                child.leaf = 0;
+                createTree(childId, midId, end, level+1, targetCellSize, targetMaxDepth);
+            }
+        }
     }
-    //mNodes << Node() << Node();
-    //mNodes.resize(mNodes.size()+2);
-
-    {
-        // left child
-        unsigned int childId = mNodes[nodeId].firstChildId;
-        KdNode& child = mNodes[childId];
-        if (midId-start <= targetCellSize || level>=targetMaxDepth)
-        {
-            child.leaf = 1;
-            child.start = start;
-            child.size = midId-start;
-        }
-        else
-        {
-            child.leaf = 0;
-            createTree(childId, start, midId, level+1, targetCellSize, targetMaxDepth);
-        }
-    }
-
-    {
-        // right child
-        unsigned int childId = mNodes[nodeId].firstChildId+1;
-        KdNode& child = mNodes[childId];
-        if (end-midId <= targetCellSize || level>=targetMaxDepth)
-        {
-            child.leaf = 1;
-            child.start = midId;
-            child.size = end-midId;
-        }
-        else
-        {
-            child.leaf = 0;
-            createTree(childId, midId, end, level+1, targetCellSize, targetMaxDepth);
-        }
-    }
-}
 } //namespace Super4PCS
 
 

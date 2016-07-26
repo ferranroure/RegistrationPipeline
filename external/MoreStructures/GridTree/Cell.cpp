@@ -68,7 +68,6 @@ void Cell::kdtreezation(int thsPoints) {
 bool Cell::isKdtreezed() {
 
     return kdTree != NULL;
-//    return false;
 }
 
 void Cell::addPoint(myPoint *p) {

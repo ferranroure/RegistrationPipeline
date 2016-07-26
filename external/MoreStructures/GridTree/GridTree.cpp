@@ -100,7 +100,7 @@ GridTree::~GridTree() {
 
 void GridTree::kdtreezation(){
 
-    int thsPoints = 500;
+    int thsPoints = 100;
 
     for (int i = 0; i < slotsPerDimension; ++i) {
         for (int j = 0; j < slotsPerDimension; ++j) {
@@ -231,13 +231,15 @@ vector<myPoint *> GridTree::neighbors(myPoint *p, double eps)
 
                 if (currentCell->isKdtreezed()){
 
-                    vector< Super4PCS::KdTree<double>::VectorType > result = currentCell->getKdtree()->doQueryDist(qP, eps);
+                    vector<int> indices;
 
-                    if(!result.empty()) {
+                    currentCell->getKdtree()->doQueryDistIndices(qP, eps, indices);
 
-                        for(int i=0; i<result.size(); i++){
+                    if(!indices.empty()) {
 
-                            returnValue.push_back(new myPoint(result[i][0], result[i][1], result[i][2]));
+                        for(int i=0; i<indices.size(); i++){
+
+                            returnValue.push_back(currentCell->getPoint(indices[i]));
                         }
                     }
 
@@ -284,7 +286,7 @@ myPoint * GridTree::oneNeighbor(myPoint *p, double eps)
                 p->getY(),
                 p->getZ();
 
-        Super4PCS::KdTree<double>::Index resId = currentCell->getKdtree()->doQueryRestrictedClosest(qP, eps);
+        Super4PCS::KdTree<double>::Index resId = currentCell->getKdtree()->doQueryRestrictedClosestIndex(qP, eps);
 
         if(resId != Super4PCS::KdTree<double>::invalidIndex()) {
 
@@ -355,7 +357,7 @@ myPoint * GridTree::oneNeighbor(myPoint *p, double eps)
                             p->getY(),
                             p->getZ();
 
-                    Super4PCS::KdTree<double>::Index resId = currentCell->getKdtree()->doQueryRestrictedClosest(qP, eps);
+                    Super4PCS::KdTree<double>::Index resId = currentCell->getKdtree()->doQueryRestrictedClosestIndex(qP, eps);
 
                     if(resId != Super4PCS::KdTree<double>::invalidIndex()) {
 
