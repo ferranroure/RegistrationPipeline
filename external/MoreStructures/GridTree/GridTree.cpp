@@ -231,8 +231,6 @@ vector<myPoint *> GridTree::neighbors(myPoint *p, double eps)
 
                 if (currentCell->isKdtreezed()){
 
-
-
                     vector< Super4PCS::KdTree<double>::VectorType > result = currentCell->getKdtree()->doQueryDist(qP, eps);
 
                     if(!result.empty()) {
