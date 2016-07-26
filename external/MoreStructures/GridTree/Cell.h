@@ -5,11 +5,16 @@
 #ifndef PIPELINE_CELL_H
 #define PIPELINE_CELL_H
 
+#include "Eigen/Core"
+
 
 #include <iostream>
 #include <vector>
-#include <ANN/ANN.h>
+#include <accelerators/kdtree.h>
+#include <accelerators/bbox.h>
 #include "myPoint.h"
+#include "../../../include/point.h"
+
 
 #define DIMENSIONS 3
 
@@ -19,8 +24,7 @@ using namespace std;
 class Cell {
 
     vector<myPoint *> points;
-    ANNkd_tree * kdTree;
-    ANNpointArray dataPts;
+    Super4PCS::KdTree<double> * kdTree;
 
 public:
     Cell();
@@ -29,10 +33,9 @@ public:
     void addPoint(myPoint *p);
     myPoint * getPoint(int pos);
     int get_nPoints();
-    ANNkd_tree * getKdtree();
+    Super4PCS::KdTree<double> * getKdtree();
     void kdtreezation(int thsPoints);
     bool isKdtreezed();
-    ANNpointArray convertArray(vector<myPoint *> &P);
 
 };
 
