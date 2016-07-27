@@ -52,30 +52,18 @@ returnData myGridTree::calcOneNN(Point *queryPoint, float eps) {
 
 returnData myGridTree::calcOwnNN(Point *queryPoint) {
 
-
     myPoint *p = new myPoint(queryPoint->getX(), queryPoint->getY(), queryPoint->getZ());
-    p->setIndex(queryPoint->getIndex());
 
-    vector<myPoint*> vnn;
     int factor = 1;
-    while(vnn.empty()) {
-        vnn = gridtree->neighbors(p, diagonal * 0.01 * factor);
+    myPoint *nn = NULL;
+
+    while(nn == NULL) {
+        nn = gridtree->oneNeighbor(p, diagonal * 0.01 * factor);
         ++factor;
     }
 
-    myPoint *nn = NULL;
-
-    float bestSqrDist = FLT_MAX;
-    for (int i = 0; i < vnn.size(); ++i) {
-        float sqrdist = p->sqrdist(*(vnn.at(i)));
-        if(sqrdist < bestSqrDist){
-            bestSqrDist = sqrdist;
-            nn = vnn.at(i);
-        }
-    }
-
     returnData rd;
-    if(vnn.empty()){
+    if(nn == NULL){
         rd.index = -1;
         rd.sqrDist = FLT_MAX;
     }
@@ -83,13 +71,50 @@ returnData myGridTree::calcOwnNN(Point *queryPoint) {
         rd.index = nn->getIndex();
         Point *pnn = new Point(nn->getX(), nn->getY(), nn->getZ());
         rd.sqrDist = queryPoint->sqrDist(pnn);
-
         delete pnn;
     }
 
     delete p;
 
     return rd;
+
+//    myPoint *p = new myPoint(queryPoint->getX(), queryPoint->getY(), queryPoint->getZ());
+//    p->setIndex(queryPoint->getIndex());
+//
+//    vector<myPoint*> vnn;
+//    int factor = 1;
+//    while(vnn.empty()) {
+//        vnn = gridtree->neighbors(p, diagonal * 0.01 * factor);
+//        ++factor;
+//    }
+//
+//    myPoint *nn = NULL;
+//
+//    float bestSqrDist = FLT_MAX;
+//    for (int i = 0; i < vnn.size(); ++i) {
+//        float sqrdist = p->sqrdist(*(vnn.at(i)));
+//        if(sqrdist < bestSqrDist){
+//            bestSqrDist = sqrdist;
+//            nn = vnn.at(i);
+//        }
+//    }
+//
+//    returnData rd;
+//    if(vnn.empty()){
+//        rd.index = -1;
+//        rd.sqrDist = FLT_MAX;
+//    }
+//    else {
+//        rd.index = nn->getIndex();
+//        Point *pnn = new Point(nn->getX(), nn->getY(), nn->getZ());
+//        rd.sqrDist = queryPoint->sqrDist(pnn);
+//
+//        delete pnn;
+//    }
+//
+//    delete p;
+//
+//    return rd;
 }
 
 vector<returnData> myGridTree::calcNneigh(Point *queryPoint, int nNeigh) {

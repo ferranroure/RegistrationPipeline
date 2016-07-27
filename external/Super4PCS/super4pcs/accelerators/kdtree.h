@@ -247,6 +247,9 @@ namespace Super4PCS{
                                               Scalar sqdist,
                                               int currentId = -1);
 
+        // FERRAN
+        inline bool samePoint(int a, int b);
+
         EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
     protected:
@@ -402,8 +405,13 @@ namespace Super4PCS{
                     for (int i=node.start ; i<end ; ++i){
                         const Scalar sqdist = (queryPoint - mPoints[i]).squaredNorm();
                         if (sqdist <= cl_dist && mIndices[i] != currentId){
-                            cl_dist = sqdist;
-                            cl_id   = mIndices[i];
+                            //FERRAN MODIFICATION                   // *
+                            if(     queryPoint[0]!=mPoints[i][0] || // *
+                                    queryPoint[1]!=mPoints[i][1] || // *
+                                    queryPoint[2]!=mPoints[i][2]) { // *
+                                cl_dist = sqdist;
+                                cl_id = mIndices[i];
+                            }                                       // *
                         }
                     }
                 }
@@ -436,6 +444,19 @@ namespace Super4PCS{
             }
         }
         return cl_id;
+    }
+    template<typename Scalar, typename Index>
+    bool KdTree<Scalar, Index>::samePoint(int a, int b){
+
+        float err = 0.0000001;
+        if(abs(mPoints[a][0]-mPoints[b][0]) < err &&
+           abs(mPoints[a][1]-mPoints[b][1]) < err &&
+           abs(mPoints[a][2]-mPoints[b][2]) < err   ){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
 /*!

@@ -302,7 +302,7 @@ void ElementSet::calcMMD(){
     float sum = 0;
 
     srand(1962);
-    float sample = workpoints->size()*0.1;
+    float sample = workpoints->size()*1;
     int s1 = workpoints->size()/sample;
 
     for(vector<Point*>::iterator it=workpoints->begin(); it!=workpoints->end(); ++it){
@@ -318,6 +318,9 @@ void ElementSet::calcMMD(){
 
 //    MMD = sum / workpoints->size();
     MMD = sum / sample;
+    cout << MMD << endl;
+    exit(0);
+
     srand(1962);
 
 
