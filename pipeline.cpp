@@ -351,7 +351,7 @@ void Pipeline::executeResidueComputation(bool multitest, char * matrix_path) {
     cout << "% of used points:     ;" << data->params.percOfPoints*100 << "%" <<  endl;
     timer.reset();
     data->A->createDataStructure();
-    cout << "Data Structure construction time: ;" << timer.elapsed() << " sec. " << endl;
+    cout << "Data Structure construction time: ;" << timer.elapsed() <<  endl;
 
 
     if( ! multitest) {
@@ -384,14 +384,15 @@ void Pipeline::executeResidueComputation(bool multitest, char * matrix_path) {
             timer.reset();
             double res = data->A->calcNN(aux->getPoints(), data->params.percOfPoints, data->params.nnErrorFactor, pairedPoints);
             sum_time += timer.elapsed();
-            cout << ((float) pairedPoints / (float) data->A->allpoints->size()) << ";" << res << ";" << timer.elapsed() << ";" << endl;
+//            cout << ((float) pairedPoints / (float) data->A->allpoints->size()) << ";" << res << ";" << timer.elapsed() << ";" << endl;
 
             delete aux;
 
 //            if (i >= maxLoops) break;
         }
 
-        cout << "#movements: " << i << " Mean Time: " << sum_time / i << " sec." << endl;
+        cout << "#movements: ;" << i << endl;
+        cout <<" Mean Time: ;" << sum_time / i << endl;
 
     }
 }

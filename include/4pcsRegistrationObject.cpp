@@ -958,7 +958,7 @@ bool fpcsRegistrationObject::tryOne(
 		double f;
 		f=computeBestRigid(pr,R,tx,ty,tz,cx,cy,cz);
 
-//		writeMatrix("matrixBremen.xls", R, cx, cy, cz, tx, ty, tz);
+//		writeMatrix("matrixOffice.xls", R, cx, cy, cz, tx, ty, tz);
 
 		if (f<5*eps) {
 			// Aqui no sé perquè torna a multiplicar meanDist*eps*2. En principi esta fent: meanDist*(meanDist*2*delta)*2

@@ -14,7 +14,7 @@ GridTree::GridTree(vector<myPoint*> &vec, int numC, double iTol)
     }
 
     // First, find numeric limits
-    //initialize limits using three vectors of two doubles (min and max)
+    //initialize limits using three vectors of two doubles (min a4nd max)
     limits	= vector< vector<double> >();
 
     limits.push_back(vector<double>());
@@ -100,7 +100,7 @@ GridTree::~GridTree() {
 
 void GridTree::kdtreezation(){
 
-    int thsPoints = INT_MAX;
+    int thsPoints = 200;
 
     for (int i = 0; i < slotsPerDimension; ++i) {
         for (int j = 0; j < slotsPerDimension; ++j) {
