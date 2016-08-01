@@ -1,0 +1,67 @@
+<params>
+    <files>
+        <realData>true</realData>
+        <!--<infile>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/coral_right.ply</infile>-->
+        <!--<infile2>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/coral_left_moved.ply</infile2>-->
+        <!--<infile>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/Rocks_right.ply</infile>-->
+        <!--<infile2>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/Rocks_left_moved.ply</infile2>-->
+        <infile>../../../models/ResidueTests/bust0.ply</infile>
+        <infile2>../../../models/ResidueTests/bust1.ply</infile2>
+        <!--<infile>../models/prova/bun0.ply</infile>-->
+        <!--<infile2>../models/prova/bun1.ply</infile2>-->
+        <!--<infileTemp>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/temp.ply</infileTemp>-->
+        <!--<outfile>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/out.ply</outfile>-->
+        <infileTemp>../../../models/ResidueTests/temp.ply</infileTemp>
+        <outfile>../../../models/ResidueTests/out.ply</outfile>
+        <outres>/home/ferran/MEGA/PROJECTS/Pipeline/models/descriptors.txt</outres>
+    </files>
+
+
+    <methods>
+        <detection use="false">
+            <method>ColorSpaceSampling</method>
+            <properties>
+                <nSamples>1000</nSamples>
+            </properties>
+        </detection>
+
+        <description use="false">
+            <method>SHOT</method>
+            <properties>
+                <radiusNormalFactor>5</radiusNormalFactor>
+                <radiusSearchFactor>20</radiusSearchFactor>
+                <nNeighbours>100</nNeighbours>
+            </properties>
+        </description>
+<!--
+        <searchingStrategies use="TRUE">
+            <method>DescriptorTestPCL</method>
+            <properties></properties>
+        </searchingStrategies>
+-->
+
+        <searchingStrategies use="true">
+            <!--<method>3PS</method>-->
+            <method>4PCS</method>
+            <!--<method>SmartForce</method>-->
+            <properties>
+                <nCells>3</nCells>
+                <thrsFactor>1</thrsFactor>
+            </properties>
+        </searchingStrategies>
+
+        <refinement use="true">
+            <method>ICP</method>
+            <properties></properties>
+        </refinement>
+
+    </methods>
+
+    <generalProperties>
+        <percOfPoints>1</percOfPoints>
+        <nnErrorFactor>2</nnErrorFactor>
+        <percOfNoise>0</percOfNoise> <!-- normalized % of MMD (perc * MMD) -->
+        <normalizeModels>false</normalizeModels>
+        <dataStructure>noDataStructure</dataStructure> <!-- options: kdtree, octree, compressedOctree, trihash, noDataStructure or your own -->
+    </generalProperties>
+</params>

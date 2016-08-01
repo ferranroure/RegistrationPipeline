@@ -1,0 +1,13 @@
+
+
+-----------------------------------------------------------------------------------------
+                                                   PIPELINE PROJECT - RESIDUE COMPUTATION
+Target model:         ;../../../../models/ResidueTests/frog0.ply
+Candidate model:      ;../../../../models/ResidueTests/frog1.ply
+Data Structure:       ;gridtree
+MMD:                  ;0.00172186
+% of used points:     ;100%
+Data Structure construction time: ;0.00560808
+
+MULTI-EXECUTION TEST
+% OF PAIRED POINTS; RESIDUE; TIME 

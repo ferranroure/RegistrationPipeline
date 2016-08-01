@@ -1,0 +1,11 @@
+
+
+-----------------------------------------------------------------------------------------
+                                                   PIPELINE PROJECT - RESIDUE COMPUTATION
+Target model:         ;../../../../models/ResidueTests/medium_spiral0.ply
+Candidate model:      ;../../../../models/ResidueTests/medium_spiral0.ply
+Data Structure:       ;gridtree
+MMD:                  ;0.00461143
+% of used points:     ;100%
+Data Structure construction time: ;0.0332201 sec. 
+SearchTime ;0.109495

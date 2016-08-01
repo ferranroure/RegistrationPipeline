@@ -1,0 +1,38 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../external/Super4PCS/3rdparty/chealpix/include/chealpix.h
+
+/home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/Super4PCS/3rdparty/chealpix/src/chealpix.c
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+math.h
+-
+fitsio.h
+/home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/Super4PCS/3rdparty/chealpix/src/fitsio.h
+chealpix.h
+/home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/Super4PCS/3rdparty/chealpix/src/chealpix.h
+
+/usr/local/include/fitsio.h
+stdio.h
+-
+sys/types.h
+-
+stdlib.h
+-
+limits.h
+-
+longnam.h
+/usr/local/include/longnam.h
+
+/usr/local/include/longnam.h
+

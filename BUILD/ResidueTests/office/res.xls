@@ -1,0 +1,60 @@
+
+
+-----------------------------------------------------------------------------------------
+                                                   PIPELINE PROJECT - RESIDUE COMPUTATION
+Target model:         ;../../../../models/ResidueTests/office0.ply
+Candidate model:      ;../../../../models/ResidueTests/office1.ply
+Data Structure:       ;kdtree
+MMD:                  ;2.23661
+% of used points:     ;100%
+Data Structure construction time: ;0.0931249
+
+MULTI-EXECUTION TEST
+% OF PAIRED POINTS; RESIDUE; TIME 
+#movements: ;85
+ Mean Time: ;0.968327
+
+
+-----------------------------------------------------------------------------------------
+                                                   PIPELINE PROJECT - RESIDUE COMPUTATION
+Target model:         ;../../../../models/ResidueTests/office0.ply
+Candidate model:      ;../../../../models/ResidueTests/office1.ply
+Data Structure:       ;trihash
+MMD:                  ;2.23661
+% of used points:     ;100%
+Data Structure construction time: ;0.0419819
+
+MULTI-EXECUTION TEST
+% OF PAIRED POINTS; RESIDUE; TIME 
+#movements: ;85
+ Mean Time: ;0.12932
+
+
+-----------------------------------------------------------------------------------------
+                                                   PIPELINE PROJECT - RESIDUE COMPUTATION
+Target model:         ;../../../../models/ResidueTests/office0.ply
+Candidate model:      ;../../../../models/ResidueTests/office1.ply
+Data Structure:       ;compressedOctree
+MMD:                  ;2.23661
+% of used points:     ;100%
+Data Structure construction time: ;0.252985
+
+MULTI-EXECUTION TEST
+% OF PAIRED POINTS; RESIDUE; TIME 
+#movements: ;85
+ Mean Time: ;0.445
+
+
+-----------------------------------------------------------------------------------------
+                                                   PIPELINE PROJECT - RESIDUE COMPUTATION
+Target model:         ;../../../../models/ResidueTests/office0.ply
+Candidate model:      ;../../../../models/ResidueTests/office1.ply
+Data Structure:       ;gridtree
+MMD:                  ;2.27982
+% of used points:     ;100%
+Data Structure construction time: ;0.04354
+
+MULTI-EXECUTION TEST
+% OF PAIRED POINTS; RESIDUE; TIME 
+#movements: ;85
+ Mean Time: ;0.0835952

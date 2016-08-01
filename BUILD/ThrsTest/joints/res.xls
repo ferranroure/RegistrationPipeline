@@ -1,0 +1,14 @@
+
+
+-----------------------------------------------------------------------------------------
+                                                   PIPELINE PROJECT - RESIDUE COMPUTATION
+Target model:         ;../../../../models/ResidueTests/joints.ply
+Candidate model:      ;../../../../models/ResidueTests/joint1.ply
+Data Structure:       ;gridtree
+MMD:                  ;0.160763
+% of used points:     ;100%
+Data Structure construction time: ;0.10861 sec. 
+
+MULTI-EXECUTION TEST
+% OF PAIRED POINTS; RESIDUE; TIME 
+GridTree::findSlot(double val, char type) wrong slot? -2147483648

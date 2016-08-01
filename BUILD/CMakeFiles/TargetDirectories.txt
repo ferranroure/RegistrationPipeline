@@ -1,0 +1,13 @@
+/home/ferran/MEGA/PROJECTS/RegistrationPipeline/BUILD/CMakeFiles/edit_cache.dir
+/home/ferran/MEGA/PROJECTS/RegistrationPipeline/BUILD/CMakeFiles/Pipeline.dir
+/home/ferran/MEGA/PROJECTS/RegistrationPipeline/BUILD/CMakeFiles/rebuild_cache.dir
+/home/ferran/MEGA/PROJECTS/RegistrationPipeline/BUILD/CMakeFiles/super4pcs_algo.dir
+/home/ferran/MEGA/PROJECTS/RegistrationPipeline/BUILD/external/Super4PCS/3rdparty/chealpix/CMakeFiles/edit_cache.dir
+/home/ferran/MEGA/PROJECTS/RegistrationPipeline/BUILD/external/Super4PCS/3rdparty/chealpix/CMakeFiles/rebuild_cache.dir
+/home/ferran/MEGA/PROJECTS/RegistrationPipeline/BUILD/external/Super4PCS/3rdparty/chealpix/CMakeFiles/chealpix.dir
+/home/ferran/MEGA/PROJECTS/RegistrationPipeline/BUILD/external/Super4PCS/super4pcs/io/CMakeFiles/edit_cache.dir
+/home/ferran/MEGA/PROJECTS/RegistrationPipeline/BUILD/external/Super4PCS/super4pcs/io/CMakeFiles/rebuild_cache.dir
+/home/ferran/MEGA/PROJECTS/RegistrationPipeline/BUILD/external/Super4PCS/super4pcs/io/CMakeFiles/super4pcs_io.dir
+/home/ferran/MEGA/PROJECTS/RegistrationPipeline/BUILD/external/Super4PCS/super4pcs/accelerators/CMakeFiles/edit_cache.dir
+/home/ferran/MEGA/PROJECTS/RegistrationPipeline/BUILD/external/Super4PCS/super4pcs/accelerators/CMakeFiles/rebuild_cache.dir
+/home/ferran/MEGA/PROJECTS/RegistrationPipeline/BUILD/external/Super4PCS/super4pcs/accelerators/CMakeFiles/super4pcs_accel.dir

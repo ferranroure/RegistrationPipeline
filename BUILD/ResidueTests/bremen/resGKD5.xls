@@ -1,0 +1,15 @@
+
+
+-----------------------------------------------------------------------------------------
+                                                   PIPELINE PROJECT - RESIDUE COMPUTATION
+Target model:         ;../../../../models/ResidueTests/bremen_target.ply
+Candidate model:      ;../../../../models/ResidueTests/bremen_source.ply
+Data Structure:       ;gridtree
+MMD:                  ;0.0816971
+% of used points:     ;100%
+Data Structure construction time: ;0.705896
+
+MULTI-EXECUTION TEST
+% OF PAIRED POINTS; RESIDUE; TIME 
+#movements: ;393
+ Mean Time: ;0.52797
