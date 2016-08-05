@@ -736,8 +736,9 @@ namespace match_4pcs {
       for (int i = 0; i < sampled_P_3D_.size(); ++i) {
         query_point << sampled_P_3D_[i].x, sampled_P_3D_[i].y, sampled_P_3D_[i].z;
 
+        Scalar eps = P_diameter_ * kDiameterFraction;
         Super4PCS::KdTree<Scalar>::Index resId =
-                kd_tree_.doQueryRestrictedClosestIndex(query_point, P_diameter_ * kDiameterFraction, i);
+                kd_tree_.doQueryRestrictedClosestIndex(query_point, eps, i);
 
         if (resId != Super4PCS::KdTree<Scalar>::invalidIndex()) {
           distance += cv::norm(sampled_P_3D_[i] - sampled_P_3D_[resId]);

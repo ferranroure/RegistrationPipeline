@@ -244,7 +244,7 @@ namespace Super4PCS{
          */
         inline Index
                 doQueryRestrictedClosestIndex(const VectorType& queryPoint,
-                                              Scalar sqdist,
+                                              Scalar &sqdist,
                                               int currentId = -1);
 
         // FERRAN
@@ -378,7 +378,7 @@ namespace Super4PCS{
     Index
     KdTree<Scalar, Index>::doQueryRestrictedClosestIndex(
             const VectorType& queryPoint,
-            Scalar sqdist,
+            Scalar &sqdist, // <- This is something piggy. I'm use it to return sqrd distance. (Ferran)
             int currentId)
     {
 
@@ -443,6 +443,8 @@ namespace Super4PCS{
                 --count;
             }
         }
+
+        sqdist = cl_dist;
         return cl_id;
     }
     template<typename Scalar, typename Index>

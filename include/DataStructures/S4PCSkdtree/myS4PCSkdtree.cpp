@@ -34,13 +34,15 @@ myS4PCSkdtree::~myS4PCSkdtree() {
 
 returnData myS4PCSkdtree::calcOneNN(Point *queryPoint, float errEps){
 
+    double sqrEps = (double)errEps*(double)errEps; // Super4PCS tree needs for squared value.
+
     Super4PCS::KdTree<double>::VectorType qP;
     qP << queryPoint->getX(),
             queryPoint->getY(),
             queryPoint->getZ();
 
     Super4PCS::KdTree<double>::Index resId =
-    kdtree->doQueryRestrictedClosestIndex(qP, errEps);
+    kdtree->doQueryRestrictedClosestIndex(qP, sqrEps);
 
     returnData rd;
     if(resId == Super4PCS::KdTree<double>::invalidIndex()){
@@ -70,7 +72,10 @@ returnData myS4PCSkdtree::calcOwnNN(Point *queryPoint){
     int factor = 1;
 
     while (resId == Super4PCS::KdTree<double>::invalidIndex()) {
-        resId = kdtree->doQueryRestrictedClosestIndex(qP, diagonal * 0.01 * factor, queryId);
+        double eps = diagonal * 0.01 * factor;
+        double sqrEps = eps*eps;
+
+        resId = kdtree->doQueryRestrictedClosestIndex(qP, sqrEps, queryId);
         ++factor;
     }
 

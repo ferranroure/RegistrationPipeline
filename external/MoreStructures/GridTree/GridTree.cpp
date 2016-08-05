@@ -10,8 +10,11 @@ GridTree::GridTree(vector<myPoint*> &vec, int numC, double iTol)
     if(slotsPerDimension==-1) // in the case where the number of cells was not specified, make charge factor to be near 1
     {
         slotsPerDimension = pow(vec.size(),1/(3.));
+//        slotsPerDimension = 30;
         if(slotsPerDimension<2) {slotsPerDimension=2;}	// 8 cells is the minimum possible
     }
+
+    cout << "SLOTS PER DIMESION: " << slotsPerDimension << endl;
 
     // First, find numeric limits
     //initialize limits using three vectors of two doubles (min a4nd max)
@@ -233,7 +236,7 @@ vector<myPoint *> GridTree::neighbors(myPoint *p, double eps)
 
                     vector<int> indices;
 
-                    currentCell->getKdtree()->doQueryDistIndices(qP, eps, indices);
+                    currentCell->getKdtree()->doQueryDistIndices(qP, sqrEps, indices);
 
                     if(!indices.empty()) {
 
@@ -286,17 +289,16 @@ myPoint * GridTree::oneNeighbor(myPoint *p, double eps)
                 p->getY(),
                 p->getZ();
 
-        Super4PCS::KdTree<double>::Index resId = currentCell->getKdtree()->doQueryRestrictedClosestIndex(qP, eps);
+        // sqrDist will be updated inside doQueryRestrictedClosestIndex() function
+        // with the distance between qP and its NN.
+        double sqrDist = sqrEps;
+        Super4PCS::KdTree<double>::Index resId = currentCell->getKdtree()->doQueryRestrictedClosestIndex(qP, sqrDist);
 
         if(resId != Super4PCS::KdTree<double>::invalidIndex()) {
 
-            myPoint *currentP = currentCell->getPoint(resId);
+            if (sqrDist <= sqrEps && sqrDist < bestSqrDist) {
 
-            double sqrDist = currentP->sqrdist(*p);
-
-            if (sqrDist <= sqrEps) {
-
-                NN = currentP;
+                NN = currentCell->getPoint(resId);
                 bestSqrDist = sqrDist;
             }
         }
@@ -322,13 +324,14 @@ myPoint * GridTree::oneNeighbor(myPoint *p, double eps)
     vector<int> limitsZ;
 
 
+    // Rewrite this part if we can't use sqrDist!
     if(NN != NULL){
         sqrEps = bestSqrDist;
-        //  eps = sqrt(bestSqrDist);
+        eps = sqrt(bestSqrDist);
 
-        limitsX = slotsTouched(p->getX()-sqrEps, p->getX()+sqrEps, 'x', true);
-        limitsY = slotsTouched(p->getY()-sqrEps, p->getY()+sqrEps, 'y', true);
-        limitsZ = slotsTouched(p->getZ()-sqrEps, p->getZ()+sqrEps, 'z', true);
+        limitsX = slotsTouched(p->getX()-eps, p->getX()+eps, 'x', false);
+        limitsY = slotsTouched(p->getY()-eps, p->getY()+eps, 'y', false);
+        limitsZ = slotsTouched(p->getZ()-eps, p->getZ()+eps, 'z', false);
     }
     else{
 
@@ -357,17 +360,16 @@ myPoint * GridTree::oneNeighbor(myPoint *p, double eps)
                             p->getY(),
                             p->getZ();
 
-                    Super4PCS::KdTree<double>::Index resId = currentCell->getKdtree()->doQueryRestrictedClosestIndex(qP, eps);
+                    // sqrDist will be updated inside doQueryRestrictedClosestIndex() function
+                    // with the distance between qP and its NN.
+                    double sqrDist = sqrEps;
+                    Super4PCS::KdTree<double>::Index resId = currentCell->getKdtree()->doQueryRestrictedClosestIndex(qP, sqrEps);
 
                     if(resId != Super4PCS::KdTree<double>::invalidIndex()) {
 
-                        myPoint *currentP = currentCell->getPoint(resId);
+                        if (sqrDist <= sqrEps && sqrDist < bestSqrDist) {
 
-                        double sqrDist = currentP->sqrdist(*p);
-
-                        if (sqrDist <= sqrEps) {
-
-                            NN = currentP;
+                            NN = currentCell->getPoint(resId);
                             bestSqrDist = sqrDist;
                         }
                     }
