@@ -57,6 +57,13 @@
 
     </methods>
 
+    <dataStructure>
+        <name>gridtree</name>
+        <params>
+            <param name="ThrsKdtree" type="int" value="100" />
+        </params>
+    </dataStructure>
+
     <generalProperties>
         <percOfPoints>1</percOfPoints>
         <nnErrorFactor>2</nnErrorFactor>
