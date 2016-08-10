@@ -441,7 +441,6 @@ CMakeFiles/Pipeline.dir/ISearchingStrategy.cpp.o
 CMakeFiles/Pipeline.dir/data.cpp.o
  ../external/Super4PCS/super4pcs/accelerators/bbox.h
  ../external/Super4PCS/super4pcs/accelerators/kdtree.h
- /home/ferran/MEGA/PROJECTS/RegistrationPipeline/IDescription.h
  /home/ferran/MEGA/PROJECTS/RegistrationPipeline/data.cpp
  /home/ferran/MEGA/PROJECTS/RegistrationPipeline/data.h
  /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/MoreStructures/AuxiliaryClasses/./point3D.h
@@ -468,6 +467,7 @@ CMakeFiles/Pipeline.dir/data.cpp.o
  /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/tinyxml2.h
  /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/vector3D.h
  /home/ferran/MEGA/PROJECTS/RegistrationPipeline/include/./Converters/converterPCL.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/include/./point.h
  /home/ferran/MEGA/PROJECTS/RegistrationPipeline/include/Converters/converterFlann.h
  /home/ferran/MEGA/PROJECTS/RegistrationPipeline/include/Converters/converterGridTree.h
  /home/ferran/MEGA/PROJECTS/RegistrationPipeline/include/Converters/converterKdtree.h
@@ -495,7 +495,6 @@ CMakeFiles/Pipeline.dir/data.cpp.o
  /home/ferran/MEGA/PROJECTS/RegistrationPipeline/include/mypcl.h
  /home/ferran/MEGA/PROJECTS/RegistrationPipeline/include/plyio.h
  /home/ferran/MEGA/PROJECTS/RegistrationPipeline/include/point.h
- /home/ferran/MEGA/PROJECTS/RegistrationPipeline/methods/des_shot.h
  /usr/include/eigen3/Eigen/Cholesky
  /usr/include/eigen3/Eigen/Core
  /usr/include/eigen3/Eigen/Dense

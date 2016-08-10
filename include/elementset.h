@@ -56,7 +56,7 @@ private:
     float MMD;                                                      // Mean Minimum Distance of point of this cloud.
     float GTresidue;                                                // Ground Truth residue.
     vector<vector3D> *normals;
-    string dataStructureType;
+    unordered_map<string, string> DSparams;                         // Data Structure parameters.
 
 public:
     // Constructors  ---------------------------------------------------------------------------------------------------
@@ -64,8 +64,8 @@ public:
     vector<Point*> *allpoints;
     ElementSet();                                                   // Constructor NULL.
     ElementSet(ElementSet &ES);                                     // Copy constructor.
-    ElementSet(vector<Point> *lin, string _DSType);                 // Constructor from vector<Point>.
-    ElementSet(string file, string _DSType, float normFactor=1);    // Constructor from specific file.
+    ElementSet(vector<Point> *lin, unordered_map<string, string> &_DSparams);                 // Constructor from vector<Point>.
+    ElementSet(string file, unordered_map<string, string> &_DSparams, float normFactor = 1);    // Constructor from specific file.
     ~ElementSet();                                                  // Destructor.
 
 
@@ -122,13 +122,6 @@ public:
 
     // Getters and Setters ---------------------------------------------------------------------------------------------
 
-    const string &getDataStructureType() const {
-        return dataStructureType;
-    }
-
-    void setDataStructureType(const string &dataStructureType) {
-        ElementSet::dataStructureType = dataStructureType;
-    }
 
     vector<Point> *getPoints() const{
         return points;

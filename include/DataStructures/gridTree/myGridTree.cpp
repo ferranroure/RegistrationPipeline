@@ -10,14 +10,32 @@ myGridTree::myGridTree() {
     gridtree = NULL;
     ads = NULL;
 
+    thrsKdtree = 0;
+    slotSizeFactor = 0;
+    MMD = 0;
+    slotsPerDimension = 0;
+
 }
 
-myGridTree::myGridTree(vector<Point *> *P, float _diag) {
+myGridTree::myGridTree(vector<Point *> *P, std::unordered_map<string, string> &params) {
 
-    diagonal = _diag;
     ads = new converterGridTree();
     vector<myPoint *> points = ads->convertArray(P);
-    gridtree = new GridTree(points);
+
+
+    try {
+        diagonal = stof(params["diagonal"]);
+        thrsKdtree = stoi(params["thrsKdtree"]);
+        slotSizeFactor = stoi(params["slotSizeFactor"]);
+        MMD = stof(params["MMD"]);
+    }
+    catch(...){
+        cerr << "myGridTree :: Some parameter can't be readed! Check parameter names in your params file." << endl;
+        exit(EXIT_FAILURE);
+    }
+
+    slotsPerDimension = diagonal/(MMD*slotSizeFactor);
+    gridtree = new GridTree(points, slotsPerDimension, thrsKdtree);
 }
 
 myGridTree::~myGridTree() {

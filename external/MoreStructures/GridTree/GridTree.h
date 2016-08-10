@@ -1,10 +1,13 @@
 #ifndef PIPELINE_GRIDTREE_H
 #define PIPELINE_GRIDTREE_H
 
+#define TOLERANCE 0.0000000001
+
 #include "myPoint.h"
 #include "Cell.h"
 #include <ANN/ANNperf.h>
 #include <vector>
+
 
 using namespace std;
 
@@ -12,6 +15,7 @@ class GridTree
 {
 
     int slotsPerDimension; //number of equally spaced subdivisions in each dimension
+    int thrsKdtree;             // Threshols of points for kdtree construction
     vector< vector<double> > limits; // three rows (x,y,z) and two columns(min,max), keeps the information on limits in each dimension
 
     vector<vector<vector<Cell *> > > grid;
@@ -22,7 +26,7 @@ class GridTree
 
 public:
 
-    GridTree(vector<myPoint *> &vec, int numC=-1, double iTol=0.0000000001);
+    GridTree(vector<myPoint *> &vec, int numC=-1, int _thrsKdtree=100);
     ~GridTree();
 
     void kdtreezation();                        // creartes kdtree in each cell with nPoints > certain number.

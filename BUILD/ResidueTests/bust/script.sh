@@ -1,7 +1,7 @@
 #datastruct[0]="kdtree"
 #datastruct[1]="trihash"
 #datastruct[2]="compressedOctree"
-#datastruct[3]="4PCSkdtree"
+#datastruct[3]="S4PCSkdtree"
 #datastruct[4]="gridtree"
 
 datastruct[0]="gridtree"
@@ -51,12 +51,19 @@ do
 
       </methods>
 
+    <dataStructure>
+        <name>$DS</name>
+        <params>
+            <param name='thrsKdtree' value='10' />
+            <param name='slotSizeFactor' value='50'/> <!-- slotPerDim = diagonal/(MMD*slotSizeFactor) -->
+        </params>
+    </dataStructure>
+
       <generalProperties>
           <percOfPoints>1</percOfPoints>
           <nnErrorFactor>2</nnErrorFactor>
           <percOfNoise>0</percOfNoise> <!-- normalized % of MMD (perc * MMD) -->
           <normalizeModels>false</normalizeModels>
-          <dataStructure>$DS</dataStructure> <!-- options: kdtree, octree, compressedOctree, trihash, noDataStructure or your own -->
       </generalProperties>
   </params>" >> params.xml
 

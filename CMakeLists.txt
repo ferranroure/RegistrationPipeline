@@ -193,7 +193,6 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
             include/IDescriptor.h
             include/IManagerIO.h
             include/DataStructures/IDataStructure.h
-            include/DataStructures/DSparam.cpp
 
 #            external/Super4PCS/super4pcs/super4pcs.cc
 #            external/Super4PCS/super4pcs/shared4pcs.h

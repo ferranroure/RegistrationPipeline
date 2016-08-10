@@ -1,9 +1,10 @@
 #include "GridTree.h"
 
-GridTree::GridTree(vector<myPoint*> &vec, int numC, double iTol)
+GridTree::GridTree(vector<myPoint*> &vec, int numC, int _thrsKdtree)
 {
     slotsPerDimension = numC;
-    tol=iTol;
+    tol=TOLERANCE;
+    thrsKdtree = _thrsKdtree;
 
     nPoints = vec.size();
 
@@ -14,7 +15,7 @@ GridTree::GridTree(vector<myPoint*> &vec, int numC, double iTol)
         if(slotsPerDimension<2) {slotsPerDimension=2;}	// 8 cells is the minimum possible
     }
 
-    cout << "SLOTS PER DIMESION: " << slotsPerDimension << endl;
+//    cout << slotsPerDimension << ";";
 
     // First, find numeric limits
     //initialize limits using three vectors of two doubles (min a4nd max)
@@ -103,15 +104,13 @@ GridTree::~GridTree() {
 
 void GridTree::kdtreezation(){
 
-    int thsPoints = 200;
-
     for (int i = 0; i < slotsPerDimension; ++i) {
         for (int j = 0; j < slotsPerDimension; ++j) {
             for (int k = 0; k < slotsPerDimension; ++k) {
 
                 Cell *cell = grid[i][j][k];
 
-                cell->kdtreezation(thsPoints);
+                cell->kdtreezation(thrsKdtree);
             }
         }
     }

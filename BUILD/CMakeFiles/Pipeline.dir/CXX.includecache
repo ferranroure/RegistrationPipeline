@@ -79,10 +79,6 @@ include/base.h
 /home/ferran/MEGA/PROJECTS/RegistrationPipeline/data.cpp
 data.h
 /home/ferran/MEGA/PROJECTS/RegistrationPipeline/data.h
-IDescription.h
-/home/ferran/MEGA/PROJECTS/RegistrationPipeline/IDescription.h
-methods/des_shot.h
-/home/ferran/MEGA/PROJECTS/RegistrationPipeline/methods/des_shot.h
 
 /home/ferran/MEGA/PROJECTS/RegistrationPipeline/data.h
 iostream
@@ -105,6 +101,8 @@ include/elementset.h
 /home/ferran/MEGA/PROJECTS/RegistrationPipeline/include/elementset.h
 external/tinyxml2.h
 /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/tinyxml2.h
+unordered_map
+-
 
 /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/FineMatching/./Color.h
 Vec.h
@@ -1399,6 +1397,8 @@ myGridTree.h
 /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/MoreStructures/GridTree/GridTree.h
 ../../../external/MoreStructures/GridTree/myPoint.h
 /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/MoreStructures/GridTree/myPoint.h
+unordered_map
+-
 
 /home/ferran/MEGA/PROJECTS/RegistrationPipeline/include/DataStructures/kdtree/mykdtree.cpp
 mykdtree.h

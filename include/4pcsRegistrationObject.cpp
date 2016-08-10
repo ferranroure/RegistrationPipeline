@@ -1188,13 +1188,17 @@ void fpcsRegistrationObject::initialize(std::vector<Point3D> &v1,std::vector<Poi
 		dataStruct = new myKdtree(&points);
 	}
 	else if(dataStructType == "gridtree"){
-		dataStruct = new myGridTree(&points, diam);
+		unordered_map<string, string> params;
+		params["diagonal"] = to_string(diam);
+		dataStruct = new myGridTree(&points, params);
 	}
 	else if(dataStructType == "trihash"){
 		dataStruct = new myTriHash(&points, diam);
 	}
 	else{
-		dataStruct = new myGridTree(&points, diam);
+		unordered_map<string, string> params;
+		params["diagonal"] = to_string(diam);
+		dataStruct = new myGridTree(&points, params);
 	}
 
 

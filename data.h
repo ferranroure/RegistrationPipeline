@@ -24,6 +24,10 @@
 #include "include/elementset.h"
 #include "external/tinyxml2.h"
 
+#include <unordered_map>
+
+
+
 using namespace std;
 using namespace tinyxml2;
 
@@ -52,7 +56,9 @@ struct parameters{
     float percOfPoints;                 // % of points of the object used to search NN residue.
     int nSamples;                       // Number of sample points extracted in detection step.
     bool normalizeModels;               // Boolean about if models must be normalized or not. (divide points by biggest diagonal).
+
     string dataStructure;               // Data Structure used for Nearest Neighbour searching and Residue computation.
+    unordered_map<string, string> DSparams;             // Vector of Data Strcuture parameters.
 
     // All next parameters are the multipling factor for Mean Minimum Distance (MMD).
     float nnErrorFactor;                // Multipling factor for the error distance on NN search.
@@ -96,6 +102,7 @@ public:
     void setParametersXML(char * paramsfile);   // Set struct params with the information of XML paramsfile.
     bool toBool(string value);                  // Transform an string to bool.
     void crearteFileFromBase(string path, Point x, Point y, Point z);
+    unordered_map<string, string> setDSparams(XMLElement *xml);
 
 };
 #endif // DATA_H

@@ -1,6 +1,4 @@
 #include "data.h"
-#include "IDescription.h"
-#include "methods/des_shot.h"
 
 /* CONSTRUCTOR -------------------------------------------------------------
  *
@@ -25,7 +23,7 @@ Data::Data(char * paramsfile){
     float normFactor = 1;
 
 
-    A = new ElementSet(params.infile, params.dataStructure);
+    A = new ElementSet(params.infile, params.DSparams);
 
     // If no real data are used, we create a copy of target point cloud.
     if( ! params.realData){
@@ -33,7 +31,7 @@ Data::Data(char * paramsfile){
         params.infile2 = params.infile;
     }
     else{
-        B = new ElementSet(params.infile2, params.dataStructure);
+        B = new ElementSet(params.infile2, params.DSparams);
     }
 
 
@@ -141,7 +139,7 @@ void Data::printParams(){
     cout << "Thrs Factor:                   " << params.thrsFactor << endl;
     cout << "# of samples detected:         "; if(!params.useDetection) cout << "--"; else cout << params.nSamples; cout << endl;
     cout << "Normalize Models:              " << params.normalizeModels << endl;
-    cout << "Data Structure:                " << params.dataStructure << endl;
+    cout << "Data Structure:                " << params.DSparams["name"] << endl;
 
     cout << endl;
     cout << "MMD:                           " << params.MMD << endl;
@@ -228,6 +226,7 @@ void Data::setParametersXML(char * paramsfile){
     XMLElement *parameters = doc.FirstChildElement("params");
     XMLElement *files = parameters->FirstChildElement("files");
     XMLElement *methods = parameters->FirstChildElement("methods");
+    XMLElement *DS = parameters->FirstChildElement("dataStructure");
     XMLElement *generalProps = parameters->FirstChildElement("generalProperties");
 
     // FILES
@@ -264,12 +263,14 @@ void Data::setParametersXML(char * paramsfile){
     params.refineMethod = ref->FirstChildElement("method")->GetText();
     params.useRefinement = toBool(ref->Attribute("use"));
 
+    // DATA STRUCTURE
+    params.DSparams = setDSparams(DS);
+
     // GENERAL PROPERTIES
     params.percOfPoints = atof( generalProps->FirstChildElement("percOfPoints")->GetText() );
     params.nnErrorFactor = atof( generalProps->FirstChildElement("nnErrorFactor")->GetText() );
     params.percOfNoise = atof( generalProps->FirstChildElement("percOfNoise")->GetText() );
     params.normalizeModels = toBool( generalProps->FirstChildElement("normalizeModels")->GetText() );
-    params.dataStructure = generalProps->FirstChildElement("dataStructure")->GetText();
 
     params.GTdescThrs = 0;
     params.GTminDescDist = 0;
@@ -305,5 +306,21 @@ void Data::crearteFileFromBase(string path, Point x, Point y, Point z){
     lin->push_back(y);
     lin->push_back(z);
     plyio.writeBase(path, lin);
+}
+
+unordered_map<string, string> Data::setDSparams(XMLElement *XMLparams){
+
+    unordered_map<string, string> retParams;
+
+    retParams["name"] = XMLparams->FirstChildElement("name")->GetText();
+
+    XMLElement *allParams = XMLparams->FirstChildElement("params");
+
+    for (XMLElement* param = allParams->FirstChildElement("param"); param != NULL; param = param->NextSiblingElement()){
+
+        retParams[param->Attribute("name")] = param->Attribute("value");
+    }
+
+    return retParams;
 }
 

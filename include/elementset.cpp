@@ -31,7 +31,7 @@ ElementSet::ElementSet(ElementSet &ES){
     dataStruct = NULL;
     octree = NULL;
     normals = NULL; // should be also copied!
-    dataStructureType = ES.dataStructureType;
+    DSparams = ES.DSparams;
 
     if(ES.points != NULL){
 
@@ -46,8 +46,10 @@ ElementSet::ElementSet(ElementSet &ES){
         createWorkingStructures();
 
         calcDiagonal();
-        createDataStructure();
+        DSparams["diagonal"] = to_string(diagonal);
         calcMMD();
+        DSparams["MMD"] = to_string(MMD);
+        createDataStructure();
 
 //        pcl = new myPCL(points, MMD);
 
@@ -82,7 +84,7 @@ void ElementSet::createWorkingStructures() {
 /* CONSTRUCTOR -----------------------------------------------------------
  *
  */
-ElementSet::ElementSet(vector<Point> *lin, string _DSType) {
+ElementSet::ElementSet(vector<Point> *lin, unordered_map<string, string> &_DSparams) {
 
     points = NULL;
     workpoints =  NULL;
@@ -90,7 +92,7 @@ ElementSet::ElementSet(vector<Point> *lin, string _DSType) {
     dataStruct = NULL;
     octree = NULL;
     normals = NULL;
-    dataStructureType = _DSType;
+    DSparams = _DSparams;
 
     //initRandomMachine();
 
@@ -98,8 +100,10 @@ ElementSet::ElementSet(vector<Point> *lin, string _DSType) {
 
     createWorkingStructures();
     calcDiagonal();
-    createDataStructure();
+    DSparams["diagonal"] = to_string(diagonal);
     calcMMD();
+    DSparams["MMD"] = to_string(MMD);
+    createDataStructure();
 
 //    pcl = new myPCL(points, MMD);
 }
@@ -108,7 +112,7 @@ ElementSet::ElementSet(vector<Point> *lin, string _DSType) {
 /* CONSTRUCTOR -----------------------------------------------------------
  *
  */
-ElementSet::ElementSet(string file, string _DSType, float normFactor) {
+ElementSet::ElementSet(string file, unordered_map<string, string> &_DSparams, float normFactor) {
 
     //initRandomMachine();
 
@@ -118,7 +122,7 @@ ElementSet::ElementSet(string file, string _DSType, float normFactor) {
     dataStruct = NULL;
     octree = NULL;
     normals = NULL;
-    dataStructureType = _DSType;
+    DSparams = _DSparams;
 
 
     PlyIO plyio;
@@ -131,8 +135,10 @@ ElementSet::ElementSet(string file, string _DSType, float normFactor) {
 
     createWorkingStructures();
     calcDiagonal();
-    createDataStructure();
+    DSparams["diagonal"] = to_string(diagonal);
     calcMMD();
+    DSparams["MMD"] = to_string(MMD);
+    createDataStructure();
 
 
 //    pcl = new myPCL(points, MMD);
@@ -369,38 +375,38 @@ void ElementSet::transform(motion3D *m){
  */
 void ElementSet::createDataStructure(){
 
-    if(dataStructureType == ""){
+    if(DSparams["name"] == ""){
         cerr << "Not data structure defined! " << endl;
         exit(EXIT_FAILURE);
     }
 
     if(dataStruct!=NULL) delete dataStruct;
 
-    if(dataStructureType=="kdtree"){
+    if(DSparams["name"]=="kdtree"){
         dataStruct = new myKdtree(workpoints);
     }
-    else if(dataStructureType=="octree"){
+    else if(DSparams["name"]=="octree"){
         dataStruct = new myOctree(workpoints, diagonal/5);
     }
-    else if(dataStructureType=="compressedOctree"){
+    else if(DSparams["name"]=="compressedOctree"){
         dataStruct = new myCompressedOctree(workpoints, diagonal);
     }
-    else if(dataStructureType=="trihash"){
+    else if(DSparams["name"]=="trihash"){
         dataStruct = new myTriHash(workpoints, diagonal);
     }
-    else if(dataStructureType=="noDataStructure"){
+    else if(DSparams["name"]=="noDataStructure"){
         dataStruct = new noDataStructure(workpoints);
     }
-    else if(dataStructureType=="gridtree"){
-        dataStruct = new myGridTree(workpoints, diagonal);
+    else if(DSparams["name"]=="gridtree"){
+        dataStruct = new myGridTree(workpoints, DSparams);
     }
-    else if(dataStructureType=="kdtreeCV"){
+    else if(DSparams["name"]=="kdtreeCV"){
         dataStruct = new myKdtreeCV(workpoints);
     }
-    else if(dataStructureType=="flann"){
+    else if(DSparams["name"]=="flann"){
         dataStruct = new myFlann(workpoints);
     }
-    else if(dataStructureType=="S4PCSkdtree"){
+    else if(DSparams["name"]=="S4PCSkdtree"){
         dataStruct = new myS4PCSkdtree(workpoints, diagonal);
     }
     else{
