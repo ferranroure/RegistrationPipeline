@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # First gather file names and other parameters
 
 execDir=$1 #directory containing the executable file
@@ -31,7 +32,7 @@ printf "parameters $kdtreeThreshold $gridCellLengthFactor\n"
 #datastruct[4]="gridtree"
 
 datastruct[0]="gridtree"
-datastruct[1]="S4PCSkdtree"
+#datastruct[1]="S4PCSkdtree"
 
 for DS in "${datastruct[@]}"
 do

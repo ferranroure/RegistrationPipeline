@@ -34,7 +34,8 @@ myGridTree::myGridTree(vector<Point *> *P, std::unordered_map<string, string> &p
         exit(EXIT_FAILURE);
     }
 
-    slotsPerDimension = diagonal/(MMD*slotSizeFactor);
+//    slotsPerDimension = diagonal/(MMD*slotSizeFactor);
+    slotsPerDimension = slotSizeFactor;
     gridtree = new GridTree(points, slotsPerDimension, thrsKdtree);
 }
 
