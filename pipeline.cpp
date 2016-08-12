@@ -1,5 +1,5 @@
 #include "pipeline.h"
-#include "methods/ss_HNSS.h"
+
 
 
 /* CONSTRUCTOR ------------------------------------------------------------
@@ -78,6 +78,12 @@ void Pipeline::createMethods(){
             detection = new det_DistConnectedComponents();
             detection->setData(data);
         }
+        else if(data->params.detectMethod == "FPFH"){
+            cerr << "detector FPFH entering new" << endl;
+            detection = new det_FPFHSignature33();
+            cerr << "detector FPFH existting new" << endl;
+            detection->setData(data);
+        }
         else{
             cerr << "ERROR: The detection method is not valid." << endl;
             exit(EXIT_FAILURE);
@@ -117,6 +123,10 @@ void Pipeline::createMethods(){
         }
         else if(data->params.SSMethod == "Grid3D"){
             searching = new ss_Grid3D();
+            searching->setData(data);
+        }
+        else if(data->params.SSMethod == "PCLFEATBASED"){
+            searching = new ss_pclFeatureBased();
             searching->setData(data);
         }
         else{

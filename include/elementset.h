@@ -107,6 +107,7 @@ public:
     void    createDataStructure();                                  // Create Kdtree
     vector<DescDist> *sortPoints(Point *p);
     void    setPointDescriptor(int pos, IDescriptor *desc);
+    void    setWorkPointDescriptor(int pos, IDescriptor *desc);
     void    createWorkingStructures();
 
     void    initRandomMachine();                                    // Initiates the random generator

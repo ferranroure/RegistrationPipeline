@@ -8,29 +8,34 @@
       <sourceFolder url="file://$MODULE_DIR$/IDetection.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/outputhandler.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/myicp.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/timer.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/point.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/mypcl.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/descdist.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/base.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/IManagerIO.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/timer.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/descHistogram.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/point.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/descdist.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/4pcsRegistrationObject.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/descHistogram.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/IManagerIO.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/Converters/converterCGAL.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/Converters/converter4PCS.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Converters/converterPCL.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Converters/converter4PCS.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Converters/converterYago.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Converters/converterKdtree.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Converters/converterPCL.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Converters/converterKdtree.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/Converters/converterKdtree.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Converters/converterCGAL.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Converters/converterYago.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Converters/converterGridTree.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Converters/converterGridTree.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Converters/converterCGAL.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Converters/converter4PCS.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/Converters/converterYago.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/4pcsRegistrationObject.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/descHistogram.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/mypcl.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/4pcsRegistrationObject.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/plyio.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/timer.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/base.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/elementset.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/DataStructures/trihash/myTriHash.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/DataStructures/trihash/myTriHash.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/DataStructures/octree/Octree.cpp" isTestSource="false" />
@@ -48,44 +53,45 @@
       <sourceFolder url="file://$MODULE_DIR$/include/DataStructures/IDataStructure.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/DataStructures/compressedOctree/myCompressedOctree.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/DataStructures/compressedOctree/myCompressedOctree.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/mypcl.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/base.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/elementset.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/myicp.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/elementset.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/point.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/descdist.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/plyio.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/plyio.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/descdist.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/IDescriptor.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/myicp.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/ISearchingStrategy.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/IRefinement.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/IDescription.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/methods/ss_SmartForce.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/methods/det_HierarchicalNormalSpaceSampling.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/methods/det_RandomSampling.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/methods/det_NormalSpaceSampling.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/methods/det_RandomSampling.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/methods/det_ColorSpaceSampling.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/methods/det_iss.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/methods/des_shot.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/methods/det_iss.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/methods/det_ColorSpaceSampling.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/methods/det_DistConnectedComponents.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/methods/ss_3PS.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/methods/ss_SmartForce.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/methods/det_ColorSpaceSampling.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/methods/det_FPFHSignature33.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/methods/det_DistConnectedComponents.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/methods/des_sp.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/methods/det_HierarchicalNormalSpaceSampling.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/methods/det_NormalSpaceSampling.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/methods/det_FPFHSignature33.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/methods/des_shot.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/methods/ss_Grid3D.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/methods/det_KinectSuperSampling.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/methods/ss_SmartForce.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/methods/ss_pclFeatureBased.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/methods/des_fpfh.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/methods/det_iss.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/methods/det_HierarchicalNormalSpaceSampling.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/methods/det_NormalSpaceSampling.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/methods/ss_3PS.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/methods/des_shot.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/methods/ss_pclFeatureBased.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/methods/ss_4PCS.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/methods/des_fpfh.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/methods/ss_4PCS.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/methods/ref_icp.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/methods/des_sp.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/methods/det_KinectSuperSampling.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/methods/det_RandomSampling.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/methods/ss_Grid3D.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/methods/ss_HNSS.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/methods/det_DistConnectedComponents.cpp" isTestSource="false" />
@@ -98,7 +104,6 @@
       <sourceFolder url="file://$MODULE_DIR$/pipeline.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/inputhandler.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/external/tinyxml2.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/external/motion3D.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/external/vector3D.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/external/MoreStructures/AuxiliaryClasses/Element.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/external/MoreStructures/AuxiliaryClasses/point3D.h" isTestSource="false" />
@@ -120,6 +125,7 @@
       <sourceFolder url="file://$MODULE_DIR$/external/MoreStructures/CompressedOctree/CompressedCandidateZone.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/external/MoreStructures/CompressedOctree/CompressedOctree.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/external/MoreStructures/CompressedOctree/CompressedONode.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/external/motion3D.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/external/vector3D.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/external/motion3D.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/external/newmat10/cholesky.cpp" isTestSource="false" />

@@ -65,7 +65,7 @@ FIND_LIBRARY (  NEWMAT_LIB
 
 
 
-find_package(PCL 1.2 REQUIRED)
+find_package(PCL 1.7 REQUIRED)
 if ( PCL_FOUND )
     include_directories(${PCL_INCLUDE_DIRS})
     link_directories(${PCL_LIBRARY_DIRS})
@@ -191,7 +191,7 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
             IDescription.h
             ISearchingStrategy.h
             ISearchingStrategy.cpp
-            IRefinement.h methods/det_HierarchicalNormalSpaceSampling.cpp methods/det_HierarchicalNormalSpaceSampling.h methods/ss_HNSS.cpp methods/ss_HNSS.h)
+            IRefinement.h methods/det_HierarchicalNormalSpaceSampling.cpp methods/det_HierarchicalNormalSpaceSampling.h methods/ss_HNSS.cpp methods/ss_HNSS.h methods/det_FPFHSignature33.cpp methods/det_FPFHSignature33.h methods/ss_pclFeatureBased.cpp methods/ss_pclFeatureBased.h methods/des_fpfh.cpp methods/des_fpfh.h)
 
     # -pg -> profiler
     # -frounding-math -> something for CGAL library

@@ -28,6 +28,8 @@
 #include "methods/det_ColorSpaceSampling.h"
 #include "methods/det_KinectSuperSampling.h"
 #include "methods/det_DistConnectedComponents.h"
+#include "methods/det_FPFHSignature33.h"
+
 #include "methods/des_shot.h"
 #include "methods/des_sp.h"
 #include "methods/ss_SmartForce.h"
@@ -35,6 +37,9 @@
 #include "methods/ss_3PS.h"
 #include "methods/ss_Grid3D.h"
 #include "methods/ref_icp.h"
+#include "methods/ss_HNSS.h"
+#include "methods/ss_pclFeatureBased.h"
+
 
 #define COARSE 1
 #define FINE 2

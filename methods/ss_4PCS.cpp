@@ -54,7 +54,6 @@ double ss_4PCS::execute() {
     matcher.setUseNormal(true);
     matcher.setDataStructType(data->params.dataStructure);
 
-
     cout<<"ss_4PCS::execute() running 4points data structure with the following parameters "<<thr<<" "<<n_points<<" "<<norm_diff<<" "<<delta<<" "<<overlap<<endl;
 
     float a = matcher.compute(*set1, *set2, delta, overlap, mat);

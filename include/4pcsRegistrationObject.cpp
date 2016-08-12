@@ -1094,6 +1094,8 @@ void fpcsRegistrationObject::initialize(std::vector<Point3D> &v1,std::vector<Poi
 		int s1 = v1.size() / sample;
 		int s2 = v2.size() / sample;
 
+		cout<<"blind octopus inner 0"<<endl;
+
 		for (i = 0; i < v1.size(); i++) {
 			if (rand() % s1 == 0) {
 				//			cout << "id: " << i << endl;
@@ -1101,12 +1103,23 @@ void fpcsRegistrationObject::initialize(std::vector<Point3D> &v1,std::vector<Poi
 				sampMapP.push_back(i);
 			}
 		}
+		cout<<"blind octopus inner 1"<<endl;
+
 		for (i = 0; i < v2.size(); i++) {
+			cout<<"blind octopus deep 1 "<<list2.size()<<endl;
+
 			if (rand() % s2 == 0) {
+				cout<<"blind octopus deep 2"<<endl;
 				list2.push_back(v2[i]);
 				sampMapQ.push_back(i);
 			}
+			cout<<"blind octopus deep 3"<<endl;
+
 		}
+
+		cout<<"blind octopus inner "<<endl;
+
+
 	}
 	else// no sampling needed
 	{
@@ -1121,6 +1134,8 @@ void fpcsRegistrationObject::initialize(std::vector<Point3D> &v1,std::vector<Poi
 				sampMapQ.push_back(i);
 		}
 	}
+
+	cout<<"FINISHED SAMPLING"<<endl;
 
 	// TOTA AQUESTA HISTÒRIA ÉS PER TRASLLADAR ELS PUNTS SELECIONATS AL CENTRE DE MASSES
 	// I TREBALLAR DES D'ALLÀ.
@@ -1162,6 +1177,9 @@ void fpcsRegistrationObject::initialize(std::vector<Point3D> &v1,std::vector<Poi
 	}
 
 
+	cout<<"blind octopus 1"<<endl;
+
+
 	// passa de la llista a un format per tractar amb el kdtree.
 	int n_pts = list1.size();
 //cout << "# of samples: " << n_pts << endl;
@@ -1176,6 +1194,8 @@ void fpcsRegistrationObject::initialize(std::vector<Point3D> &v1,std::vector<Poi
 		p->setIndex(i);
 		points.push_back(p);
 	}
+
+	cout<<"blind octopus 2"<<endl;
 
 
 
@@ -1195,6 +1215,7 @@ void fpcsRegistrationObject::initialize(std::vector<Point3D> &v1,std::vector<Poi
 				diam = l;
 			}
 		}
+		cout<<"blind octopus 3"<<endl;
 
 	}
 else // we have few points so we compute the real diameter

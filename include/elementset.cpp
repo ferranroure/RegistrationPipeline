@@ -664,6 +664,12 @@ void ElementSet::setPointDescriptor(int pos, IDescriptor *desc) {
 
 }
 
+void ElementSet::setWorkPointDescriptor(int pos, IDescriptor *desc) {
+
+    workpoints->at(pos)->setDescriptor(desc);
+
+}
+
 // nCorr must be smaller thant nPoints();
 vector<Point *> *ElementSet::findCorrespondences(Point *p, int nCorr, bool usePCL, string method) {
 

@@ -265,7 +265,8 @@ void Data::setParametersXML(char * paramsfile){
     params.infile = files->FirstChildElement("infile")->GetText();
     params.infile2 = files->FirstChildElement("infile2")->GetText();
 
-  // check if it is ply or not and fix if necessary
+
+    // check if it is ply or not and fix if necessary
     params.infile=processFileByFormat(params.infile);
     params.infile2=processFileByFormat(params.infile2);
 
@@ -281,7 +282,6 @@ void Data::setParametersXML(char * paramsfile){
     params.nSamples = atoi( detProp->FirstChildElement("nSamples")->GetText() );
     params.nLevels = atoi( detProp->FirstChildElement("nLevels")->GetText() );
 
-
     XMLElement *desc = methods->FirstChildElement("description");
     params.descMethod = desc->FirstChildElement("method")->GetText();
     params.useDescription = toBool(desc->Attribute("use"));
@@ -293,9 +293,11 @@ void Data::setParametersXML(char * paramsfile){
     XMLElement *SS = methods->FirstChildElement("searchingStrategies");
     params.SSMethod = SS->FirstChildElement("method")->GetText();
     params.useSS = toBool(SS->Attribute("use"));
+
     XMLElement *SSProp =  SS->FirstChildElement("properties");
     params.nCells = atoi( SSProp->FirstChildElement("nCells")->GetText() );
     params.thrsFactor = atoi( SSProp->FirstChildElement("thrsFactor")->GetText() );
+
     XMLElement *FourPParams = SS->FirstChildElement("cmdLineParam");
     params.fourPUseCmdLineP = toBool(FourPParams->Attribute("use"));
     params.thr = atof(FourPParams->FirstChildElement("thr")->GetText());

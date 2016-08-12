@@ -13,13 +13,17 @@ PointCloud<PointXYZ>::Ptr converterPCL::points2PCL(vector<Point*> *points){
 
     PointCloud<PointXYZ>::Ptr cloud = PointCloud<PointXYZ>::Ptr(new PointCloud<PointXYZ>);
 
+
     for(int i=0; i<points->size(); i++){
 
         cloud->push_back(PointXYZ(points->at(i)->getX(), points->at(i)->getY(), points->at(i)->getZ()));
     }
 
+
     vector<int> indices;
-    pcl::removeNaNFromPointCloud(*cloud,*cloud, indices);
+    removeNaNFromPointCloud(*cloud,*cloud, indices);
+
+
 
     return cloud;
 }
@@ -41,7 +45,7 @@ vector<Point> *converterPCL::PCL2points(PointCloud<PointXYZ>::Ptr cloud) {
 
     vector<Point> *pointsToReturn = new vector<Point>();
 
-    pcl::PointCloud<pcl::PointXYZ>::iterator it;
+    PointCloud<PointXYZ>::iterator it;
 
     for (it = cloud->points.begin(); it < cloud->points.end(); it++) {
 
@@ -55,36 +59,46 @@ vector<Point> *converterPCL::PCL2points(PointCloud<PointXYZ>::Ptr cloud) {
 
 PointCloud<Normal>::Ptr converterPCL::calcNormals(PointCloud<PointXYZ>::Ptr cloud, float radiusSearch) {
 
-    PointCloud<Normal>::Ptr normals;
+   PointCloud<Normal>::Ptr normals;
 
-    pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> normal_estimation;
+    NormalEstimation<PointXYZ, Normal> normal_estimation;
     normal_estimation.setInputCloud (cloud);
-    //normal_estimation.setViewPoint(FLT_MAX, FLT_MAX, FLT_MAX);
-    //normal_estimation.setViewPoint(0,0,0);
 
-    pcl::search::KdTree<pcl::PointXYZ>::Ptr kdtree (new pcl::search::KdTree<pcl::PointXYZ>);
+    search::KdTree<PointXYZ>::Ptr kdtree (new search::KdTree<PointXYZ>);
     normal_estimation.setSearchMethod (kdtree);
 
-    normals = pcl::PointCloud<pcl::Normal>::Ptr( new pcl::PointCloud< pcl::Normal> );
+    normals = PointCloud<Normal>::Ptr( new PointCloud< Normal> );
     normal_estimation.setRadiusSearch (radiusSearch);
-//    normal_estimation.setKSearch(30);
-//    normal_estimation.setRadiusSearch (0.03);
     normal_estimation.compute (*normals);
-    /*
-    float vpx, vpy, vpz;
-    normal_estimation.getViewPoint(vpx, vpy, vpz);
-    repairNormalsPCL(normals, vpx, vpy, vpz);
-*/
+
     repairNormals(cloud, normals);
 
     return normals;
+
+
+/*
+    PointCloud<Normal>::Ptr normals;
+    normals.reset(new pcl::PointCloud<pcl::Normal> ());
+    pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> normal_estimation_filter;
+    normal_estimation_filter.setInputCloud (cloud);
+
+    pcl::search::KdTree<pcl::PointXYZ>::Ptr search_tree (new pcl::search::KdTree<pcl::PointXYZ>);
+    normal_estimation_filter.setSearchMethod (search_tree);
+
+    normal_estimation_filter.setRadiusSearch (radiusSearch);
+    normal_estimation_filter.compute (*normals);
+
+    return normals;
+
+*/
+
 }
 
 
-void converterPCL::repairNormals(PointCloud<PointXYZ>::Ptr workpoints, PointCloud<pcl::Normal>::Ptr normals) {
+void converterPCL::repairNormals(PointCloud<PointXYZ>::Ptr workpoints, PointCloud<Normal>::Ptr normals) {
 
     Eigen::Vector4f c;
-    int n = pcl::compute3DCentroid(*workpoints, c);
+    int n = compute3DCentroid(*workpoints, c);
 
 
     Point centroid(c[0], c[1], c[2]);
@@ -129,7 +143,7 @@ PointCloud<SHOT352>::Ptr converterPCL::desc2SHOT(vector<Point*> * points){
     }
 
 //    vector<int> indices;
-//    pcl::removeNaNFromPointCloud(*desc,*desc, indices);
+//    removeNaNFromPointCloud(*desc,*desc, indices);
 
 
     return desc;
@@ -137,19 +151,32 @@ PointCloud<SHOT352>::Ptr converterPCL::desc2SHOT(vector<Point*> * points){
 
 PointCloud<FPFHSignature33>::Ptr converterPCL::desc2FPFH(vector<Point*> * points){
 
+   // cout<<"converterPCL::desc2FPFH start "<<points->size()<<endl;
+
+
     PointCloud<FPFHSignature33>::Ptr desc = PointCloud<FPFHSignature33>::Ptr(new PointCloud<FPFHSignature33>);
 
     int descSize = points->at(0)->getDescSize();
 
-    for(int i=0; i<points->size(); i++){
-        for (int j = 0; j < descSize; ++j){
+//    cout<<"converterPCL::desc2FPFH looping "<<points->size()<<" with size "<<descSize<<endl;
 
-            desc->at(i).histogram[j] = points->at(i)->getDescriptor()->getValue(j);
+    for(int i=0; i<points->size(); i++){
+//        cout<<"converterPCL::desc2FPFH looping "<<i<<"/"<<points->size()<<endl;
+
+        FPFHSignature33 d;
+        for (int j = 0; j < descSize; ++j){
+  //          cout<<"converterPCL::desc2FPFH looping inside "<<j<<"/"<<descSize<<endl;
+
+            d.histogram[j] = points->at(i)->getDescriptor()->getValue(j);
         }
+        desc->push_back(d);
     }
 
 //    vector<int> indices;
-//    pcl::removeNaNFromPointCloud(*desc,*desc, indices);
+//    removeNaNFromPointCloud(*desc,*desc, indices);
+
+   // cout<<"converterPCL::desc2FPFH end "<<endl;
+
 
     return desc;
 }
@@ -161,14 +188,16 @@ PointCloud<ShapeContext1980>::Ptr converterPCL::desc23DSC(vector<Point*> * point
     int descSize = points->at(0)->getDescSize();
 
     for(int i=0; i<points->size(); i++){
+        ShapeContext1980 d;
         for (int j = 0; j < descSize; ++j){
 
-            desc->at(i).descriptor[j] = points->at(i)->getDescriptor()->getValue(j);
+            d.descriptor[j] = points->at(i)->getDescriptor()->getValue(j);
         }
+        desc->push_back(d);
     }
 
 //    vector<int> indices;
-//    pcl::removeNaNFromPointCloud(*desc,*desc, indices);
+//    removeNaNFromPointCloud(*desc,*desc, indices);
 
     return desc;
 }
@@ -180,14 +209,20 @@ PointCloud< Histogram<153> >::Ptr converterPCL::desc2SpinImage(vector<Point*> * 
     int descSize = points->at(0)->getDescSize();
 
     for(int i=0; i<points->size(); i++){
+
+        Histogram<153> d;
+
         for (int j = 0; j < descSize; ++j){
 
-            desc->at(i).histogram[j] = points->at(i)->getDescriptor()->getValue(j);
+            d.histogram[j] = points->at(i)->getDescriptor()->getValue(j);
         }
+
+        desc->push_back(d);
+
     }
 
 //    vector<int> indices;
-//    pcl::removeNaNFromPointCloud(*desc,*desc, indices);
+//    removeNaNFromPointCloud(*desc,*desc, indices);
 
     return desc;
 }

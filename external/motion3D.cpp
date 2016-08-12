@@ -607,7 +607,7 @@ Matrix S = X*W*Y.t();
 
 double det = Determinant(V*U.t());
 
-//cout<<"determinant V*U.t(): "<<det<<endl;
+//cout<<"determinant V*U.t(): "<<det_FPFHSignature33<<endl;
 
 DiagonalMatrix Aux(n);
 for(int i=1;i<n;i++) Aux(i)=1;
