@@ -369,7 +369,7 @@ void Pipeline::executeResidueComputation(bool multitest, char * matrix_path) {
     else {
         // Multi-execution test.
         double sum_time = 0;
-        int maxLoops = 10;
+        int maxLoops = 100;
 
         // Read matrix file to apply different movements and compute residues. It Checks time and obtains a mean value.
         vector<motion3D> matrices = readMatrices(matrix_path);
@@ -391,7 +391,7 @@ void Pipeline::executeResidueComputation(bool multitest, char * matrix_path) {
 
             delete aux;
 
-//            if (i >= maxLoops) break;
+            if (i >= maxLoops) break;
         }
 
 //        cout << "#movements: ;" << i << endl;

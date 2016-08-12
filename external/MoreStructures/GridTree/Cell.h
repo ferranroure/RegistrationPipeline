@@ -36,6 +36,7 @@ public:
     Super4PCS::KdTree<double> * getKdtree();
     void kdtreezation(int thsPoints);
     bool isKdtreezed();
+    bool empty();
 
 };
 

@@ -47,7 +47,6 @@ Cell::~Cell() {
 void Cell::kdtreezation(int thsPoints) {
 
     if(points.size() > thsPoints){
-//    if(!points.empty()){
 
         kdTree = new Super4PCS::KdTree<double>((int)points.size());
 
@@ -60,7 +59,6 @@ void Cell::kdtreezation(int thsPoints) {
             kdTree->add(p);
         }
         kdTree->finalize();
-
     }
 }
 
@@ -78,6 +76,11 @@ void Cell::addPoint(myPoint *p) {
 int Cell::get_nPoints() {
 
     return points.size();
+}
+
+bool Cell::empty(){
+
+    return points.empty();
 }
 
 

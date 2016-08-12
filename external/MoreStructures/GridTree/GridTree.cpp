@@ -87,6 +87,11 @@ GridTree::GridTree(vector<myPoint*> &vec, int numC, int _thrsKdtree)
         grid[x][y][z]->addPoint(currentP);
     }
 
+    calcMeanPoints();
+
+//    cout << "slots: " << pow(slotsPerDimension,3) << " NeC: " << notEmptyCells
+//         << " %: " <<  (100*notEmptyCells)/pow(slotsPerDimension,3) << " meanPoints: " << meanPoints << endl;
+
     kdtreezation();
 }
 
@@ -102,6 +107,28 @@ GridTree::~GridTree() {
     }
 }
 
+void GridTree::calcMeanPoints(){
+
+    int sum = 0;
+    int sum_i = 0;
+
+    for (int i = 0; i < slotsPerDimension; ++i) {
+        for (int j = 0; j < slotsPerDimension; ++j) {
+            for (int k = 0; k < slotsPerDimension; ++k) {
+
+                if(! grid[i][j][k]->empty()){
+
+                    sum += grid[i][j][k]->get_nPoints();
+                    sum_i++;
+                }
+            }
+        }
+    }
+
+    meanPoints = sum / sum_i;
+    notEmptyCells = sum_i;
+}
+
 void GridTree::kdtreezation(){
 
     for (int i = 0; i < slotsPerDimension; ++i) {
@@ -110,7 +137,7 @@ void GridTree::kdtreezation(){
 
                 Cell *cell = grid[i][j][k];
 
-                cell->kdtreezation(thrsKdtree);
+                cell->kdtreezation(thrsKdtree*(meanPoints/5));
             }
         }
     }

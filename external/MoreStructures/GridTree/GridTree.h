@@ -24,6 +24,9 @@ class GridTree
 
     int nPoints;
 
+    int meanPoints;                         // Mean of points of not empty cells.
+    int notEmptyCells;
+
 public:
 
     GridTree(vector<myPoint *> &vec, int numC=-1, int _thrsKdtree=100);
@@ -33,6 +36,7 @@ public:
     int getNumElems();
     int getSlotsPerDimension();
     float getMeanHeight();
+    void calcMeanPoints();                      // Compute mean of points of not empty cells.
 
     int findSlot(double val, char type, bool checkOutOfBounds=false, bool squared=false); // type=x,y,z returns the slot (for the givenn) where value val falls into. "checkOutOfBounds" indictes if we get out of bonds querys back IN bounds or if we throw an exception.
 
