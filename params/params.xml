@@ -60,8 +60,8 @@
     <dataStructure>
         <name>gridtree</name>
         <params>
-            <param name="thrsKdtree" value="5" />
-            <param name="slotSizeFactor" value="20"/> <!-- slotPerDim = diagonal/(MMD*slotSizeFactor) -->
+            <param name="thrsKdtree" value="1" />
+            <param name="slotSizeFactor" value="70"/> <!-- slotPerDim = diagonal/(MMD*slotSizeFactor) -->
         </params>
     </dataStructure>
 
