@@ -52,7 +52,8 @@ void ss_4PCS::execute() {
     matcher.setNumberOfPoints(n_points);
     matcher.setNormDiff(norm_diff);
     matcher.setUseNormal(true);
-    matcher.setDataStructType(data->params.dataStructure);
+//    matcher.setDataStructType(data->params.dataStructure);
+    matcher.setDataStructType("kdtree"); // FIX THIS PART (GRIDTREE CONSTRUCTION) passing params from parasfile!!
 
     Timer timer;
     timer.reset();

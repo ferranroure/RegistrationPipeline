@@ -138,6 +138,7 @@ void GridTree::kdtreezation(){
                 Cell *cell = grid[i][j][k];
 
                 cell->kdtreezation(thrsKdtree*(meanPoints/5));
+//                cell->kdtreezation(thrsKdtree);
             }
         }
     }
@@ -326,6 +327,7 @@ myPoint * GridTree::oneNeighbor(myPoint *p, double eps)
 
                 NN = currentCell->getPoint(resId);
                 bestSqrDist = sqrDist;
+                sqrEps = bestSqrDist;
             }
         }
     }
@@ -340,6 +342,7 @@ myPoint * GridTree::oneNeighbor(myPoint *p, double eps)
                 if (*p != *currentP) {
                     NN = currentP;
                     bestSqrDist = sqrDist;
+                    sqrEps = bestSqrDist;
                 }
             }
         }
@@ -397,6 +400,7 @@ myPoint * GridTree::oneNeighbor(myPoint *p, double eps)
 
                             NN = currentCell->getPoint(resId);
                             bestSqrDist = sqrDist;
+                            sqrEps = bestSqrDist;
                         }
                     }
                 }
@@ -410,6 +414,7 @@ myPoint * GridTree::oneNeighbor(myPoint *p, double eps)
 
                                 NN = currentP;
                                 bestSqrDist = sqrDist;
+                                sqrEps = bestSqrDist;
                             }
                         }
                     }

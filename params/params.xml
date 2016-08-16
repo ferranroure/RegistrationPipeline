@@ -5,8 +5,8 @@
         <!--<infile2>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/coral_left_moved.ply</infile2>-->
         <!--<infile>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/Rocks_right.ply</infile>-->
         <!--<infile2>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/Rocks_left_moved.ply</infile2>-->
-        <infile>../../models/ResidueTests/bust0.ply</infile>
-        <infile2>../../models/ResidueTests/bust1.ply</infile2>
+        <infile>../../models/ResidueTests/buddha0.ply</infile>
+        <infile2>../../models/ResidueTests/buddha1.ply</infile2>
         <!--<infile>../../models/prova/office0.ply</infile>-->
         <!--<infile2>../../models/prova/office1.ply</infile2>-->
         <!--<infileTemp>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/temp.ply</infileTemp>-->
@@ -60,8 +60,8 @@
     <dataStructure>
         <name>gridtree</name>
         <params>
-            <param name="thrsKdtree" value="1" />
-            <param name="slotSizeFactor" value="70"/> <!-- slotPerDim = diagonal/(MMD*slotSizeFactor) -->
+            <param name="thrsKdtree" value="3" />
+            <param name="slotSizeFactor" value="50"/> <!-- slotPerDim = diagonal/(MMD*slotSizeFactor) -->
         </params>
     </dataStructure>
 
