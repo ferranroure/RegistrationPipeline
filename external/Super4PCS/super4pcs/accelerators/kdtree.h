@@ -378,7 +378,7 @@ namespace Super4PCS{
     Index
     KdTree<Scalar, Index>::doQueryRestrictedClosestIndex(
             const VectorType& queryPoint,
-            Scalar &sqdist, // <- This is something piggy. I'm use it to return sqrd distance. (Ferran)
+            Scalar &sqdist, // <- This is something piggy. I'm use it to return sqr distance. (Ferran)
             int currentId)
     {
 
