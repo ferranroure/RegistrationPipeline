@@ -332,7 +332,7 @@ void Pipeline::executeTest(){
     cout << endl;
 }
 
-
+#define TEST 1
 void Pipeline::executeResidueComputation(bool multitest, char * matrix_path) {
 
     input.setData(data);
@@ -341,6 +341,12 @@ void Pipeline::executeResidueComputation(bool multitest, char * matrix_path) {
     Timer timer;
     int pairedPoints = 0;
 
+#if TEST
+    cout << data->params.DSparams["name"] << ";";
+    timer.reset();
+    data->A->createDataStructure();
+    cout << timer.elapsed() << ";";
+#else
     cout << endl << endl;
     cout << "-----------------------------------------------------------------------------------------" << endl;
     cout << "                                                   PIPELINE PROJECT - RESIDUE COMPUTATION" << endl;
@@ -349,13 +355,10 @@ void Pipeline::executeResidueComputation(bool multitest, char * matrix_path) {
     cout << "Data Structure:       ;" << data->params.DSparams["name"] << endl;
     cout << "MMD:                  ;" << data->A->getMMD() << endl;
     cout << "% of used points:     ;" << data->params.percOfPoints*100 << "%" <<  endl;
-
-//    cout << data->params.DSparams["name"] << ";";
     timer.reset();
     data->A->createDataStructure();
-//    cout << timer.elapsed() << ";";
     cout << "Data Structure construction time: ;" << timer.elapsed() <<  endl;
-
+#endif
 
     if( ! multitest) {
         // Regular test: 1 execution.
@@ -375,10 +378,11 @@ void Pipeline::executeResidueComputation(bool multitest, char * matrix_path) {
         vector<motion3D> matrices = readMatrices(matrix_path);
         int i = 0;
 
+#if TEST==0
         cout << endl;
         cout << "MULTI-EXECUTION TEST" << endl;
         cout << "% OF PAIRED POINTS; RESIDUE; TIME "<< endl;
-
+#endif
         for (i = 0; i < matrices.size(); ++i) {
 
             ElementSet *aux = new ElementSet(*(data->B));
@@ -387,17 +391,18 @@ void Pipeline::executeResidueComputation(bool multitest, char * matrix_path) {
             timer.reset();
             double res = data->A->calcNN(aux->getPoints(), data->params.percOfPoints, data->params.nnErrorFactor, pairedPoints);
             sum_time += timer.elapsed();
-            cout << ((float) pairedPoints / (float) data->A->allpoints->size()) << ";" << res << ";" << timer.elapsed() << ";" << endl;
+//            cout << ((float) pairedPoints / (float) data->A->allpoints->size()) << ";" << res << ";" << timer.elapsed() << ";" << endl;
 
             delete aux;
 
-            if (i >= maxLoops) break;
+//            if (i >= maxLoops) break;
         }
-
+#if TEST
+        cout << i << ";" << sum_time/i << ";";
+#else
         cout << "#movements: ;" << i << endl;
         cout <<" Mean Time: ;" << sum_time / i << endl;
-//
-//        cout << i << ";" << sum_time/i << ";";
+#endif
 
     }
 }

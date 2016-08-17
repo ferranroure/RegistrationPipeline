@@ -323,10 +323,6 @@ myPoint * GridTree::oneNeighbor(myPoint *p, double eps)
 
         if(resId != Super4PCS::KdTree<double>::invalidIndex()) {
 
-            // AIXO COMPROVA SI SON DIFERENTS O NO
-            double nari = p->sqrdist(*(currentCell->getPoint(resId)));
-//            if(sqrDist!=nari) cout << sqrDist << " " << nari << endl;
-            sqrDist = nari;
 
             if (sqrDist <= sqrEps && sqrDist < bestSqrDist) {
 
@@ -397,14 +393,10 @@ myPoint * GridTree::oneNeighbor(myPoint *p, double eps)
                     // sqrDist will be updated inside doQueryRestrictedClosestIndex() function
                     // with the distance between qP and its NN.
                     double sqrDist = sqrEps;
-                    Super4PCS::KdTree<double>::Index resId = currentCell->getKdtree()->doQueryRestrictedClosestIndex(qP, sqrEps);
+                    Super4PCS::KdTree<double>::Index resId = currentCell->getKdtree()->doQueryRestrictedClosestIndex(qP, sqrDist);
 
                     if(resId != Super4PCS::KdTree<double>::invalidIndex()) {
 
-                        // AIXO COMPROVA SI SON DIFERENTS O NO
-                        double nari = p->sqrdist(*(currentCell->getPoint(resId)));
-//            if(sqrDist!=nari) cout << sqrDist << " " << nari << endl;
-                        sqrDist = nari;
 
                         if (sqrDist <= sqrEps && sqrDist < bestSqrDist) {
 
