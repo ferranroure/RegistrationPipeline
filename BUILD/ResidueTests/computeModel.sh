@@ -13,6 +13,8 @@ outputFile=$6
 kdtreeThreshold=$7
 gridCellLengthFactor=$8 #parameter onlyl to be used for the gridtree (might need to turn the single printf below in one printf for each line for this). Should be able to change the number of slotsperdimension in the gridtree data structure so the lenghts of a cell (in its smaller dimension) is a factor of epsilon.
 
+ rm -f params.xml
+
 printf "[[ DIRS: ]] \n"
 printf "Exec: $execDir \n"
 printf "Output: $outputDir\n"
@@ -31,8 +33,8 @@ printf "parameters $kdtreeThreshold $gridCellLengthFactor\n"
 #datastruct[3]="S4PCSkdtree"
 #datastruct[4]="gridtree"
 
+#datastruct[0]="S4PCSkdtree"
 datastruct[0]="gridtree"
-datastruct[1]="S4PCSkdtree"
 
 for DS in "${datastruct[@]}"
 do
@@ -87,12 +89,14 @@ do
 
       <generalProperties>
           <percOfPoints>1</percOfPoints>
-          <nnErrorFactor>2</nnErrorFactor>
+          <nnErrorFactor>3</nnErrorFactor>
           <percOfNoise>0</percOfNoise> <!-- normalized % of MMD (perc * MMD) -->
           <normalizeModels>false</normalizeModels>
       </generalProperties>
   </params>" >> params.xml
 
+
+#echo "doing $execDir/Pipeline params.xml 1 $matrix"
   $execDir/Pipeline params.xml 1 $matrix >> $outputFile
   rm -f params.xml
 done

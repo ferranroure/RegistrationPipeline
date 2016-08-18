@@ -57,6 +57,15 @@ GridTree::GridTree(vector<myPoint*> &vec, int numC, int _thrsKdtree)
     }
 
 
+    // set also slot sizes
+    slotSizeX=fabs(limits[0][1]-limits[0][0])/slotsPerDimension;
+    slotSizeY=fabs(limits[1][1]-limits[1][0])/slotsPerDimension;
+    slotSizeZ=fabs(limits[2][1]-limits[2][0])/slotsPerDimension;
+
+    sqSlotSizeX=slotSizeX*slotSizeX;
+    sqSlotSizeY=slotSizeY*slotSizeY;
+    sqSlotSizeZ=slotSizeZ*slotSizeZ;
+
     // now that we know its dimensions, distribute the points throughout the grid
     // memory initialization
     grid = vector<vector<vector<Cell *> > >(slotsPerDimension);
@@ -68,9 +77,10 @@ GridTree::GridTree(vector<myPoint*> &vec, int numC, int _thrsKdtree)
         {
             grid[i][j]=vector<Cell *>(slotsPerDimension);
             for (int k = 0; k < slotsPerDimension; ++k) {
-                grid[i][j][k] = new Cell();
+                grid[i][j][k] = new Cell(limits[0][0]+i*slotSizeX,limits[0][0]+(i+1)*slotSizeX,limits[1][0]+j*slotSizeY,limits[1][0]+(j+1)*slotSizeY,limits[2][0]+k*slotSizeZ,limits[2][0]+(k+1)*slotSizeZ);
             }
         }
+
     }
 
 
@@ -309,7 +319,6 @@ myPoint * GridTree::oneNeighbor(myPoint *p, double eps)
 
     Cell *currentCell = grid[slotx][sloty][slotz];
 
-
     if (currentCell->isKdtreezed()){
         Super4PCS::KdTree<double>::VectorType qP;
         qP << p->getX(),
@@ -324,9 +333,14 @@ myPoint * GridTree::oneNeighbor(myPoint *p, double eps)
         if(resId != Super4PCS::KdTree<double>::invalidIndex()) {
 
             // AIXO COMPROVA SI SON DIFERENTS O NO
-            double nari = p->sqrdist(*(currentCell->getPoint(resId)));
-//            if(sqrDist!=nari) cout << sqrDist << " " << nari << endl;
-            sqrDist = nari;
+           /* double nari = p->sqrdist(*(currentCell->getPoint(resId)));
+            if(fabs(sqrDist-nari)>0.000000000000001)
+            {
+                cout << sqrDist << " " << nari << endl;
+                cout<<"MASSA DIFERENTS           *******************************************************************:"<<endl;
+                exit(-1);
+          }
+            sqrDist = nari;*/
 
             if (sqrDist <= sqrEps && sqrDist < bestSqrDist) {
 
@@ -361,11 +375,81 @@ myPoint * GridTree::oneNeighbor(myPoint *p, double eps)
     // Rewrite this part if we can't use sqrDist!
     if(NN != NULL){
         sqrEps = bestSqrDist;
-        eps = sqrt(bestSqrDist);
+        bool touchOut=currentCell->touchOut(p->getX(),p->getY(),p->getZ(),sqrEps);
+        if(touchOut) {
+            eps = sqrt(bestSqrDist);
 
-        limitsX = slotsTouched(p->getX()-eps, p->getX()+eps, 'x', false);
-        limitsY = slotsTouched(p->getY()-eps, p->getY()+eps, 'y', false);
-        limitsZ = slotsTouched(p->getZ()-eps, p->getZ()+eps, 'z', false);
+            limitsX = slotsTouched(p->getX() - eps, p->getX() + eps, 'x', false);
+            limitsY = slotsTouched(p->getY() - eps, p->getY() + eps, 'y', false);
+            limitsZ = slotsTouched(p->getZ() - eps, p->getZ() + eps, 'z', false);
+        }
+        else{
+            //do nothing
+            limitsX = vector<int>(2);
+            limitsY = vector<int>(2);
+            limitsZ = vector<int>(2);
+            limitsX[0]=slotx;
+            limitsX[1]=slotx;
+            limitsY[0]=sloty;
+            limitsY[1]=sloty;
+            limitsZ[0]=slotz;
+            limitsZ[1]=slotz;
+
+        }
+/*        if(!touchOut&& ((limitsX[0]!=slotx )||(limitsX[1]!=slotx )||(limitsY[0]!=sloty )||(limitsY[1]!=sloty )||(limitsZ[0]!=slotz )||(limitsZ[1]!=slotz ) ))
+        {
+
+            cout<<" ************************************************************************************************************************************ostiaPuta "<< p->getX()<<endl;
+            exit(-1);
+
+        }*/
+
+
+        // alternative way,x
+      /*  double lowQueue=p->getX()-currentCell->getXMin();
+        lowQueue=(lowQueue*lowQueue)-sqrEps;
+
+        int otherLimitsXLow;
+        int offset1;
+        if(lowQueue>0) {
+            offset1 = ceil(lowQueue / sqSlotSizeX);
+            otherLimitsXLow = slotx - offset1;
+        }
+        else{otherLimitsXLow = slotx;}
+
+        double highQueue=currentCell->getXMax()-p->getX();
+        highQueue=(highQueue*highQueue)-sqrEps;
+
+        int otherLimitsXHigh;
+        int offset2;
+        if(highQueue>0) {
+            int offset2 = ceil(highQueue / sqSlotSizeX);
+            otherLimitsXHigh = slotx + offset2;
+        }
+        else{otherLimitsXHigh = slotx;}
+
+
+        if(otherLimitsXLow<0) {otherLimitsXLow=0;}
+        if(otherLimitsXHigh>limits[0][1]) {otherLimitsXHigh=limits[0][1];}
+
+        //check the alternative way is right
+        if (otherLimitsXLow != limitsX[0]) {
+            cout<<" p->getX() "<< p->getX()<<endl;
+            cout<<" current cell "<< currentCell->getXMin()<<" "<<currentCell->getXMax()<<endl;
+            cout<<" lowQueue "<< lowQueue <<" "<<lowQueue/sqSlotSizeX<<endl;
+            cout<<" epsilon "<< eps<<endl;
+            cout<<" epsilnSq "<< sqrEps<<endl;
+            cout<<" slots jumped "<<offset1<<" "<<offset2 <<endl;
+
+
+            cout << "11111111111111111111111111111111111111111111111111111111Cagada x al quadrat " << otherLimitsXLow << " hauria de ser " << limitsX[0] << endl;
+            exit(-1);
+        }
+        if (otherLimitsXHigh != limitsX[1]) {
+            cout << "22222222222222222222222222222222222222222222222222222222222222Cagada x al quadrat alt " << otherLimitsXHigh << " hauria de ser " << limitsX[1] << endl;
+            exit(-1);
+        }*/
+
     }
     else{
 
@@ -386,6 +470,7 @@ myPoint * GridTree::oneNeighbor(myPoint *p, double eps)
 
                 Cell *currentCell = grid[i][j][k];
 
+                if(!currentCell->xPossiblytouched(p->getX(),sqrEps)||!currentCell->yPossiblytouched(p->getY(),sqrEps)||!currentCell->zPossiblytouched(p->getZ(),sqrEps)) continue;
 
                 if (currentCell->isKdtreezed()){
 
@@ -397,14 +482,23 @@ myPoint * GridTree::oneNeighbor(myPoint *p, double eps)
                     // sqrDist will be updated inside doQueryRestrictedClosestIndex() function
                     // with the distance between qP and its NN.
                     double sqrDist = sqrEps;
-                    Super4PCS::KdTree<double>::Index resId = currentCell->getKdtree()->doQueryRestrictedClosestIndex(qP, sqrEps);
+                    Super4PCS::KdTree<double>::Index resId = currentCell->getKdtree()->doQueryRestrictedClosestIndex(qP, sqrDist);
 
                     if(resId != Super4PCS::KdTree<double>::invalidIndex()) {
 
                         // AIXO COMPROVA SI SON DIFERENTS O NO
-                        double nari = p->sqrdist(*(currentCell->getPoint(resId)));
+                      //  double nari = p->sqrdist(*(currentCell->getPoint(resId)));
 //            if(sqrDist!=nari) cout << sqrDist << " " << nari << endl;
-                        sqrDist = nari;
+                 //       sqrDist = nari;
+
+                /*        double nari = p->sqrdist(*(currentCell->getPoint(resId)));
+                        if(fabs(sqrDist-nari)>0.000000000000001)
+                        {
+                            cout << sqrDist << " " << nari << endl;
+                            cout<<"2MASSA DIFERENTS           *******************************************************************:"<<endl;
+                           // exit(-1);
+                        }
+                        sqrDist = nari;*/
 
                         if (sqrDist <= sqrEps && sqrDist < bestSqrDist) {
 
@@ -415,7 +509,8 @@ myPoint * GridTree::oneNeighbor(myPoint *p, double eps)
                     }
                 }
                 else {
-                    for (int i_p = 0; i_p < grid[i][j][k]->get_nPoints(); ++i_p) {
+                    int nPointsInCell=grid[i][j][k]->get_nPoints();
+                    for (int i_p = 0; i_p <nPointsInCell ; ++i_p) {
                         myPoint *currentP = currentCell->getPoint(i_p);
                         double sqrDist = currentP->sqrdist(*p);
 
@@ -467,4 +562,25 @@ float GridTree::getMeanHeight() {
 //    }
 //
 //    return sum_depth/nKdtreezed;
+}
+
+int GridTree::numberSlotsTouchedSquared(double sqEps, char type)
+{
+    switch( type )
+    {
+        case 'x' :
+            return sqEps/sqSlotSizeX;
+            break;
+        case 'y' :
+            return sqEps/sqSlotSizeY;
+            break;
+        case 'z' :
+            return sqEps/sqSlotSizeZ;
+            break;
+
+        default  : cout<<"GridTree::numberSlotsTouchedSquared wrong slot type???? "<<endl;
+            throw("GridTree::numberSlotsTouchedSquared wrong slot type????  ");
+            break;
+    }
+    return 0;
 }

@@ -1,16 +1,16 @@
-testDir="/home/ferran/MEGA/PROJECTS/RegistrationPipeline/BUILD"
-modelsDir="/home/ferran/MEGA/PROJECTS/models/ResidueTests"
-outputFilePrefix=$testDir"/ResidueTests/test4"
-outputFilePrefix2=$testDir"/ResidueTests/test4"
+testDir="/home/yago/code/RegistrationPipelineFerran/BUILD"
+modelsDir="/home/yago/code/models/ResidueTests"
+outputFilePrefix=$testDir"/ResidueTests/test4PAPAPA"
+outputFilePrefix2=$testDir"/ResidueTests/test4APAPA"
 
 # loop over kdtree thresholds and gridtreecellfactors, for every model
 
 # TEST WITH WITH THRS DEPENDING ON M -----------------------------
-#for kdThreshold in 1 2 3 4 5 6
-for kdThreshold in 50
+for kdThreshold in 1 2 3 4 5 6 7 8 9 10 
+#for kdThreshold in 50
 do
-#	for cellFactor in 20 50 70 100 120
-	for cellFactor in 150
+	for cellFactor in 20 50 70 100 120 150 200 250 500 750
+#	for cellFactor in 150
 	do
 		#test Bremen
 		printf "\nStarting Bremen\n"
@@ -22,7 +22,6 @@ do
     END=$(date +%s)
 		DIFF=$(( $END - $START ))
 		printf "Bremen tested IN $DIFF\n\n"
-
 
 		#test Bust
 		printf "\nStarting Bust\n"

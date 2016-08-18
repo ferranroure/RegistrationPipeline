@@ -388,6 +388,7 @@ namespace Super4PCS{
         mNodeStack[0].nodeId = 0;
         mNodeStack[0].sq = 0.f;
         unsigned int count = 1;
+        double tol = 0.00000001;
 
         //int nbLoop = 0;
         while (count)
@@ -406,9 +407,9 @@ namespace Super4PCS{
                         const Scalar sqdist = (queryPoint - mPoints[i]).squaredNorm();
                         if (sqdist <= cl_dist && mIndices[i] != currentId){
                             //FERRAN MODIFICATION                   // *
-                            if(     queryPoint[0]!=mPoints[i][0] || // *
-                                    queryPoint[1]!=mPoints[i][1] || // *
-                                    queryPoint[2]!=mPoints[i][2]) { // *
+                            if(    fabs(queryPoint[0]-mPoints[i][0])>tol || // *
+                                   fabs(queryPoint[1]-mPoints[i][1])>tol || // *
+                                   fabs(queryPoint[2]-mPoints[i][2])>tol) { // *
                                 cl_dist = sqdist;
                                 cl_id = mIndices[i];
                             }                                       // *

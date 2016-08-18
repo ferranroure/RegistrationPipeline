@@ -53,7 +53,7 @@ do
 
       <generalProperties>
           <percOfPoints>1</percOfPoints>
-          <nnErrorFactor>2</nnErrorFactor>
+          <nnErrorFactor>1</nnErrorFactor>
           <percOfNoise>0</percOfNoise> <!-- normalized % of MMD (perc * MMD) -->
           <normalizeModels>false</normalizeModels>
           <dataStructure>$DS</dataStructure> <!-- options: kdtree, octree, compressedOctree, trihash, noDataStructure or your own -->

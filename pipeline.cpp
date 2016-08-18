@@ -391,7 +391,7 @@ void Pipeline::executeResidueComputation(bool multitest, char * matrix_path) {
 
             delete aux;
 
-            if (i >= maxLoops) break;
+   //         if (i >= maxLoops) break;
         }
 
         cout << "#movements: ;" << i << endl;

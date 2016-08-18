@@ -27,6 +27,14 @@ class GridTree
     int meanPoints;                         // Mean of points of not empty cells.
     int notEmptyCells;
 
+    double slotSizeX;
+    double slotSizeY;
+    double slotSizeZ;
+
+    double sqSlotSizeX;
+    double sqSlotSizeY;
+    double sqSlotSizeZ;
+
 public:
 
     GridTree(vector<myPoint *> &vec, int numC=-1, int _thrsKdtree=100);
@@ -41,6 +49,8 @@ public:
     int findSlot(double val, char type, bool checkOutOfBounds=false, bool squared=false); // type=x,y,z returns the slot (for the givenn) where value val falls into. "checkOutOfBounds" indictes if we get out of bonds querys back IN bounds or if we throw an exception.
 
     vector<int> slotsTouched(double min, double max, char type, bool squared=false); // returns minimum and maximum slots touched by an interval in a dimension x,y o z (indicated by type)
+    int numberSlotsTouchedSquared(double sqEps,  char type); // returns the number of slots touched up or down (receives the part outside of the current cell), then need to account for minimum and maximum slots
+
 
     vector<myPoint *> neighbors(myPoint *p, double eps); // returns all neigbors at distance at most eps from p, if it finds p it does not return it
     myPoint * oneNeighbor(myPoint *p, double eps); // returns all neigbors at distance at most eps from p, if it finds p it does not return it

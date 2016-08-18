@@ -4,10 +4,14 @@
 
 #include "Cell.h"
 
-Cell::Cell() {
-
+Cell::Cell(double ixMin,double ixMax,double iyMin,double iyMax,double izMin,double izMax) {
     kdTree = NULL;
-
+    xMin=ixMin;
+    xMax=ixMax;
+    yMin=iyMin;
+    yMax=iyMax;
+    zMin=izMin;
+    zMax=izMax;
 }
 
 Cell::~Cell() {
