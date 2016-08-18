@@ -2,7 +2,8 @@
 
 GridTree::GridTree(vector<myPoint*> &vec, int numC, int _thrsKdtree)
 {
-    slotsPerDimension = numC;
+//    slotsPerDimension = numC;
+    slotsPerDimension = -1;
     tol=TOLERANCE;
     thrsKdtree = _thrsKdtree;
 
@@ -11,7 +12,6 @@ GridTree::GridTree(vector<myPoint*> &vec, int numC, int _thrsKdtree)
     if(slotsPerDimension==-1) // in the case where the number of cells was not specified, make charge factor to be near 1
     {
         slotsPerDimension = pow(vec.size(),1/(3.));
-//        slotsPerDimension = 30;
         if(slotsPerDimension<2) {slotsPerDimension=2;}	// 8 cells is the minimum possible
     }
 

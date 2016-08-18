@@ -32,7 +32,7 @@ printf "parameters $kdtreeThreshold $gridCellLengthFactor\n"
 #datastruct[4]="gridtree"
 
 datastruct[0]="gridtree"
-datastruct[1]="S4PCSkdtree"
+#datastruct[1]="S4PCSkdtree"
 
 for DS in "${datastruct[@]}"
 do

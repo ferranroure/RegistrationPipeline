@@ -430,10 +430,12 @@ void ElementSet::createDataStructure(){
  */
 double ElementSet::calcNN(vector<Point> *Q, double percOfPoints, float errorFactor, int &pairedPoints){
 
+
     double MSD = 0;
     int err = 0;
     vector<int> NNv;
-    float sqrErr = pow(MMD*errorFactor,2);
+    float eps = MMD*errorFactor;
+    float sqrErr = pow(eps,2);
 
     //srand(time(NULL));
     double rn;
@@ -443,12 +445,14 @@ double ElementSet::calcNN(vector<Point> *Q, double percOfPoints, float errorFact
         rn = ((double) rand() / (RAND_MAX));
         if(rn <= percOfPoints){
 
-            returnData rd = dataStruct->calcOneNN(&(*it), MMD*errorFactor);
+            returnData rd = dataStruct->calcOneNN(&(*it), eps);
 
             // counting errors
 //            cout << sqrt(rd.sqrDist) << " " << MMD*errorFactor << endl;
             if(rd.sqrDist > sqrErr) err++;
             else {
+
+//                cout << rd.index << " " << rd.sqrDist << endl;
                 MSD += rd.sqrDist;
                 NNv.push_back(rd.index);
             }
