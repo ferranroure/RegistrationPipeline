@@ -5,8 +5,8 @@
         <!--<infile2>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/coral_left_moved.ply</infile2>-->
         <!--<infile>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/Rocks_right.ply</infile>-->
         <!--<infile2>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/Rocks_left_moved.ply</infile2>-->
-        <infile>../../models/ResidueTests/bun0.ply</infile>
-        <infile2>../../models/ResidueTests/bun1.ply</infile2>
+        <infile>../../models/ResidueTests/buddha0.ply</infile>
+        <infile2>../../models/ResidueTests/buddha1.ply</infile2>
         <!--<infile>../../models/prova/office0.ply</infile>-->
         <!--<infile2>../../models/prova/office1.ply</infile2>-->
         <!--<infileTemp>/home/ferran/MEGA/PROJECTS/Pipeline/models/roques/temp.ply</infileTemp>-->
@@ -61,14 +61,13 @@
         <name>gridtree</name>
         <!--<name>S4PCSkdtree</name>-->
         <params>
-            <param name="thrsKdtree" value="2" />
-            <param name="slotSizeFactor" value="120"/> <!-- slotPerDim = diagonal/(MMD*slotSizeFactor) -->
+            <param name="internDS" value="S4PCSkdtree" />
         </params>
     </dataStructure>
 
     <generalProperties>
         <percOfPoints>1</percOfPoints>
-        <nnErrorFactor>5</nnErrorFactor>
+        <nnErrorFactor>2</nnErrorFactor>
         <percOfNoise>0</percOfNoise> <!-- normalized % of MMD (perc * MMD) -->
         <normalizeModels>false</normalizeModels>
         <!--<dataStructure>gridtree</dataStructure> &lt;!&ndash; options: gridtree, kdtree, kdtreeCV, octree, compressedOctree, trihash, noDataStructure or your own &ndash;&gt;-->

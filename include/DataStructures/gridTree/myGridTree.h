@@ -27,6 +27,7 @@ public:
     int slotSizeFactor;
     float MMD;
     int slotsPerDimension;
+    string DStype;
 
     // Methods ------------------------------------------------------------
     myGridTree();

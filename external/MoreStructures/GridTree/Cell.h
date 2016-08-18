@@ -10,10 +10,13 @@
 
 #include <iostream>
 #include <vector>
-#include <accelerators/kdtree.h>
-#include <accelerators/bbox.h>
-#include "myPoint.h"
+//#include "myPoint.h"
 #include "../../../include/point.h"
+#include "../../../include/DataStructures/IDataStructure.h"
+#include "../../../include/DataStructures/kdtree/mykdtree.h"
+#include "../../../include/DataStructures/compressedOctree/myCompressedOctree.h"
+#include "../../../include/DataStructures/S4PCSkdtree/myS4PCSkdtree.h"
+#include "../../../include/DataStructures/trihash/myTriHash.h"
 
 
 #define DIMENSIONS 3
@@ -23,18 +26,18 @@ using namespace std;
 
 class Cell {
 
-    vector<myPoint *> points;
-    Super4PCS::KdTree<double> * kdTree;
+    vector<Point *> *points;
+    IDataStructure * dataStructure;
 
 public:
     Cell();
     ~Cell();
 
-    void addPoint(myPoint *p);
-    myPoint * getPoint(int pos);
+    void addPoint(Point *p);
+    Point * getPoint(int pos);
     int get_nPoints();
-    Super4PCS::KdTree<double> * getKdtree();
-    void kdtreezation(int thsPoints);
+    IDataStructure * getDataStructure();
+    void kdtreezation(string dsType, int thsPoints, float diagonal);
     bool isKdtreezed();
     bool empty();
 

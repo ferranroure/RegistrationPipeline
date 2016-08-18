@@ -9,10 +9,6 @@ sourceFile=$4
 matrix=$5
 outputFile=$6
 
-# enter also other parameters
-kdtreeThreshold=$7
-gridCellLengthFactor=$8 #parameter onlyl to be used for the gridtree (might need to turn the single printf below in one printf for each line for this). Should be able to change the number of slotsperdimension in the gridtree data structure so the lenghts of a cell (in its smaller dimension) is a factor of epsilon.
-
 printf "[[ DIRS: ]] \n"
 printf "Exec: $execDir \n"
 printf "Output: $outputDir\n"
@@ -21,21 +17,19 @@ printf "TARGET: $targetFile \n"
 printf "SOURCE: $sourceFile \n"
 printf "MATRIX: $matrix \n"
 printf "OUTPUT: $outputFile\n"
-printf "parameters $kdtreeThreshold $gridCellLengthFactor\n"
 
-# definition of the data structures to be tested.
+datastruct[0]="kdtree"
+datastruct[1]="gridtree"
+datastruct[2]="trihash"
+datastruct[3]="gridtree"
+datastruct[4]="compressedOctree"
+datastruct[5]="gridtree"
+datastruct[6]="S4PCSkdtree"
+datastruct[7]="gridtree"
 
-#datastruct[0]="kdtree"
-#datastruct[1]="trihash"
-#datastruct[2]="compressedOctree"
-#datastruct[3]="S4PCSkdtree"
-#datastruct[4]="gridtree"
-
-datastruct[0]="gridtree"
-#datastruct[1]="S4PCSkdtree"
-
-for DS in "${datastruct[@]}"
+for i in {0..7}
 do
+  j=$((i-1))
   printf "<params>
       <files>
           <realData>true</realData>
@@ -78,10 +72,9 @@ do
       </methods>
 
     <dataStructure>
-        <name>$DS</name>
+        <name>"${datastruct[$i]}"</name>
         <params>
-            <param name='thrsKdtree' value='$kdtreeThreshold' />
-            <param name='slotSizeFactor' value='$gridCellLengthFactor'/> <!-- slotPerDim = diagonal/(MMD*slotSizeFactor) -->
+            <param name='internDS' value='"${datastruct[$j]}"' />
         </params>
     </dataStructure>
 
@@ -93,6 +86,6 @@ do
       </generalProperties>
   </params>" >> params.xml
 
-  $execDir/Pipeline2 params.xml 1 $matrix >> $outputFile
+  $execDir/Pipeline params.xml 1 $matrix >> $outputFile
   rm -f params.xml
 done

@@ -1029,10 +1029,24 @@ CMakeFiles/Pipeline.dir/external/MoreStructures/CompressedOctree/CompressedOctre
 CMakeFiles/Pipeline.dir/external/MoreStructures/GridTree/Cell.cpp.o
  ../external/Super4PCS/super4pcs/accelerators/bbox.h
  ../external/Super4PCS/super4pcs/accelerators/kdtree.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/MoreStructures/AuxiliaryClasses/./point3D.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/MoreStructures/AuxiliaryClasses/Element.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/MoreStructures/AuxiliaryClasses/point3D.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/MoreStructures/CompressedOctree/././CompressedInformacioGeometrica.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/MoreStructures/CompressedOctree/./CompressedCandidateZone.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/MoreStructures/CompressedOctree/./CompressedONode.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/MoreStructures/CompressedOctree/CompressedOctree.h
  /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/MoreStructures/GridTree/Cell.cpp
  /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/MoreStructures/GridTree/Cell.h
- /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/MoreStructures/GridTree/myPoint.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/MoreStructures/TriHash/TriHash.h
  /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/vector3D.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/include/Converters/converterKdtree.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/include/Converters/converterYago.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/include/DataStructures/IDataStructure.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/include/DataStructures/S4PCSkdtree/myS4PCSkdtree.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/include/DataStructures/compressedOctree/myCompressedOctree.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/include/DataStructures/kdtree/mykdtree.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/include/DataStructures/trihash/myTriHash.h
  /home/ferran/MEGA/PROJECTS/RegistrationPipeline/include/IDescriptor.h
  /home/ferran/MEGA/PROJECTS/RegistrationPipeline/include/point.h
  /usr/include/eigen3/Eigen/Core
@@ -1161,14 +1175,31 @@ CMakeFiles/Pipeline.dir/external/MoreStructures/GridTree/Cell.cpp.o
  /usr/include/eigen3/Eigen/src/plugins/CommonCwiseUnaryOps.h
  /usr/include/eigen3/Eigen/src/plugins/MatrixCwiseBinaryOps.h
  /usr/include/eigen3/Eigen/src/plugins/MatrixCwiseUnaryOps.h
+ /usr/local/lib/ann_1.1.2/include/ANN/ANN.h
+ /usr/local/lib/ann_1.1.2/include/ANN/ANNperf.h
 CMakeFiles/Pipeline.dir/external/MoreStructures/GridTree/GridTree.cpp.o
  ../external/Super4PCS/super4pcs/accelerators/bbox.h
  ../external/Super4PCS/super4pcs/accelerators/kdtree.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/MoreStructures/AuxiliaryClasses/./point3D.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/MoreStructures/AuxiliaryClasses/Element.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/MoreStructures/AuxiliaryClasses/point3D.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/MoreStructures/CompressedOctree/././CompressedInformacioGeometrica.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/MoreStructures/CompressedOctree/./CompressedCandidateZone.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/MoreStructures/CompressedOctree/./CompressedONode.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/MoreStructures/CompressedOctree/CompressedOctree.h
  /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/MoreStructures/GridTree/Cell.h
  /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/MoreStructures/GridTree/GridTree.cpp
  /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/MoreStructures/GridTree/GridTree.h
  /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/MoreStructures/GridTree/myPoint.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/MoreStructures/TriHash/TriHash.h
  /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/vector3D.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/include/Converters/converterKdtree.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/include/Converters/converterYago.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/include/DataStructures/IDataStructure.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/include/DataStructures/S4PCSkdtree/myS4PCSkdtree.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/include/DataStructures/compressedOctree/myCompressedOctree.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/include/DataStructures/kdtree/mykdtree.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/include/DataStructures/trihash/myTriHash.h
  /home/ferran/MEGA/PROJECTS/RegistrationPipeline/include/IDescriptor.h
  /home/ferran/MEGA/PROJECTS/RegistrationPipeline/include/point.h
  /usr/include/eigen3/Eigen/Core
@@ -3494,14 +3525,28 @@ CMakeFiles/Pipeline.dir/include/DataStructures/flann/myFlann.cpp.o
 CMakeFiles/Pipeline.dir/include/DataStructures/gridTree/myGridTree.cpp.o
  ../external/Super4PCS/super4pcs/accelerators/bbox.h
  ../external/Super4PCS/super4pcs/accelerators/kdtree.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/MoreStructures/AuxiliaryClasses/./point3D.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/MoreStructures/AuxiliaryClasses/Element.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/MoreStructures/AuxiliaryClasses/point3D.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/MoreStructures/CompressedOctree/././CompressedInformacioGeometrica.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/MoreStructures/CompressedOctree/./CompressedCandidateZone.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/MoreStructures/CompressedOctree/./CompressedONode.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/MoreStructures/CompressedOctree/CompressedOctree.h
  /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/MoreStructures/GridTree/Cell.h
  /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/MoreStructures/GridTree/GridTree.h
  /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/MoreStructures/GridTree/myPoint.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/MoreStructures/TriHash/TriHash.h
  /home/ferran/MEGA/PROJECTS/RegistrationPipeline/external/vector3D.h
  /home/ferran/MEGA/PROJECTS/RegistrationPipeline/include/Converters/converterGridTree.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/include/Converters/converterKdtree.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/include/Converters/converterYago.h
  /home/ferran/MEGA/PROJECTS/RegistrationPipeline/include/DataStructures/IDataStructure.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/include/DataStructures/S4PCSkdtree/myS4PCSkdtree.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/include/DataStructures/compressedOctree/myCompressedOctree.h
  /home/ferran/MEGA/PROJECTS/RegistrationPipeline/include/DataStructures/gridTree/myGridTree.cpp
  /home/ferran/MEGA/PROJECTS/RegistrationPipeline/include/DataStructures/gridTree/myGridTree.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/include/DataStructures/kdtree/mykdtree.h
+ /home/ferran/MEGA/PROJECTS/RegistrationPipeline/include/DataStructures/trihash/myTriHash.h
  /home/ferran/MEGA/PROJECTS/RegistrationPipeline/include/IDescriptor.h
  /home/ferran/MEGA/PROJECTS/RegistrationPipeline/include/point.h
  /usr/include/eigen3/Eigen/Core

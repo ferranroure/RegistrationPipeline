@@ -1,19 +1,18 @@
 #include "GridTree.h"
 
-GridTree::GridTree(vector<myPoint*> &vec, int numC, int _thrsKdtree)
+GridTree::GridTree(vector<Point*> *vec, string _DStype, float _diagonal)
 {
 //    slotsPerDimension = numC;
-    slotsPerDimension = -1;
+
     tol=TOLERANCE;
-    thrsKdtree = _thrsKdtree;
+    thrsKdtree = 2;
+    DStype = _DStype;
+    diagonal = _diagonal;
+    nPoints = vec->size();
 
-    nPoints = vec.size();
 
-    if(slotsPerDimension==-1) // in the case where the number of cells was not specified, make charge factor to be near 1
-    {
-        slotsPerDimension = pow(vec.size(),1/(3.));
-        if(slotsPerDimension<2) {slotsPerDimension=2;}	// 8 cells is the minimum possible
-    }
+    slotsPerDimension = pow(vec->size(),1/(3.));
+    if(slotsPerDimension<2) {slotsPerDimension=2;}	// 8 cells is the minimum possible
 
 //    cout << slotsPerDimension << ";";
 
@@ -25,35 +24,33 @@ GridTree::GridTree(vector<myPoint*> &vec, int numC, int _thrsKdtree)
     limits.push_back(vector<double>());
     limits.push_back(vector<double>());
 
-    if(vec.size()<1)
+    if(vec->size()<1)
     {
         throw("GridTree::GridTree smalish vector???? ");
     }
 
 
     // initialize maximum and minimum values to the coordinates of the first point
-    limits[0].push_back(vec[0]->getX()); //minim en X
-    limits[0].push_back(vec[0]->getX()); //minim en X
-    limits[1].push_back(vec[0]->getY()); //minim en X
-    limits[1].push_back(vec[0]->getY()); //minim en X
-    limits[2].push_back(vec[0]->getZ()); //minim en X
-    limits[2].push_back(vec[0]->getZ()); //minim en X
+    limits[0].push_back(vec->at(0)->getX()); //minim en X
+    limits[0].push_back(vec->at(0)->getX()); //minim en X
+    limits[1].push_back(vec->at(0)->getY()); //minim en X
+    limits[1].push_back(vec->at(0)->getY()); //minim en X
+    limits[2].push_back(vec->at(0)->getZ()); //minim en X
+    limits[2].push_back(vec->at(0)->getZ()); //minim en X
 
 
     // traverse grid updating limits
-    vector<myPoint*>::iterator it;
-    for(it = vec.begin(); it != vec.end(); it++) {
+    vector<Point*>::iterator it;
+    for(it = vec->begin(); it != vec->end(); it++) {
 
-        myPoint * currentP = (*it);
+        if((*it)->getX() < limits[0][0]) limits[0][0] = (*it)->getX();
+        if((*it)->getX() > limits[0][1]) limits[0][1] = (*it)->getX();
 
-        if(currentP->getX() < limits[0][0]) limits[0][0] = currentP->getX();
-        if(currentP->getX() > limits[0][1]) limits[0][1] = currentP->getX();
+        if((*it)->getY() < limits[1][0]) limits[1][0] = (*it)->getY();
+        if((*it)->getY() > limits[1][1]) limits[1][1] = (*it)->getY();
 
-        if(currentP->getY() < limits[1][0]) limits[1][0] = currentP->getY();
-        if(currentP->getY() > limits[1][1]) limits[1][1] = currentP->getY();
-
-        if(currentP->getZ() < limits[2][0]) limits[2][0] = currentP->getZ();
-        if(currentP->getZ() > limits[2][1]) limits[2][1] = currentP->getZ();
+        if((*it)->getZ() < limits[2][0]) limits[2][0] = (*it)->getZ();
+        if((*it)->getZ() > limits[2][1]) limits[2][1] = (*it)->getZ();
     }
 
 
@@ -75,16 +72,15 @@ GridTree::GridTree(vector<myPoint*> &vec, int numC, int _thrsKdtree)
 
 
 
-    for(it=vec.begin();it!=vec.end();it++)
+    for(it=vec->begin();it!=vec->end();it++)
     {
         int x,y,z;
-        myPoint * currentP = (*it);
 
-        x = findSlot(currentP->getX(),'x');
-        y = findSlot(currentP->getY(),'y');
-        z = findSlot(currentP->getZ(),'z');
+        x = findSlot((*it)->getX(),'x');
+        y = findSlot((*it)->getY(),'y');
+        z = findSlot((*it)->getZ(),'z');
 
-        grid[x][y][z]->addPoint(currentP);
+        grid[x][y][z]->addPoint((*it));
     }
 
     calcMeanPoints();
@@ -137,7 +133,7 @@ void GridTree::kdtreezation(){
 
                 Cell *cell = grid[i][j][k];
 
-                cell->kdtreezation(thrsKdtree*(meanPoints/5));
+                cell->kdtreezation(DStype, (int)(thrsKdtree*(meanPoints/5)), diagonal);
 //                cell->kdtreezation(thrsKdtree);
             }
         }
@@ -223,80 +219,80 @@ vector<int> GridTree::slotsTouched(double min, double max, char type, bool squar
 }
 
 
-vector<myPoint *> GridTree::neighbors(myPoint *p, double eps)
+vector<myPoint *> GridTree::neighbors(Point *p, double eps)
 {
 
-    //cout<<"GridTree::neigbors neighbors search for "<<p<<" at distance "<<eps<<endl;
-    // find points in a query cube and then choose the ones inside the query sphere
-    vector<myPoint *> returnValue;
-    double sqrEps = eps * eps;
-
-    vector<int> limitsX = slotsTouched(p->getX()-eps, p->getX()+eps, 'x');
-    vector<int> limitsY = slotsTouched(p->getY()-eps, p->getY()+eps, 'y');
-    vector<int> limitsZ = slotsTouched(p->getZ()-eps, p->getZ()+eps, 'z');
-
-
-//    if(p->getIndex() == 0){
-////
-//        cout<<"GridTree::neigbors limits values found: "<<endl;
-//        cout<<"x: ("<<limitsX[0]<<" , "<<limitsX[1]<<")"<<endl;
-//        cout<<"y: ("<<limitsY[0]<<" , "<<limitsY[1]<<")"<<endl;
-//        cout<<"z: ("<<limitsZ[0]<<" , "<<limitsZ[1]<<")"<<endl;
+//    //cout<<"GridTree::neigbors neighbors search for "<<p<<" at distance "<<eps<<endl;
+//    // find points in a query cube and then choose the ones inside the query sphere
+//    vector<myPoint *> returnValue;
+//    double sqrEps = eps * eps;
+//
+//    vector<int> limitsX = slotsTouched(p->getX()-eps, p->getX()+eps, 'x');
+//    vector<int> limitsY = slotsTouched(p->getY()-eps, p->getY()+eps, 'y');
+//    vector<int> limitsZ = slotsTouched(p->getZ()-eps, p->getZ()+eps, 'z');
+//
+//
+////    if(p->getIndex() == 0){
+//////
+////        cout<<"GridTree::neigbors limits values found: "<<endl;
+////        cout<<"x: ("<<limitsX[0]<<" , "<<limitsX[1]<<")"<<endl;
+////        cout<<"y: ("<<limitsY[0]<<" , "<<limitsY[1]<<")"<<endl;
+////        cout<<"z: ("<<limitsZ[0]<<" , "<<limitsZ[1]<<")"<<endl;
+////    }
+//
+//    Super4PCS::KdTree<double>::VectorType qP;
+//    qP << p->getX(),
+//            p->getY(),
+//            p->getZ();
+//
+//
+//    for(int i=limitsX[0];i<=limitsX[1];i++)
+//    {
+//        for(int j=limitsY[0];j<=limitsY[1];j++)
+//        {
+//            for(int k=limitsZ[0];k<=limitsZ[1];k++)
+//            {
+//                Cell *currentCell = grid[i][j][k];
+//
+//
+//                if (currentCell->isKdtreezed()){
+//
+//                    vector<int> indices;
+//
+//                    currentCell->getDataStructure()->doQueryDistIndices(qP, sqrEps, indices);
+//
+//                    if(!indices.empty()) {
+//
+//                        for(int i=0; i<indices.size(); i++){
+//
+//                            returnValue.push_back(currentCell->getPoint(indices[i]));
+//                        }
+//                    }
+//
+//                }
+//                else {
+//                    for (int i_p = 0; i_p < grid[i][j][k]->get_nPoints(); ++i_p) {
+//                        myPoint *currentP = currentCell->getPoint(i_p);
+//                        double sqrDist = currentP->sqrdist(*p);
+//                        if(sqrDist <= sqrEps) {
+//                            if (*p != *currentP) {
+//                                returnValue.push_back(currentP);
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
 //    }
 
-    Super4PCS::KdTree<double>::VectorType qP;
-    qP << p->getX(),
-            p->getY(),
-            p->getZ();
-
-
-    for(int i=limitsX[0];i<=limitsX[1];i++)
-    {
-        for(int j=limitsY[0];j<=limitsY[1];j++)
-        {
-            for(int k=limitsZ[0];k<=limitsZ[1];k++)
-            {
-                Cell *currentCell = grid[i][j][k];
-
-
-                if (currentCell->isKdtreezed()){
-
-                    vector<int> indices;
-
-                    currentCell->getKdtree()->doQueryDistIndices(qP, sqrEps, indices);
-
-                    if(!indices.empty()) {
-
-                        for(int i=0; i<indices.size(); i++){
-
-                            returnValue.push_back(currentCell->getPoint(indices[i]));
-                        }
-                    }
-
-                }
-                else {
-                    for (int i_p = 0; i_p < grid[i][j][k]->get_nPoints(); ++i_p) {
-                        myPoint *currentP = currentCell->getPoint(i_p);
-                        double sqrDist = currentP->sqrdist(*p);
-                        if(sqrDist <= sqrEps) {
-                            if (*p != *currentP) {
-                                returnValue.push_back(currentP);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    return returnValue;
+//    return returnValue;
 }
 
 
-myPoint * GridTree::oneNeighbor(myPoint *p, double eps)
+Point * GridTree::oneNeighbor(Point *p, double eps)
 {
 
-    myPoint * NN = NULL;
+    Point * NN = NULL;
     double sqrEps = eps * eps;
     double bestSqrDist = DBL_MAX;
 
@@ -311,23 +307,17 @@ myPoint * GridTree::oneNeighbor(myPoint *p, double eps)
 
 
     if (currentCell->isKdtreezed()){
-        Super4PCS::KdTree<double>::VectorType qP;
-        qP << p->getX(),
-                p->getY(),
-                p->getZ();
 
         // sqrDist will be updated inside doQueryRestrictedClosestIndex() function
         // with the distance between qP and its NN.
-        double sqrDist = sqrEps;
-        Super4PCS::KdTree<double>::Index resId = currentCell->getKdtree()->doQueryRestrictedClosestIndex(qP, sqrDist);
+        returnData rd = currentCell->getDataStructure()->calcOneNN(p, eps);
 
-        if(resId != Super4PCS::KdTree<double>::invalidIndex()) {
+        if(rd.index != -1) {
 
+            if (rd.sqrDist <= sqrEps && rd.sqrDist < bestSqrDist) {
 
-            if (sqrDist <= sqrEps && sqrDist < bestSqrDist) {
-
-                NN = currentCell->getPoint(resId);
-                bestSqrDist = sqrDist;
+                NN = currentCell->getPoint(rd.index);
+                bestSqrDist = rd.sqrDist;
                 sqrEps = bestSqrDist;
             }
         }
@@ -336,8 +326,8 @@ myPoint * GridTree::oneNeighbor(myPoint *p, double eps)
 
         for (int i_p = 0; i_p < currentCell->get_nPoints(); ++i_p) {
 
-            myPoint *currentP = currentCell->getPoint(i_p);
-            double sqrDist = currentP->sqrdist(*p);
+            Point *currentP = currentCell->getPoint(i_p);
+            double sqrDist = currentP->sqrDist(p);
 
             if(sqrDist <= sqrEps && sqrDist < bestSqrDist) {
                 if (*p != *currentP) {
@@ -385,35 +375,29 @@ myPoint * GridTree::oneNeighbor(myPoint *p, double eps)
 
                 if (currentCell->isKdtreezed()){
 
-                    Super4PCS::KdTree<double>::VectorType qP;
-                    qP << p->getX(),
-                            p->getY(),
-                            p->getZ();
-
                     // sqrDist will be updated inside doQueryRestrictedClosestIndex() function
                     // with the distance between qP and its NN.
-                    double sqrDist = sqrEps;
-                    Super4PCS::KdTree<double>::Index resId = currentCell->getKdtree()->doQueryRestrictedClosestIndex(qP, sqrDist);
+                    returnData rd = currentCell->getDataStructure()->calcOneNN(p, eps);
 
-                    if(resId != Super4PCS::KdTree<double>::invalidIndex()) {
+                    if(rd.index != -1) {
 
+                        if (rd.sqrDist <= sqrEps && rd.sqrDist < bestSqrDist) {
 
-                        if (sqrDist <= sqrEps && sqrDist < bestSqrDist) {
-
-                            NN = currentCell->getPoint(resId);
-                            bestSqrDist = sqrDist;
+                            NN = currentCell->getPoint(rd.index);
+                            bestSqrDist = rd.sqrDist;
                             sqrEps = bestSqrDist;
                         }
                     }
                 }
                 else {
-                    for (int i_p = 0; i_p < grid[i][j][k]->get_nPoints(); ++i_p) {
-                        myPoint *currentP = currentCell->getPoint(i_p);
-                        double sqrDist = currentP->sqrdist(*p);
+
+                    for (int i_p = 0; i_p < currentCell->get_nPoints(); ++i_p) {
+
+                        Point *currentP = currentCell->getPoint(i_p);
+                        double sqrDist = currentP->sqrDist(p);
 
                         if(sqrDist <= sqrEps && sqrDist < bestSqrDist) {
                             if (*p != *currentP) {
-
                                 NN = currentP;
                                 bestSqrDist = sqrDist;
                                 sqrEps = bestSqrDist;

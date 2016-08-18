@@ -14,8 +14,11 @@ using namespace std;
 class GridTree
 {
 
-    int slotsPerDimension; //number of equally spaced subdivisions in each dimension
-    int thrsKdtree;             // Threshols of points for kdtree construction
+    int slotsPerDimension;
+    float thrsKdtree;
+    string DStype;
+    float diagonal;
+
     vector< vector<double> > limits; // three rows (x,y,z) and two columns(min,max), keeps the information on limits in each dimension
 
     vector<vector<vector<Cell *> > > grid;
@@ -29,7 +32,7 @@ class GridTree
 
 public:
 
-    GridTree(vector<myPoint *> &vec, int numC=-1, int _thrsKdtree=100);
+    GridTree(vector<Point *> *vec, string _DStype, float _diagonal);
     ~GridTree();
 
     void kdtreezation();                        // creartes kdtree in each cell with nPoints > certain number.
@@ -42,8 +45,8 @@ public:
 
     vector<int> slotsTouched(double min, double max, char type, bool squared=false); // returns minimum and maximum slots touched by an interval in a dimension x,y o z (indicated by type)
 
-    vector<myPoint *> neighbors(myPoint *p, double eps); // returns all neigbors at distance at most eps from p, if it finds p it does not return it
-    myPoint * oneNeighbor(myPoint *p, double eps); // returns all neigbors at distance at most eps from p, if it finds p it does not return it
+    vector<myPoint *> neighbors(Point *p, double eps); // returns all neigbors at distance at most eps from p, if it finds p it does not return it
+    Point * oneNeighbor(Point *p, double eps); // returns all neigbors at distance at most eps from p, if it finds p it does not return it
 
 };
 
