@@ -34,7 +34,7 @@ returnData myCompressedOctree::calcOneNN(Point *queryPoint, float errEps) {
 //    CompressedONode nodeAux = CompressedONode(t->getAncoratge(),t->getMida(),t->getNivell() );
 //    vector<bool> fillsTocats = cOctree->descomprimeix(t,&nodeAux);
 
-    list<Element*> *vnn  = cOctree->weightedNeighbors(aux, errEps);
+    list<Element*> *vnn = cOctree->weightedNeighbors(aux, errEps);
 
 //    cOctree->recomprimeix(fillsTocats,&nodeAux);
 //    delete t;
@@ -51,6 +51,7 @@ returnData myCompressedOctree::calcOneNN(Point *queryPoint, float errEps) {
             if (dist < bestDist && (*it)->getPoint() != p && dist <= errEps) {
                 bestDist = dist;
                 nn->setPoint((*it)->getPoint());
+                nn->setIndex((*it)->getIndex());
             }
         }
     }

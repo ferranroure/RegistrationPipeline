@@ -332,7 +332,7 @@ void Pipeline::executeTest(){
     cout << endl;
 }
 
-#define TEST 0
+#define TEST 1
 void Pipeline::executeResidueComputation(bool multitest, char * matrix_path) {
 
     input.setData(data);

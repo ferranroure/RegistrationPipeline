@@ -27,6 +27,8 @@ datastruct[5]="gridtree"
 datastruct[6]="S4PCSkdtree"
 datastruct[7]="gridtree"
 
+
+
 for i in {0..7}
 do
   j=$((i-1))
@@ -80,7 +82,7 @@ do
 
       <generalProperties>
           <percOfPoints>1</percOfPoints>
-          <nnErrorFactor>2</nnErrorFactor>
+          <nnErrorFactor>3</nnErrorFactor>
           <percOfNoise>0</percOfNoise> <!-- normalized % of MMD (perc * MMD) -->
           <normalizeModels>false</normalizeModels>
       </generalProperties>
@@ -89,3 +91,4 @@ do
   $execDir/Pipeline params.xml 1 $matrix >> $outputFile
   rm -f params.xml
 done
+
