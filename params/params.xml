@@ -61,7 +61,7 @@
         <name>gridtree</name>
         <!--<name>S4PCSkdtree</name>-->
         <params>
-            <param name="internDS" value="compressedOctree" />
+            <param name="internDS" value="kdtree" />
         </params>
     </dataStructure>
 

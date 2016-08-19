@@ -20,7 +20,7 @@ myGridTree::myGridTree() {
 myGridTree::myGridTree(vector<Point *> *P, std::unordered_map<string, string> &params) {
 
     ads = new converterGridTree();
-    vector<myPoint *> points = ads->convertArray(P);
+//    vector<myPoint *> points = ads->convertArray(P);
 
 
     try {
