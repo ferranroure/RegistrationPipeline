@@ -20,16 +20,16 @@ printf "OUTPUT: $outputFile\n"
 
 datastruct[0]="kdtree"
 datastruct[1]="gridtree"
-datastruct[2]="trihash"
-datastruct[3]="gridtree"
-datastruct[4]="compressedOctree"
-datastruct[5]="gridtree"
-datastruct[6]="S4PCSkdtree"
-datastruct[7]="gridtree"
+#datastruct[2]="trihash"
+#datastruct[3]="gridtree"
+#datastruct[4]="compressedOctree"
+#datastruct[5]="gridtree"
+#datastruct[6]="S4PCSkdtree"
+#datastruct[7]="gridtree"
 
 
 
-for i in {0..7}
+for i in {0..1}
 do
   j=$((i-1))
   printf "<params>

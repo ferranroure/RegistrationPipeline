@@ -73,9 +73,9 @@ outputFilePrefix2=$testDir"/ResidueTests/test_allDS_"
 #	done
 #done
 #
-## TEST WITH WITH FIX THRS -----------------------------
+# TEST WITH WITH FIX THRS -----------------------------
 #for kdThreshold in 1 5 10 25 50 100 200
-for kdThreshold in 50
+for kdThreshold in  50
 do
 #	for cellFactor in 20 50 70 100 120
 	for cellFactor in 150
@@ -138,5 +138,46 @@ do
 		DIFF=$(( $END - $START ))
 		printf "Joints tested IN $DIFF\n\n"
 
+		#test Frog
+		printf "\nStarting Frog\n"
+		date
+		START=$(date +%s)
+		echo -n "$kdThreshold; $cellFactor; " >> $outputFilePrefix2"frog.xls"
+		bash $testDir/ResidueTests/computeModel2.sh $testDir $testDir/ResidueTests/frog/ $modelsDir/frog0.ply $modelsDir/frog1.ply $testDir/ResidueTests/frog/matrixFrog.xls $outputFilePrefix2"frog.xls" $kdThreshold $cellFactor
+    echo -n -e "\n" >> $outputFilePrefix2"frog.xls"
+    END=$(date +%s)
+		DIFF=$(( $END - $START ))
+		printf "Frog tested IN $DIFF\n\n"
+
 	done
 done
+
+#    #test Spiral
+#		printf "\nStarting Low Spiral\n"
+#		date
+#		START=$(date +%s)
+#		bash $testDir/ResidueTests/computeModel2.sh $testDir $testDir/ResidueTests/spiral/ $modelsDir/low_spiral0.ply $modelsDir/bun0.ply $testDir/ResidueTests/bremen/matrixBremen.xls $outputFilePrefix2"low_spiral.xls"
+#        echo -n -e "\n" >> $outputFilePrefix2"low_spiral.xls"
+#        END=$(date +%s)
+#		DIFF=$(( $END - $START ))
+#		printf "Low Spiral tested IN $DIFF\n\n"
+#
+##		test Spiral
+#		printf "\nStarting Medium Spiral\n"
+#		date
+#		START=$(date +%s)
+#		bash $testDir/ResidueTests/computeModel2.sh $testDir $testDir/ResidueTests/spiral/ $modelsDir/medium_spiral0.ply $modelsDir/bun0.ply $testDir/ResidueTests/bremen/matrixBremen.xls $outputFilePrefix2"medium_spiral.xls"
+#        echo -n -e "\n" >> $outputFilePrefix2"medium_spiral.xls"
+#        END=$(date +%s)
+#		DIFF=$(( $END - $START ))
+#		printf "Medium Spiral tested IN $DIFF\n\n"
+#
+##		test Spiral
+#		printf "\nStarting Fast Spiral\n"
+#		date
+#		START=$(date +%s)
+#		bash $testDir/ResidueTests/computeModel2.sh $testDir $testDir/ResidueTests/spiral/ $modelsDir/fast_spiral0.ply $modelsDir/bun0.ply $testDir/ResidueTests/bremen/matrixBremen.xls $outputFilePrefix2"fast_spiral.xls"
+#        echo -n -e "\n" >> $outputFilePrefix2"fast_spiral.xls"
+#        END=$(date +%s)
+#		DIFF=$(( $END - $START ))
+#		printf "Fast Spiral tested IN $DIFF\n\n"

@@ -417,21 +417,28 @@ void Pipeline::syntheticComputeResidue(){
     int i = 0;
     Timer timer;
 
+#if TEST
+    cout << data->params.DSparams["name"] << ";";
+    timer.reset();
+    data->A->createDataStructure();
+    cout << timer.elapsed() << ";";
+#else
     cout << endl << endl;
     cout << "-----------------------------------------------------------------------------------------" << endl;
     cout << "                                                   PIPELINE PROJECT - RESIDUE COMPUTATION" << endl;
     cout << "Target model:         ;" << data->params.infile << endl;
     cout << "Candidate model:      ;" << data->params.infile2 << endl;
-    cout << "Data Structure:       ;" << data->params.dataStructure << endl;
+    cout << "Data Structure:       ;" << data->params.DSparams["name"] << endl;
     cout << "MMD:                  ;" << data->A->getMMD() << endl;
     cout << "% of used points:     ;" << data->params.percOfPoints*100 << "%" <<  endl;
     timer.reset();
     data->A->createDataStructure();
-    cout << "Data Structure construction time: ;" << timer.elapsed() << " sec. " << endl;
+    cout << "Data Structure construction time: ;" << timer.elapsed() <<  endl;
+#endif
 
 //    cout << "50;;";
 
-    int nTries = 50;
+    int nTries = 100;
 
     for (i = 0; i < nTries; ++i) {
 
@@ -453,17 +460,14 @@ void Pipeline::syntheticComputeResidue(){
         sum_time += t;
 //        cout << ((float) pairedPoints / (float) data->A->allpoints->size()) << ";" << ((float) pairedPoints / (float) copy.allpoints->size()) << ";" << t << ";" << endl;
 
-
-
-
-//        ostringstream i_text;   // stream used for the conversion
-//        i_text << i;
-//
-//        copy.createFileFromData("cube/cube"+i_text.str()+".ply");
     }
 
-//    cout << "#movements: "<< i << " Mean Time: " << sum_time/i << " sec." << endl;
-        cout << "SearchTime ;" << sum_time/nTries << endl;
+#if TEST
+    cout << i << ";" << sum_time/i << ";";
+#else
+    cout << "#movements: ;" << i << endl;
+        cout <<" Mean Time: ;" << sum_time / i << endl;
+#endif
 
 }
 
