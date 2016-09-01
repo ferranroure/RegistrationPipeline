@@ -21,7 +21,7 @@ myKdtree::myKdtree(vector<Point*> *P){
 
     dataPts = ckdt->convertArray(P);
 
-    kdTree = new ANNkd_tree(dataPts, (int)P->size(), DIMENSIONS);
+    kdTree = new ANNbd_tree(dataPts, (int)P->size(), DIMENSIONS);
 }
 
 
