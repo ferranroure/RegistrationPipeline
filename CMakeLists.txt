@@ -10,6 +10,7 @@
 #	- VTK libraries (5.10 or superior) https://thilinasameera.wordpress.com/2013/02/09/setting-up-vtk-and-itk-environments-for-ubuntu/
 #   - Install CGAL Library -> sudo apt-get install libcgal-dev
 
+# Solution for a bug in PCL 1.7 and ubuntu 16
 # sudo ln -s  /usr/lib/x86_64-linux-gnu/libproj.so.<your-version> /usr/lib/x86_64-linux-gnu/libproj.so
 #
 #
