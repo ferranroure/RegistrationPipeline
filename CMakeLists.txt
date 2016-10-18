@@ -203,7 +203,7 @@ if ( ANN_LIB AND PCL_FOUND AND NEWMAT_LIB AND VTK_FOUND AND CGAL_FOUND )
             IDescription.h
             ISearchingStrategy.h
             ISearchingStrategy.cpp
-            IRefinement.h )
+            IRefinement.h methods/ss_ImprovedGrid.cpp methods/ss_ImprovedGrid.h)
 
 
 

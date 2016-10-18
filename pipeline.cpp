@@ -1,4 +1,5 @@
 #include "pipeline.h"
+#include "methods/ss_ImprovedGrid.h"
 
 
 /* CONSTRUCTOR ------------------------------------------------------------
@@ -114,6 +115,10 @@ void Pipeline::createMethods(){
             searching = new ss_Grid3D();
             searching->setData(data);
         }
+        else if(data->params.SSMethod == "ImprovedGrid"){
+            searching = new ss_ImprovedGrid();
+            searching->setData(data);
+        }
         else if(data->params.SSMethod == "Super4PCS"){
             searching = new ss_Super4PCS();
             searching->setData(data);
@@ -215,7 +220,7 @@ void Pipeline::execute(){
 
 //
      cout << "Coarse Alignment results:" << endl;
-    computeResidue();
+    computeResidue("COARSE ");
 
 //    exit(0);
     if(data->params.useRefinement){
@@ -245,7 +250,7 @@ void Pipeline::execute(){
     }
 
     cout << "Fine Alignment results:" << endl;
-    computeResidue();
+    computeResidue("FINEST ");
 
     output.setData(data);
     cout << "------------------------------------------------------------------------------------> OUTPUT START" << endl;
@@ -472,7 +477,7 @@ void Pipeline::syntheticComputeResidue(){
 }
 
 
-void Pipeline::computeResidue() {
+void Pipeline::computeResidue(string s) {
 
 
     int pairedPoints = 0;
@@ -483,11 +488,11 @@ void Pipeline::computeResidue() {
 
     cout << "MMD A: " << data->A->getMMD() << " MMD B: " << data->B->getMMD() << endl;
     // Printing the results of the execution.
-    cout << "% of paired points of A : " << ((float) pairedPoints / (float) data->A->allpoints->size()) * 100 <<
+    cout << s+"% of paired points of A : " << ((float) pairedPoints / (float) data->A->allpoints->size()) * 100 <<
     "%" << endl;
-    cout << "% of paired points of B: " << ((float) pairedPoints2 / (float) data->B->allpoints->size()) * 100 <<
+    cout << "2"+s+"% of paired points of B: " << ((float) pairedPoints2 / (float) data->B->allpoints->size()) * 100 <<
     "%" << endl;
-    cout << "Residue: " << res << endl;
+    cout << s+"Residue: " << res << endl;
 
 }
 

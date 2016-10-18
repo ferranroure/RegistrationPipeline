@@ -1,6 +1,6 @@
 #include "../AuxiliaryClasses/Element.h"
 #include "../AuxiliaryClasses/point3D.h"
-
+#include "../../motion3D.h"
 
 #include <vector>
 
@@ -47,6 +47,11 @@ class TriHash
 	// function to return all points further than a given distance from a certain point TO DO!!!!
 	
 	int slots(){return slotsPerDimension;}
+
+	double gridMatchPercentage(motion3D *m,  TriHash *otherTri );
+	// Return the number of points in the cells touched by one box
+	int PointsInBox(Point UpperCorner,Point LowerCorner);
+
 
 	friend ostream& operator<<(ostream& os,TriHash c) 
 	{	

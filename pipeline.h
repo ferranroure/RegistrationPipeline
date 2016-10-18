@@ -62,7 +62,7 @@ public:
     void execute();                         // Execution of the pipeline.
     void executeTest();                     // Execution for tests without any cout.
     void executeResidueComputation(bool multitest, char * matrix_path);       // Execution of residue computation test.
-    void computeResidue();   // Compute residue and % of paired points between views.
+    void computeResidue(string s="");   // Compute residue and % of paired points between views.
     void syntheticComputeResidue();         // Residue computation tests for synthetic models.
     vector<motion3D> readMatrices(const char *file);
 

@@ -222,8 +222,7 @@ void Data::setParametersXML(char * paramsfile){
 
     XMLDocument doc;
     doc.LoadFile(paramsfile);
-
-    XMLElement *parameters = doc.FirstChildElement("params");
+  XMLElement *parameters = doc.FirstChildElement("params");
     XMLElement *files = parameters->FirstChildElement("files");
     XMLElement *methods = parameters->FirstChildElement("methods");
     XMLElement *DS = parameters->FirstChildElement("dataStructure");

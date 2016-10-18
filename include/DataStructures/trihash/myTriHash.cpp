@@ -117,3 +117,8 @@ void myTriHash::printStats() {
 
     cout << "Load factor: " << trihash->getNumElems() / pow(trihash->getSlotsPerDimension(), 3);
 }
+
+// Given a trihash and a motion, return how many of the parameter trihases points could possibly be matched to the points in this trihash
+double myTriHash::gridMatchPercentage(motion3D *m, myTriHash *otherTri) {
+    return trihash->gridMatchPercentage(m,otherTri->trihash);
+}

@@ -87,8 +87,12 @@ public:
     double  calcDiagonal();                                         // Calculate diagonal distance of our point cloud.
     void    calcMMD();                                              // Calculates the Mean Minimum Distance of points.
     Point   calcCentroid();
-    double  calcNN(vector<Point> *Q, double percOfPoints,
-                float errorFactor, int &pairedPoints);              // Calculates the Nearest Neighbor
+    double  calcNN(vector<Point> *Q, double percOfPoints, float errorFactor, int &pairedPoints);              // Calculates the Nearest Neighbor
+
+
+    //YAGO: NEW!
+    double  calcNNMotion(ElementSet *setB, double percOfPoints, float errorFactor, int &pairedPoints, motion3D *m);              // Calculates the Nearest Neighbor
+
     vector<returnData> calcNneigh(Point *q, int nNeigh);
 
 

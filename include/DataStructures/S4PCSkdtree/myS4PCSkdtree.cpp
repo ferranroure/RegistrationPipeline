@@ -34,6 +34,7 @@ myS4PCSkdtree::~myS4PCSkdtree() {
 
 returnData myS4PCSkdtree::calcOneNN(Point *queryPoint, float errEps){
 
+    cout<<"going to calculate one "<<queryPoint->getX()<<" "<<queryPoint->getY()<<" "<<queryPoint->getZ()<<" with epsilon "<<errEps<<endl;
     double sqrEps = (double)errEps*(double)errEps; // Super4PCS tree needs for squared value.
 
     Super4PCS::KdTree<double>::VectorType qP;

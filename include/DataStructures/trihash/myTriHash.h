@@ -11,6 +11,7 @@
 #include "../../Converters/converterYago.h"
 #include "../../../external/MoreStructures/TriHash/TriHash.h"
 #include "../../../external/MoreStructures/AuxiliaryClasses/point3D.h"
+#include "../../../external/motion3D.h"
 
 
 class myTriHash : public IDataStructure {
@@ -32,6 +33,8 @@ public:
     returnData calcOneNN(Point *queryPoint, float errEps);
     returnData calcOwnNN(Point *queryPoint);
     vector<returnData> calcNneigh(Point *queryPoint, int nNeigh);
+
+    double gridMatchPercentage(motion3D *m, myTriHash *otherTri );
 
     void printStats();
 

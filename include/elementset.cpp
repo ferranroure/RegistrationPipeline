@@ -437,6 +437,8 @@ double ElementSet::calcNN(vector<Point> *Q, double percOfPoints, float errorFact
     float eps = MMD*errorFactor;
     float sqrErr = pow(eps,2);
 
+    //cout<<":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::ElementSet::calcNN, MMD "<<MMD<<" eps: "<<eps<<endl;
+
     //srand(time(NULL));
     double rn;
 
@@ -467,6 +469,53 @@ double ElementSet::calcNN(vector<Point> *Q, double percOfPoints, float errorFact
     return RMSD;
 }
 
+double  ElementSet::calcNNMotion(ElementSet *setB, double percOfPoints, float errorFactor, int &pairedPoints, motion3D *m)
+{
+    double MSD = 0;
+    int err = 0;
+    vector<int> NNv;
+    float eps = MMD*errorFactor;
+    float sqrErr = pow(eps,2);
+
+    //cout<<":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::ElementSet::calcNN, MMD "<<MMD<<" eps: "<<eps<<endl;
+
+    //srand(time(NULL));
+    double rn;
+
+    vector<Point> *Q=setB->getPoints();
+
+    for(vector<Point>::iterator it=Q->begin(); it!=Q->end(); ++it){
+
+        rn = ((double) rand() / (RAND_MAX));
+        if(rn <= percOfPoints){
+
+            Point p=*it;
+            Point moved=(*m)*p;
+            returnData rd = dataStruct->calcOneNN(&moved, eps);
+
+            // counting errors
+//            cout << sqrt(rd.sqrDist) << " " << MMD*errorFactor << endl;
+            if(rd.sqrDist > sqrErr) err++;
+            else {
+
+//                cout << rd.index << " " << rd.sqrDist << endl;
+                MSD += rd.sqrDist;
+                NNv.push_back(rd.index);
+            }
+        }
+    }
+
+//    cout << "err: " << err << endl;
+    pairedPoints = NNv.size();
+
+    double RMSD = sqrt(MSD/NNv.size()); // divided by number of valid points, not errors.
+
+    return RMSD;
+
+
+}
+
+
 // Compute certain number of NN of a given point.
 vector<returnData> ElementSet::calcNneigh(Point *q, int nNeigh) {
 
@@ -495,14 +544,14 @@ Point * ElementSet::getRandomPoint(bool useDetectors){
     Point *p = NULL;
 
     if(useDetectors && !workpoints->empty()){
-
-        int pos = rand() % workpoints->size();
-        p = workpoints->at(pos);
+            int pos = rand() % workpoints->size();
+    //    p = workpoints->at(pos);
 //        p->setIndex(pos); // CANVIAR SI NO VOLEM FER SERVIR DETECTORS PER TOT EL CLOUD.
     }
     else{
 
         int pos = rand() % points->size();
+
         p = &(points->at(pos));
     }
 
